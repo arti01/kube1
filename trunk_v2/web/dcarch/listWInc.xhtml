@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+    <h:form>
+        <ui:include src="./daneArchiw.xhtml">
+            <ui:param name="managedBean" value="#{managedArch}"/> 
+        </ui:include>
+
+        <rich:popupPanel header="Wprowadź podstawowe informacje" id="dodajPane"  autosized="true" domElementAttachment="parent" left="13" top="13" minHeight="450" minWidth="950">
+            <f:facet name="controls">
+                <h:outputLink value="#" onclick="#{rich:component('dodajPane')}.hide();
+                        return false;">
+                    <h:outputText value="zamknij (X)"  style="font-weight: bold;"/>
+                </h:outputLink>
+            </f:facet>
+            <ui:include src="../dcrej/dokumentEdit.xhtml">
+                <ui:param name="detal" value="#{false}"/> 
+                <ui:param name="managedBean" value="#{DokumentyArch}"/>
+            </ui:include>
+            <rich:panel id="pgArch">
+                <f:facet name="header">
+                    Dokument powiązany z dokumentami w archiwum
+                </f:facet>
+                <rich:dataTable value="#{RejestracjaRej.obiekt.dcArchList}" var="arch" style="width: 100%; border: white thick">
+                    <rich:column sortBy="#{arch.symbolDok}" sortOrder="ascending">
+                        #{arch.nazwa}
+                        (#{arch.symbolDok})
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+            <a4j:commandButton id="dodaj" value="Dodaj" action="#{managedArch.nowaAkcjaZapisz}" render="listPanel, dodajPane" execute="dodajPane"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();} else {#{rich:component('dodajPane')}.show();}" 
+                               rendered="#{RejestracjaRej.obiekt.id==null}"/>
+            <a4j:commandButton value="Wyjdź" action="#{RejestracjaRej.refreshObiekt}" render="dodajPane" onclick="#{rich:component('dodajPane')}.hide();
+                        return false;" />
+        </rich:popupPanel>
+
+        <div id="tabela">
+            <h:panelGrid columns="3" style="background-color: orange">
+                <a4j:commandLink  execute="@this, listPanel" action="#{managedArch.zmianaDanychArch}" 
+                                  render="dodajPane" oncomplete="#{rich:component('dodajPaneArch')}.show()">
+                    <h3>[zmiana danych archiwalnych wybranych dokumentów]</h3>
+                </a4j:commandLink>
+                <a4j:commandLink  id="nCzAr" execute="@this, listPanel" action="#{managedArch.nowaAkcja}" 
+                                  render="dodajPane" oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.show();}" >
+                    <h3>[nowa czynność archiwalna]</h3>
+                </a4j:commandLink>
+                <rich:message for="nCzAr"/>
+            </h:panelGrid>
+        </div>
+
+        <rich:panel id="listPanel">
+            <rich:dataTable value="#{managedArch.lista}" var="item" iterationStatusVar="it" rows="10" id="table" style="width: 100%">
+                <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+
+                <rich:column sortBy="#{item.dokArchDane.archData}"  filterExpression="#{fn:containsIgnoreCase(item.dokArchDane.archDataStr, RejestracjaRej.filtrdataDok)}" 
+                             sortOrder="descending">
+                    <f:facet name="header">data archiwizacji<br/><h:inputText value="#{RejestracjaRej.filtrdataDok}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText value="#{item.dokArchDane.archData}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                </rich:column>
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.nazwa,RejestracjaRej.filtrNazwa)||fn:containsIgnoreCase(item.symbolDok,RejestracjaRej.filtrNazwa)}">
+                    <f:facet name="header">nazwa i symbol<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrNazwa}" size="15">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText id="nazwaList" value="#{item.nazwa}"/>
+                    <br/>
+                    <h:outputText id="symbolList" value="#{item.symbolDok}"/>
+                    <rich:tooltip target="nazwaList">
+                        #{item.opis}
+                    </rich:tooltip>
+                </rich:column>
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.dataDokStr,RejestracjaRej.filtrdataWprow)||fn:containsIgnoreCase(item.dataWprowStr,RejestracjaRej.filtrdataWprow)}">
+                    <f:facet name="header">data dokumentu/data wyprowadzenia<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrdataWprow}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText value="#{item.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                    <hr/>
+                    <h:outputText value="#{item.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.teczkaId.nazwa,RejestracjaRej.filtrTeczka)||fn:containsIgnoreCase(item.zrodloId.nazwa,RejestracjaRej.filtrTeczka)}">
+                    <f:facet name="header">żródło<br/>teczka
+                        <h:inputText value="#{RejestracjaRej.filtrTeczka}" size="7">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    #{item.zrodloId.nazwa}<hr/>#{item.teczkaId.nazwa}
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.dokArchDane.archOsobaOdpowiadajaca, RejestracjaRej.filtrArchiwisci)
+                                                 || fn:containsIgnoreCase(item.dokArchDane.archOsobaZdajaca, RejestracjaRej.filtrArchiwisci)}">
+                    <f:facet name="header">archiwiści
+                        <br/>
+                        <h:inputText value="#{RejestracjaRej.filtrArchiwisci}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputLabel value="zdający:"/>
+                    <br/>
+                    <h:outputText id="archOsobaZdajaca" value="#{item.dokArchDane.archOsobaZdajaca}"/>
+                    <hr/>
+                    <h:outputLabel value="odpowiadający:"/>
+                    <br/>
+                    <h:outputText id="archOsobaOdpowiadajaca" value="#{item.dokArchDane.archOsobaOdpowiadajaca}"/>
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.dokArchDane.archPokoj,RejestracjaRej.filtrArchLokal)
+                                                 ||fn:containsIgnoreCase(item.dokArchDane.archRegal,RejestracjaRej.filtrArchLokal)
+                                                 ||fn:containsIgnoreCase(item.dokArchDane.archPolka,RejestracjaRej.filtrArchLokal)
+                                                 ||fn:containsIgnoreCase(item.dokArchDane.archKarton,RejestracjaRej.filtrArchLokal)
+                                                 ||fn:containsIgnoreCase(item.dokArchDane.archTeczka,RejestracjaRej.filtrArchLokal)}">    
+                    <f:facet name="header">lokalizacja w archiwum
+                        <br/>
+                        <h:inputText value="#{RejestracjaRej.filtrArchLokal}" size="10">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <rich:collapsiblePanel expanded="false" header="rozwiń" switchType="client">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="pokój:"/>
+                            <h:outputText value="#{item.dokArchDane.archPokoj}"/>
+                            <h:outputLabel value="regal:"/>
+                            <h:outputText value="#{item.dokArchDane.archRegal}"/>
+                            <h:outputLabel value="półka:"/>
+                            <h:outputText value="#{item.dokArchDane.archPolka}"/>
+                            <h:outputLabel value="karton:"/>
+                            <h:outputText value="#{item.dokArchDane.archKarton}"/>
+                            <h:outputLabel value="teczka:"/>
+                            <h:outputText value="#{item.dokArchDane.archTeczka}"/>
+                        </h:panelGrid>
+                    </rich:collapsiblePanel>
+                </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">kontrahent</f:facet>
+                    <h:outputText id="kontrahentList" value="#{item.kontrahentId.nazwa}"/>
+                    <rich:tooltip target="kontrahentList">
+                        #{item.kontrahentId.adres} #{item.kontrahentId.adres} #{item.kontrahentId.nipRegon}
+                    </rich:tooltip>
+                </rich:column>
+
+                <rich:column style="background-color: #{item.dokStatusId.kolor} ; text-align: center" filterExpression="#{fn:containsIgnoreCase(item.dokStatusId.nazwa,RejestracjaRej.filtrStatus)}">    
+                    <f:facet name="header">status<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrStatus}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText id="statusList" value="#{item.dokStatusId.nazwa}"/>
+                    <rich:tooltip target="statusList">
+                        #{item.dokStatusId.opis}
+                    </rich:tooltip>
+                </rich:column>
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.rodzajId.nazwa,RejestracjaRej.filtrRodzaj)}">
+                    <f:facet name="header">rodzaj<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrRodzaj}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <rich:collapsiblePanel expanded="false" header="#{item.rodzajId.nazwa}" switchType="client">
+                        <h:panelGrid columns="2" id="rodzajList">
+                            <h:outputLabel value="symbol klasyfikacyjny: "/>
+                            <h:outputText value="#{item.rodzajId.symbolRwa}"/>
+                            <h:outputLabel value="kat. arch. w kom. merytorycznej: "/>
+                            <h:outputText value="#{item.rodzajId.symbMer1Id.nazwa}"/>
+                            <h:outputLabel value="kat. arch. w innych komórkach: "/>
+                            <h:outputText value="#{item.rodzajId.symbMer2Id.nazwa}"/>
+                        </h:panelGrid>
+                    </rich:collapsiblePanel>
+                    <rich:tooltip target="rodzajList">
+                        #{item.rodzajId.opis} z grupy:#{item.rodzajId.idRodzajGrupa.nazwa}
+                    </rich:tooltip>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">wybierz</f:facet>
+                    <h:selectBooleanCheckbox value="#{item.wyborZnacznik}"/>
+                </rich:column>
+                <rich:column>
+                    <rich:tooltip target="imgDt" value="detale"/>
+                    <rich:tooltip target="imgHist" value="dokumenty związane"/>
+                    <a4j:commandButton id="imgDt" execute="@this" action="#{managedArch.detale}" image="/images/detail.png">
+                        <f:setPropertyActionListener target="#{managedArch.obiekt}" value="#{item}" />
+                    </a4j:commandButton>
+                    <a4j:commandButton id="imgHist" execute="@this" oncomplete="#{rich:component('dokHist')}.show()" image="/images/lista.png"/>
+                    <ui:include src="/um/dokHist.xhtml"/>
+                </rich:column>
+            </rich:dataTable>
+        </rich:panel>
+        <rich:popupPanel id="statPane" autosized="true">
+            <h:graphicImage value="/images/ai.gif" alt="ai" />
+            Proszę czekać
+        </rich:popupPanel>
+    </h:form>
+    <hr/>
+</html>

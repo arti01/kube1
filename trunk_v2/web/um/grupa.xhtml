@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <h3>Grupy</h3>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        <ui:include src="./grupaEdit.xhtml"/>
+        <hr/>
+        <h:form>
+            <rich:panel id="listPanel">
+                <a4j:commandLink  execute="@form" action="#{UGrupaMg.newObiekt}" render="dodajPaneGrupa, listPanel" oncomplete="#{rich:component('dodajPaneGrupa')}.show()">
+                    <h4>[dodaj]</h4>
+                </a4j:commandLink>
+
+                <rich:dataTable id="tableRodzaj" value="#{UGrupaMg.lista}" var="item" iterationStatusVar="it" rows="10" style="width: 100%">
+                    <f:facet name="header"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
+                    <f:facet name="footer"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
+                    <rich:column sortBy="#{item.nazwa}" sortOrder="ascending">
+                        <f:facet name="header">nazwa</f:facet>
+                            #{item.nazwa}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">opis</f:facet>
+                            #{item.opis}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">master grupa</f:facet>
+                            #{item.masterGrp.nazwa}
+                    </rich:column>
+                    
+                    <rich:column style="width: 45px">
+                        <rich:tooltip target="imgDe" value="usuń" layout="block"/>
+                        <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
+                        <a4j:commandButton id="imgDe" execute="@this" render="@none" image="/images/delete.png"
+                                           oncomplete="#{rich:component('confirmPaneRodzaj')}.show()" rendered="#{fn:length(item.urzadzenieList)==0}">
+                            <f:setPropertyActionListener target="#{UGrupaMg.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                        <h:graphicImage id="imgB"  value="/images/delete.png" alt="delete" rendered="#{fn:length(item.urzadzenieList)>0}"/>
+                        <rich:tooltip id="ttbl" layout="block"  rendered="#{fn:length(item.urzadzenieList)>0}" target="imgB">
+                            nie można usunąć - posiada grupy
+                        </rich:tooltip>
+                        <a4j:commandButton id="imgEd" render="dodajPaneGrupa" execute="@this" oncomplete="#{rich:component('dodajPaneGrupa')}.show()" image="/images/edit.png">
+                            <f:setPropertyActionListener target="#{UGrupaMg.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+
+    </ui:define>
+
+</ui:composition>
+

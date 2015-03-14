@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/templates/template.xhtml">
+
+    <rich:tooltip target="imgEd" value="zarejestruj dokument dla tego kontrahenta" layout="block"/>
+    <h:commandButton id="imgEd" action="#{RejestracjaRej.list}" image="/images/edit.png">
+        <f:setPropertyActionListener target="#{RejestracjaRej.kontrahent}" value="#{item}" />
+    </h:commandButton>
+
+</html>
+

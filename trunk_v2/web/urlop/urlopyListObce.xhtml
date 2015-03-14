@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="/templates/template.xhtml">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <div id="tabela">
+            <h4>Obce wnioski</h4>
+            <h:panelGrid columns="2" rendered="#{fn:length(login.zalogowany.userId.wnLimity.ulimit)!=0}" id="limit">
+                Dostępny urlop:<strong>#{UrlopObceM.urlop.uzytkownik.wnLimity.ulimit}</strong>
+            </h:panelGrid>
+
+            <a4j:jsFunction id="sendInfo" name="sendInfo" render="extraemailB">
+                <a4j:param assignTo="#{UrlopObceM.urlop.extraemail}" name="name"/>
+            </a4j:jsFunction>
+
+            <h:form>
+                <a4j:outputPanel id="formWprow" layout="block">
+                    <h:panelGrid columns="3" id="form">
+                        <h:outputLabel for="name" value="Imię i nazwisko: "/>
+                        <h:selectOneMenu id="name" value="#{UrlopObceM.urlop.uzytkownik}" converter="#{UzytkownikConv}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{login.zalogowany.obceWnioski}" var="struktura" itemValue="#{struktura.userId}" itemLabel="#{struktura.userId.fullname}"/>
+                            <a4j:ajax event="change" execute="@this" render="formWprow" oncomplete="sendInfo(#{fn:length(UrlopObceM.urlop.uzytkownik.struktura.extraemail)>0}); return true;"/>
+                        </h:selectOneMenu>
+
+                        <h:outputLabel for="rodzajW" value=" "/>
+                        <h:outputLabel for="rodzajW" value="Zwracam się z prośbą o udzielenie urlopu (rodzaj):"/>
+                        <h:selectOneMenu id="rodzajW" value="#{UrlopObceM.urlop.rodzajId}" converter="#{WnRodzajeConv}">
+                            <f:selectItems value="#{UrlopObceM.rodzajeC.findWnRodzajeEntities}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.opis}"/>
+                            <a4j:ajax render="form" execute="rodzajW"/>
+                        </h:selectOneMenu>
+                        <rich:message for="rodzajW" styleClass="error" />
+
+                        <h:outputLabel for="data_od" value="Data od:"/>
+                        <rich:calendar value="#{UrlopObceM.urlop.dataOd}" id="data_od" locale="#{UrlopObceM.locale}"
+                                       popup="true" datePattern="yyyy-MM-dd"
+                                       showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                            <rich:validator /></rich:calendar>
+                        <rich:message for="data_od" styleClass="error" />
+
+                        <h:outputLabel for="data_do" value="Data do:"/>
+                        <rich:calendar value="#{UrlopObceM.urlop.dataDo}" id="data_do" locale="#{UrlopObceM.locale}"
+                                       popup="true" datePattern="yyyy-MM-dd"
+                                       showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                            <rich:validator /></rich:calendar>
+                        <rich:message for="data_do" styleClass="error" />
+                        <h:outputLabel for="extraemail" value="czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopObceM.urlop.uzytkownik.struktura.extraemail)>0}"/>
+                        <h:selectBooleanCheckbox id="extraemailB" value="#{UrlopObceM.urlop.extraemail}" rendered="#{fn:length(UrlopObceM.urlop.uzytkownik.struktura.extraemail)>0}"/>
+                        <h:outputText id="extraemail" value="#{UrlopObceM.urlop.uzytkownik.struktura.extraemail}" rendered="#{fn:length(UrlopObceM.urlop.uzytkownik.struktura.extraemail)>0}"/>
+
+                        <h:outputLabel for="infoDod" value="informacje dodatkowe"/>
+                        <h:inputTextarea id="infoDod" value="#{UrlopObceM.urlop.infoDod}" cols="52"/>
+                        <rich:message for="infoDod" styleClass="error" />
+
+                        <h:outputLabel for="miejsce" value="delegacja - miejsce: " rendered="#{UrlopObceM.urlop.rodzajId.id==5 or UrlopObceM.urlop.rodzajId.id==6}"/>
+                        <h:inputText id="miejsce" value="#{UrlopObceM.urlop.miejsce}" size="50" rendered="#{UrlopObceM.urlop.rodzajId.id==5 or UrlopObceM.urlop.rodzajId.id==6}"/>
+                        <rich:message for="miejsce" styleClass="error"  rendered="#{UrlopObceM.urlop.rodzajId.id==5 or UrlopObceM.urlop.rodzajId.id==6}"/>
+
+                        <h:outputLabel for="cel" value="delegacja - cel: " rendered="#{UrlopObceM.urlop.rodzajId.id==5 or UrlopObceM.urlop.rodzajId.id==6}"/>
+                        <h:inputText id="cel" value="#{UrlopObceM.urlop.cel}" size="50" rendered="#{UrlopObceM.urlop.rodzajId.id==5 or UrlopObceM.urlop.rodzajId.id==6}"/>
+                        <rich:message for="cel" styleClass="error"  rendered="#{UrlopObceM.urlop.rodzajId.id==5 or UrlopObceM.urlop.rodzajId.id==6}"/>
+
+                        <h:outputLabel for="srodekLok" value="delegacja - srodek lokomocji: " rendered="#{UrlopObceM.urlop.rodzajId.id==5 or UrlopObceM.urlop.rodzajId.id==6}"/>
+                        <h:inputText id="srodekLok" value="#{UrlopObceM.urlop.srodekLok}" size="50" rendered="#{UrlopObceM.urlop.rodzajId.id==5 or UrlopObceM.urlop.rodzajId.id==6}"/>
+                        <rich:message for="srodekLok" styleClass="error"  rendered="#{UrlopObceM.urlop.rodzajId.id==5 or UrlopObceM.urlop.rodzajId.id==6}"/>
+
+                        <rich:message for="dodaj" styleClass="error"/>
+                        <br/>
+                        <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
+
+                    </h:panelGrid>
+                    <center>
+                        <a4j:commandLink id="dodaj" value="[  Zapisz wniosek  ]" action="#{UrlopObceM.dodaj}" render="formTab, formWprow" execute="formWprow"/>
+                    </center>
+                </a4j:outputPanel>
+
+                <hr/>
+                <a4j:outputPanel id="formTab" layout="block">
+                    <rich:dataTable value="#{UrlopObceM.urlopyList}" var="urlop" id="table" rowKeyVar="row" rows="10">
+                        <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                        <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                        <rich:column filterValue="#{UrlopM.nameObceFilter}"
+                                     filterExpression="#{fn:containsIgnoreCase(urlop.uzytkownik.fullname, UrlopM.nameObceFilter)}">
+                            <f:facet name="header">
+                                <h:panelGroup>
+                                    <h:outputText value="Wniosek osoby  &lt;br/&gt; (do filtrowania użyj TAB)" escape="false"/><br/>
+                                    <h:inputText value="#{UrlopM.nameObceFilter}">
+                                        <a4j:ajax event="blur" render="formTab" execute="@this" />
+                                    </h:inputText>
+                                    <a4j:commandLink value="wszyscy" rendered="#{UrlopM.nameObceFilter!=null and UrlopM.nameObceFilter!=''}" render="formTab" action="#{UrlopObceM.list}">
+                                        <f:setPropertyActionListener  target="#{UrlopM.nameObceFilter}" value="#{null}"/>
+                                    </a4j:commandLink>
+                                </h:panelGroup>
+                            </f:facet>
+                            <h:outputText value="#{urlop.uzytkownik.fullname}"/>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Nr wniosku
+                            </f:facet>
+                            <h:outputText value="#{urlop.nrWniosku}"/>
+                            <hr/>
+                            <h:outputText value="#{urlop.infoDod}" rendered="#{fn:length(urlop.infoDod)>0}"/>
+                            <rich:collapsiblePanel header="Historia" expanded="false" switchType="client" rendered="#{fn:length(urlop.wnHistoriaList)>0}" id="histTab-#{row}">
+                                <rich:dataTable value="#{urlop.wnHistoriaList}" var="hist" id="histTabt-#{row}">
+                                    <rich:column>
+                                        <f:facet name="header">
+                                            data zmiany
+                                        </f:facet>
+                                        <h:outputText value="#{hist.dataZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                                    </rich:column>
+                                    <rich:column>
+                                        <f:facet name="header">
+                                            Zmianę wykonał
+                                        </f:facet>
+                                        <h:outputText value="#{hist.zmieniajacy.fullname}"/>
+                                    </rich:column>
+                                    <rich:column style="text-align: center">
+                                        <f:facet name="header">
+                                            Status
+                                        </f:facet>
+                                        <h:outputText value="#{hist.statusId.opis}"/>
+                                    </rich:column>
+                                    <rich:column>
+                                        <rich:panel id="panel_#{row}">
+                                            <h:outputText value=" [opis] " id="opis"/>
+                                            <rich:tooltip id="tt1" layout="block">
+                                                <h:outputText value="#{hist.opisZmiany}"/>
+                                            </rich:tooltip>
+                                        </rich:panel>
+                                    </rich:column>
+                                    <rich:column>
+                                        <f:facet name="header">
+                                            Akceptant
+                                        </f:facet>
+                                        <h:outputText value="#{hist.akceptant.fullname}"/>
+                                    </rich:column>
+                                </rich:dataTable>
+                            </rich:collapsiblePanel>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Rodzaj
+                            </f:facet>
+                            <h:outputText value="#{urlop.rodzajId.opis}"/>
+                            <rich:collapsiblePanel header="szczegóły" expanded="false" switchType="client" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel for="miejsce" value="miejsce: " />
+                                    <h:outputText id="miejsce" value="#{urlop.miejsce}" />
+
+                                    <h:outputLabel for="cel" value="cel: " />
+                                    <h:outputText id="cel" value="#{urlop.cel}" />
+
+                                    <h:outputLabel for="srodekLok" value="srodek lokomocji: " />
+                                    <h:outputText id="srodekLok" value="#{urlop.srodekLok}"/>
+                                </h:panelGrid>
+                            </rich:collapsiblePanel>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Wprowadzony
+                            </f:facet>
+                            <h:outputText value="#{urlop.dataWprowadzenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Od Do
+                            </f:facet>
+                            <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                            <br/>
+                            <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                        </rich:column>
+                        <rich:column style="background-color: #{urlop.statusId.kolor}; text-align: center">
+                            <f:facet name="header">
+                                Status
+                            </f:facet>
+                            <h:outputText style="text-align: center;" value="#{urlop.statusId.opis}"/>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Akceptant
+                            </f:facet>
+                            <h:outputText value="#{urlop.akceptant.fullname}"/>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Akcje
+                            </f:facet>
+                            <a4j:commandLink value="usuń" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" 
+                                             render="formTab, formWprow"  oncomplete="#{rich:component('confirmPane')}.show()" execute="@this">
+                                <f:setPropertyActionListener target="#{UrlopObceM.urlop}" value="#{urlop}"/>
+                            </a4j:commandLink>
+                            <hr/>
+                            <a4j:commandLink value="edytuj" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" 
+                                             render="formWprow"  execute="@this">
+                                <f:setPropertyActionListener target="#{UrlopObceM.urlop}" value="#{urlop}"/>
+                            </a4j:commandLink>
+                            <hr/>
+                            <a4j:commandLink value="wyślij" action="#{UrlopObceM.wyslij}" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" 
+                                             render="formTab, formWprow" limitRender="false"  execute="@this">
+                                <f:setPropertyActionListener target="#{UrlopObceM.urlop}" value="#{urlop}"/>
+                            </a4j:commandLink>
+                            <a4j:commandLink value="anuluj" action="#{UrlopObceM.anuluj}" rendered="#{urlop.statusId.id==3}" render="formTab, formWprow" limitRender="true" execute="@this">
+                                <f:setPropertyActionListener target="#{UrlopObceM.urlop}" value="#{urlop}"/>
+                            </a4j:commandLink>
+                        </rich:column>
+                    </rich:dataTable>
+                </a4j:outputPanel>
+
+                <a4j:jsFunction name="remove" action="#{UrlopObceM.usun}" render="formTab, formWprow" execute="@this"
+                                oncomplete="#{rich:component('confirmPane')}.hide();" />
+                <rich:popupPanel id="confirmPane" autosized="true">
+                    Czy na pewno chcesz usunąć?
+                    <a4j:commandButton value="NIE" onclick="#{rich:component('confirmPane')}.hide();
+                                return false;" />
+                    <a4j:commandButton value="TAK" onclick="remove();
+                                return false;" />
+                </rich:popupPanel>   
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

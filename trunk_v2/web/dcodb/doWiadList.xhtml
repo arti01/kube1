@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="../resources/css/default.css"/>
+        <h3>Dokumenty, które dostałeś do wiadomości</h3>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        
+        <h:form>
+            <rich:panel id="listPanel">
+                <rich:dataTable value="#{DoWiadOdb.login.zalogowany.userId.dcDoWiadCelListFiltr}" var="cel" iterationStatusVar="it" rows="10" id="table" style="width: 100%">
+                    <ui:param name="itemDoWiad" value="#{cel.idDokDoWiad.dokid}"/>            
+                    <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <rich:column sortBy="#{itemDoWiad.id}" sortOrder="descending">
+                        <f:facet name="header">data rejestracji</f:facet>
+                        <h:outputText value="#{itemDoWiad.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">nazwa</f:facet>
+                        <h:outputText id="nazwaList" value="#{itemDoWiad.nazwa}"/>
+                        <rich:tooltip target="nazwaList">
+                            #{itemDoWiad.opis}
+                        </rich:tooltip>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">data dokumentu</f:facet>
+                        <h:outputText value="#{itemDoWiad.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">żródło</f:facet>
+                            #{itemDoWiad.zrodloId.nazwa}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">kontrahent</f:facet>
+                        <h:outputText id="kontrahentList" value="#{itemDoWiad.kontrahentId.nazwa}"/>
+                        <rich:tooltip target="kontrahentList">
+                            #{itemDoWiad.kontrahentId.adres} #{itemDoWiad.kontrahentId.adres} #{itemDoWiad.kontrahentId.nipRegon}
+                        </rich:tooltip>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">status</f:facet>
+                        <h:outputText id="statusList" value="#{itemDoWiad.dokStatusId.nazwa}"/>
+                        <br/>
+                        <rich:tooltip target="statusList">
+                            #{itemDoWiad.dokStatusId.opis}
+                        </rich:tooltip>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">wprowadził</f:facet>
+                            #{itemDoWiad.userId.fullname}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">rodzaj</f:facet>
+                        <h:outputText id="rodzajList" value="#{itemDoWiad.rodzajId.nazwa}"/>
+                        <rich:tooltip target="rodzajList">
+                            #{itemDoWiad.rodzajId.opis} z grupy:#{itemDoWiad.rodzajId.idRodzajGrupa.nazwa}
+                        </rich:tooltip>
+                    </rich:column>
+
+                    <rich:column style="width: 70px">
+                        <rich:tooltip target="imgDt" value="detale" layout="block"/>
+                        <a4j:commandButton id="imgDt" execute="@this" action="#{DoWiadOdb.detale}" image="/images/detail.png">
+                            <f:setPropertyActionListener target="#{DoWiadOdb.obiekt}" value="#{itemDoWiad}" />
+                        </a4j:commandButton>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+
+    </ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/templates/template.xhtml"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <rich:panel id="listPanel">
+            <rich:dataTable value="#{KontrahenciCfg.lista}" var="item" iterationStatusVar="it" id="table" rows="10" style="width: 100%">
+                <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                <rich:column sortBy="#{item.nazwa}" sortOrder="ascending" filterExpression="#{fn:containsIgnoreCase(item.nazwa, KontrahenciCfg.filtrNazwa) or KontrahenciCfg.filtrNazwa==''}">
+                    <f:facet name="header">
+                        nazwa <br/> (do filtrowania użyj TAB)<br/>
+                        <h:inputText value="#{KontrahenciCfg.filtrNazwa}" size="15">
+                            <a4j:ajax event="blur" render="table" execute="@this" />
+                        </h:inputText>
+                    </f:facet>
+                    #{item.nazwa}
+                </rich:column>
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.adres, KontrahenciCfg.filtrAdres) or KontrahenciCfg.filtrAdres==''}">
+                    <f:facet name="header">
+                        adres<br/>
+                        <h:inputText value="#{KontrahenciCfg.filtrAdres}" size="11">
+                            <a4j:ajax event="blur" render="table" execute="@this" />
+                        </h:inputText>
+                    </f:facet>
+                    #{item.adres}
+                </rich:column>
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.nipRegon, KontrahenciCfg.filtrNip) or KontrahenciCfg.filtrNip==''}">
+                    <f:facet name="header">
+                        nip/regon<br/>
+                        <h:inputText value="#{KontrahenciCfg.filtrNip}" size="11">
+                            <a4j:ajax event="blur" render="table" execute="@this" />
+                        </h:inputText>
+                    </f:facet>
+                    #{item.nipRegon}
+                </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">Dane kontaktowe</f:facet>
+                    <rich:collapsiblePanel header="rozwiń" expanded="false" switchType="client">
+                        <h:panelGrid columns="2" style="border-spacing:0px;">
+                            <h:outputLabel for="osKon" value="osoba kontaktowa: "/>
+                            <h:outputText id="osKon" value="#{item.osobaKontak}"/>
+
+                            <h:outputLabel for="tel" value="tel.: "/>
+                            <h:outputText id="tel" value="#{item.tel}"/>
+
+                            <h:outputLabel for="email" value="e-mail: "/>
+                            <h:outputText id="email" value="#{item.email}"/>
+
+                            <h:outputLabel for="www" value="www: "/>
+                            <h:outputText id="www" value="#{item.www}"/>
+                        </h:panelGrid>
+                    </rich:collapsiblePanel>
+                </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">info dod</f:facet>
+                        #{item.infoDod}
+                </rich:column>
+                <rich:column style="width: 45px">
+                    <ui:include src="#{przyciski}"/>
+                </rich:column>
+            </rich:dataTable>
+    </rich:panel>
+</html>
+

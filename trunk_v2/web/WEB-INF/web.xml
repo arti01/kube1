@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.richfaces.skin</param-name>
+        <param-value>blueSky</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.richfaces.enableControlSkinning</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.richfaces.resourceOptimization.enabled</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.richfaces.resourceOptimization.compressionStages</param-name>
+        <param-value>All</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>Resource Servlet</servlet-name>
+        <servlet-class>org.richfaces.webapp.ResourceServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Resource Servlet</servlet-name>
+        <url-pattern>/org.richfaces.resources/*</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <display-name>cron4j scheduler manager</display-name>
+        <listener-class>pl.eod.cron4j.SchedulerServletContextListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    <security-constraint>
+        <display-name>eod - stru</display-name>
+        <web-resource-collection>
+            <web-resource-name>eodstru</web-resource-name>
+            <description>struktura</description>
+            <url-pattern>/all/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>eodstru</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>eod</realm-name>
+        <form-login-config>
+            <!-- ?faces-redirect=true -->
+            <form-login-page>/logowanie/login.xhtml</form-login-page>
+            <form-error-page>/logowanie/loginerr.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-constraint>
+        <display-name>Eod - urlop</display-name>
+        <web-resource-collection>
+            <web-resource-name>Modul urlop</web-resource-name>
+            <url-pattern>/urlop/*</url-pattern>
+            <http-method>DELETE</http-method>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>eodurlop</role-name>
+            <role-name>eodadm</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Eod</display-name>
+        <web-resource-collection>
+            <web-resource-name>eod</web-resource-name>
+            <url-pattern>*.xhtml</url-pattern>
+            <http-method>DELETE</http-method>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>eoduser</role-name>
+            <role-name>eodstru</role-name>
+            <role-name>eodurlop</role-name>
+            <role-name>eodadm</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-role>
+        <description>eodurlop</description>
+        <role-name>eodurlop</role-name>
+    </security-role>
+    <security-role>
+        <description>eodstru</description>
+        <role-name>eodstru</role-name>
+    </security-role>
+    <security-role>
+        <description>eoduser</description>
+        <role-name>eoduser</role-name>
+    </security-role>
+    <security-role>
+        <description>eodadm</description>
+        <role-name>eodadm</role-name>
+    </security-role>
+    <security-role>
+        <description>eoddok_cfg</description>
+        <role-name>eoddok_cfg</role-name>
+    </security-role>
+    <security-role>
+        <description>eoddok_odb</description>
+        <role-name>eoddok_odb</role-name>
+    </security-role>
+    <security-role>
+        <description>eoddok_rej</description>
+        <role-name>eoddok_rej</role-name>
+    </security-role>
+    
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error/500.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error/403.xhtml</location>
+    </error-page>
+</web-app>

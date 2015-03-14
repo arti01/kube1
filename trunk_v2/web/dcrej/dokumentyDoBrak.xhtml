@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/templates/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <ui:define name="content">
+        <h3>Dokumenty do brakowania</h3>
+        <h:form>
+            <h:commandButton value="wydrukuj" action="#{BrakowanieRej.druk}"/>
+        </h:form>
+        <ui:include src="/dcrej/dokumentList.xhtml">
+            <ui:param name="managedBean" value="#{BrakowanieRej}"/> 
+            <ui:param name="widok" value="#{false}"/>
+        </ui:include>
+    </ui:define>
+</ui:composition>
+

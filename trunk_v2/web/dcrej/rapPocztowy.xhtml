@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <h3>Raport pocztowy - tylko dla dokumentów o statusie Zamknięty</h3>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        <h:form>
+            <h:outputLabel for="grupaD" value="grupa: "/>
+            <h:selectOneMenu id="grupaD" value="#{RaportyRej.filtrRodzGrupa}" converter="#{DcRodzajGrupaConv}" >
+                <f:selectItems value="#{RodzajeGrupyCfg.lista}" var="grupa" itemValue="#{grupa}" itemLabel="#{grupa.nazwa}"/>
+            </h:selectOneMenu>
+            <rich:message for="grupaD" styleClass="error" />
+
+            <h:outputLabel for="dataD" value="Data rejestracji od:"/>
+            <rich:calendar value="#{RaportyRej.filtrDataRejOd}" id="dataD" locale="#{RejestracjaRej.locale}"
+                           popup="true" datePattern="yyyy-MM-dd"
+                           showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                <rich:validator /></rich:calendar>
+            <rich:message for="dataD" styleClass="error" />
+
+            <h:outputLabel for="dataDd" value="Data rejestracji do:"/>
+            <rich:calendar value="#{RaportyRej.filtrDataRejDo}" id="dataDd" locale="#{RejestracjaRej.locale}"
+                           popup="true" datePattern="yyyy-MM-dd"
+                           showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                <rich:validator /></rich:calendar>
+            <rich:message for="dataDd" styleClass="error" />
+
+            <h:outputLabel for="zrodloD" value="źródło: "/>
+            <h:selectOneMenu id="zrodloD" value="#{RaportyRej.filtrZrodlo}" converter="#{DcZrodloConv}" >
+                <f:selectItem value="#{null}" itemLabel="wszystkie"/>
+                <f:selectItems value="#{ZrodlaCfg.lista}" var="zrodlo" itemValue="#{zrodlo}" itemLabel="#{zrodlo.nazwa}"/>
+            </h:selectOneMenu>
+            <rich:message for="zrodloD" styleClass="error" />
+            <hr/>
+            <a4j:commandButton value="wyszukaj" action="#{RaportyRej.pokazRap}" render="table, druk"/>
+            <h:panelGroup id="druk">
+                <h:commandButton value="wydrukuj" action="#{RaportyRej.druk}" rendered="#{RaportyRej.pokazDruk}"/>
+            </h:panelGroup>
+
+            <rich:panel>
+                <rich:dataTable value="#{RaportyRej.lista}" var="item" iterationStatusVar="it" id="table" style="width: 100%">
+
+                    <rich:column sortBy="#{item.id}" sortOrder="descending">
+                        <f:facet name="header">data wprowadzenia</f:facet>
+                        <h:outputText value="#{item.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                    </rich:column>
+
+                    <rich:column>
+                        <f:facet name="header">nazwa dokumentu</f:facet>
+                        <h:outputText id="nazwaList" value="#{item.nazwa}"/>
+                        <rich:tooltip target="nazwaList">
+                            #{item.opis}
+                        </rich:tooltip>
+                    </rich:column>
+
+                    <rich:column>    
+                        <f:facet name="header">kontrahent</f:facet>
+                        <h:outputText id="kontrahentList" value="#{item.kontrahentId.nazwa}"/>
+                        <hr width="70%"/>
+                        <h:outputText id="kontrahentAdres" value="#{item.kontrahentId.adres}"/>
+                    </rich:column>
+
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.zrodloId.nazwa,RejestracjaRej.filtrZrodlo)}">    
+                        <f:facet name="header">żródło</f:facet>
+                            #{item.zrodloId.nazwa}
+                    </rich:column>
+
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.dokStatusId.nazwa,RejestracjaRej.filtrStatus)}">    
+                        <f:facet name="header">status</f:facet>
+                        <h:outputText id="statusList" value="#{item.dokStatusId.nazwa}"/>
+                        <rich:tooltip target="statusList">
+                            #{item.dokStatusId.opis}
+                        </rich:tooltip>
+                    </rich:column>
+
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.userId.fullname,RejestracjaRej.filtrWprowadzil)}">    
+                        <f:facet name="header">wprowadził</f:facet>
+                            #{item.userId.fullname}
+                    </rich:column>
+
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.rodzajId.nazwa,RejestracjaRej.filtrRodzaj)}">    
+                        <f:facet name="header">rodzaj</f:facet>
+                        <h:outputText id="rodzajList" value="#{item.rodzajId.nazwa}"/>
+                        <rich:tooltip target="rodzajList">
+                            #{item.rodzajId.opis} z grupy:#{item.rodzajId.idRodzajGrupa.nazwa}
+                        </rich:tooltip>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+
+    </ui:define>
+
+</ui:composition>
+

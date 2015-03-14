@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      template="/templates/template.xhtml"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+    <h:form>
+        <rich:popupPanel header="Wprowadź dane" id="dodajPaneRodzaj"  autosized="true" domElementAttachment="parent" resizeable="false">
+            <h:panelGrid columns="9" id="dodajGrid">
+                <h:outputLabel for="nameD" value="hasło klasyfikacyjne: "/>
+                <h:inputText id="nameD" value="#{RodzajeCfg.obiekt.nazwa}"  size="80" ><rich:validator/></h:inputText>
+                <rich:message for="nameD" styleClass="error" />
+
+                <h:outputLabel for="symbolD" value="symbol: "/>
+                <h:inputText id="symbolD" value="#{RodzajeCfg.obiekt.symbol}"  size="5" ><rich:validator/></h:inputText>
+                <rich:message for="symbolD" styleClass="error" />
+
+                <h:outputLabel for="grupaD" value="grupa: "/>
+                <h:selectOneMenu id="grupaD" value="#{RodzajeCfg.obiekt.idRodzajGrupa}" converter="#{DcRodzajGrupaConv}">
+                    <f:selectItems value="#{RodzajeGrupyCfg.lista}" var="grupa" itemValue="#{grupa}" itemLabel="#{grupa.nazwa}"/>
+                    <a4j:ajax event="change" render="bazUzMedD, archiwDP" oncomplete="#{rich:component('dodajPaneRodzaj')}.hide();#{rich:component('dodajPaneRodzaj')}.show();"/>
+                </h:selectOneMenu>
+                <rich:message for="grupaD" styleClass="error" />
+                
+                <h:outputLabel for="opisD" value="uwagi: "/>
+                <h:inputTextarea id="opisD" value="#{RodzajeCfg.obiekt.opis}"  cols="80" ><rich:validator/></h:inputTextarea>
+                <rich:message for="opisD" styleClass="error" />
+
+                <h:outputLabel for="typFlowD" value="typ akceptacji: "/>
+                <h:selectOneMenu id="typFlowD" value="#{RodzajeCfg.obiekt.idTypFlow}" converter="#{DcTypFlowConv}" >
+                    <f:selectItems value="#{RodzajeCfg.typFlowLista}" var="typ" itemValue="#{typ}" itemLabel="#{typ.nazwa}"/>
+                </h:selectOneMenu>
+                <rich:message for="typFlowD" styleClass="error" />
+
+                <h:outputLabel for="limitCzaasuAkceptacjiD" value="limit czasu akceptacji (dni): "/>
+                <h:inputText id="limitCzaasuAkceptacjiD" value="#{RodzajeCfg.obiekt.limitCzaasuAkceptacji}" size="2"><rich:validator/></h:inputText>
+                <rich:message for="limitCzaasuAkceptacjiD" styleClass="error" />
+
+                <h:outputLabel for="symbrwaD" value="symbol klasyfikacyjny: "/>
+                <h:inputText id="symbrwaD" value="#{RodzajeCfg.obiekt.symbolRwa}" size="10"><rich:validator/></h:inputText>
+                <rich:message for="symbrwaD" styleClass="error" />
+
+                <h:outputLabel for="symbmer1D" value="kat. arch. w kom. merytorycznej: "/>
+                <h:selectOneMenu id="symbmer1D" value="#{RodzajeCfg.obiekt.symbMer1Id}" converter="#{DcSymbMer1Conv}">
+                    <f:selectItems value="#{SymbMer1Cfg.lista}" var="sm1" itemValue="#{sm1}" itemLabel="#{sm1.nazwa}"/>
+                </h:selectOneMenu>
+                <rich:message for="symbmer1D" styleClass="error" />
+
+                <h:outputLabel for="symbmer2D" value="kat. arch. w innych komórkach: "/>
+                <h:selectOneMenu id="symbmer2D" value="#{RodzajeCfg.obiekt.symbMer2Id}" converter="#{DcSymbMer2Conv}">
+                    <f:selectItems value="#{SymbMer2Cfg.lista}" var="sm2" itemValue="#{sm2}" itemLabel="#{sm2.nazwa}"/>
+                </h:selectOneMenu>
+                <rich:message for="symbmer2D" styleClass="error" />
+            </h:panelGrid>
+            
+            <hr/>
+            
+            <rich:collapsiblePanel header="szablon" expanded="true" switchType="client" onswitch="#{rich:component('dodajPaneRodzaj')}.hide();#{rich:component('dodajPaneRodzaj')}.show();" >
+                <rich:editor  id="szablonD" toolbar="full" value="#{RodzajeCfg.obiekt.szablon}" style="margin-bottom: 1em" height="400px"/>
+                <rich:message for="szablonD" styleClass="error" />
+            </rich:collapsiblePanel>
+            
+            <h:panelGroup id="bazUzMedD">
+                <rich:collapsiblePanel header="powiązanie z bazą zasobów materiałowych" expanded="true" switchType="client" rendered="#{RodzajeCfg.obiekt.idRodzajGrupa.urzMed}"
+                                       onswitch="#{rich:component('dodajPaneRodzaj')}.hide();#{rich:component('dodajPaneRodzaj')}.show();">
+                    <rich:pickList value="#{RodzajeCfg.obiekt.umMasterGrupaList}" sourceCaption="MasterGrupy Zasobów Materiałowych" targetCaption="wybrane MasterGrupy" converter="#{UmMasterGrpConv}"
+                                   addAllText="dodaj wszystkie" addText="dodaj" removeAllText="usuń wszystkie" removeText="usuń">
+                        <f:selectItems value="#{UGrupaMg.login.zalogowany.userId.spolkaId.umMasterGrupaList}" var="master" itemValue="#{master}" itemLabel="#{master.nazwa}" />
+                    </rich:pickList>
+                </rich:collapsiblePanel>
+            </h:panelGroup>
+            <h:panelGroup id="archiwDP">
+                <rich:collapsiblePanel header="powiązanie z bazą dokumentów archiwalnych" expanded="true" switchType="client" rendered="#{RodzajeCfg.obiekt.idRodzajGrupa.archiw}"
+                                       onswitch="#{rich:component('dodajPaneRodzaj')}.hide();#{rich:component('dodajPaneRodzaj')}.show();">
+                    <rich:panel>
+                        Do dokumentu będą mogły zostać przypisane dokumenty o statusie określonym przez pole "początkowy status dokumentów". 
+                        Po zakończeniu procedu akceptacji ww dokumenty zmienią status na taki jak w polu "końcowy status dokumentów".
+                        Uwaga! Tylko dla dokumentów w Archiwum
+                    </rich:panel>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="archiwPoczD" value="początkowy status dokumentów: "/>
+                        <h:outputLabel for="archiwKoncD" value="końcowy status dokumentów: "/>
+
+                        <h:selectOneMenu id="archiwPoczD" value="#{RodzajeCfg.obiekt.dcDokStatusPocz}" converter="#{DcDokumentStatusConv}">
+                            <f:selectItems value="#{DcDokumentStatusJpaController.findDlaArchiwum}" var="stat" itemValue="#{stat}" itemLabel="#{stat.nazwa}"/>
+                        </h:selectOneMenu>
+
+                        <h:selectOneMenu id="archiwKoncD" value="#{RodzajeCfg.obiekt.dcDokStatusKonc}" converter="#{DcDokumentStatusConv}">
+                            <f:selectItems value="#{DcDokumentStatusJpaController.findDlaArchiwum}" var="stat" itemValue="#{stat}" itemLabel="#{stat.nazwa}"/>
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+                    <rich:message for="archiwPoczD" styleClass="error" />
+                    <rich:message for="archiwKoncD" styleClass="error" />
+
+                </rich:collapsiblePanel>
+
+            </h:panelGroup>
+            <hr/>
+            <rich:message for="zapisz" styleClass="error" />
+            <rich:message for="dodaj" styleClass="error" />
+
+            <a4j:commandButton id="dodaj" value="Dodaj" action="#{RodzajeCfg.dodaj}" render="listPanel, dodajPaneRodzaj" execute="dodajPaneRodzaj"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPaneRodzaj')}.hide();} else {#{rich:component('dodajPaneRodzaj')}.show();}" 
+                               rendered="#{RodzajeCfg.obiekt.id==null}"/>
+            <a4j:commandButton id="zapisz" value="Zapisz" action="#{RodzajeCfg.edytuj}" render="listPanel, dodajPaneRodzaj" execute="dodajPaneRodzaj"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPaneRodzaj')}.hide();}  else {#{rich:component('dodajPaneRodzaj')}.show();}" 
+                               rendered="#{RodzajeCfg.obiekt.id!=null}"/>
+            <a4j:commandButton value="Wyjdź" onclick="#{rich:component('dodajPaneRodzaj')}.hide();
+                    return false;" />
+        </rich:popupPanel>
+
+        <a4j:jsFunction name="removeRodzaj" action="#{RodzajeCfg.usun}" render="listPanel" execute="@this"
+                        oncomplete="#{rich:component('confirmPaneRodzaj')}.hide();" />
+        <rich:popupPanel id="confirmPaneRodzaj" autosized="true">
+            Na pewno chcesz skasować?
+            <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPaneRodzaj')}.hide();
+                    return false;" />
+            <a4j:commandButton value="Tak" onclick="removeRodzaj();
+                    return false;" />
+        </rich:popupPanel>
+    </h:form>
+</html>
+

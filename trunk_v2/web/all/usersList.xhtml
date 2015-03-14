@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="../resources/css/default.css"/>
+        <div id="tabela">
+            <h4>Lista pracowników</h4>
+            <h:form>
+                <a4j:outputPanel id="formTabNew" layout="block" >
+                    <rich:dataTable value="#{UsersM.dataModel}" var="strukt" id="table" rowKeyVar="row" rows="10">
+                        <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                        <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                        <ui:param name="property" value="fullname" />
+                        <ui:param name="propSort" value="userId.fullname" />
+                        <rich:column  style="width:60%" filterValue="#{UsersM.filterValues[property]}" filterExpression="#{property}"
+                                       sortBy="#{propSort}" sortOrder="#{UsersM.sortOrders[propSort]}">
+                            <f:facet name="header">
+                                <h:panelGroup>
+                                    <h:outputText value="Imię i nazwisko  &lt;br/&gt; (do filtrowania użyj TAB), aby wyświetlić wszystkich pozostaw puste miejsce" escape="false"/><br/>
+                                    <h:inputText value="#{UsersM.filterValues[property]}">
+                                        <a4j:ajax event="blur" render="formTabNew" execute="@this"/>
+                                    </h:inputText>
+                                </h:panelGroup>
+                            </f:facet>
+
+                            <h:outputText id="nameE" value="#{strukt.userId.fullname}"/>
+                            <rich:collapsiblePanel header="Szczegóły" expanded="false" switchType="client">
+                                <h:panelGrid columns="2" style="width:100%;border-spacing:0px;">
+                                    <h:outputLabel for="email" value="eMail: "/>
+                                    <h:outputText id="email" value="#{strukt.userId.adrEmail}"/>
+
+                                    <h:outputLabel for="kierownik" value="Czy kierownik?: "/>
+                                    <h:selectBooleanCheckbox id="kierownik" value="#{strukt.stKier}" readonly="true"/>
+
+                                    <h:outputLabel for="przelozonyK" value="Przełożony: "/>
+                                    <h:outputText id="przelozonyK" value="#{strukt.szefId.userId.fullname}"/>
+
+                                    <h:outputLabel for="sec_user_id" value="zastępuje go:"/>
+                                    <h:outputText id="sec_user_id" value="#{strukt.secUserId.fullname}"/>
+
+                                    <h:outputLabel for="sec_user_id_jest" value="jest zastępcą dla:"/>
+                                    <h:panelGroup id="sec_user_id_jest">
+                                        <ul>
+                                            <ui:repeat value="#{strukt.userId.strukturaSec}" var="str">
+                                                <li>
+                                                    #{str.userId.fullname}
+                                                </li>                                         
+                                            </ui:repeat>
+                                        </ul>
+                                    </h:panelGroup>
+
+                                    <h:outputLabel for="przyjwnioski" value="Czy uprawniony do przyjmowania wniosków innych osób?: "/>
+                                    <h:selectBooleanCheckbox id="przyjwnioski" value="#{strukt.przyjmowanieWnioskow}" readonly="true"/>
+                                    
+                                    <h:outputLabel for="musZast" value="Czy musi mieć ustawionego zastępcę?: "/>
+                                    <h:selectBooleanCheckbox id="musZast" value="#{strukt.musZast}" readonly="true"/>
+
+                                    <h:outputLabel for="extid" value="Zewnętrzny identyfikator:"/>
+                                    <h:outputText id="extid" value="#{strukt.userId.extId}"/>
+
+                                    <h:outputLabel for="extraemail" value="Dodatkowe emaile:"/>
+                                    <h:outputText id="extraemail" value="#{strukt.extraemail}"/>
+                                    
+                                    <h:outputLabel for="roles" value="uprawnienia:"/>
+                                <ui:repeat id="roles" value="#{strukt.userId.role}" var="rola">
+                                    #{rola.opis},
+                                </ui:repeat>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" rendered="#{fn:length(strukt.bezpPodWidoczni)>0}">
+                                    <br/>
+                                    Bezpośredni podwładni:
+                                    <ul>
+                                        <ui:repeat value="#{strukt.bezpPodWidoczni}" var="podwl">
+                                            <li>#{podwl.userId.fullname}</li>
+                                        </ui:repeat>
+                                    </ul>
+                                </h:panelGrid>
+
+                            </rich:collapsiblePanel>
+                        </rich:column>
+    
+                        <ui:param name="property" value="nazwa" />
+                        <rich:column id="colKier" style="width:30%; text-align: center" filterValue="#{UsersM.filterValues[property]}" filterExpression="#{property}">
+                            <f:facet name="header">
+                                <h:outputText value="Dział (symbol)"/><br/>
+                                <h:selectOneMenu id="dzialFbez" value="#{UsersM.filterValues[property]}" converter="#{DzialConv}">
+                                    <f:selectItems value="#{UsersM.dzialyAll}" var="dzial1" itemValue="#{dzial1}" itemLabel="#{dzial1.nazwa}"/>
+                                    <f:selectItem itemValue="#{null}" itemLabel="wszystkie" noSelectionOption="false"/>
+                                    <a4j:ajax event="change" render="formTabNew" execute="@this"/>
+                                </h:selectOneMenu>
+                            </f:facet>
+                            <br/>
+                            <h:outputText id="dzialE" value="#{strukt.dzialId.nazwa}"/>
+                            <br/>
+                            <h:outputText id="dzialES" value="(#{strukt.dzialId.symbol})"/>
+                        </rich:column>
+
+                        <rich:column   style="width:10%">
+                            <f:facet name="header">
+                                <h:outputText value="Akcje"/>
+                            </f:facet>
+                            <rich:message for="zapisz" styleClass="error"/>
+                            <h:commandLink id="zapisz" value="[  Edytuj  ]"  action="#{UsersM.edycja}">
+                                <f:setPropertyActionListener target="#{UsersM.strukt}" value="#{strukt}"/>
+                            </h:commandLink>
+                            <br/>
+                            <a4j:commandLink id="usun" value="[  Usuń  ]" render="formTabNew" 
+                                             oncomplete="#{rich:component('confirmPane')}.show()" rendered="#{fn:length(strukt.bezpPod)==0}" execute="@this">
+                                <f:setPropertyActionListener target="#{UsersM.strukt}" value="#{strukt}"/>
+                            </a4j:commandLink>
+                        </rich:column>
+                    </rich:dataTable>
+                </a4j:outputPanel>
+
+                <a4j:jsFunction name="remove" action="#{UsersM.usun}" render="formTabNew" execute="@this"
+                                oncomplete="#{rich:component('confirmPane')}.hide();" />
+                <rich:popupPanel id="confirmPane" autosized="true">
+                    Czy na pewno chcesz usunąć?
+                    <a4j:commandButton value="NIE" onclick="#{rich:component('confirmPane')}.hide();
+                            return false;" />
+                    <a4j:commandButton value="TAK" onclick="remove();
+                            return false;" />
+                </rich:popupPanel>   
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

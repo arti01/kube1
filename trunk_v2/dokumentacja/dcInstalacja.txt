@@ -1,0 +1,24 @@
+1. Założyć pustą bazę
+2. Ustawić namiary na bazę w context.xml
+3. w persistence.xml dodać/odremować <property name="eclipselink.ddl-generation" value="create-tables"/>
+4. Zdeplojować aplikację
+5. Odpalić stronę z aplikacją, adres zdefiniowany w context.xml (domyślnie eod_v2), czyli http://localhost:8080/eodt_v2/
+6. w logach pojawią się create i blędy, na bazie powinny się pojawić tabele, klucze obce
+7. stworzyć views takie jak we wnioskach urlopowych: user_roles_view, userpass oraz skasować tabelę wn_limit i założyć views
+wn_limit (też taki jak w poprzedniej wersji)
+8. odpalić skrypt views_i_inserty.sql
+9. odpalić dokum_insert.sql
+10. Poprawić wpisy w tabeli config
+11. zaremować/usunąć w persistence.xml <property name="eclipselink.ddl-generation" value="create-tables"/>
+12. restart aplikacji
+13. Zalogować się na admin-md5@admin.eod, hasło a.
+14. Stworzyć jakaś prostą strukturę organizacyjną (jest predefiniowana jedna spółka), nadac prawa do konfiguracji, rejestracji, odbioru (czyli akceptacji)
+15. Dodac w aplikacji dokumenty-konfiguracja grupę rodzajów, rodzaj (typ akceptacji akceptacja - informacje nie działa)
+16. Dla stworzonego rodzaju na liście wybrać "detale" a tam zdefioniować krok/kroki akceptacji
+17. Wymyślić inną nazwę dla kroku i członka, bo pojawia się członek kroku, a to głupio brzmi ;-)
+18. Dodać żrodło dokumentu (np kancelaria, Zespół transportu - sam nie wiem)
+19. dodać kontrahenta/kontrahentów
+20. Założyć index na pole adr_email w tabeli uzytkownik
+21. Rozpakować fonty w dowolnym katalogu
+22. w pliku WAR wyedytować plik ./WEB-INF/classes/fop-xconf.xml i ustawić właściwą ścieżkę do fontów <font-base>  - w windows może być w konwencji D:\cos tam\cos
+

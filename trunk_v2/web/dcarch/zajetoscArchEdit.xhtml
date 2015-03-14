@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+            <h:panelGrid columns="3" id="dodajGrid">
+                <h:outputLabel for="nazwaD" value="nazwa: "/>
+                <h:inputText id="nazwaD" value="#{managedArch.obiekt.nazwa}"  size="90" ><rich:validator/></h:inputText>
+                <rich:message for="nazwaD" styleClass="error" />
+
+                <h:outputLabel for="opisD" value="opis: "/>
+                <h:inputTextarea id="opisD" value="#{managedArch.obiekt.opis}"  cols="90" ><rich:validator/></h:inputTextarea>
+                <rich:message for="opisD" styleClass="error" />
+                
+                <h:outputLabel for="calaD" value="cała przestrzeń archiwum: "/>
+                <h:inputText id="calaD" value="#{managedArch.obiekt.razemMetrow}"  size="10" ><rich:validator/><f:convertNumber pattern="#0.00" /></h:inputText>
+                <rich:message for="calaD" styleClass="error" />
+                
+                <h:outputLabel for="zajetaD" value="ilość w metrach zajętej przestrzeni: "/>
+                <h:inputText id="zajetaD" value="#{managedArch.obiekt.zajetychMetrow}"  size="10" ><rich:validator/><f:convertNumber pattern="#0.00" /></h:inputText>
+                <rich:message for="zajetaD" styleClass="error" />
+
+            </h:panelGrid>
+            <rich:message for="zapiszD" styleClass="error" />
+            <rich:message for="dodajD" styleClass="error" />
+
+            <a4j:commandButton id="dodajD" value="Dodaj" action="#{managedArch.dodaj}" render="listPanel, dodajPane" execute="dodajPane"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();} else {#{rich:component('dodajPane')}.show();}" 
+                               rendered="#{managedArch.obiekt.id==null}"/>
+            <a4j:commandButton id="zapiszD" value="Zapisz" action="#{managedArch.edytuj}" render="listPanel, dodajPane" execute="dodajPane"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();}  else {#{rich:component('dodajPane')}.show();}" 
+                               rendered="#{managedArch.obiekt.id!=null}"/>
+            <a4j:commandButton value="Wyjdź" action="#{managedArch.refresh}" oncomplete="#{rich:component('dodajPane')}.hide();
+                        return false;" />
+</html>

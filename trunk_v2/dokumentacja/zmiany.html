@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div>
+            <h3>2012-08-19</h3>
+            <h4>kilka bledów</h4>
+            <ul>
+                <li>
+                    oprogramowany wyjątek NullPointer przy sytuacji, gdy istnieje
+                    podwladny użytkownika generycznego (szefa wszystkich szefow), ktory ma id_spolki NULL.
+                    Sytuacja taka nie powinna się zdażyć w normalnym dodawaniu userów przez aplikację, ale
+                    gdy wykonuje się zmiany z reki na bazie to się może sypać.
+                    Błąd pojawiał się w drzewkach struktury
+                </li>
+                <li>
+                    poprawka na zapętlenie moj zastępca ustawil mnie jako zastępce
+                </li>
+            </ul>
+            <h3>2012-08-19</h3>
+            <h4>Obsługa uwag zgłoszonych w mailu</h4>
+            <ul>
+                <li>
+                    Informacja o ustanowieniu zastępcy. Chyba nie było tego
+                    opisanego w specyfikacji, ale zrobiłem - po usawieniu zastępcy wysyłany
+                    jest email z informacją. Działa tylko jak się skorzysta z opcji 
+                    w menu "Ustaw swojego zastępcę" (ale nie, jak się ustawi w edycji struktury)
+                </li>
+                <li>
+                    Dodałem informacje o delegacjach (pola cel, miejsce, śr. lokomocji) na wszystkich
+                    listach - nie było
+                </li>
+                <li>
+                    domyślnie zaznaczony ptaszek przy "wyslij extraEmail", jeśli extraEmail jest wypełniony
+                </li>
+                <li>
+                    wszelkie zmiany we wniosku (wysłanie, cofnięcie, akceptacja, odrzucenie idą również na extraemail)
+                </li>
+            </ul>
+
+            <h3>2012-06-09</h3>
+            <h4>Delegacje, wymuszenie zastępcy, kontrola dni urlopu</h4>
+            <ul>
+                <li>
+                    sprawdzanie, czy tworzony lub wysyłany wniosek nie dotyczy zakresu dat już wysłanego
+                    lub zaakceptowanego wniosku
+                </li>
+                <li>
+                    Oprogramowanie blokady na złożenie i wysłanie wniosku, gdy brak zastępcy.
+                    Konieczność posiadania zastępcy definiowana przy dodawaniu i edycji pracownika
+                </li>
+                <li>
+                    Dodana inforacja o zastępcy przy mailu generowanym po wysłaniu wniosku
+                </li>
+                <li>
+                    Zmieniłem numerację wszystkich wniosków, obecnie ma postać
+                    symbol spolki/symbol rodzaju urlopu/nr kolejny w miesiącu/miesiąc/rok
+                    gdzie symbol spółki i symbol urlopu jest definiowany w odpowiednych tabelach (poniżej altery)
+                </li>
+                <li>
+                    ALTER TABLE wn_urlop ADD COLUMN cel character varying(255);
+                    ALTER TABLE wn_urlop ADD COLUMN miejsce character varying(255);
+                    ALTER TABLE wn_urlop ADD COLUMN srodek_lok character varying(255);
+                </li>
+                <li>
+                    ALTER TABLE wn_rodzaje ADD COLUMN symbol varchar(5);
+                    następnie wypełnić dla już istniejących
+                    ALTER TABLE wn_rodzaje ALTER COLUMN symbol SET NOT NULL;
+                </li>
+                <li>
+                    ALTER TABLE spolki ADD COLUMN symbol varchar(5);
+                    następnie wypełnić dla już istniejących
+                    ALTER TABLE spolki ALTER COLUMN symbol SET NOT NULL;
+                </li>
+                <li>
+                    ALTER TABLE struktura ADD COLUMN mus_zast integer;
+                    update struktura set mus_zast=1;
+                    ALTER TABLE struktura ALTER COLUMN mus_zast SET NOT NULL;
+
+                    Sprawdzenie zastępcy działa przy rejestracji wniosku, przy jego wysyłce i podczas akceptu (w razie, gdyby jakiś mistrz swiata
+                    cwaniaków ustawił zastępce, wysłał wniosek a potem go skasował przed akceptem)
+                </li>
+                <li>
+                    INSERT INTO wn_rodzaje VALUES (5, 'Delegacja krajowa');
+                    INSERT INTO wn_rodzaje VALUES (6, 'Delegacja zagraniczna');
+                </li>
+            </ul>
+
+            <h3>2012-05-16</h3>
+            <h4>realizacja zgłoszonych poprawek</h4>
+            <ul>
+                <li>dodać pole opis varchar 255 do tabeli user_roles i wypelnić (są inserty w views_i_inserty.sql)</li>
+                <li>usunięto błąd polegający na braku aktualizacji listy userów w przypadku zmiany przełożonego  (niestety, ucierpi wydajność, lista musi być odświeżona)</li>
+                <li>uprawnienia do ustawnienia wyswietlają się dla takich samych warunków jak zmiana hasła - extId jest pusty lub zawiera FN lub zawiera @</li>
+                <li>drzewna zmieniono z ajax na client - pierwsze ładowanie będzie dłuższe, ale potem powinno się szybko rozwijać (szybkość ładowania zależy od limitów,
+                    ale o tym niżej</li>
+                <li>limit nie jest dodawany dla każdego (wyszukiwanie limitu gdy nie było go w tabeli trwało) - jest tylko dodawany do menu</li>
+                <li>drzewka się rozwijają na dzień dobry</li>
+            </ul>
+
+            <h3>2012-05-13</h3>
+            <h4>zmiany optymalizacyjne</h4>
+            Aby w logach pojawiały się SQL należy w persistence.xml zamienić odpowiedni fragment na (w widoku html się nie pokaże, użyj notatnika :):
+            <property name="eclipselink.logging.parameters" value="true"/>
+            <property name="eclipselink.logging.level.sql" value="finest"/>
+            <property name="eclipselink.logging.level.cache" value="finest"/>
+            <h3>2012-05-11</h3>
+            <h4>zmiany optymalizacyjne</h4>
+            <ul>
+                <li>autouzupelnienie w adduser i edituser (ustaw zastępce) ograniczone tylko do posiadaczy email</li>
+            </ul>
+
+            <h3>2012-05-11</h3>
+            <h4>zmiany optymalizacyjne</h4>
+            <ul>
+                <li>
+                    Michał, zadbaj o indeksy, najważniejsze są dla pól z głownie z kluczami obcymi,
+                    najważniejsze to w uzytkownik: spolka_id, w struktura usuniety, st_kier, dzial_id,
+                    szef_id, user_id, w wn_historia akceptant, urlop_id, status_id, wn_urlop akceptant_id,
+                    przyjmujacy, uid, w kom_kolejka status
+                </li>
+                <li>
+                    Porcjowanie wyników w listach (server-side)
+                </li>
+                <li>
+                    wykasowanie opcji "wybierz dział" lub "wybierz status" dla list - teraz
+                    domyślny jest brak filtrowania (ale za to jest porcjowanie wyników, więc i tak powinno być
+                    lepiej)
+                </li>
+                <li>usunięcie z pola filtrowania username przycisku wyczyść (zastąpienie informacją, że aby usunuąc fitrowanie
+                    nalezy wyczyścić pole)</li>
+            </ul>
+
+            <h3>2012-05-07</h3>
+            <h4>zmiany optymalizacyjne</h4>
+            <ul>
+                <li>
+                    Wyszukiwanie wniosków do eskalacji co 5min (było co minutę) i filtr bezpośrednio
+                    na bazie dla status_id=2
+                </li>
+            </ul>
+
+            <h3>2012-05-05</h3>
+            <h4>Filtrowanie wg społek - drzewko osobowe</h4>
+            <ul>
+                <li>
+                    user o uprawnieniach adm ma podglad calego drzewka (firma->generyczny->prezesi i admini poza struktura),
+                    user o innych uprawnieniach tylko do swojej spolki (prezes i poniżej, bez generycznego).
+                    Uwaga - jeśli user ma uprawnienia adm a nalezy do jakiejś spółki, to mimo, że widzi na drzewku
+                    całą firmę, to już w liście pracowników ich nie zobaczy (czyli nie wyedytuje).
+                    Czyli - dostęp do wszystkich pracowników wymaga uprawnienia adm oraz umieszczenia najwyżej w hierarchii,
+                    bez ustawionej spółki.
+                </li>
+            </ul>
+
+            <h3>2012-05-04</h3>
+            <h4>Filtrowanie wg społek</h4>
+            <ul>
+                <li>zlikwidowano możliwość wyboru przelozonego "brak"- teraz każdy musi miec szefa</li>
+                <li>wyjatkiem są predefiniowani uzytkownicy admin (czyli system zezwala na zakladanie takich userów tylko
+                    poprzez grzebanie w bazie, przez GUI nie da rady - zawsze na szczycie jest uzytkownik generyczny</li>
+                <li>nowy user dziedziczy id spolki po przelozonym</li>
+                <li>nie ma możliwości zmiany id społki</li>
+                <li>nie ma mozliwości wybrania przelozonego z innej spolki, nie mozna z innej spolki ustawić zastępcy</li>
+                <li>na liscie po wybraniu wszyscy pokazują się tylko pracownicy danej spółki</li>
+            </ul>
+
+            <h3>2012-05-01</h3>
+            <h4>Dodano zakładanie społek</h4>
+            Dodanie nowej spółki skutkuje dodaniem również jego prezesa, który
+            ma wszystkie uprawnienia (włącznie z adminem), a którego przełożonym
+            jest użytkownik generyczny.
+            Uwaga - użytkownik generyczny jest wybierany wg następujących warunków:
+            <ul>
+                <li>zalozyc tabele:
+                    CREATE TABLE spolki (id INTEGER NOT NULL, nazwa VARCHAR(255) NOT NULL, opis VARCHAR(255), PRIMARY KEY (id))
+                </li>
+                <li>zmodyfikowac tabele uzytkownik dodajac spolka_id INTEGER</li>
+                <li>nie ma przełożonego (szefId is null)</li>
+                <li>ma przynajmniej jednego podwładnego - dlatego, że aby można było dodać
+                    jeszcze konta administracyjne poza strukturą. W każdym razie trzeba sprawdzić,
+                    czy w strukturze nie ma więcej niż jednego na szczycie z podwłądnymi.</li>
+            </ul>
+
+            <h3>2012-04-30</h3>
+
+            <h4>Dodano edycję uprawnień dla struktury i urlopów</h4>
+
+            <h3>2012-04-19</h3>
+
+            <h4>Nowy status - Anulowany po akcepcie</h4>
+            <ul>
+                <li>INSERT INTO wn_statusy VALUES (6, '#C0C0C0', 'Anulowany po akcepcie', 'AN'); (tylko zmień kolor na jaki chcesz)</li>
+            </ul>
+
+            <h3>2012-04-16</h3>
+
+            <h4>Poprawiona numeracja wniosków</h4>
+            <ul>
+                <li>trochę zmieniłem, chociaż bardziej na czuja, bo nie udało
+                    mi się zasymulować podwójnej numeracji</li>
+            </ul>
+
+            <h4>Nowe pola w kom_kolejk</h4>
+            <ul>
+                <li>dodac pola typu datetime: data_insert, data_wysylk</li>
+                <li>pierwsze mówi kiedy mail trafił do wysyłki, drugie kiedy został wysłany
+                    (status zmienił się na 1)</li>
+                <li>dodac pole typu int id_dokumentu, w ktorym będzie nr wniosku którego dotyczy email</li>
+            </ul>
+
+            <h3>2012-04-11</h3>
+            <h4>sortowanie w strukturze organizacyjnej</h4>
+            <ul>
+                <li>alfabetycznie wg fullname</li>
+            </ul>
+            <h4>zmiana menu</h4>
+
+            <h3>2012-04-10</h3>
+            <h4>ściągnięcie sprawdzamia unikalności email przy edycji i wprowadzaniu</h4>
+            <ul>
+                <li>odpalić polecenie: INSERT INTO config VALUES (11, 'email_unikalny', '1-nie, 0-tak', '1');</li>
+                <li>zdecydowanie przetestować czy się nic nie sypie po wprowadzeniu</li>
+                <li>jeśli uzytkownik zaloguje się na email, który nie jest unikalny, to będzie losowo zalogowany
+                    albo na jedno, albo na drugie konto - w związku z czym będzie miał problem z akceptowaniem urlopów drugiej
+                    gałęzi. Wydaje się, że jedynym rozwiązaniem było by logowanie się po ext_id, które by musiało być różne
+                    dla każdego rekordu o tym samym email</li>
+                <li>w tabeli uzytkownik ustawic dla ext_id nullable na false i wszystkie nulle zamienic na pusty string</li>
+            </ul>
+
+            <h3>2012-04-09</h3>
+            <h4>Menu zmiana hasła</h4>
+            <ul>
+                <li>zmieniono warunek z ext_id==null na ext_id=='' and ext_id.contains(@)</li>
+            </ul>
+            <h4>Lista wszystkich wniosków</h4>
+            <ul>
+                <li>zrobione jako pozycja w menu dla uprawnienia eodadm</li>
+                <li>nalezy dokładnie sprawdzić logowania z EOD i z zewnątrz, gdyż zmieniony został sposób obsługi
+                    uprawnień w menu</li>
+            </ul>
+
+
+            <h3>2012-04-03</h3>
+            <h4>ustawianie zastepcy przez kierownika</h4>
+            <ul>
+                <li>dodano nowa pozycje w menu</li>
+            </ul>
+
+            <h4>zmiany tresci maila</h4>
+            <ul>
+                <li>dodano wiecej informacji w tresci maila</li>
+                <li>w tabeli kom_kolejka pole tresc nalezy ustawic na ok 1000 znakow (typ pola text lub odpowiednik)</li>
+                <li>poprawione formatki wnioskow urlopowych (przy ekstra email się rozjeżdzały)</li>
+                <li>poprawiona tresc i tytul maila dla ekstra email</li>
+            </ul>
+
+            <h3>2012-03-21</h3>
+            <h4>Limit urlopu</h4>
+            <ul>
+                <li>limit urlopu korzysta w view wn_limity o strukturze: username (które ma być takie, jak ext_id (zewnętrze id) w tabeli uzytkownik, 
+                    oraz z ulimit (string)</li>
+                <li>info o limicie dla zalogowanego pojawia się w menu, zaś dla osoby wprowadzanej w ramach funkcjonalnosci
+                    Obce Wnioski na formatce</li>
+            </ul>
+
+            <h3>2012-03-21</h3>
+            <h4>Obce wnioski</h4>
+            <ul>
+                <li>
+                    Przed zmianą osoba uprawniona do skladania obcych wniosków mogła składać je w imieniu osób ze swojego działu
+                    (czyli wszyscy podwładni przełożonego działu bez kierowników - kierownik to już inny dział)
+                </li>
+                <li>
+                    Obecnie ta osoba może składać wnioski dla: 
+                    - wszystkich podwładnych swojego szefa (wraz z kierownikami);
+                    - podwładnych poziom niżej, czyli osób będących w jednostkach organizacyjnych pod szefem osoby uprawnionej
+                    do obcych wniosków.
+                </li>
+                <li>
+                    Kurde, trochę ciężko to opisać... Kierownik ma podwnego Zenek, który jest uprawniony do przyjmowania wniosków,
+                    podwładnego Jasiu, podwładnego Stasiu który jest kierownikiem.
+                    Stasiu ma Marka, który jest pracownikiem oraz Darka, który jest kierownikiem.
+                    Zenek może złożyć wnioski za Jasia, Stasia, Marka ale nie Darka.
+                    Uff...
+                </li>
+            </ul>
+
+            <h3>2012-03-10</h3>
+            <h4>dodanie pola "info_dod" do wniosku urlopowego. Pole umożliwia wpisanie dowolnych treści przez składającego wniosek</h4>
+            <ul>
+                <li>
+                    Dodać pola:
+                    ALTER TABLE wn_urlop ADD COLUMN info_dod text;
+                </li>
+            </ul>
+
+            <h3>2012-01-24</h3>
+            <h4>dodanie pola "ekstra email" które wypełnione powoduje wysłanie informacji o wysłaniu
+                nowego wniosku nie tylko do przełożonego, ale również na adresy w nim wymienione</h4>
+            <ul>
+                <li>
+                    Dodać pola:
+                    - struktura - extraemail character varying(255),
+                    - wn_urlop - extraemail smallint,
+                </li>
+                <li>
+                    checkbox wyslij na dodatkowe emaile pojawia się wtedy, gdy długość
+                    pola extraemail>0 (czyli po prostu jest wypełnione)
+                </li>
+                <li>
+                    pole extraemaile przy dodawaniu/edycji pracownika musi zawierać adresy email
+                    oddzielone przecinkiem
+                </li>
+                <li>
+                    Nowa tabela dla linków (Do pobrania) w menu:
+                    CREATE TABLE menu_linki
+                    (
+                    id integer NOT NULL,
+                    nazwa character varying(255),
+                    link character varying(255),
+                    opis character varying(255),
+                    CONSTRAINT menu_linki_pkey PRIMARY KEY (id )
+                    )
+                </li>
+            </ul>
+            <h3>2012-01-08/09/10</h3>
+            <ul>
+                <li>
+                    Możliwość dodawania użytkownika o bez adresu e-mail - należy ściągnąć klucz unikalny
+                    na tab. użytkownicy.
+                </li>
+                <li>
+                    Nowe parametry w config:
+                    INSERT INTO config VALUES (9, 'czy_ssl', 'czy email ssl', 'tak');
+                    INSERT INTO config VALUES (10, 'email_link', 'link dolaczony do emaila informujacego o urlopie', 'http://test.test.pll');
+                    Uwaga na pole ID - nowe inserty z pliku sql naruszą unikalność, jeśli będą wykonane na już istniejących danych, w takim
+                    przypadku lepiej uzyć powyższe.
+                </li>
+                <li>
+                    dodano nr wniosku - do list i do maili, numer sklada się z ttt/nnn/rrrr (typ urlopu)/numer kolejny wniosku/rok
+                    przy czym pytanie - czy nnn ma być numerem kolejnym dla danego typu urlopu (np 3 okolicznosciowy, 29 wypoczynkowy),
+                    czy mam liczyć wszystkie urlopy z danego roku (teraz tak jest)
+                </li>
+                <li>
+                    dodano wysyłanie maili o odrzuceniu, akceptacji i cofnięciu również do osoby przyjmującej wniosek
+                </li>
+                <li>
+                    wprowadzono nową pozycję w menu - Historia wniosków do akceptu - są tam wszystkie wnioski, których
+                    akceptantem na jakimś etapie była osoba zalogowana (chodzi o to, że nawet jak nie zaakceptował, bo nie zdążył 
+                    i była eskalacja do jego przelożonego, to i tak taki wniosek na tej liście się pojawi)
+                </li>
+                <li>
+                    wprowadzono sortowanie dla wniosków do akceptu oraz dla historii akceptowanych
+                </li>
+                <li>
+                    Ku pamięci - osoba stojąca najwyżej w hierarchii nie może składać wniosków - brakuje mu akceptanta (przełożonego)
+                </li>
+                <li>
+                    Wprowadzony filtr po nazwisku dla list obcych wniosków, do akceptu (tu doszła kolumna z nazwiskiem, bo nie było) i do historii akceptowanych
+                </li>
+            </ul>
+            <h3>2012-12-21</h3>
+            <ul>
+                <li>
+                    Obsługa przyjmowania wniosków przez inną osobę z działu
+                </li>
+                <li>
+                    Należy dodać pola integer, nullable do dwóch tabel, struktura->przyjmowanie_wnioskow (domyślny 1),
+                    wn_urlop->przyjmujacy (domyślny null).
+                </li>
+                <li>
+                    Osoba uprawniona ma dostęp do opcji Obce wnioski (plik templates/menuL.xhtml), a formularz
+                    i lista w urlop/urlopyListObce.xhtml
+                    gdzie może złożyć wniosek dla każdej osoby ze swojego działu (rozwijalna lista we wniosku),
+                    na liście pole "Wniosek osoby:" mówi, za kogo złożono wniosek
+                </li>
+                <li>
+                    W opcji Twoje wnioski (urlop/urlopyList.xhtml) dodałem pole "Wniosek złożony przez" które
+                    mówi, kto złożył wniosek
+                </li>
+                <li>
+                    W historii wniosków pole zmianę wykonał odnotowuje, czy operacje założenia wniosku i wysłania
+                    do akceptu wykonał ktoś osobiście czy przez osobę uprawnioną
+                </li>
+                <li>
+                    W persistance.xml zaremowalem property odpowiedzialną za tworzenie tabel,
+                    a do dokuemntacja/views_i_inserty.sql dodałem inserty tworzące użytkowników
+                    administracyjnych (z hasłem plain i md5), którzy mają dodane wszystkie prawa.
+                    W razie, jakby po tych insertach system walil naruszeniem unikalności, to
+                    restart aplikacji załatwi problem.
+                </li>
+            </ul>
+            <h3>2012-12-16</h3>
+            <ul>
+                <li>
+                    Obsługa usuwania użytkowników - zamiast usunięcia z tabeli zmiana
+                    flagi odpowiedzialnej za wyświetlanie usera oraz za możliwość jego
+                    logowania.
+                </li>
+            </ul>
+
+            <h3>2012-12-15</h3>
+            <ul>
+                <li>
+                    w tabeli config domyślne hasło nadawane podczas tworzenia użytkownika
+                </li>
+                <li>
+                    obsługa MD5 - dodano parametr w config mowiący, czy hasła w momencie zmiany
+                    i tworzenia użytkownika mają być haszowane MD5 (realm musi być wtedy ustawiony,
+                    digest=MD5
+                </li>
+                <li>
+                    W momencie dodawania nowego użytkownika system dodaje mu automatycznie rolę
+                    "eoduser"
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
