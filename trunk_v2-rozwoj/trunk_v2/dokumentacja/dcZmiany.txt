@@ -1,0 +1,355 @@
+2014-11-29
+Nowa opcja - zarządzanie lokalizacjami w archiwum - czyli metry
+Zmiana danych wyświetlanych w dokumenty-archiwum/dokumenty (nie inkludowana "zwykla "dokumentyList" a dedykowana tabelka)
+Nowe menu - archiwum raporty
+
+2014-10-19
+W wyszukiwarce pole opis przegląda również pole opis długi
+
+2014-10-18
+bardziej kompaktowy sposób prezentacji danych w Archiwum (zwinięty rodzaj i lokalizacja), wyszukiwanie w tabeli wg rodzaju oraz dat wprow, dok i archiw,
+zmiana nazwy pol w tej tabeli (symbole merytoryczne)
+
+2014-10-13
+INSERT INTO dc_dokument_status  VALUES (10, 'poddany brakowaniu', 'dokument poddany procesowi brakowania', '#131313', 'archiwum');
+
+i teraz tak:
+- brakowanie robi się w opcji archiwum
+- dokumenty do brakowania muszą miec status zamkniety, anulowany, odrzucony (tak jak i inne, ktore mozna archiwizować)
+- trzeba je normalnie poddać archiwizacji
+
+trzeba stworzyć rodzaj który ma status start "w archiwum" a status stop - "poddany w brakowaniu" i potem analogicznie
+jak z wydawaniem - wybrać, stworzyć dokument określonego rodzaju, ten dokument wysłać do akceptacji, po zaakceptowaniu
+zmienią status na poddany brakowaniu
+
+prawdę mówiąc można też stworzyć rodzaj status start poczekalnia - do akceptu, status stop - poddany brakowaniu i wtedy w opcji
+"do archiwum" jak się wybierze dokumenty i pusci akceptacje to wskoczą do archiwum od razu ze statusem "poddany brakowaniu" :)
+
+
+
+2014-10-12
+w brakowaniu brany jest czas podany w symb. mer 1 LUB symb. Mer 2
+W rejestracja->lista dokumentów dokumenty ktore powinny być brakowane mają czerwony znacznik przy dacie.
+W Archiwum nowa pozycja >Do brakowania< w ktorej pokazane są dokumenty ARCHIWALNE dla których
+minał czas brakowania (niezależnie od statusu)
+
+update DC_DOKUMENT set data_dok=data_wprow where data_dok is null;
+update DC_DOKUMENT_arch set data_dok=data_wprow where data_dok is null;
+
+sprawdzić, czy w dc_rodzaj w polach id_symb_mer... nie ma nuli - jak są, to uzupełnić (mozna przez aplikację).
+
+do dokumentów ktore mogą być poddane archiwizacji dodałem statusy odrzucony i anulowany - coś trzeba z nimi zrobić.
+
+2014-10-12
+Wyszukiwarka (w rejestracji dla dokumentów, w archiwum - dla dokumentow_arch)
+Jesli data dokumentu nie jest wypełniona, domyślnie ustawiana jest data bieząca
+
+bo jak był pusty szablon, to się nie zmienial
+update dc_rodzaj set szablon=' ' where length(szablon)=0;
+
+Pola w wyszukiwarce:
+nazwa dokumentu: 	
+opis dokumentu: 	
+data rejestracji OD: 	
+data rejestracji DO: 	
+data dokumentu OD: 	
+data dokumentu DO: 	
+rodzaj: 	
+Innych nie dodawałem, bo i tak potem można filtrować tabele
+
+Uwaga! wyłączyłem zmianę struktury tabel, bo się szybciej bootuje aplikacja
+<!--<property name="eclipselink.ddl-generation" value="create-or-extend-tables" />--> - w razie czego trzeba odremowac
+(<property name="eclipselink.ddl-generation" value="create-or-extend-tables" />)
+
+
+2014-10-05
+Ściągnięte unikalne z dział nazwa i symbol
+(ściągnij proszę w bazie)
+
+2014-10-03
+INSERT INTO dc_dokument_status  VALUES (9, 'wydany', 'dokument wydany z archiwum', '#999999', 'archiwum');
+
+W podmenu W archiwum nowa czynnosc "[nowa czynność archiwalna]". Dla zaznaczonych dokumentów w archiwum można stworzyć dowolny
+dokument, który należy do rodzaju "archiwalnego", czyli takiej grupy rodzajów, która ma zaznaczoną obsługę archiwum.
+Chodzi o to, że w tej opcji można na przykład tworzyć dokumenty wydania z archiwum - wszystko zależy od tego, jakie stworzy się statusy
+dokumentów i jakie rodzaje dokumentów (status początkowy i końcowy) się zdefiniuje
+
+Czyli aby wydawać dokumenty trzeba stworzyć rodzaj: staus poczatkowy "w archiwum", końcowy "wydany", a aby potem przyjąć
+status poczatkowy "wydany", koncowy "w archiwum".
+
+Wprowadziłem alert i blokadę wyboru dla rodzajów bez kroku akceptacji - do tej pory gdy stworzyło się dokument dla takiego rodzaju
+to była kiszka - dokument wisiał ze statusem "w trakcie" a nie mozna go było zamknąć, bo nie było kroków. No, można było anulować...
+
+2014-10-02
+Opis procesu raz jeszcze.
+1. Należy stworzyć grupę rodzajów z zaptaszkowanym "czy rodzaje mogą obsługiwać Dokumenty Archiwalne"
+2. Stworzyć symbole merytoryczne 1 i 2
+3. Stworzyć rodzaj należący do tej grupy, np dok zdawczo odbiorczy, wybrać symbole merytoryczne,
+    wypełnić ewentualnie szablon, początkowy status dokumentow wybrać "poczekalnia - do akceptu",
+    końcowy status - "poczekalnia - zaakceptowany".
+4. Pamiętać o stworzeniu kroków akceptacji.
+5. W dokumenty archiwum->do archiwum zaznaczyć właściwe dokumenty, kliknąć na "stwórz dok. zdawczo-odbiorczy ....",
+    wprowadzić nazwę, wybrać wcześniej zdefiniowany rodzaj. To stworzy "normalny" dokument z przypisanymi (widocznymi
+    w detalach) dokumentami do archiwizacji. Dokumment widoczny jest w podmenu "dokumenty" i normalnie w menu rejestracja.
+    Podłączone do niego dokumenty uzyskują status "poczekalnia - do akceptu" i są widoczne w podmenu poczekalnia.
+6. Wysłać go do akceptacji
+7. Zaakceptować. Wtedy dokumenty związane uzyskują status "poczekalnia - zaakceptowany", ale są nadal w poczekalni.
+8. W poczekalni można wtedy przeprowadzić przeniesienie do archiwum, wybierając dokumenty i uzupełniając dane
+    dotyczące lokalizacji w archiwum i osób odpowiedzialnych.
+9. Wariacja procedu - można stworzyć rodzaj o statusie pocz. "poczekalnia - do akceptu". a końcowym "w archiwum",
+    wtedy po zakończeniu procesu akceptacji dokumenty powiązane od razu wylądują w archiwum, tyle, że bez daty
+    archiwizacji i bez wypełnionych danych dotyczących lokalizacji w archiwum
+
+2014-10-01
+
+zmiana statusow w poczekalni - w trakcie akceptacji i gotowy do archiwizacji
+
+update DC_DOKUMENT_STATUS set nazwa='poczekalnia - do akceptu', opis='dokument w poczekalni archiwizacji w trakcie akceptacji' where id=6;
+insert into DC_DOKUMENT_STATUS values (99, 'poczekalnia - zaakceptowany', 'dokument w poczekalni archiwizacji zaakceptowany, gotowy do archiwizacji', '#888888', 'archiwum');
+update DC_DOKUMENT_ARCH set dokstatusid_id=99 where dokstatusid_id=7;
+update DC_DOKUMENT set dokstatusid_id=99 where dokstatusid_id=7;
+update DC_RODZAJ set id_dc_status_pocz=99 where id_dc_status_pocz=7;
+update DC_RODZAJ set id_dc_status_konc=99 where id_dc_status_konc=7;
+update DC_DOKUMENT_STATUS set id=8 where id=7;
+update DC_RODZAJ set id_dc_status_pocz=8 where id_dc_status_pocz=99;
+update DC_RODZAJ set id_dc_status_konc=8 where id_dc_status_konc=99;
+update DC_DOKUMENT_ARCH set dokstatusid_id=8 where dokstatusid_id=99;
+update DC_DOKUMENT set dokstatusid_id=8 where dokstatusid_id=99;
+update DC_DOKUMENT_STATUS set id=7 where id=99;
+
+Po tym wszystkim tabela dc_dokument_status powinna wygladac tak (trzeba pamietac aby ustawic kolorki
+no i sprawdzic status poczatkowy i koncowy dla rodzajow, ktore obslugują dokumentu archiwalne,
+powinno byc z pocz. do akceptu do pocz. zaakceptowany
+
+1	nowy                            dokument po zarejestrowaniu                     #CCCCCC	dokumenty
+2	w trakcie                       dokument w trakcie akceptacji lub dystrybucji	#AAAAAA	dokumenty
+3	zamknięty                       dokument zamknięty                              #BBBBBB	dokumenty
+4	anulowany                       anulowany                                       #999999	dokumenty
+5	odrzucony                       dokument odrzucony                              #777777	dokumenty
+6	poczekalnia - do akceptu	dokument w poczekalni archiwizacji w trakcie akceptacji	#888888	archiwum
+7	poczekalnia - zaakceptowany	dokument w poczekalni archiwizacji zaakceptowany, gotowy do archiwizacji	#888888	archiwum
+8	w archiwum                      dokument w archiwum                             #989898	archiwum
+
+
+2014-09-26
+
+--alter table DC_DOKUMENT_STATUS ADD COLUMN dla_tabeli varchar(50);
+update DC_DOKUMENT_STATUS set dla_tabeli='dokumenty' where id<6;
+update DC_DOKUMENT_STATUS set dla_tabeli='archiwum' where id>=6;
+
+
+Opis przenoszenia do archiwum
+Można dokument przenieść bezpośrednio, przenosząc dokument o statusie "zamknięty" do tabeli archiwalnej.
+Przy tej operacji wszystkie dane z nim związane (historia akceptacji, pliki, do wiadomości) są przenoszone
+do analogicznych tabel archiwalnych (z koncówką Arch), a dokument otrzymuje status "w archiwum".
+
+Można też skorzystać z "poczekalni". Czyli wybrać dokumenty "zamknięte", przenieść do "poczekalni" a potem
+je procesować, czyli wystawić dokument zdawczo - odbiorczy.
+
+W Grupy Rodzaje trzeba stworzyć grupę z opcją "czy rodzaje mogą obsługiwać Dokumenty Archiwalne"
+W rodzaje trzeba stworzyc rodzaj, ktory należy do ww grupy.
+Wtedy pojawią się dwa pola - status poczatkowy i koncowy.
+Pierwszy określa jakie dokumenty mogą zostać przypisane do ww rodzaju, drugi - jaki status uzyska
+powiazany dokument po zakonczonym procesie akceptacji.
+np - w poczekalnia -> w archiwum
+
+2014-09-23
+
+Wprowadzenie nowego statusu "w poczekalni":
+
+insert into DC_DOKUMENT_STATUS values (99, 'archiwum - poczekalnia', 'dokument w poczekalni do archiwizacji', '#888888');
+update DC_DOKUMENT set dokstatusid_id=99 where dokstatusid_id=6;
+update DC_DOKUMENT_STATUS set id=7 where id=6;
+update DC_DOKUMENT set dokstatusid_id=7 where dokstatusid_id=99;
+update DC_DOKUMENT_STATUS set id=6 where id=99;
+
+dodano dane słownikowe symbol mer 1 i symbol mer 2 - należy coś tam wpisać, pojawiają się potem przy definicji rodzaju
+
+2014-09-11
+Uwaga - zmiana projektu na teczki.
+Powinna się stworzyć tabela dc_teczka. Potem trzeba do niej wkopiować rekordy z dc_projekt i wywalić dc_projekt.
+Trzeba jeszcze zadbać o wywalenie kluczy obcych pomiędzy dc_dokument a dc_projekt
+usunąc z dc_dokument pole projekt_id, ale wcześniej przekopiować wartosci do pola teczka_id
+
+czyli coś takiego:
+insert into dc_teczka select * from dc_projekt;
+drop table dc_projekt cascade;--uwaga - cascade dziala na postgres
+update dc_dokument set teczka_id=projekt_id;
+ALTER TABLE dc_dokument DROP COLUMN projekt_id;
+ALTER TABLE dc_dokument DROP COLUMN arch_data;
+ALTER TABLE dc_dokument DROP COLUMN arch_osoba_zdajaca;
+ALTER TABLE dc_dokument DROP COLUMN arch_osoba_odpowiadajaca;
+ALTER TABLE dc_dokument DROP COLUMN arch_pokoj;
+ALTER TABLE dc_dokument DROP COLUMN arch_regal;
+ALTER TABLE dc_dokument DROP COLUMN arch_polka;
+ALTER TABLE dc_dokument DROP COLUMN arch_karton;
+ALTER TABLE dc_dokument DROP COLUMN arch_teczka;
+
+
+2014-09-18
+- Druga sprawa to z dokumentu którego został uruchomiony proces akceptacji  można usunąc sprzęt. Dodanie nowego już się nie pojawia i jest OK
+poprawione (rendered na delete)
+- po wybraniu sprzętu do dokumentu odświeża się zakładka i znika lista i struktura sprzętu. Trzeba ponownie kliknąc na nazwę zakładki.
+render nie na cała zakladke ale na panele z drzewkiem i z lista sprzetu oddzielnie
+
+Uwaga - zmieniłem drzewko - z drzewka są usuwane urzadzenia, ktore już są przypisane do dokumentu - trzeba popatrzeć, czy gdzieś nie ma z tym jakiś blędów.
+
+2014-09-06
+Dodałem na ekranie startowym info o dokumentach do akceptacji
+Poprawiony bug polegajacy na tym, że w detalach dokumentu/baza urzadzen medycznych nie pojawiała się lista dostępnych urzadzen
+
+2014-09-05
+Dodalem akerty do przeterminowanych urzadzen
+ALTER TABLE um_grupa ADD COLUMN czas_alert integer; (powinno się samo dodać)
+Alerty pojawiają się na liście urządzen i na ekranie startowym
+
+2014-09-03
+Zmieniłem tabelę dc_plik_import wywalajac kolumnę plik i laczą ją z tabela dc_plik_import_bin (kwestia wydajnosci)
+Najlepiej wywalić tabelę dc_plik_import - założy się nowa prawidłowo
+
+2014-08-29
+
+sprawdzić, czy w persistence.xml jest:
+ <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+Po pierwszym zalogowaniu można ten fragment zaremować.
+
+Najpierw w Rodzaje Grupy określić, czy rodzaje tej grupy służą do obsługi bazy urządzeń,
+potem w odpowiednich rodzajach dopisać master grupy sprzętu.
+
+Uwaga - dobrze przetestować operacje na dokumentach (rejestracja, edycja, usuwanie itd)-
+-te mechanizmy zostały uwspólnione z rejestracją dokumentu dla urządzeń medycznych
+
+Powinno się samo założyć, ale gdyby jednak nie to:
+ALTER TABLE dc_rodzaj_grupa ADD COLUMN urzmed integer;
+
+Na Lista Dokumentow w Urzadzeniach Medycznych pojawiają się tylko dokumenty, ktore są z rodzaju należącego do grup, ktore mają wybraną opcję
+pozwalającą na laczenie z baza urzadzen
+
+2014-08-23
+Wersja przekazana Michałowi: edycja mastergrup, grup, urządzeń oraz drzewko urządzeń
+
+2014-08-17
+Serwis Urządzen Medycznych
+
+w persistence.xml ustawić tworzenie tabel (po deploy powinny stworzyć się tabele ogloszenia i ogloszenia_struktura
+
+Urządzenia są ograniczone w ramach spółki (mastergrupy też)
+
+INSERT INTO user_roles (id, role_name, opis) VALUES (10, 'eod_um_cfg','urzadzenia med-grupy i mastergrupy');
+INSERT INTO user_roles (id, role_name, opis) VALUES (11, 'eod_um_sprz','urzadzenia med-sprzet');
+
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (8, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (9, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (10, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (11, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (8, 2);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (9, 2);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (10, 2);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (11, 2);
+
+
+2014-08-10
+Tablica Ogloszen
+
+w persistence.xml ustawić tworzenie tabel (po deploy powinny stworzyć się tabele ogloszenia i ogloszenia_struktura
+
+INSERT INTO user_roles (id, role_name, opis) VALUES (9, 'eod_ogl','dodawanie ogloszen');
+
+Dostęp do listy ogłoszeń (czyli dodawania i edytowania ogłoszeń) jest w ramach spółki - czyli osoba o uprawnieniach do tej
+opcji widzi wszystkie ogłoszenia ze swojej spółki
+
+2014-08-08
+Symbol Dokumentu
+
+Po poniższych alterach trzeba uzupełnić symbole - dla spółek (tylko grzebiąc w bazie), działów, rodzajów dokumentów
+ALTER TABLE dzial ADD COLUMN symbol character varying(5);
+ALTER TABLE dzial ADD CONSTRAINT unq_dzial_0 UNIQUE(symbol);
+ALTER TABLE dc_dokument ADD COLUMN symbol_sp_dzial_rok character varying(50);
+CREATE INDEX ix_dc_dokument_symbol_sp_dzial ON dc_dokument;
+ALTER TABLE dc_dokument ADD COLUMN symbol_nr_kol integer;
+CREATE INDEX ix_dc_dokument_symbol_sp_dzialON dc_dokument;
+
+ALTER TABLE dc_rodzaj ADD COLUMN symbol character varying(5);
+
+INSERT INTO user_roles (id, role_name, opis) VALUES (8, 'eoddok_arc','dokumenty - archiwizacja');
+
+ALTER TABLE dc_dokument ADD COLUMN arch_data timestamp without time zone;
+ALTER TABLE dc_dokument ADD COLUMN arch_osoba_zdajaca character varying(256);
+ALTER TABLE dc_dokument ADD COLUMN arch_osoba_odpowiadajaca character varying(256);
+ALTER TABLE dc_dokument ADD COLUMN arch_pokoj character varying(256);
+ALTER TABLE dc_dokument ADD COLUMN arch_regal character varying(256);
+ALTER TABLE dc_dokument ADD COLUMN arch_polka character varying(256);
+ALTER TABLE dc_dokument ADD COLUMN arch_karton character varying(256);
+ALTER TABLE dc_dokument ADD COLUMN arch_teczka character varying(256);
+
+INSERT INTO dc_dokument_status (id, nazwa, opis,  kolor) VALUES (6, 'w archiwum', 'dokument w archiwum', 'brown');
+
+2014-06-23
+INSERT INTO config (id, nazwa, opis, wartosc) VALUES (14, 'kluczLicencji', 'kluczLicencji', 'kluczLicencji');
+1. Wpisać wartosci (liczba licencji i nazwa licencji) do NewClass.java, przekompilować do eodtl.jar, wrzucić do wara.
+2. Wyliczyc md5sum dla tego jar'a i wpisać do tabeli config, rekord kluczLicencji
+3. Tradycyjnie zmiany z reki w bazie wymagają restartu aplikacji, więc należy najpierw wpisać klucz a potem deplojować
+lub restartować aplikację.
+
+
+2014-06-06
+Wymyślić lokalizację
+INSERT INTO config (id, nazwa, opis, wartosc) VALUES (12, 'dirImportSkan', 'katalog importu dokumentow', '/home/arti01/tmp/1');
+INSERT INTO config (id, nazwa, opis, wartosc) VALUES (13, 'dirImportSkanBak', 'katalog importu dokumentow', '/home/arti01/tmp/1/bak');
+Założyć katalogi
+
+
+2014-03-29
+1. Limit czasu na akceptacje
+ALTER TABLE dc_rodzaj ADD COLUMN limit_czasu_akceptacji integer;
+ALTER TABLE dc_rodzaj ALTER COLUMN limit_czasu_akceptacji SET NOT NULL;
+ALTER TABLE dc_rodzaj ALTER COLUMN limit_czasu_akceptacji SET DEFAULT 0;
+
+I zdefiniować limit dla już istniejących rodzajów w konfiguracja/rodzaje
+Po przekroczeniu limitu na czasu na liście w rejestracji przeterminowane będą miały przy dacie rejestracji
+podswietloną na czerwono informacje.
+
+2. Status dla kolorów
+ALTER TABLE dc_dokument_status ADD COLUMN kolor character varying(10);
+I wypełnić pole kolor znacznikami html (#FFFFFF, #123456 itp)
+
+3. Prezentacja procentowego stopnia realizacji.
+Jest to liczone wg wzoru ilość kroków zaakceptowanych/wszystkie kroki i wyświetlane w rejestracji przy statusie
+Przy czym uwaga - ponieważ krok może być typu "wszyscy muszą zaakceptować" to krok jest traktowany
+jako "niezaakceptowany" nawet jeśli dwie osoby już zaakceptowały a trzecia jeszcze nie.
+Mogę to zmienić i się zagłębić na poziom kroków użytkownika i je iterować ale nie wiem, czy to kiedyś nie będzie
+jakimś tam klockiem dodatkowo obciążającym wyświetlanie.
+
+
+
+
+2013-08-24
+1. Usunięcie ramek wokół ikon w opcjach popup (kurde, ale tego było ;)
+2. W historii pojawiały się zdublowane dokumenty, w przypadku, gdy uzytkownik był członkiem więcej niż jednego kroku akceptacji - poprawiłem
+3. W opcjach odbioru (akcept, historia) w detalach dokumentu kontrahent w rozwijalnym panelu, aby akceptant mogł przeczytać wszystkie detale
+kontrahenta (wcześniej była tylko nazwa)
+4. Dokument wychodzący/przychdzący - proponuję wykorzystać już istniejący "Grupa Rodzajów" - to będzie bardziej uniwersalny mechanizm.
+    Po prostu zdefiniuje się (w wersji instalacyjnej dołoże trzy inserty, w już istniejącej trzeba z ręki zmodyfikować i dodać ewenualnie rekordy
+    w dc_rodzaj_grupa) oraz dorobię filtrowanie po rodzaju grupy
+    INSERT INTO dc_rodzaj_grupa (id, nazwa, opis) VALUES (1, 'wychodzące', 'dokumenty wychodzące');
+    INSERT INTO dc_rodzaj_grupa (id, nazwa, opis) VALUES (2, 'przychodzące', 'dokumenty przychodzące');
+    INSERT INTO dc_rodzaj_grupa (id, nazwa, opis) VALUES (3, 'wewnętrzne', 'dokumenty wewnętrzne');
+5. Wydruki raportów - w menu Rejestracja jest nowa opcja "Raport pocztowy" - tam trzeba wybrać filtry, następnie kliknąć "wyszukaj" no a potem "wydrukuj"
+6. Należy zainstalować fonty, czyli:
+    - Rozpakować fonty w dowolnym katalogu
+    - w pliku WAR wyedytować plik ./WEB-INF/classes/fop-xconf.xml i ustawić właściwą ścieżkę do fontów <font-base>  - w windows może być w konwencji D:\cos tam\cos
+
+
+2013-08-21
+1. odrzucanie dokumentu
+INSERT INTO DC_AKCEPT_STATUS (id, nazwa) values (5, 'odrzucony');
+INSERT INTO dc_dokument_status (id, nazwa, opis ) VALUES (5, 'odrzucony', 'dokument odrzucony');
+
+2013-08-13
+1. Poprawiłem wylogowanie i zmianę hasła - sprawdz, proszę, czy działa
+2. Domyślny kontrahent (przy braku wyboru) - brany jest kontrahent o id=1 - w insertach był taki insert, tylko pewnie przez identity się nie dodał
+    - w każdym razie wystarczy założyć takiego i będzie dobrze
+3. Uwaga - zaktualizowałem o zmiany w Urlopach (delegacja zagraniczna itd) - trzeba albo zainstalować od nowa, albo dodać pola do tabel wg instrukcji
+    z 2012-06-09 (zmiany.html)
+4. INSERT INTO dc_dokument_status (id, nazwa, opis ) VALUES (4, 'anulowany', 'dokument anulowany'); - dodano nowy status
+5. Założyć index na pole adr_email w tabeli uzytkownik

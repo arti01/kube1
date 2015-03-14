@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <div id="tabela">
+            <h:form>
+                <rich:tree toggleType="client" var="strukt" selectionType="client">
+                    <rich:treeModelRecursiveAdaptor roots="#{StruktDzialM.sourceRoots}" nodes="#{strukt.bezpPodzPodwlad}">
+                        <rich:treeNode expanded="#{StruktOsM.rozwin}">
+                            #{strukt.dzialId.nazwa}
+                            <h:commandLink action="#{UsersM.listaFiltr}" value="(edytuj)" rendered="#{strukt.userId!=null}">
+                                <f:setPropertyActionListener target="#{UsersM.filterValues['nazwa']}" value="#{strukt.dzialId}"/>
+                                <f:setPropertyActionListener target="#{UsersM.filterValues['fullname']}" value="#{null}"/>
+                            </h:commandLink>
+                        </rich:treeNode>
+                        <rich:treeModelAdaptor nodes="#{strukt.bezpPodBezPodwladKier}">
+                            <rich:treeNode expanded="#{StruktOsM.rozwin}">
+                                <h:outputText value="#{strukt.dzialId.nazwa}"/>
+                                <h:outputText value=" (#{strukt.dzialId.symbol})"/>
+                                <h:commandLink action="#{UsersM.listaFiltr}" value="(edytuj)">
+                                    <f:setPropertyActionListener target="#{UsersM.filterValues['fullname']}" value="#{null}"/>
+                                    <f:setPropertyActionListener target="#{UsersM.filterValues['nazwa']}" value="#{strukt.dzialId}"/>
+                                </h:commandLink>
+                            </rich:treeNode>
+                        </rich:treeModelAdaptor>
+                    </rich:treeModelRecursiveAdaptor>
+                </rich:tree>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

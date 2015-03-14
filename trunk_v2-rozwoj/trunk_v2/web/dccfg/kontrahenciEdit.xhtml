@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j">
+
+            <rich:popupPanel header="Wprowadź dane" id="dodajPane"  autosized="true" domElementAttachment="parent">
+                <h:panelGrid columns="3" id="dodajGrid">
+                    <h:outputLabel for="nameD" value="nazwa: "/>
+                    <h:inputText id="nameD" value="#{KontrahenciCfg.obiekt.nazwa}"  size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="nameD" styleClass="error" />
+
+                    <h:outputLabel for="adresD" value="adres: "/>
+                    <h:inputText id="adresD" value="#{KontrahenciCfg.obiekt.adres}"  size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="adresD" styleClass="error" />
+
+                    <h:outputLabel for="nipRegonD" value="nip lub regon: "/>
+                    <h:inputText id="nipRegonD" value="#{KontrahenciCfg.obiekt.nipRegon}"  size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="nipRegonD" styleClass="error" />
+
+                    <h:outputLabel for="osobaKontak" value="osoba kontaktowa: "/>
+                    <h:inputText id="osobaKontak" value="#{KontrahenciCfg.obiekt.osobaKontak}"  size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="osobaKontak" styleClass="error" />
+
+                    <h:outputLabel for="tel" value="telefon: "/>
+                    <h:inputText id="tel" value="#{KontrahenciCfg.obiekt.tel}"  size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="tel" styleClass="error" />
+
+                    <h:outputLabel for="email" value="email: "/>
+                    <h:inputText id="email" value="#{KontrahenciCfg.obiekt.email}"  size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="email" styleClass="error" />
+
+                    <h:outputLabel for="www" value="www: "/>
+                    <h:inputText id="www" value="#{KontrahenciCfg.obiekt.www}"  size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="www" styleClass="error" />
+
+                    <h:outputLabel for="opisD" value="informacje dodatkowe: "/>
+                    <h:inputTextarea id="opisD" value="#{KontrahenciCfg.obiekt.infoDod}"  cols="90" ><rich:validator/></h:inputTextarea>
+                    <rich:message for="opisD" styleClass="error" />
+                </h:panelGrid>
+                <rich:message for="zapisz" styleClass="error" />
+                <rich:message for="dodaj" styleClass="error" />
+
+                <a4j:commandButton id="dodaj" value="Dodaj" action="#{KontrahenciCfg.dodaj}" render="listPanel, dodajPane" execute="dodajPane"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();} else {#{rich:component('dodajPane')}.show();}" 
+                                   rendered="#{KontrahenciCfg.obiekt.id==null}"/>
+                <a4j:commandButton id="zapisz" value="Zapisz" action="#{KontrahenciCfg.edytuj}" render="listPanel, dodajPane" execute="dodajPane"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();}  else {#{rich:component('dodajPane')}.show();}" 
+                                   rendered="#{KontrahenciCfg.obiekt.id!=null}"/>
+                <a4j:commandButton value="Wyjdź" onclick="#{rich:component('dodajPane')}.hide();
+                        return false;" />
+            </rich:popupPanel>
+
+                <a4j:commandLink  execute="@this" oncomplete="#{rich:component('dodajPane')}.show()">
+                    <h4>[dodaj]</h4>
+                </a4j:commandLink>
+</html>
+

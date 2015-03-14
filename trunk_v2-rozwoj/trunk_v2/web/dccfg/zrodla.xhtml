@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <h3>Zrodła dokumentów</h3>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        <h:form>
+            <rich:popupPanel header="Wprowadź dane" id="dodajPane"  autosized="true" domElementAttachment="parent">
+                <h:panelGrid columns="3" id="dodajGrid">
+                    <h:outputLabel for="nameD" value="nazwa: "/>
+                    <h:inputText id="nameD" value="#{ZrodlaCfg.obiekt.nazwa}"  size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="nameD" styleClass="error" />
+
+                    <h:outputLabel for="opisD" value="opis: "/>
+                    <h:inputTextarea id="opisD" value="#{ZrodlaCfg.obiekt.opis}"  cols="90" ><rich:validator/></h:inputTextarea>
+                    <rich:message for="opisD" styleClass="error" />
+                </h:panelGrid>
+                <rich:message for="zapisz" styleClass="error" />
+                <rich:message for="dodaj" styleClass="error" />
+
+                <a4j:commandButton id="dodaj" value="Dodaj" action="#{ZrodlaCfg.dodaj}" render="listPanel, dodajPane" execute="dodajPane"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();} else {#{rich:component('dodajPane')}.show();}" 
+                                   rendered="#{ZrodlaCfg.obiekt.id==null}"/>
+                <a4j:commandButton id="zapisz" value="Zapisz" action="#{ZrodlaCfg.edytuj}" render="listPanel, dodajPane" execute="dodajPane"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();}  else {#{rich:component('dodajPane')}.show();}" 
+                                   rendered="#{ZrodlaCfg.obiekt.id!=null}"/>
+                <a4j:commandButton value="Wyjdź" onclick="#{rich:component('dodajPane')}.hide();
+                        return false;" />
+            </rich:popupPanel>
+
+            <rich:panel id="listPanel">
+                <a4j:commandLink  execute="@this" oncomplete="#{rich:component('dodajPane')}.show()">
+                    <h4>[dodaj]</h4>
+                </a4j:commandLink>
+
+                <rich:dataTable value="#{ZrodlaCfg.lista}" var="item" iterationStatusVar="it" rows="10" id="table"  style="width: 100%">
+                    <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <rich:column sortBy="#{item.nazwa}" sortOrder="ascending">
+                        <f:facet name="header">nazwa</f:facet>
+                            #{item.nazwa}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">opis</f:facet>
+                            #{item.opis}
+                    </rich:column>
+                    <rich:column style="width: 45px">
+                        <rich:tooltip target="imgDe" value="usuń" layout="block"/>
+                        <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
+                        <a4j:commandButton id="imgDe" execute="@this" render="@none"
+                                           oncomplete="#{rich:component('confirmPane')}.show()" image="/images/delete.png">
+                            <f:setPropertyActionListener target="#{ZrodlaCfg.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                        <a4j:commandButton id="imgEd" render="dodajPane" execute="@this" oncomplete="#{rich:component('dodajPane')}.show()" image="/images/edit.png">
+                            <f:setPropertyActionListener target="#{ZrodlaCfg.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+
+
+            <a4j:jsFunction name="remove" action="#{ZrodlaCfg.usun}" render="table" execute="@this"
+                            oncomplete="#{rich:component('confirmPane')}.hide();" />
+            <rich:popupPanel id="confirmPane" autosized="true">
+                Na pewno chcesz skasować?
+                <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPane')}.hide();
+                        return false;" />
+                <a4j:commandButton value="Tak" onclick="remove();
+                        return false;" />
+            </rich:popupPanel>
+
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać...
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+
+    </ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="../resources/css/default.css"/>
+        <h2>Poczekalnia</h2>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        <h:form>
+            <ui:include src="./daneArchiw.xhtml">
+                <ui:param name="managedBean" value="#{PoczekalniaArch}"/> 
+            </ui:include>
+
+            <div id="tabela">
+                <h:panelGrid columns="3" style="background-color: orange">
+                    <a4j:commandLink  execute="@form" action="#{PoczekalniaArch.archPojDok}" 
+                                      render="dodajPaneArch" oncomplete="#{rich:component('dodajPaneArch')}.show()">
+                        <h3>[archiwizacja wybranych dokumentów]</h3>
+                    </a4j:commandLink>
+
+                    <a4j:commandLink  execute="@form" action="#{PoczekalniaArch.archTeczki}" 
+                                      render="dodajPaneArch" oncomplete="#{rich:component('dodajPaneArch')}.show()">
+                        <h3>[archiwizacja wg teczek - tylko zaakcepowane]</h3>
+                    </a4j:commandLink>
+                </h:panelGrid>
+            </div>
+            <rich:panel id="listPanel">
+                <rich:dataTable value="#{PoczekalniaArch.lista}" var="item" iterationStatusVar="it" rows="10" id="table" style="width: 100%">
+                    <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <rich:column sortBy="#{item.id}" sortOrder="descending">
+                        <f:facet name="header">data rejestracji</f:facet>
+                        <h:outputText value="#{item.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">nazwa i symbol</f:facet>
+                        <h:outputText id="nazwaList" value="#{item.nazwa}"/>
+                        <br/>
+                        <h:outputText id="symbolList" value="#{item.symbolDok}"/>
+                        <rich:tooltip target="nazwaList">
+                            #{item.opis}
+                        </rich:tooltip>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">data dokumentu</f:facet>
+                        <h:outputText value="#{item.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">żródło</f:facet>
+                            #{item.zrodloId.nazwa}
+                    </rich:column>
+
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.teczkaId.nazwa,RejestracjaRej.filtrTeczka)}">
+                        <f:facet name="header">teczka<br/>
+                            <h:inputText value="#{RejestracjaRej.filtrTeczka}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        <h:outputText id="teczka" value="#{item.teczkaId.nazwa}"/>
+                        <rich:tooltip target="teczka">
+                            #{item.teczkaId.opis}
+                        </rich:tooltip>
+                    </rich:column>
+
+                    <rich:column>
+                        <f:facet name="header">kontrahent</f:facet>
+                        <h:outputText id="kontrahentList" value="#{item.kontrahentId.nazwa}"/>
+                        <rich:tooltip target="kontrahentList">
+                            #{item.kontrahentId.adres} #{item.kontrahentId.adres} #{item.kontrahentId.nipRegon}
+                        </rich:tooltip>
+                    </rich:column>
+                    <rich:column style="background-color: #{item.dokStatusId.kolor} ; text-align: center" filterExpression="#{fn:containsIgnoreCase(item.dokStatusId.nazwa,RejestracjaRej.filtrStatus)}">    
+                        <f:facet name="header">status<br/>
+                            <h:inputText value="#{RejestracjaRej.filtrStatus}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        <h:outputText id="statusList" value="#{item.dokStatusId.nazwa}"/>
+                        <rich:tooltip target="statusList">
+                            #{item.dokStatusId.opis}
+                        </rich:tooltip>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">wprowadził</f:facet>
+                            #{item.userId.fullname}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">rodzaj</f:facet>
+                        <h:outputText id="rodzajList" value="#{item.rodzajId.nazwa}"/>
+                        <rich:tooltip target="rodzajList">
+                            #{item.rodzajId.opis} z grupy:#{item.rodzajId.idRodzajGrupa.nazwa}
+                        </rich:tooltip>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">wybierz</f:facet>
+                        <h:selectBooleanCheckbox value="#{item.wyborZnacznik}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">podgląd</f:facet>
+                        <a4j:commandButton id="imgDt" execute="@this" action="#{WArchiwumArch.detale}" image="/images/detail.png">
+                            <f:setPropertyActionListener target="#{WArchiwumArch.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+        <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
+    </ui:define>
+
+</ui:composition>
+

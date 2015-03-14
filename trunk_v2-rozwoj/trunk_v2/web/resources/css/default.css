@@ -1,0 +1,107 @@
+body
+{
+    margin: 0 auto;
+    padding: 0px;
+    font-family: arial,tahoma,verdana,helvetica,sans-serif;
+    background-color: #A7D1FF;
+    font-size: 11px;
+}
+
+a:link, a:visited {
+    color: black;
+    font-weight : normal;
+    text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+    color: gray;
+    font-weight : normal;
+    text-decoration : none;
+}
+
+input{
+    font-family: arial,tahoma,verdana,helvetica,sans-serif;
+    font-size: 10px;
+}
+
+option{
+    font-family: arial,tahoma,verdana,helvetica,sans-serif;
+    font-size: 10px;
+}
+
+select{
+    font-family: arial,tahoma,verdana,helvetica,sans-serif;
+    font-size: 10px;
+}
+textarea{
+    font-family: arial,tahoma,verdana,helvetica,sans-serif;
+    font-size: 10px;
+}
+
+.error{
+    color: red;
+    font-weight: bold;
+}
+
+.rf-cp {
+  padding: 0px;
+}
+
+.rf-cp-hdr {
+    border: 0px;
+    font-weight: bolder;
+    padding: 0px;
+}
+
+.rf-cp-ico {
+    width: 14px;
+    height: 14px;
+}
+.rf-pp-cnt {
+    padding: 15px;
+}
+.rf-ntf-cnt{
+    background-color: whitesmoke;
+}
+.rf-dt{
+    border: 1px solid black;
+    width: 100%;
+    font-size: small;
+}
+.rf-dt-c{
+    padding: 1px;
+}
+.rf-dt-r:nth-child(even){
+    background-color: rgb(233, 239, 239);
+}
+.rf-pick-btn{
+    font-size: 10px;
+}
+.rf-trn-lbl {
+    
+}
+
+.rf-cp-b {    
+}
+
+.rf-pm-itm-lbl{
+    font-size: 10px;
+    padding: 1px;
+}
+
+.rf-pm-top-gr-lbl{
+    font-size: 10px;
+    padding: 1px;
+}
+
+.rf-pm-itm {
+    padding: 1px;
+}
+
+.rf-pm-top-gr-hdr {
+    padding: 1px;
+}
+
+input.rf-au-inp{
+    
+}

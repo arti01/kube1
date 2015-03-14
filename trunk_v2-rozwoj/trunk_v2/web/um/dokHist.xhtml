@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      template="/templates/template.xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <rich:popupPanel  id="dokHist" style="text-align: center;" header="Historia dokumentow"  autosized="true" domElementAttachment="parent" left="77" top="13" >
+        <f:facet name="controls">
+            <h:outputLink value="#" onclick="#{rich:component('dokHist')}.hide();
+                    return false;">
+                <h:outputText value="zamknij (X)"  style="font-weight: bold;"/>
+            </h:outputLink>
+        </f:facet>
+        <rich:dataTable value="#{item.dokumentyList}" var="dok" iterationStatusVar="it" rows="10" id="tableDok" style="width: 100%">
+            <rich:column>
+                <f:facet name="header">nazwa/symbol</f:facet>
+                #{dok.nazwa}<br/>
+                #{dok.symbolDok}
+            </rich:column>
+            <rich:column sortBy="#{dok.dataWprow}" sortOrder="descending">
+                <f:facet name="header">data wprowadzenia</f:facet>
+                <h:outputText value="#{dok.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">status</f:facet>
+                <h:outputText id="statusList" value="#{dok.dokStatusId.nazwa}"/>
+                <rich:tooltip target="statusList">
+                    #{dok.dokStatusId.opis}
+                </rich:tooltip>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">rodzaj</f:facet>
+                <h:outputText id="rodzajList" value="#{dok.rodzajId.nazwa}"/>
+                <rich:tooltip target="rodzajList">
+                    #{dok.rodzajId.opis}
+                </rich:tooltip>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">dane dodatkowe</f:facet>
+                 <h:panelGrid columns="2">
+                        <h:outputLabel value="wypożyczający:" rendered="#{fn:length(dok.dokArchDod.imieNazwisko)>0}"/>
+                        <h:outputText value="#{dok.dokArchDod.imieNazwisko}" rendered="#{fn:length(dok.dokArchDod.imieNazwisko)>0}"/>
+                        <h:outputLabel value="planowana data zwrotu:" rendered="#{dok.dokArchDod.dataPlanZwrot!=null}"/>
+                        <h:outputText value="#{dok.dokArchDod.dataPlanZwrot}" rendered="#{dok.dokArchDod.dataPlanZwrot!=null}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                        <h:outputLabel value="rzeczywista data zwrotu:" rendered="#{dok.dokArchDod.dataRzeczZwrot!=null}"/>
+                        <h:outputText value="#{dok.dokArchDod.dataRzeczZwrot}" rendered="#{dok.dokArchDod.dataRzeczZwrot!=null}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                        <h:outputLabel value="wydał:" rendered="#{fn:length(dok.dokArchDod.wydal.adrEmail)>0}"/>
+                        <h:outputText value="#{dok.dokArchDod.wydal.adrEmail}" rendered="#{fn:length(dok.dokArchDod.wydal.adrEmail)>0}"></h:outputText>
+                    </h:panelGrid>
+            </rich:column>
+            
+            
+            <rich:column>
+                <rich:tooltip target="imgDt" value="detale" layout="block"/>
+                <a4j:commandButton id="imgDt" execute="@this" action="#{URejDokMg.detale}" image="/images/detail.png">
+                    <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{dok}" />
+                </a4j:commandButton>
+            </rich:column>
+        </rich:dataTable>
+        <hr/>
+    </rich:popupPanel>
+</html>

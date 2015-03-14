@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:form>
+        <rich:panel id="listPanel">
+            <rich:dataTable value="#{managedBean.lista}" var="item" iterationStatusVar="it" rows="10" id="table" style="width: 100%">
+                <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.nazwa,RejestracjaRej.filtrNazwa)||fn:containsIgnoreCase(item.symbolDok,RejestracjaRej.filtrNazwa)}"
+                             sortBy="#{sortowanie}" sortOrder="#{sortporzadek}">
+                    <f:facet name="header">nazwa i symbol<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrNazwa}" size="15">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText id="nazwaList" value="#{item.nazwa}" style="font-size: small"/>
+                    <br/>
+                    <h:outputText id="symbolDok" value="#{item.symbolDok}" style="font-size: small"/>
+
+                    <rich:tooltip target="nazwaList">
+                        #{item.opis}
+                    </rich:tooltip>
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.dataDokStr,RejestracjaRej.filtrdataDok)}">    
+                    <f:facet name="header">data dokumentu<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrdataDok}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText value="#{item.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.dokWyszuk.dokArchDod.imieNazwisko,RejestracjaRej.filtrDaneDod)||fn:containsIgnoreCase(item.dokWyszuk.dokArchDod.dataPlanZwrot,RejestracjaRej.filtrDaneDod)
+                                                 ||fn:containsIgnoreCase(item.dokWyszuk.dokArchDod.dataRzeczZwrot,RejestracjaRej.filtrDaneDod)||fn:containsIgnoreCase(item.dokWyszuk.dokArchDod.wydal.adrEmail,RejestracjaRej.filtrDaneDod)}">    
+                    <f:facet name="header">dane dodatkowe<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrDaneDod}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="wypożyczający:" rendered="#{fn:length(item.dokWyszuk.dokArchDod.imieNazwisko)>0}"/>
+                        <h:outputText value="#{item.dokWyszuk.dokArchDod.imieNazwisko}" rendered="#{fn:length(item.dokWyszuk.dokArchDod.imieNazwisko)>0}"/>
+                        <h:outputLabel value="planowana data zwrotu:" rendered="#{item.dokWyszuk.dokArchDod.dataPlanZwrot!=null}"/>
+                        <h:outputText value="#{item.dokWyszuk.dokArchDod.dataPlanZwrot}" rendered="#{item.dokWyszuk.dokArchDod.dataPlanZwrot!=null}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                        <h:outputLabel value="rzeczywista data zwrotu:" rendered="#{item.dokWyszuk.dokArchDod.dataRzeczZwrot!=null}"/>
+                        <h:outputText value="#{item.dokWyszuk.dokArchDod.dataRzeczZwrot}" rendered="#{item.dokWyszuk.dokArchDod.dataRzeczZwrot!=null}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                        <h:outputLabel value="wydał:" rendered="#{fn:length(item.dokWyszuk.dokArchDod.wydal.adrEmail)>0}"/>
+                        <h:outputText value="#{item.dokWyszuk.dokArchDod.wydal.adrEmail}" rendered="#{fn:length(item.dokWyszuk.dokArchDod.wydal.adrEmail)>0}"></h:outputText>
+                    </h:panelGrid>
+                </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">dokument wydania</f:facet>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="symbol:"/>
+                        <h:outputText value="#{item.dokWyszuk.symbolDok}"/>
+                        <h:outputLabel value="nazwa:" />
+                        <h:outputText value="#{item.dokWyszuk.nazwa}"/>
+                        <h:outputLabel value="data dokumentu:"/>
+                        <h:outputText value="#{item.dokWyszuk.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                    </h:panelGrid>
+                </rich:column>
+
+                <rich:column style="background-color: #{item.dokStatusId.kolor} ; text-align: center"
+                             filterExpression="#{fn:containsIgnoreCase(item.dokStatusId.nazwa,RejestracjaRej.filtrStatus)}">    
+                    <f:facet name="header">status<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrStatus}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <br/>
+                    <h:outputText id="statusList" value="#{item.dokStatusId.nazwa}"/>
+                    <rich:tooltip target="statusList">
+                        #{item.dokStatusId.opis}
+                    </rich:tooltip>
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.userId.fullname,RejestracjaRej.filtrWprowadzil)}">    
+                    <f:facet name="header">wprowadził<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrWprowadzil}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    #{item.userId.fullname}
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.rodzajId.nazwa,RejestracjaRej.filtrRodzaj)}">    
+                    <f:facet name="header">rodzaj<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrRodzaj}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText id="rodzajList" value="#{item.rodzajId.nazwa}"/>
+                    <rich:tooltip target="rodzajList">
+                        #{item.rodzajId.opis} z grupy:#{item.rodzajId.idRodzajGrupa.nazwa}
+                    </rich:tooltip>
+                </rich:column>
+
+            </rich:dataTable>
+        </rich:panel>
+    </h:form>
+</ui:composition>
+

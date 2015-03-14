@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:h="http://java.sun.com/jsf/html"
+      template="/templates/template.xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:form >
+        <rich:popupPanel header="Wprowadź dane" id="dodajPaneRodzaj"  autosized="true" domElementAttachment="parent" >
+            <h:panelGrid columns="3" id="dodajGrid">
+                <h:outputLabel for="nameD" value="nazwa: "/>
+                <h:inputText id="nameD" value="#{UrzadzeniaMg.obiekt.nazwa}"  size="80" ><rich:validator/></h:inputText>
+                <rich:message for="nameD" styleClass="error" />
+
+                <h:outputLabel for="opisD" value="opis: "/>
+                <h:inputTextarea id="opisD" value="#{UrzadzeniaMg.obiekt.notatka}"  cols="80" ><rich:validator/></h:inputTextarea>
+                <rich:message for="opisD" styleClass="error" /> 
+
+                <h:outputLabel for="nrInwD" value="nr inwentarzowy: "/>
+                <h:inputText id="nrInwD" value="#{UrzadzeniaMg.obiekt.nrInw}"  size="80" ><rich:validator/></h:inputText>
+                <rich:message for="nrInwD" styleClass="error" />
+
+                <h:outputLabel for="nrSerD" value="nr seryjny: "/>
+                <h:inputText id="nrSerD" value="#{UrzadzeniaMg.obiekt.nrSer}"  size="80" ><rich:validator/></h:inputText>
+                <rich:message for="nrSerD" styleClass="error" />
+
+                <h:outputLabel for="lokalizacjaD" value="lokalizacja: "/>
+                <h:inputText id="lokalizacjaD" value="#{UrzadzeniaMg.obiekt.lokalizacja}"  size="80" ><rich:validator/></h:inputText>
+                <rich:message for="lokalizacjaD" styleClass="error" />
+
+                <h:outputLabel for="firmaSerwD" value="firma serwisująca: "/>
+                <h:inputText id="firmaSerwD" value="#{UrzadzeniaMg.obiekt.firmaSerw}"  size="80" ><rich:validator/></h:inputText>
+                <rich:message for="firmaSerwD" styleClass="error" />
+
+                <h:outputLabel for="dataD" value="data przedlądu: "/>
+                <rich:calendar value="#{UrzadzeniaMg.obiekt.dataPrzegl}" id="dataD" locale="#{RejestracjaRej.locale}"
+                               popup="true" datePattern="yyyy-MM-dd"
+                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                    <rich:validator /></rich:calendar>
+                <rich:message for="dataD" styleClass="error" />
+
+                <h:outputLabel for="grupaD" value="grupa: ">
+                    <a4j:commandButton id="imgCl_1" render="grupaD" value="wyczyść">
+                        <a4j:param assignTo="#{UrzadzeniaMg.obiekt.grupa}" value="#{null}"/>
+                    </a4j:commandButton>
+                </h:outputLabel>
+                <rich:select id="grupaD" enableManualInput="true" defaultLabel="zacznij wpisywać"  value="#{UrzadzeniaMg.obiekt.grupa}" converter="#{UmGrupaConv}"  >
+                    <f:selectItems value="#{UrzadzeniaMg.grupyList}" var="grupa" itemValue="#{grupa}" itemLabel="#{grupa.nazwa}"/>
+                </rich:select>
+                <rich:message for="grupaD" styleClass="error" />
+
+                <h:panelGrid columns="2" style="width: 200px">
+                    <h:outputLabel for="userOdpowD" value="osoba odpowiedzialna: ">
+                        <a4j:commandButton id="imgCl_2" render="userOdpowD" value="wyczyść">
+                            <a4j:param assignTo="#{UrzadzeniaMg.obiekt.userOdpow}" value="#{null}"/>
+                        </a4j:commandButton>
+                    </h:outputLabel>
+                </h:panelGrid>
+                <rich:select id="userOdpowD" enableManualInput="true" defaultLabel="zacznij wpisywać"  value="#{UrzadzeniaMg.obiekt.userOdpow}" converter="#{UzytkownikConv}"  >
+                    <f:selectItems value="#{UrzadzeniaMg.login.zalogowany.userId.spolkaId.userList}" var="user" itemValue="#{user}" itemLabel="#{user.fullname}"/>
+                </rich:select>
+                <rich:message for="userOdpowD" styleClass="error" />
+
+            </h:panelGrid>
+
+            <hr/>
+            <rich:message for="zapisz" styleClass="error" />
+            <rich:message for="dodaj" styleClass="error" />
+            <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
+
+            <a4j:commandButton id="dodaj" value="Dodaj" action="#{UrzadzeniaMg.dodaj}" render="listPanel, dodajPaneRodzaj" execute="dodajPaneRodzaj"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPaneRodzaj')}.hide();} else {#{rich:component('dodajPaneRodzaj')}.show();}" 
+                               rendered="#{UrzadzeniaMg.obiekt.id==null}"/>
+            <a4j:commandButton id="zapisz" value="Zapisz" action="#{UrzadzeniaMg.edytuj}" render="listPanel, dodajPaneRodzaj" execute="dodajPaneRodzaj"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPaneRodzaj')}.hide();}  else {#{rich:component('dodajPaneRodzaj')}.show();}" 
+                               rendered="#{UrzadzeniaMg.obiekt.id!=null}"/>
+            <a4j:commandButton value="Wyjdź" onclick="#{rich:component('dodajPaneRodzaj')}.hide();
+                    return false;" />
+        </rich:popupPanel>
+
+        <a4j:jsFunction name="removeRodzaj" action="#{UrzadzeniaMg.usun}" render="listPanel" execute="@this"
+                        oncomplete="#{rich:component('confirmPaneRodzaj')}.hide();" />
+        <rich:popupPanel id="confirmPaneRodzaj" autosized="true">
+            Na pewno chcesz skasować?
+            <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPaneRodzaj')}.hide();
+                    return false;" />
+            <a4j:commandButton value="Tak" onclick="removeRodzaj();
+                    return false;" />
+        </rich:popupPanel>
+    </h:form>
+</html>
+

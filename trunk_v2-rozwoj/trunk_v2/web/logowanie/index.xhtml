@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="#{login.template}"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+
+        <h:panelGroup rendered="#{login.bladLicencj}">
+            <h1>przekroczono warunki licencji</h1>
+            <h:outputLink value="../logowanie/logout.jsp">
+                Wyjście
+            </h:outputLink>
+            <hr/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{login.zalogowany==null}">
+            <h1>Elektroniczny Obieg Dokumentów</h1>
+            <h2>Konto NIEaktywne</h2>
+            <h:outputLink value="../logowanie/logout.jsp">
+                Wyjście
+            </h:outputLink>
+            <hr/>
+        </h:panelGroup>
+        <h:form>
+            <h:panelGroup rendered="#{login.zalogowany!=null}">
+                <center>
+                    <h:panelGrid columns="1">
+                        <rich:collapsiblePanel id="cp" header="Ogłoszenia - zwin i rozwiń aby odświeżyć" switchType="ajax" 
+                                               toggleListener="#{login.refresh}" expanded="true">
+                            <rich:dataTable value="#{login.zalogowany.ogloszeniaList}" var="ogloszenie">
+                                <rich:column sortBy="#{ogloszenie.id}" sortOrder="descending">
+                                    <f:facet name="header">
+                                        tytuł
+                                    </f:facet>
+                                    #{ogloszenie.tytul}
+                                </rich:column>
+                                <rich:column >
+                                    <f:facet name="header">
+                                        tresc
+                                    </f:facet>
+                                    <rich:collapsiblePanel switchType="client" expanded="false" >
+                                        <h:outputText value="#{ogloszenie.tresc}" escape="false"/>
+                                    </rich:collapsiblePanel>
+                                </rich:column>
+                                <rich:column sortBy="#{ogloszenie.id}" sortOrder="descending">
+                                    <f:facet name="header">
+                                        data
+                                    </f:facet>
+                                    <h:outputText value="#{ogloszenie.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                                </rich:column>
+                                <rich:column sortBy="#{ogloszenie.id}" sortOrder="descending">
+                                    <f:facet name="header">
+                                        wprowadził
+                                    </f:facet>
+                                    #{ogloszenie.wprowadzil.fullname}
+                                </rich:column>
+                            </rich:dataTable>
+                        </rich:collapsiblePanel>
+                        <rich:collapsiblePanel id="urzAlert" header="Zbliżające się terminy przeglądu sprzętu - uwaga, tylko Twoje" switchType="ajax" 
+                                               rendered="#{login.umSprz}" toggleListener="#{login.refresh}" expanded="true">
+                            <rich:dataTable value="#{login.zalogowany.userId.urzadzenieAletrPrzeglList}" var="urzad">
+                                <rich:column>
+                                    <f:facet name="header">nazwa</f:facet>
+                                        #{urzad.nazwa}
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">nr inwentarzowy<br/>nr seryjny</f:facet>
+                                    #{urzad.nrInw}<hr/>
+                                    #{urzad.nrSer}
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">lokalizacja</f:facet>
+                                        #{urzad.lokalizacja}
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">firma serwisująca</f:facet>
+                                        #{urzad.firmaSerw}
+                                </rich:column>
+                                <rich:column style="text-align: center" sortBy="#{urzad.dataPrzegl}" sortOrder="ascending" >
+                                    <f:facet name="header">data przeglądu</f:facet>
+                                    <h:outputText value="#{urzad.dataPrzegl}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                                    <br/>
+                                    <h:outputText value="przeterminowany" style="background-color: red" rendered="#{urzad.dataNizDzis}"/><br/>
+                                    <h:outputText value="niedługo termin" style="background-color: orange" rendered="#{urzad.alertPrzegl}"/>
+                                </rich:column>
+                            </rich:dataTable>
+                        </rich:collapsiblePanel>
+                        <rich:collapsiblePanel id="akceptAlert" header="Czekają na Twoją akceptację" switchType="ajax" 
+                                               rendered="#{login.dcOdb}" toggleListener="#{login.refresh}" expanded="true">
+                            <rich:dataTable value="#{AkceptOdb.login.zalogowany.userId.dcDoAkceptuKrokiList}" var="item" iterationStatusVar="it" rows="10" id="table" style="width: 100%">
+                                <rich:column sortBy="#{item.idDokumentKrok.idDok.id}" sortOrder="descending">
+                                    <f:facet name="header">data rejestracji</f:facet>
+                                    <h:outputText value="#{item.idDokumentKrok.idDok.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">nazwa i symbol</f:facet>
+                                    <h:outputText id="nazwaList" value="#{item.idDokumentKrok.idDok.nazwa}"/>
+                                    <br/>
+                                    <h:outputText id="symbolList" value="#{item.idDokumentKrok.idDok.symbolDok}"/>
+                                    <rich:tooltip target="nazwaList">
+                                        #{item.idDokumentKrok.idDok.opis}
+                                    </rich:tooltip>
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">data dokumentu</f:facet>
+                                    <h:outputText value="#{item.idDokumentKrok.idDok.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">wprowadził</f:facet>
+                                        #{item.idDokumentKrok.idDok.userId.fullname}
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">rodzaj</f:facet>
+                                    <h:outputText id="rodzajList" value="#{item.idDokumentKrok.idDok.rodzajId.nazwa}"/>
+                                    <rich:tooltip target="rodzajList">
+                                        #{item.idDokumentKrok.idDok.rodzajId.opis} z grupy:#{item.idDokumentKrok.idDok.rodzajId.idRodzajGrupa.nazwa}
+                                    </rich:tooltip>
+                                </rich:column>
+                            </rich:dataTable>
+                        </rich:collapsiblePanel>
+                        <h:panelGrid columns="2">
+                            <rich:panel header="liczba dokumentów do brakowania" rendered="#{login.dcRej}">
+                                #{BrakowanieRej.listaSize}
+                            </rich:panel>
+                            <rich:panel header="liczba dokumentów w archiwum do brakowania" rendered="#{login.dcArc}">
+                                #{BrakowanieArch.listaSize}
+                            </rich:panel>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </center>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

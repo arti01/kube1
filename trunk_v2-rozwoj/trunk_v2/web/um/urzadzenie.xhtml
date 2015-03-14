@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <h3>Zasób</h3>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        <ui:include src="./urzadzenieEdit.xhtml"/>
+        <hr/>
+        <h:form>
+
+            <rich:popupPanel header="Wprowadź podstawowe informacje" id="dodajPane"  autosized="true" domElementAttachment="parent" left="13" top="13" minHeight="450" minWidth="950">
+                <f:facet name="controls">
+                    <h:outputLink value="#" onclick="#{rich:component('dodajPane')}.hide();
+                            return false;">
+                        <h:outputText value="zamknij (X)"  style="font-weight: bold;"/>
+                    </h:outputLink>
+                </f:facet>
+                <ui:include src="../dcrej/dokumentEdit.xhtml">
+                    <ui:param name="detal" value="#{false}"/> 
+                    <ui:param name="managedBean" value="#{URejDokMg}"/>
+                </ui:include>
+                <ui:param name="managedBean" value="#{URejDokMg}"/>
+                <a4j:commandButton id="dodaj" value="Dodaj" action="#{managedBean.dodaj}" render="listPanel, dodajPane" execute="dodajPane"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();} else {#{rich:component('dodajPane')}.show();}" 
+                                   rendered="#{RejestracjaRej.obiekt.id==null}"/>
+                <a4j:commandButton id="zapisz" value="Zapisz" action="#{managedBean.edytuj}" render="listPanel, dodajPane" execute="dodajPane"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();}  else {#{rich:component('dodajPane')}.show();}" 
+                                   rendered="#{RejestracjaRej.obiekt.id!=null}"/>
+                <a4j:commandButton value="Wyjdź" action="#{RejestracjaRej.refreshObiekt}" render="dodajPane" onclick="#{rich:component('dodajPane')}.hide();
+                            return false;" />
+            </rich:popupPanel>
+
+
+            <rich:panel id="listPanel">
+                <a4j:commandLink  execute="@form" action="#{UrzadzeniaMg.newObiekt}" render="dodajPaneRodzaj, listPanel" oncomplete="#{rich:component('dodajPaneRodzaj')}.show()">
+                    <h4>[dodaj zasób]</h4>
+                </a4j:commandLink>
+
+                <rich:dataTable id="tableRodzaj" value="#{UrzadzeniaMg.lista}" var="item" iterationStatusVar="it" rows="10" style="width: 100%">
+                    <f:facet name="header"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
+                    <f:facet name="footer"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
+                    <rich:column sortBy="#{item.nazwa}" sortOrder="ascending" filterExpression="#{fn:containsIgnoreCase(item.nazwa, UrzadzeniaMg.filtrNazwa) or UrzadzeniaMg.filtrNazwa==''}">
+                        <f:facet name="header">
+                            nazwa: <br/> (do filtrowania<br/> użyj TAB)<br/>
+                            <h:inputText value="#{UrzadzeniaMg.filtrNazwa}" size="13">
+                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
+                            </h:inputText></f:facet>
+                        <h:outputText  id="nazwaT" value="#{item.nazwa}"/>
+                        <rich:tooltip target="nazwaT" value="#{item.notatka}" layout="block"/>    
+                    </rich:column>
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.nrInw, UrzadzeniaMg.filtrNrInw) or UrzadzeniaMg.filtrNrInw==''}">
+                        <f:facet name="header">nr<br/> inwentarzowy<br/>
+                            <h:inputText value="#{UrzadzeniaMg.filtrNrInw}" size="13">
+                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
+                            </h:inputText></f:facet>
+                            #{item.nrInw}
+                    </rich:column>
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.nrSer, UrzadzeniaMg.filtrNrSer) or UrzadzeniaMg.filtrNrSer==''}">
+                        <f:facet name="header">nr<br/>seryjny<br/>
+                            <h:inputText value="#{UrzadzeniaMg.filtrNrSer}" size="13">
+                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
+                            </h:inputText></f:facet>
+                            #{item.nrSer}
+                    </rich:column>
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.lokalizacja, UrzadzeniaMg.filtrLokal) or UrzadzeniaMg.filtrLokal==''}">
+                        <f:facet name="header">lokalizacja<br/>
+                            <h:inputText value="#{UrzadzeniaMg.filtrLokal}" size="13">
+                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
+                            </h:inputText></f:facet>
+                            #{item.lokalizacja}
+                    </rich:column>
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.firmaSerw, UrzadzeniaMg.filtrFirmaSerw) or UrzadzeniaMg.filtrFirmaSerw==''}">
+                        <f:facet name="header">firma<br/>serwisująca<br/>
+                            <h:inputText value="#{UrzadzeniaMg.filtrFirmaSerw}" size="13">
+                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
+                            </h:inputText></f:facet>
+                            #{item.firmaSerw}
+                    </rich:column>
+                    <rich:column style="text-align: center">
+                        <f:facet name="header">data<br/>przeglądu</f:facet>
+                        <h:outputText value="#{item.dataPrzegl}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                        <br/>
+                        <h:outputText value="przeterminowany" style="background-color: red" rendered="#{item.dataNizDzis}"/><br/>
+                        <h:outputText value="niedługo termin" style="background-color: orange" rendered="#{item.alertPrzegl}"/>
+                    </rich:column>
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.userOdpow.fullname, UrzadzeniaMg.filtrOsobOdp) or UrzadzeniaMg.filtrOsobOdp==''}">
+                        <f:facet name="header">osoba<br/>odpowiedzialna<br/>
+                            <h:inputText value="#{UrzadzeniaMg.filtrOsobOdp}" size="13">
+                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
+                            </h:inputText></f:facet>
+                            #{item.userOdpow.fullname}
+                    </rich:column>
+                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.grupa.nazwa, UrzadzeniaMg.filtrGrupa) or UrzadzeniaMg.filtrGrupa==''}">
+                        <f:facet name="header">grupa<br/>
+                            <h:inputText value="#{UrzadzeniaMg.filtrGrupa}" size="13">
+                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
+                            </h:inputText></f:facet>
+                            #{item.grupa.nazwa}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">dokumenty</f:facet>
+                        <rich:tooltip target="imgHist">
+                            Historia dokumentów
+                        </rich:tooltip>
+                        <rich:tooltip target="imgAdd">
+                            Nowy dokument
+                        </rich:tooltip>
+                        <a4j:commandButton id="imgHist" execute="@this" oncomplete="#{rich:component('dokHist')}.show()" image="/images/lista.png"/>
+                        <a4j:commandButton id="imgAdd" render="dodajPane" execute="@this" oncomplete="#{rich:component('dodajPane')}.show()" action="#{URejDokMg.nowyDokDlaUrzad}" image="/images/add.png">
+                            <f:setPropertyActionListener target="#{URejDokMg.urzad}" value="#{item}" />
+                        </a4j:commandButton>
+                        <ui:include src="/um/dokHist.xhtml"/>
+                    </rich:column>
+
+                    <rich:column style="width: 45px">
+                        <f:facet name="header">
+                            <a4j:commandLink action="#{UrzadzeniaMg.clearFiltr}" render="tableRodzaj">wyczyść filtry</a4j:commandLink>
+                        </f:facet>
+                        <rich:tooltip target="imgDe" value="usuń" layout="block"/>
+                        <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
+                        <a4j:commandButton id="imgDe" execute="@this" render="@none" image="/images/delete.png"
+                                           oncomplete="#{rich:component('confirmPaneRodzaj')}.show()" >
+                            <f:setPropertyActionListener target="#{UrzadzeniaMg.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                        <a4j:commandButton id="imgEd" render="dodajPaneRodzaj" execute="@this" oncomplete="#{rich:component('dodajPaneRodzaj')}.show()" image="/images/edit.png">
+                            <f:setPropertyActionListener target="#{UrzadzeniaMg.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+    </ui:define>
+</ui:composition>
+

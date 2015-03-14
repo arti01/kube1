@@ -1,0 +1,294 @@
+
+#top {
+    position: relative;
+    background-color: #C1DFFF;
+    color: black;
+    padding: 0px;
+    margin: 0px 0px 5px 0px;
+    text-align: center;
+    font-family: Times New Roman, sans;
+    
+}
+
+#bottom {
+    position: relative;
+    background-color: #C1DFFF;/*c8cccd;*/
+    padding: 3px;
+    margin: 0px 0px 0px 0px;
+    font-family: Arial, tahoma, sans;
+    font-size: 12px;
+    text-decoration: none;
+    height: 60px;
+    vertical-align: middle;
+}
+
+#left {
+    float: left;
+    background-color: #e9efef;
+    color: black;
+    padding: 0;
+    width: 150px;
+    min-height: 520px;
+    font-size: 11px;
+    font-family: Arial, tahoma,sans;
+    border: 1px solid black;
+}
+#left ul
+{
+    margin: 0;
+    padding: 2px 2px 2px 2px;
+    list-style: none;
+}
+
+
+#left li
+{
+    margin: 0;
+    /*padding: 5px 10px 5px 10px;*/
+   /* border-bottom: 2px  dotted #006633; */
+    font-weight: bold;
+}
+
+#left tbody h4 {
+	font-size: 11px;
+	padding: 0,0,0,0;
+	margin: 0,0,0,0;
+}
+#left li a
+{
+    color: black;
+    /*font-style: normal;*/
+    text-decoration: none;
+    /*font-weight: normal;*/
+}
+
+#left li a:hover
+{
+    color: gray;
+    text-decoration: none;
+    text-shadow: 1px 1px 3px #FFFFFF;
+}
+
+#right {
+    float: right;
+    background-color: #6666ff;
+    padding: 3px;
+    width: 150px;
+}
+
+#content {
+	font-size: 11px;
+	position: relative;
+   float: top;
+}
+
+#contentLewy {
+    float: left;
+    padding: 0px;
+    width: 350px;
+    min-height: 500px;
+    margin: 0px;
+}
+.przycisk {
+	width: 100px;
+	border: 1px solid black;
+	background-color: orange;
+	padding: 4px, 2px, 4px, 2px;
+	margin: 4px, 2px, 4px, 2px;	
+}
+.pole_wpis{
+	width: 100%;
+	border: 1px solid black;	
+}
+#contentPrawy {
+    float: left;
+    padding: 4px;
+    width: 700px;
+    min-height: 500px;
+    margin: 5px;
+}
+#login {
+	background-color: #C1DFFF;
+	position: relative;
+	top:60px;
+	width: 100%;
+	height: 100px;
+	border: 0px solid black;
+	font-family: Arial,Tahoma, sans;
+	font-size: 13px;	
+}
+.linia_top{
+	color: gray;
+	border: 1px solid;
+}
+.center_content {
+    position: relative;
+    background-color: #dddddd;
+    padding: 0px;
+}
+
+.left_content {
+	
+    background-color: white;
+    padding: 1px;
+    margin-left: 155px;
+    height: 650px;
+    width: 1100px;
+    overflow: auto;
+    border: 1px solid black;
+    font-size: 11px;
+    font-family: arial, tahoma, sans;
+}
+.login_content {
+	background-color: #C1DFFF;
+    
+    padding: 0px;
+    text-align: center;
+    min-height: 520px;
+    border: 0px solid black;
+}
+.right_content {
+	
+    background-color: #C1DFFF;
+    padding: 4px;
+    margin: 0px 170px 0px 170px;
+}
+
+#top a:link, #top a:visited {
+  color: white;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+  color: black;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+
+#tabela table
+{
+    width: 100%;
+    table-layout: auto;
+    font-size: 11px;
+    font-style: normal;
+    line-height: 1.3em;
+    text-align: left;
+    padding: 1px;
+    border-spacing: 0px;
+}
+#tabela input {
+	border: 1px solid black;	
+}
+#tabela select {
+	border: 1px solid black;	
+}
+#tabela form{
+	border: 0px;
+}
+
+#tabela table tr > td:first child
+{
+    max-width: 450px;
+
+}
+#tabela hr
+{
+    size: 1px;
+    width: 90%;
+    color: #000000;
+}
+
+
+
+#tabela th
+{
+    font-size: 11px;
+    background-color:#e2e8fa;  
+    text-align: center;
+    padding: 2px 2px;
+    border: 0px solid #FFFFFF;
+}
+
+#tabela th a
+{
+    color: #000000;
+}
+#tabela th a:hover
+{
+    color: #6699FF;
+}
+
+#tabela table td
+{
+    max-width: 900px;
+    padding: 1px 1px;
+     border-bottom: 1px solid darkblue;
+    /*border: 0px solid #FFFFFF;*/
+}
+#tabela table tr td{
+	border-spacing:0px;
+  
+  	border-width: 1px;
+  	/*border-bottom-width: 1px;*/
+}
+#tabela table td table
+{       
+    table-layout: auto;
+    width: 200px;
+    padding: 1px;
+    background-color: #FFFFFF;
+    border-width: 0px;
+  	
+    font-size: 11px;
+    font-family: arial,tahoma, sans;
+   
+    
+}
+#tabela a
+{
+
+    display: compact;
+    padding: 0,0,0,0;
+    font-size: 1em;
+    clear: one;
+    font-weight:bold;
+    text-decoration: none;
+    margin: 0px;
+    color: black;
+    border-width: 0px;
+  	
+}
+#tabela a:hover
+{
+    color: gray;
+    text-shadow: 0px 0px 1px #FFFFFF;
+}
+#tabela li a
+{
+    display: block;
+    clear: none;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    color: #000000;
+}
+#tabela li img
+{
+    margin: 0;
+    padding: 0;
+}
+
+#tabela tr:nth-child(even)
+{
+    background-color:#e2e8fa;
+
+}
+#tabela tbody p
+{
+    font-size:0.8em ;
+    font-style: italic;
+}
+
+

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="/templates/template.xhtml">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <div id="tabela">
+            <h4>Historia wniosków</h4>
+
+            <h:form>
+                <a4j:outputPanel id="formTab" layout="block">
+                    <rich:dataTable value="#{UrlopM.urlopyAkceptHist}" var="urlop" id="table" rows="10">
+                        <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                        <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                        <rich:column filterValue="#{UrlopM.nameAkceptHistFilter}"
+                                     filterExpression="#{fn:containsIgnoreCase(urlop.uzytkownik.fullname, UrlopM.nameAkceptHistFilter)}">
+                            <f:facet name="header">
+                                <h:panelGroup>
+                                    <h:outputText value="Wniosek osoby  &lt;br/&gt; (do filtrowania użyj TAB)" escape="false"/><br/>
+                                    <h:inputText value="#{UrlopM.nameAkceptHistFilter}">
+                                        <a4j:ajax event="blur" render="formTab" execute="@this" />
+                                    </h:inputText>
+                                    <a4j:commandLink value="wszyscy" rendered="#{UrlopM.nameAkceptHistFilter!=null and UrlopM.nameAkceptHistFilter!=''}" render="formTab" action="#{UrlopM.listPodwlHist}">
+                                        <f:setPropertyActionListener  target="#{UrlopM.nameAkceptHistFilter}" value="#{null}"/>
+                                    </a4j:commandLink>
+                                </h:panelGroup>
+                            </f:facet>
+                            <h:outputText value="#{urlop.uzytkownik.fullname}"/>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Nr wniosku
+                            </f:facet>
+                            <h:outputText value="#{urlop.nrWniosku}"/>
+                            <hr/>
+                            <h:outputText value="#{urlop.infoDod}" rendered="#{fn:length(urlop.infoDod)>0}"/>
+                            <rich:collapsiblePanel header="Historia" expanded="false" switchType="client" rendered="#{fn:length(urlop.wnHistoriaList)>0}" id="histTab">
+                                <rich:dataTable value="#{urlop.wnHistoriaList}" var="hist">
+                                    <rich:column>
+                                        <f:facet name="header">
+                                            data zmiany
+                                        </f:facet>
+                                        <h:outputText value="#{hist.dataZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                                    </rich:column>
+                                    <rich:column>
+                                        <f:facet name="header">
+                                            Zmianę wykonał
+                                        </f:facet>
+                                        <h:outputText value="#{hist.zmieniajacy.fullname}"/>
+                                    </rich:column>
+                                    <rich:column style="text-align: center">
+                                        <f:facet name="header">
+                                            Status
+                                        </f:facet>
+                                        <h:outputText value="#{hist.statusId.opis}"/>
+                                    </rich:column>
+                                    <rich:column>
+                                        <rich:panel>
+                                            <h:outputText value=" [opis] " id="opis"/>
+                                            <rich:tooltip id="tt1" layout="block">
+                                                <h:outputText value="#{hist.opisZmiany}"/>
+                                            </rich:tooltip>
+                                        </rich:panel>
+                                    </rich:column>
+                                    <rich:column>
+                                        <f:facet name="header">
+                                            Akceptant
+                                        </f:facet>
+                                        <h:outputText value="#{hist.akceptant.fullname}"/>
+                                    </rich:column>
+                                </rich:dataTable>
+                            </rich:collapsiblePanel>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Rodzaj
+                            </f:facet>
+                            <h:outputText value="#{urlop.rodzajId.opis}"/>
+                            <rich:collapsiblePanel header="szczegóły" expanded="false" switchType="client" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel for="miejsce" value="miejsce: " />
+                                    <h:outputText id="miejsce" value="#{urlop.miejsce}" />
+
+                                    <h:outputLabel for="cel" value="cel: " />
+                                    <h:outputText id="cel" value="#{urlop.cel}" />
+
+                                    <h:outputLabel for="srodekLok" value="srodek lokomocji: " />
+                                    <h:outputText id="srodekLok" value="#{urlop.srodekLok}"/>
+                                </h:panelGrid>
+                            </rich:collapsiblePanel>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Wprowadzony
+                            </f:facet>
+                            <h:outputText value="#{urlop.dataWprowadzenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                        </rich:column>
+                        <rich:column >
+                            <f:facet name="header">
+                                Od Do
+                            </f:facet>
+                            <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                            <br/>
+                            <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                        </rich:column>
+                        <rich:column style="background-color: #{urlop.statusId.kolor}; text-align: center">
+                            <f:facet name="header">
+                                Status
+                            </f:facet>
+                            <h:outputText value="#{urlop.statusId.opis}"/>
+                        </rich:column>
+                    </rich:dataTable>
+                </a4j:outputPanel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

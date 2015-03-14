@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/templates/template.xhtml"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <rich:panel id="listPanel">
+        <rich:dataTable value="#{OgloszeniaMg.lista}" var="item" iterationStatusVar="it" id="table" rows="10" style="width: 100%">
+            <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+            <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+            <rich:column sortBy="#{item.id}" sortOrder="descending" filterExpression="#{fn:containsIgnoreCase(item.tytul, OgloszeniaMg.filtrTytul) or OgloszeniaMg.filtrTytul==''}">
+                <f:facet name="header">
+                    tytuł: <br/> (do filtrowania użyj TAB)<br/>
+                    <h:inputText value="#{OgloszeniaMg.filtrTytul}" size="15">
+                        <a4j:ajax event="blur" render="table" execute="@this" />
+                    </h:inputText>
+                </f:facet>
+                <h:outputText id="tytul" value="#{item.tytul}"/>
+
+                <rich:tooltip target="tytul">
+                    <h:outputText value="#{item.tresc}" escape="false"/>
+                </rich:tooltip>
+            </rich:column>
+
+            <rich:column filterExpression="#{fn:containsIgnoreCase(item.wprowadzil.fullname, OgloszeniaMg.filtrWprow) or OgloszeniaMg.filtrWprow==''}">
+                <f:facet name="header">
+                    wprowadził:<br/>
+                    <h:inputText value="#{OgloszeniaMg.filtrWprow}" size="10">
+                        <a4j:ajax event="blur" render="table" execute="@this" />
+                    </h:inputText>
+                </f:facet>
+                #{item.wprowadzil.fullname}
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">
+                    data<br/> wprowadzenia:
+                </f:facet>
+                <h:outputText value="#{item.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" timeZone="CET"/></h:outputText>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">
+                    odbiorcy ogłoszenia
+                </f:facet>
+                <ui:include src="./ogloszeniaOdbior.xhtml"/>
+            </rich:column>
+            <rich:column style="width: 45px">
+                <rich:tooltip target="imgDe" value="usuń" layout="block"/>
+                <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
+                <rich:tooltip target="imgLs" value="lista odbiorców" layout="block"/>
+                <a4j:commandButton id="imgDe" execute="@this" render="@none"
+                                   oncomplete="#{rich:component('confirmPane')}.show()" image="/images/delete.png">
+                    <f:setPropertyActionListener target="#{OgloszeniaMg.obiekt}" value="#{item}" />
+                </a4j:commandButton>
+                <a4j:commandButton id="imgEd" render="dodajPane" execute="@this" oncomplete="#{rich:component('dodajPane')}.show()" image="/images/edit.png">
+                    <f:setPropertyActionListener target="#{OgloszeniaMg.obiekt}" value="#{item}" />
+                </a4j:commandButton>
+            </rich:column>
+        </rich:dataTable>
+    </rich:panel>
+</html>
+

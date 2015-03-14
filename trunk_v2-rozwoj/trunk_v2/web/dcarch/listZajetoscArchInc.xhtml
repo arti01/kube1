@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h:form>
+        <rich:popupPanel header="Wprowadź dane" id="dodajPane"  autosized="true" domElementAttachment="parent" left="13" top="13" minHeight="450" minWidth="950">
+            <f:facet name="controls">
+                <h:outputLink value="#" onclick="#{rich:component('dodajPane')}.hide();
+                        return false;">
+                    <h:outputText value="zamknij (X)"  style="font-weight: bold;"/>
+                </h:outputLink>
+            </f:facet>
+            <ui:include src="../dcarch/zajetoscArchEdit.xhtml"/>
+        </rich:popupPanel>
+
+        <a4j:commandButton id="dodaj" value="Dodaj nowe archiwum"
+                           onclick="#{rich:component('dodajPane')}.show();" execute="@this" />
+
+        <rich:panel id="listPanel">
+            <rich:dataTable value="#{managedArch.lista}" var="item" iterationStatusVar="it" rows="10" id="table" style="width: 100%">
+                <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+
+                <rich:column>
+                    <f:facet name="header">nazwa <br/>
+                    </f:facet>
+                    <h:outputText id="nazwaList" value="#{item.nazwa}"/>
+                    <rich:tooltip target="nazwaList" value="#{item.opis}" layout="block"/>
+                </rich:column>
+                
+                <rich:column>
+                    <f:facet name="header">cała przestrzeń archiwum<br/>
+                    </f:facet>
+                    <h:outputText id="calaList" value="#{item.razemMetrow}"><f:convertNumber pattern="#0.00" /></h:outputText>
+                </rich:column>
+                
+                <rich:column>
+                    <f:facet name="header">ilość w metrach zajętej przestrzeni<br/>
+                    </f:facet>
+                    <h:outputText id="zajetaList" value="#{item.zajetychMetrow}"><f:convertNumber pattern="#0.00" /></h:outputText>
+                </rich:column>
+                
+                <rich:column>
+                    <f:facet name="header">ilość wolnej przestrzeni<br/>
+                    </f:facet>
+                    <h:outputText id="wolnaList" value="#{item.wolnychMetrow}"><f:convertNumber pattern="#0.00" /></h:outputText>
+                </rich:column>
+
+                 <rich:column style="width: 45px">
+                    <rich:tooltip target="imgDe" value="usuń" layout="block"/>
+                    <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
+                    <a4j:commandButton id="imgDe" execute="@this" render="@none" rendered="#{item.id!=1}"
+                                       oncomplete="#{rich:component('confirmPane')}.show()" image="/images/delete.png">
+                        <f:setPropertyActionListener target="#{managedArch.obiekt}" value="#{item}" />
+                    </a4j:commandButton>
+                    <a4j:commandButton id="imgEd" render="dodajPane" execute="@this" oncomplete="#{rich:component('dodajPane')}.show()" image="/images/edit.png">
+                        <f:setPropertyActionListener target="#{managedArch.obiekt}" value="#{item}" />
+                    </a4j:commandButton>
+                </rich:column>
+                
+            </rich:dataTable>
+        </rich:panel>
+    </h:form>
+    <hr/>
+</html>

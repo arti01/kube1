@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j">
+
+            <rich:popupPanel header="Wprowadź dane" id="dodajPane"  autosized="true" domElementAttachment="parent">
+                <h:panelGrid columns="3" id="dodajGrid">
+                    <h:outputLabel for="nameD" value="tytuł: "/>
+                    <h:inputText id="nameD" value="#{OgloszeniaMg.obiekt.tytul}"  size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="nameD" styleClass="error" />
+                    
+                    <h:outputLabel for="trescD" value="tresc: "/>
+                    <rich:editor id="trescD" toolbar="full" value="#{OgloszeniaMg.obiekt.tresc}" style="margin-bottom: 1em"/>
+                    <rich:message for="trescD" styleClass="error" />
+                    
+                </h:panelGrid>
+                <rich:message for="zapisz" styleClass="error" />
+                <rich:message for="dodaj" styleClass="error" />
+
+                <a4j:commandButton id="dodaj" value="Dodaj" action="#{OgloszeniaMg.dodaj}" render="listPanel, dodajPane" execute="dodajPane"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();} else {#{rich:component('dodajPane')}.show();}" 
+                                   rendered="#{OgloszeniaMg.obiekt.id==null}"/>
+                <a4j:commandButton id="zapisz" value="Zapisz" action="#{OgloszeniaMg.edytuj}" render="listPanel, dodajPane" execute="dodajPane"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();}  else {#{rich:component('dodajPane')}.show();}" 
+                                   rendered="#{OgloszeniaMg.obiekt.id!=null}"/>
+                <a4j:commandButton value="Wyjdź" action="#{OgloszeniaMg.refresh}" execute="dodajPane" render="dodajPane" onbegin="#{rich:component('dodajPane')}.hide();
+                        return false;" />
+            </rich:popupPanel>
+
+                <a4j:commandLink  execute="@this" oncomplete="#{rich:component('dodajPane')}.show()">
+                    <h4>[dodaj]</h4>
+                </a4j:commandLink>
+</html>
+

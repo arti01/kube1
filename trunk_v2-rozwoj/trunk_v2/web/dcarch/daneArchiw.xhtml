@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:h="http://java.sun.com/jsf/html"
+      template="/templates/template.xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <rich:popupPanel header="Wprowadź dane" id="dodajPaneArch"  autosized="true" domElementAttachment="parent">
+        <h:panelGrid columns="2" id="dodajGridArch">
+            <h:outputLabel for="archOsobaZdajaca" value="Osoba Zdająca: "/>
+            <h:inputText id="archOsobaZdajaca" value="#{managedBean.dcDokArchDane.archOsobaZdajaca}" />
+
+            <h:outputLabel for="OsobaOdpowiadajaca" value="Osoba Odpowiadająca: "/>
+            <h:inputText id="OsobaOdpowiadajaca" value="#{managedBean.dcDokArchDane.archOsobaOdpowiadajaca}" />
+
+            <h:outputLabel for="archPokoj" value="Pokój: "/>
+            <h:inputText id="archPokoj" value="#{managedBean.dcDokArchDane.archPokoj}" />
+
+            <h:outputLabel for="archRegal" value="Regał: "/>
+            <h:inputText id="archRegal" value="#{managedBean.dcDokArchDane.archRegal}" />
+
+            <h:outputLabel for="archPolka" value="Półka: "/>
+            <h:inputText id="archPolka" value="#{managedBean.dcDokArchDane.archPolka}" />
+
+            <h:outputLabel for="archKarton" value="Karton: "/>
+            <h:inputText id="archKarton" value="#{managedBean.dcDokArchDane.archKarton}" />
+
+            <h:outputLabel for="archTeczka" value="Teczka: "/>
+            <h:inputText id="archTeczka" value="#{managedBean.dcDokArchDane.archTeczka}" />
+        </h:panelGrid>
+
+        <rich:message for="przenies" styleClass="error" />
+        <rich:message for="dodajTecz" styleClass="error" />
+        <hr/>
+        <h:panelGroup  rendered="#{managedBean.typWyboru eq 'pojedyncze'}">
+            <ui:include src="/dcarch/wybrInc.xhtml"/>
+            <hr/>
+            <a4j:commandButton id="przenies" value="Przenieś" action="#{managedBean.przeniesPoj}" render="listPanel, dodajPaneArch" execute="dodajPaneArch"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPaneArch')}.hide();} else {#{rich:component('dodajPaneArch')}.show();}"/>
+        </h:panelGroup>
+        <h:panelGroup  rendered="#{managedBean.typWyboru eq 'teczki'}">
+            <ui:include src="/dcarch/teczkiInc.xhtml"/>
+            <hr/>
+            <a4j:commandButton id="dodajTecz" value="Przenieś" action="#{managedBean.przeniesTeczki}" render="listPanel, dodajPaneArch" execute="dodajPaneArch"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPaneArch')}.hide();} else {#{rich:component('dodajPaneArch')}.show();}"/>
+        </h:panelGroup>
+
+        <h:panelGroup  rendered="#{managedBean.typWyboru eq 'zmianaDanych'}">
+            <a4j:commandButton id="zmiana" value="Zapisz" action="#{managedBean.zmianaDanychArchWykonaj}" render="listPanel, dodajPaneArch" execute="dodajPaneArch"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPaneArch')}.hide();} else {#{rich:component('dodajPaneArch')}.show();}"/>
+        </h:panelGroup>
+        
+        <a4j:commandButton value="Wyjdź" onclick="#{rich:component('dodajPaneArch')}.hide();
+                return false;" />
+    </rich:popupPanel>
+</html>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <h:outputStylesheet>
+            .left  {
+            margin: 0px auto;
+            text-align: left;
+            }
+
+            .right {
+            float: right;   
+            }
+        </h:outputStylesheet>
+        <h3>Wyszukaj Dokumenty</h3>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        <h:form>    
+            <h:panelGrid columns="2" columnClasses="right,left">
+                <h:outputLabel for="nazwa" value="nazwa dokumentu:"/>
+                <h:inputText id="nazwa" value="#{WyszukajRej.obiekt.nazwa}" size="50">
+                    <f:validateBean disabled="true"/>
+                </h:inputText>
+
+                <h:outputLabel for="opis" value="opis dokumentu:"/>
+                <h:inputText id="opis" value="#{WyszukajRej.obiekt.opis}" size="50"/>
+                
+                <h:outputLabel for="dataRejOd" value="data rejestracji OD:"/>
+                <h:inputText id="dataRejOd" value="#{WyszukajRej.dataRejOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:inputText>
+                
+                <h:outputLabel for="dataRejDo" value="data rejestracji DO:"/>
+                <h:inputText id="dataRejDo" value="#{WyszukajRej.dataRejDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:inputText>
+                
+                <h:outputLabel for="dataDokOd" value="data dokumentu OD:"/>
+                <h:inputText id="dataDokOd" value="#{WyszukajRej.dataDokOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:inputText>
+                
+                <h:outputLabel for="dataDokDo" value="data dokumentu DO:"/>
+                <h:inputText id="dataDokDo" value="#{WyszukajRej.dataDokDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:inputText>
+                 
+                <h:outputLabel for="rodzaj" value="rodzaj:"/>
+                <rich:select id="rodzaj" enableManualInput="true" defaultLabel="zacznij wpisywać"  value="#{WyszukajRej.obiekt.rodzajId}" converter="#{DcRodzajConv}"  >
+                    <f:selectItems value="#{RodzajeCfg.lista}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.nazwa}"/>
+                </rich:select>
+            </h:panelGrid>
+            <h:commandButton value="wyszukaj" action="#{WyszukajRej.wyszukaj()}"/>
+            
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+    </ui:define>
+</ui:composition>
+

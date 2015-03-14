@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+    <h:form id="formPanel">    
+        <rich:popupPanel header="Wprowadź podstawowe informacje" id="dodajPane"  autosized="true" domElementAttachment="parent" left="13" top="13" minHeight="450" minWidth="950">
+            <f:facet name="controls">
+                <h:outputLink value="#" onclick="#{rich:component('dodajPane')}.hide();
+                        return false;">
+                    <h:outputText value="zamknij (X)"  style="font-weight: bold;"/>
+                </h:outputLink>
+            </f:facet>
+            <ui:include src="/dcrej/dokumentEdit.xhtml">
+                <ui:param name="detal" value="#{false}"/> 
+            </ui:include>
+            <a4j:commandButton id="dodaj" value="Dodaj" action="#{managedBean.dodaj}" render="listPanel, dodajPane" execute="dodajPane"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();} else {#{rich:component('dodajPane')}.show();}" 
+                               rendered="#{RejestracjaRej.obiekt.id==null}"/>
+            <a4j:commandButton id="zapisz" value="Zapisz" action="#{managedBean.edytuj}" render="listPanel, dodajPane" execute="dodajPane"
+                               oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();}  else {#{rich:component('dodajPane')}.show();}" 
+                               rendered="#{RejestracjaRej.obiekt.id!=null}"/>
+            <a4j:commandButton value="Wyjdź" action="#{RejestracjaRej.refreshObiekt}" render="dodajPane" oncomplete="#{rich:component('dodajPane')}.hide(); return false;" execute="@this"/>
+
+        </rich:popupPanel>
+        <a4j:jsFunction name="test" onbegin="if(#{RejestracjaRej.obiekt.kontrahentId.id}!='') {#{rich:component('dodajPane')}.show();} else {return;}"/>
+        <a4j:jsFunction name="test1" onbegin="if(#{fn:length(RejestracjaRej.obiekt.dcPlikList)>0}) {#{rich:component('dodajPane')}.show();} else {return;}"/>
+        <script language="javascript">
+            window.onload = function () {
+                test();
+                test1();
+                return;
+            };
+        </script>
+
+        <rich:panel id="listPanel">
+
+
+            <rich:dataTable value="#{managedBean.lista}" var="item" iterationStatusVar="it" rows="10" id="table" style="width: 100%">
+                <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.nazwa,RejestracjaRej.filtrNazwa)||fn:containsIgnoreCase(item.symbolDok,RejestracjaRej.filtrNazwa)}"
+                             sortBy="#{item.id}" sortOrder="descending">
+                    <f:facet name="header">nazwa i symbol<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrNazwa}" size="15">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+
+                    <h:outputText id="nazwaList" value="#{item.nazwa}" style="font-size: small"/>
+                    <br/>
+                    <h:outputText id="symbolDok" value="#{item.symbolDok}" style="font-size: small"/>
+
+                    <rich:tooltip target="nazwaList">
+                        #{item.opis}
+                    </rich:tooltip>
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.dataDokStr,RejestracjaRej.filtrdataDok)}">    
+                    <f:facet name="header">data dokumentu<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrdataDok}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText value="#{item.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                    <br/>
+                    <h:outputText value="do brakowania" style="background-color: red" rendered="#{item.alertBrakowanie}"/><br/>
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.dokArchDod.imieNazwisko,RejestracjaRej.filtrDaneDod)||fn:containsIgnoreCase(item.dokArchDod.dataPlanZwrot,RejestracjaRej.filtrDaneDod)
+||fn:containsIgnoreCase(item.dokArchDod.dataRzeczZwrot,RejestracjaRej.filtrDaneDod)||fn:containsIgnoreCase(item.dokArchDod.wydal.adrEmail,RejestracjaRej.filtrDaneDod)}">    
+                    <f:facet name="header">dane dodatkowe<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrDaneDod}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="wypożyczający:" rendered="#{fn:length(item.dokArchDod.imieNazwisko)>0}"/>
+                        <h:outputText value="#{item.dokArchDod.imieNazwisko}" rendered="#{fn:length(item.dokArchDod.imieNazwisko)>0}"/>
+                        <h:outputLabel value="planowana data zwrotu:" rendered="#{item.dokArchDod.dataPlanZwrot!=null}"/>
+                        <h:outputText value="#{item.dokArchDod.dataPlanZwrot}" rendered="#{item.dokArchDod.dataPlanZwrot!=null}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                        <h:outputLabel value="rzeczywista data zwrotu:" rendered="#{item.dokArchDod.dataRzeczZwrot!=null}"/>
+                        <h:outputText value="#{item.dokArchDod.dataRzeczZwrot}" rendered="#{item.dokArchDod.dataRzeczZwrot!=null}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                        <h:outputLabel value="wydał:" rendered="#{fn:length(item.dokArchDod.wydal.adrEmail)>0}"/>
+                        <h:outputText value="#{item.dokArchDod.wydal.adrEmail}" rendered="#{fn:length(item.dokArchDod.wydal.adrEmail)>0}"></h:outputText>
+                    </h:panelGrid>
+                </rich:column>
+
+
+                <rich:column style="background-color: #{item.dokStatusId.kolor} ; text-align: center"
+                             filterExpression="#{fn:containsIgnoreCase(item.dokStatusId.nazwa,RejestracjaRej.filtrStatus)}">    
+                    <f:facet name="header">status<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrStatus}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputLabel for="procentWykonania" value="proces akceptacji: "/>
+                    <h:outputText id="procentWykonania" value="#{item.procentWykonania}"/>
+                    <br/>
+                    <h:outputText id="statusList" value="#{item.dokStatusId.nazwa}"/>
+                    <br/>
+                    <a4j:commandButton value="wyślij do akceptacji" action="#{managedBean.wyslijDoAkceptacji}" render="listPanel" rendered="#{item.dokStatusId.id==1}" execute="@this">
+                        <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
+                    </a4j:commandButton>
+                    <rich:tooltip target="statusList">
+                        #{item.dokStatusId.opis}
+                    </rich:tooltip>
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.userId.fullname,RejestracjaRej.filtrWprowadzil)}">    
+                    <f:facet name="header">wprowadził<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrWprowadzil}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    #{item.userId.fullname}
+                </rich:column>
+
+                <rich:column filterExpression="#{fn:containsIgnoreCase(item.rodzajId.nazwa,RejestracjaRej.filtrRodzaj)}">    
+                    <f:facet name="header">rodzaj<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrRodzaj}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText id="rodzajList" value="#{item.rodzajId.nazwa}"/>
+                    <rich:tooltip target="rodzajList">
+                        #{item.rodzajId.opis} z grupy:#{item.rodzajId.idRodzajGrupa.nazwa}
+                    </rich:tooltip>
+                </rich:column>
+
+                <rich:column style="width: 75px">
+                    <rich:tooltip target="imgDe" value="usuń" layout="block"/>
+                    <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
+                    <rich:tooltip target="imgDt" value="detale" layout="block"/>
+                    <rich:tooltip target="imgAn" value="anuluj" layout="block"/>
+                    <a4j:commandButton id="imgDe" execute="@this" render="@none"
+                                       oncomplete="#{rich:component('confirmPane')}.show()" rendered="#{item.dokStatusId.id==1}"
+                                       image="/images/delete.png">
+                        <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
+                    </a4j:commandButton>
+                    <a4j:commandButton id="imgEd" render="dodajPane" execute="@this" oncomplete="#{rich:component('dodajPane')}.show()" 
+                                       rendered="#{item.dokStatusId.id==1}" image="/images/edit.png">
+                        <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
+                    </a4j:commandButton>
+                    <a4j:commandButton id="imgDt" execute="@this" action="#{managedBean.detale}" image="/images/detail.png">
+                        <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
+                    </a4j:commandButton>
+                    <a4j:commandButton id="imgAn" execute="@this" render="@none"
+                                       oncomplete="#{rich:component('anulujPane')}.show()" rendered="#{item.dokStatusId.id==2}"
+                                       image="/images/anuluj.png">
+                        <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
+                    </a4j:commandButton>
+                </rich:column>
+            </rich:dataTable>
+        </rich:panel>
+
+
+        <a4j:jsFunction name="remove" action="#{managedBean.usun}" render="table" execute="@this"
+                        oncomplete="#{rich:component('confirmPane')}.hide();" />
+        <rich:popupPanel id="confirmPane" autosized="true">
+            Na pewno chcesz skasować?
+            <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPane')}.hide();
+                return false;" />
+            <a4j:commandButton value="Tak" onclick="remove();
+                    return false;" />
+        </rich:popupPanel>
+
+        <a4j:jsFunction name="anuluj" action="#{RejestracjaRej.anuluj}" render="table" execute="@this"
+                        oncomplete="#{rich:component('anulujPane')}.hide();" />
+        <rich:popupPanel id="anulujPane" autosized="true">
+            Na pewno chcesz anulować?
+            <a4j:commandButton value="Nie" onclick="#{rich:component('anulujPane')}.hide();
+                    return false;" />
+            <a4j:commandButton value="Tak" onclick="anuluj();
+                    return false;" />
+        </rich:popupPanel>
+
+        <rich:popupPanel id="statPane" autosized="true">
+            <h:graphicImage value="/images/ai.gif" alt="ai" />
+            Proszę czekać
+        </rich:popupPanel>
+    </h:form>
+    <hr/>
+
+</ui:composition>
+
