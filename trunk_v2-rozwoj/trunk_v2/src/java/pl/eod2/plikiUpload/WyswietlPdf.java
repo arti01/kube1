@@ -14,41 +14,24 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.jws.soap.InitParam;
 import pl.eod2.encje.DcPlik;
+import pl.eod2.encje.DcPlikJpaController;
 
 @ManagedBean(name = "WyswietlPdf")
 @SessionScoped
 public class WyswietlPdf {
-    public DcPlik plik;
 
-    public WyswietlPdf() {
-        System.out.println("cosnt");
-    }
-    
-    @PostConstruct
-    public void ttt(){
-        System.out.println("sposts");
-    }
-    
+    private DcPlikJpaController dcPlikC;
+
     public void paintFota(OutputStream stream, Object object) {
-        System.out.println("ssssssssssssssssssssssss");
-        plik=(DcPlik) object;
+        dcPlikC = new DcPlikJpaController();
+        DcPlik plikW = dcPlikC.findDcPlik((int) object);
         try {
-            System.out.println(plik.getNazwa()+plik.getId());
-            stream.write(plik.getPlik());
-            System.out.println(plik.getNazwa());
+            stream.write(plikW.getPlik());
         } catch (IOException ex) {
-            System.out.println(plik.getNazwa()+plik.getDataDodania());
+            ex.printStackTrace();
             Logger.getLogger(WyswietlPdf.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex1) {
+            ex1.printStackTrace();
         }
     }
-
-    public DcPlik getPlik() {
-        return plik;
-    }
-
-    public void setPlik(DcPlik plik) {
-        this.plik = plik;
-    }
-    
-    
 }

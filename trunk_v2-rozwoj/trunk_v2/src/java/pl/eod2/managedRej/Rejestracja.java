@@ -81,21 +81,6 @@ public class Rejestracja {
         plikImpC = new DcPlikImportJpaController();
         //refreshObiekt(); - uwaga - zmiana do testow
     }
-
-    public void paintFota(OutputStream stream, Object object) {
-        System.out.println("ssssssssssssssssssssssss");
-        System.out.println(object);
-        DcPlik plikW=dcPlikC.findDcPlik((int)object);
-        System.out.println(plikW.getId());
-        try {
-            stream.write(plikW.getPlik());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(WyswietlPdf.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex1){
-            ex1.printStackTrace();
-        }
-    }
     
     public void refreshObiekt() {
         lista.setWrappedData(dcC.findDcDokumentEntities());
