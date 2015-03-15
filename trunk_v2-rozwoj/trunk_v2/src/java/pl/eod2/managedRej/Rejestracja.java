@@ -1,5 +1,7 @@
 package pl.eod2.managedRej;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -32,6 +34,7 @@ import pl.eod2.encje.DcRodzaj;
 import pl.eod2.encje.DcRodzajJpaController;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
+import pl.eod2.plikiUpload.WyswietlPdf;
 
 @ManagedBean(name = "RejestracjaRej")
 @SessionScoped
@@ -79,6 +82,21 @@ public class Rejestracja {
         //refreshObiekt(); - uwaga - zmiana do testow
     }
 
+    public void paintFota(OutputStream stream, Object object) {
+        System.out.println("ssssssssssssssssssssssss");
+        System.out.println(object);
+        DcPlik plikW=dcPlikC.findDcPlik((int)object);
+        System.out.println(plikW.getId());
+        try {
+            stream.write(plikW.getPlik());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(WyswietlPdf.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex1){
+            ex1.printStackTrace();
+        }
+    }
+    
     public void refreshObiekt() {
         lista.setWrappedData(dcC.findDcDokumentEntities());
         rodzajLista.setWrappedData(dcRodzC.findDcRodzajEntities());

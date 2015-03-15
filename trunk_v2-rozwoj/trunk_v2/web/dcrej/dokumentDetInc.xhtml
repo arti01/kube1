@@ -29,8 +29,11 @@
                 <hr/>
                 <a4j:commandButton id="zapiszD" value="Zapisz" action="#{RejestracjaRej.edytujZdetale}" execute="@form" render="infoDod"  rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}"/>
                 
-                <a4j:mediaOutput element="img" cacheable="false" id="img" createContent="#{mediaBean.process}"
-                value="#{mediaData}" mimeType="application/pdf"/>
+                <a4j:repeat value="#{RejestracjaRej.obiekt.dcPlikList}" var="plik">
+                    #{plik.nazwa}
+                    <a4j:mediaOutput element="object" createContent="#{RejestracjaRej.paintFota}" value="#{plik.id}" cacheable="false"
+                                     style="width:100%; height: 600px" rendered=""/>
+                </a4j:repeat>
                 
             </rich:tab>
 
