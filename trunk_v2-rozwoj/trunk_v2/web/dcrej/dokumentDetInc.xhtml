@@ -28,6 +28,10 @@
                 </h:panelGrid>
                 <hr/>
                 <a4j:commandButton id="zapiszD" value="Zapisz" action="#{RejestracjaRej.edytujZdetale}" execute="@form" render="infoDod"  rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}"/>
+                
+                <a4j:mediaOutput element="img" cacheable="false" id="img" createContent="#{mediaBean.process}"
+                value="#{mediaData}" mimeType="application/pdf"/>
+                
             </rich:tab>
 
             <rich:tab header="Załączniki" id="tabPliki">

@@ -5,6 +5,8 @@
  */
 package pl.eod.abstr;
 
+import javax.persistence.Transient;
+
 public abstract class AbstPlik extends AbstEncja{
 
     private byte[] plik;
