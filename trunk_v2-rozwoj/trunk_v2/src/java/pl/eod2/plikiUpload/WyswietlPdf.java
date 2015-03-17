@@ -9,10 +9,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.jws.soap.InitParam;
 import pl.eod2.encje.DcPlik;
 import pl.eod2.encje.DcPlikJpaController;
 
@@ -28,7 +26,7 @@ public class WyswietlPdf {
         try {
             stream.write(plikW.getPlik());
         } catch (IOException ex) {
-            ex.printStackTrace();
+            ex.printStackTrace();//test 
             Logger.getLogger(WyswietlPdf.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex1) {
             ex1.printStackTrace();
