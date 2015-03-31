@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pl.eod2.encje.DcPlikImportJpaController;
+import pl.eod2.encje.exceptions.NonexistentEntityException;
 
 /**
  *
@@ -23,7 +24,7 @@ public class ImportSkanTask extends Task {
         try {
             dcpC.importFromDir();
             dcpC.czyscImport();
-        } catch (IOException ex) {
+        } catch (IOException | NonexistentEntityException ex) {
             Logger.getLogger(ImportSkanTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
