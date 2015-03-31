@@ -56,4 +56,5 @@ INSERT INTO dc_rodzaj_grupa (id, nazwa, opis) VALUES (3, 'wewnętrzne', 'dokumen
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (12, 'dirImportSkan', 'katalog importu dokumentow', '/home/arti01/tmp/1');
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (13, 'dirImportSkanBak', 'katalog importu dokumentow', '/home/arti01/tmp/1/bak');
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (14, 'kluczLicencji', 'kluczLicencji', 'kluczLicencji');
+INSERT INTO config (id, nazwa, opis, wartosc) VALUES (15, 'dirImportCzasCzyszczenia', 'po ilu dniach usuwac rekordy z importu', '14');
 

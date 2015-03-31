@@ -4,12 +4,15 @@
  */
 package pl.eod2.encje;
 
+import com.google.common.io.Files;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,6 +22,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import pl.eod.encje.Config;
 import pl.eod.encje.ConfigJpaController;
@@ -29,6 +34,7 @@ import pl.eod2.encje.exceptions.NonexistentEntityException;
  * @author 103039
  */
 public class DcPlikImportJpaController implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private EntityManagerFactory emf = null;
 
@@ -158,6 +164,27 @@ public class DcPlikImportJpaController implements Serializable {
         }
     }
 
+    public void czyscImport() throws NonexistentEntityException{
+        Config cfgDir = new ConfigJpaController().findConfigNazwa("dirImportCzasCzyszczenia");
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery<Object> cq = em.getCriteriaBuilder().createQuery();
+            Root<DcPlikImport> rt = cq.from(DcPlikImport.class);
+            Calendar cal=Calendar.getInstance();
+            cal.add(Calendar.DATE, -(new Integer(cfgDir.getWartosc())));
+            Predicate warDataOd = em.getCriteriaBuilder().lessThan(rt.get(DcPlikImport_.dataDodania), cal.getTime());
+            cq.select(rt).where(warDataOd);
+            Query q = em.createQuery(cq);
+            for(Object pi:q.getResultList()){
+                DcPlikImport pii=(DcPlikImport)pi;
+                this.destroy(pii.getId());
+            }
+        } finally {
+            em.close();
+        }
+        
+    }
+    
     public void importFromDir() throws IOException {
         Config cfgDir = new ConfigJpaController().findConfigNazwa("dirImportSkan");
         Config cfgDirBak = new ConfigJpaController().findConfigNazwa("dirImportSkanBak");
@@ -189,8 +216,9 @@ public class DcPlikImportJpaController implements Serializable {
                             ios.close();
                         }
                         //przenoszenie pliku
-                        f.renameTo(new File(cfgDirBak.getWartosc() + "/" + f.getName()));
+                        f.renameTo(new File(cfgDirBak.getWartosc() + "/" +new Date().getTime()+"_"+ f.getName()));
                     } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
                 DcPlikImport plik = new DcPlikImport();

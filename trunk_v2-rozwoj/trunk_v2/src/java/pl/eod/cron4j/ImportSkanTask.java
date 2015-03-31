@@ -22,6 +22,7 @@ public class ImportSkanTask extends Task {
         DcPlikImportJpaController dcpC=new DcPlikImportJpaController();
         try {
             dcpC.importFromDir();
+            dcpC.czyscImport();
         } catch (IOException ex) {
             Logger.getLogger(ImportSkanTask.class.getName()).log(Level.SEVERE, null, ex);
         }

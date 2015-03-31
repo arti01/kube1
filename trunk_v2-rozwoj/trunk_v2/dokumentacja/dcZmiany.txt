@@ -1,3 +1,8 @@
+2015-03-31
+przy przenoszeniu plikow z import do bak dodano timestamp w prefiksie
+INSERT INTO config (id, nazwa, opis, wartosc) VALUES (15, 'dirImportCzasCzyszczenia', 'po ilu dniach usuwac rekordy z importu', '14');
+czyli usuwa z tabeli rekordy starsze niz
+
 2014-11-29
 Nowa opcja - zarządzanie lokalizacjami w archiwum - czyli metry
 Zmiana danych wyświetlanych w dokumenty-archiwum/dokumenty (nie inkludowana "zwykla "dokumentyList" a dedykowana tabelka)
