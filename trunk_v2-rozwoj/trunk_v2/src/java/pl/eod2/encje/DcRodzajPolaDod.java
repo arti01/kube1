@@ -6,19 +6,15 @@ package pl.eod2.encje;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,12 +29,12 @@ import pl.eod.abstr.AbstPlik;
  * @author arti01
  */
 @Entity
-@Table(name = "dc_rodzaj_typy_pol")
-public class DcRodzajTypyPol extends AbstEncja implements Serializable {
+@Table(name = "dc_rodzaj_pola_dod")
+public class DcRodzajPolaDod extends AbstEncja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQDcRodzajTypyPol")
-    @SequenceGenerator(name = "SEQDcRodzajTypyPol", sequenceName = "SEQDcRodzajTypyPol")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQDcRodzajPolaDod")
+    @SequenceGenerator(name = "SEQDcRodzajPolaDod", sequenceName = "SEQDcRodzajPolaDod")
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -49,15 +45,26 @@ public class DcRodzajTypyPol extends AbstEncja implements Serializable {
     @Size(min = 1, max = 256)
     private String nazwa;
     
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "idRodzTypyPol")
-    private List<DcRodzajPolaDod> dcRodzajPolaDodList;
+    @ManyToOne()
+    private DcRodzaj idRodz;
+    
+    @ManyToOne()
+    private DcRodzajTypyPol idRodzTypyPol;
 
-    public List<DcRodzajPolaDod> getDcRodzajPolaDodList() {
-        return dcRodzajPolaDodList;
+    public DcRodzaj getIdRodz() {
+        return idRodz;
     }
 
-    public void setDcRodzajPolaDodList(List<DcRodzajPolaDod> dcRodzajPolaDodList) {
-        this.dcRodzajPolaDodList = dcRodzajPolaDodList;
+    public void setIdRodz(DcRodzaj idRodz) {
+        this.idRodz = idRodz;
+    }
+
+    public DcRodzajTypyPol getIdRodzTypyPol() {
+        return idRodzTypyPol;
+    }
+
+    public void setIdRodzTypyPol(DcRodzajTypyPol idRodzTypyPol) {
+        this.idRodzTypyPol = idRodzTypyPol;
     }
 
     
@@ -65,7 +72,8 @@ public class DcRodzajTypyPol extends AbstEncja implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 61 * hash + Objects.hashCode(this.id);
+        hash = 61 * hash + Objects.hashCode(this.nazwa);
         return hash;
     }
 
@@ -77,13 +85,15 @@ public class DcRodzajTypyPol extends AbstEncja implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DcRodzajTypyPol other = (DcRodzajTypyPol) obj;
+        final DcRodzajPolaDod other = (DcRodzajPolaDod) obj;
         if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.nazwa, other.nazwa)) {
             return false;
         }
         return true;
     }
-    
     
     
 }

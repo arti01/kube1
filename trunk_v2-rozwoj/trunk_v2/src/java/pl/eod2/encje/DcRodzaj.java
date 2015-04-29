@@ -95,7 +95,9 @@ public class DcRodzaj implements Serializable {
     private DcSymbMer2 symbMer2Id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajId", fetch = FetchType.LAZY)
     private List<DcDokumentArch> dcDokumentArchList;
-
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "idRodz")
+    private List<DcRodzajPolaDod> dcRodzajPolaDodList;
+    
     public DcRodzaj() {
     }
 
@@ -245,6 +247,14 @@ public class DcRodzaj implements Serializable {
 
     public void setDcDokumentArchList(List<DcDokumentArch> dcDokumentArchList) {
         this.dcDokumentArchList = dcDokumentArchList;
+    }
+
+    public List<DcRodzajPolaDod> getDcRodzajPolaDodList() {
+        return dcRodzajPolaDodList;
+    }
+
+    public void setDcRodzajPolaDodList(List<DcRodzajPolaDod> dcRodzajPolaDodList) {
+        this.dcRodzajPolaDodList = dcRodzajPolaDodList;
     }
 
     @Override

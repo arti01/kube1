@@ -69,26 +69,32 @@ public class DcPlikArch extends AbstPlik implements Serializable {
         this.nazwa = nazwa;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getNazwa() {
         return nazwa;
     }
 
+    @Override
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
 
+    @Override
     public byte[] getPlik() {
         return plik;
     }
 
+    @Override
     public void setPlik(byte[] plik) {
         this.plik = plik;
     }
