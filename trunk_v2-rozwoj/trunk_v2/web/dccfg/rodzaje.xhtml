@@ -58,10 +58,11 @@
                         <f:facet name="header">alert</f:facet>
                         <h:outputText styleClass="error" value="brak kroków akceptacji!!!" rendered="#{fn:length(item.dcAkceptKroki)==0}"/>
                     </rich:column>
-                    <rich:column style="width: 70px">
+                    <rich:column style="width: 95px">
                         <rich:tooltip target="imgDe" value="usuń" layout="block"/>
                         <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
                         <rich:tooltip target="imgDt" value="detale" layout="block"/>
+                        <rich:tooltip target="imgPd" value="pola dodatkowe" layout="block"/>
                         <a4j:commandButton id="imgDe" execute="@this" render="@none" image="/images/delete.png"
                                          oncomplete="#{rich:component('confirmPaneRodzaj')}.show()" rendered="#{(fn:length(item.dcDokumentList)==0) and (fn:length(item.dcDokumentArchList)==0)}">
                             <f:setPropertyActionListener target="#{RodzajeCfg.obiekt}" value="#{item}" />
@@ -74,6 +75,9 @@
                             <f:setPropertyActionListener target="#{RodzajeCfg.obiekt}" value="#{item}" />
                         </a4j:commandButton>
                         <a4j:commandButton id="imgDt" execute="@this" action="#{RodzajeCfg.krokiLista}" image="/images/detail.png">
+                            <f:setPropertyActionListener target="#{RodzajeCfg.obiekt}" value="#{item}" />
+                        </a4j:commandButton>
+                        <a4j:commandButton id="imgPd" execute="@this" action="#{RodzajeCfg.polaDod}" image="/images/lista.png">
                             <f:setPropertyActionListener target="#{RodzajeCfg.obiekt}" value="#{item}" />
                         </a4j:commandButton>
                     </rich:column>

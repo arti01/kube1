@@ -52,6 +52,13 @@ public class DcRodzajTypyPol extends AbstEncja implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "idRodzTypyPol")
     private List<DcRodzajPolaDod> dcRodzajPolaDodList;
 
+    @Override
+    public String getNazwa() {
+        return nazwa;
+    }
+    
+    
+
     public List<DcRodzajPolaDod> getDcRodzajPolaDodList() {
         return dcRodzajPolaDodList;
     }

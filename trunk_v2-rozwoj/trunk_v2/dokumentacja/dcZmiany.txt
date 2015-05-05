@@ -1,3 +1,8 @@
+2015-05-01
+INSERT INTO dc_rodzaj_typy_pol VALUES (1, 'liczba');
+INSERT INTO dc_rodzaj_typy_pol VALUES (2, 'tekst');
+INSERT INTO dc_rodzaj_typy_pol VALUES (3, 'data');
+
 2015-03-31
 przy przenoszeniu plikow z import do bak dodano timestamp w prefiksie
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (15, 'dirImportCzasCzyszczenia', 'po ilu dniach usuwac rekordy z importu', '14');

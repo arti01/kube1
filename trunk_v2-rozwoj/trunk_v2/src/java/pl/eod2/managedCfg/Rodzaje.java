@@ -17,6 +17,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import org.richfaces.event.DropEvent;
 import pl.eod.encje.Uzytkownik;
 import pl.eod.encje.UzytkownikJpaController;
 import pl.eod.managed.Login;
@@ -25,10 +26,14 @@ import pl.eod2.encje.DcAkceptTypKroku;
 import pl.eod2.encje.DcAkceptTypKrokuJpaController;
 import pl.eod2.encje.DcRodzaj;
 import pl.eod2.encje.DcRodzajJpaController;
+import pl.eod2.encje.DcRodzajPolaDod;
+import pl.eod2.encje.DcRodzajTypyPol;
+import pl.eod2.encje.DcRodzajTypyPolKontr;
 import pl.eod2.encje.DcTypFlow;
 import pl.eod2.encje.DcTypFlowJpaController;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
+import pl.eod2.managedUm.UStruktMg;
 
 @ManagedBean(name = "RodzajeCfg")
 @SessionScoped
@@ -47,6 +52,7 @@ public class Rodzaje {
     private List<Uzytkownik> usersLista = new ArrayList<>();
     private DcTypFlowJpaController dcTypFlowC;
     private DcAkceptTypKrokuJpaController dcTypKrokuC;
+    private DcRodzajPolaDod poleDod;
     private UzytkownikJpaController uC;
     private DcAkceptKroki akcKrok;
     private Uzytkownik user;
@@ -57,6 +63,7 @@ public class Rodzaje {
         dcTypFlowC = new DcTypFlowJpaController();
         dcTypKrokuC = new DcAkceptTypKrokuJpaController();
         uC = new UzytkownikJpaController();
+        //dcTypPolaC = new DcRodzajTypyPolKontr();
         refresh();
     }
 
@@ -66,6 +73,7 @@ public class Rodzaje {
         typKrokuLista = dcTypKrokuC.findDcAkceptTypKrokuEntities();
         usersLista = login.getZalogowany().getUserId().getSpolkaId().getUserList();
         obiekt = new DcRodzaj();
+        poleDod=new DcRodzajPolaDod();
         akcKrok = new DcAkceptKroki();
         error = null;
     }
@@ -119,7 +127,7 @@ public class Rodzaje {
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
-            obiekt=dcC.findDcRodzaj(obiekt.getId());
+            obiekt = dcC.findDcRodzaj(obiekt.getId());
         } else {
             akcKrok = new DcAkceptKroki();
             usersLista = uC.findUzytkownikEntities();
@@ -133,7 +141,7 @@ public class Rodzaje {
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
-            obiekt=dcC.findDcRodzaj(obiekt.getId());
+            obiekt = dcC.findDcRodzaj(obiekt.getId());
         } else {
             akcKrok = new DcAkceptKroki();
             usersLista = uC.findUzytkownikEntities();
@@ -173,6 +181,42 @@ public class Rodzaje {
         obiekt = dcC.downKrok(obiekt, akcKrok);
     }
 
+    public void drop(DropEvent event) {
+        DcRodzajTypyPol typPola = (DcRodzajTypyPol) event.getDragValue();
+        //typPola=dcTypPolaC.findObiekt(typPola.getId());
+        DcRodzajPolaDod pd = new DcRodzajPolaDod();
+        pd.setNazwa("nowe pole");
+        pd.setDlugosc(10);
+        pd.setIdRodzTypyPol(typPola);
+        pd.setIdRodz(obiekt);
+        obiekt.getDcRodzajPolaDodList().add(pd);
+        try {
+            dcC.edit(obiekt);
+            obiekt = dcC.findDcRodzaj(obiekt.getId());
+        } catch (Exception ex) {
+            Logger.getLogger(UStruktMg.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void zmienPola(){
+        try {
+            dcC.edit(obiekt);
+            obiekt = dcC.findDcRodzaj(obiekt.getId());
+        } catch (Exception ex) {
+            Logger.getLogger(UStruktMg.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void usunPola(){
+        obiekt.getDcRodzajPolaDodList().remove(poleDod);
+        try {
+            dcC.edit(obiekt);
+            obiekt = dcC.findDcRodzaj(obiekt.getId());
+        } catch (Exception ex) {
+            Logger.getLogger(UStruktMg.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void test() {
         System.err.println("test" + lista.getRowData().getNazwa());
     }
@@ -183,8 +227,11 @@ public class Rodzaje {
     }
 
     public String krokiLista() {
-
         return "/dccfg/rodzajKroki?faces-redirect=true";
+    }
+
+    public String polaDod() {
+        return "/dccfg/rodzajPolaDod?faces-redirect=true";
     }
 
     public DataModel<DcRodzaj> getLista() {
@@ -269,5 +316,14 @@ public class Rodzaje {
 
     public void setLogin(Login login) {
         this.login = login;
-    }    
+    }
+
+    public DcRodzajPolaDod getPoleDod() {
+        return poleDod;
+    }
+
+    public void setPoleDod(DcRodzajPolaDod poleDod) {
+        this.poleDod = poleDod;
+    }
+    
 }

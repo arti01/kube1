@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="../resources/css/default.css"/>
+        <h:outputStylesheet>
+            .rf-ind-drag.default{
+            background-position: 3px;
+            background-repeat: no-repeat;
+            border:1px solid grey
+            }
+
+            .rf-ind-drag.accept{
+            background-position: 5px;
+            background-repeat: no-repeat;
+            border:2px solid green
+            }
+
+            .rf-ind-drag.reject{
+            background-position: 5px;
+            background-repeat: no-repeat;
+            border:2px solid red
+            }
+
+        </h:outputStylesheet>
+        <h3>Definicja pól dodatkowych</h3>
+        <h3>Rodzaj: #{RodzajeCfg.obiekt.nazwa}</h3>
+        <h3>Przeciągnij typ pola do listy pól i zmien nazwę oraz określ długość</h3>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        <rich:dragIndicator id="ind" acceptClass="accept" rejectClass="reject" draggingClass="default">
+            Przenieś pole
+        </rich:dragIndicator>
+        <h:form>
+            <h:panelGrid columns="2">
+                <rich:panel id="rodzajPola" header="lista pól">
+                    <rich:messages ajaxRendered="true" />
+                    <rich:messages ajaxRendered="false" />
+                    <rich:dropTarget acceptedTypes="all"  dropListener="#{RodzajeCfg.drop}" 
+                                     render="rodzajPola"/>
+                    <rich:dataTable value="#{RodzajeCfg.obiekt.dcRodzajPolaDodList}" var="poleDod">
+                        <rich:column>
+                            <f:facet name="header">nazwa</f:facet>
+                            <h:inputText value="#{poleDod.nazwa}" id="nazwaP">
+                                <a4j:ajax execute="@this" event="change"  listener="#{RodzajeCfg.zmienPola}"/>
+                            </h:inputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">typ</f:facet>
+                                #{poleDod.idRodzTypyPol.nazwa}
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">długość</f:facet>
+                            <h:inputText value="#{poleDod.dlugosc}" id="dlugoscP" size="3">
+                                <a4j:ajax execute="@this" event="change"  listener="#{RodzajeCfg.zmienPola}"/>
+                            </h:inputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">usuń</f:facet>
+                            <a4j:commandButton id="usunPole" action="#{RodzajeCfg.usunPola}" render="rodzajPola" execute="@this" image="/images/delete.png" type="image">
+                                <f:setPropertyActionListener target="#{RodzajeCfg.poleDod}" value="#{poleDod}" />
+                        </a4j:commandButton>
+                        </rich:column>
+                        
+                    </rich:dataTable>
+                </rich:panel>
+                <rich:panel id="dostepnePola" header="typy pól">
+                    <a4j:repeat value="#{RodzajTypyPol.findEntities}" var="typ">
+                        <rich:panel>
+                            #{typ.nazwa}
+                            <rich:dragSource dragValue="#{typ}" type="all" dragIndicator="ind"/>
+                        </rich:panel>
+                    </a4j:repeat>
+                </rich:panel>
+            </h:panelGrid>
+
+            <a4j:jsFunction name="edit" action="#{RodzajeCfg.editKrokPrepare}" render="dodajPane"  execute="@this"
+                            oncomplete="#{rich:component('dodajPane')}.show()"/>
+
+            <a4j:jsFunction name="remove" action="#{RodzajeCfg.usunKrok}" render="tableKroki" execute="@this"
+                            oncomplete="#{rich:component('confirmPane')}.hide();" />
+            <rich:popupPanel id="confirmPane" autosized="true">
+                Na pewno chcesz skasować?
+                <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPane')}.hide();
+                        return false;" />
+                <a4j:commandButton value="Tak" onclick="remove();
+                        return false;" />
+            </rich:popupPanel>
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać...
+            </rich:popupPanel>
+            <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
+        </h:form>
+        <hr/>
+
+    </ui:define>
+
+</ui:composition>
+

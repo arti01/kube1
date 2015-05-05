@@ -5,7 +5,6 @@
 package pl.eod2.encje;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,16 +12,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import pl.eod.abstr.AbstEncja;
-import pl.eod.abstr.AbstPlik;
 
 /**
  *
@@ -44,6 +41,10 @@ public class DcRodzajPolaDod extends AbstEncja implements Serializable {
     @Column(nullable = false, length = 256)
     @Size(min = 1, max = 256)
     private String nazwa;
+    
+    @NotNull
+    @Min(1)
+    private int dlugosc;
     
     @ManyToOne()
     private DcRodzaj idRodz;
@@ -67,7 +68,23 @@ public class DcRodzajPolaDod extends AbstEncja implements Serializable {
         this.idRodzTypyPol = idRodzTypyPol;
     }
 
-    
+    @Override
+    public void setNazwa(String nazwa) {
+        this.nazwa=nazwa;
+    }
+
+    @Override
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public int getDlugosc() {
+        return dlugosc;
+    }
+
+    public void setDlugosc(int dlugosc) {
+        this.dlugosc = dlugosc;
+    }
     
     @Override
     public int hashCode() {
