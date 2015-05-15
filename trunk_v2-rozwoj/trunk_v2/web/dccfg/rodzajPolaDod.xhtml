@@ -45,10 +45,10 @@
                     <rich:messages ajaxRendered="false" />
                     <rich:dropTarget acceptedTypes="all"  dropListener="#{RodzajeCfg.drop}" 
                                      render="rodzajPola"/>
-                    <rich:dataTable value="#{RodzajeCfg.obiekt.dcRodzajPolaDodList}" var="poleDod">
+                    <rich:dataTable value="#{RodzajeCfg.obiekt.dcRodzajPolaDodList}" var="poleDod" id="tabelaPola">
                         <rich:column>
                             <f:facet name="header">nazwa</f:facet>
-                            <h:inputText value="#{poleDod.nazwa}" id="nazwaP">
+                            <h:inputText value="#{poleDod.nazwa}" id="nazwaP" readonly="#{edit}">
                                 <a4j:ajax execute="@this" event="change"  listener="#{RodzajeCfg.zmienPola}"/>
                             </h:inputText>
                         </rich:column>
@@ -61,6 +61,13 @@
                             <h:inputText value="#{poleDod.dlugosc}" id="dlugoscP" size="3">
                                 <a4j:ajax execute="@this" event="change"  listener="#{RodzajeCfg.zmienPola}"/>
                             </h:inputText>
+                        </rich:column>
+                        <rich:column>
+                            <f:facet name="header">edytuj</f:facet>
+                            #{edit1}
+                            <a4j:commandButton id="edytujPole" render="@row" execute="@this" image="/images/delete.png" type="image">
+                                <a4j:param value="false" assignTo="#{edit1}" />
+                        </a4j:commandButton>
                         </rich:column>
                         <rich:column>
                             <f:facet name="header">usuń</f:facet>
