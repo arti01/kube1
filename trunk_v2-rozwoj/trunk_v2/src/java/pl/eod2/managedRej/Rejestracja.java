@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,12 +27,14 @@ import pl.eod2.encje.DcDokumentJpaController;
 import pl.eod2.encje.DcDokumentStatus;
 import pl.eod2.encje.DcKontrahenci;
 import pl.eod.abstr.AbstPlik;
+import pl.eod2.encje.DcDokPolaDod;
 import pl.eod2.encje.DcPlik;
 import pl.eod2.encje.DcPlikImport;
 import pl.eod2.encje.DcPlikImportJpaController;
 import pl.eod2.encje.DcPlikJpaController;
 import pl.eod2.encje.DcRodzaj;
 import pl.eod2.encje.DcRodzajJpaController;
+import pl.eod2.encje.DcRodzajPolaDod;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 import pl.eod2.plikiUpload.WyswietlPdf;
@@ -81,11 +84,22 @@ public class Rejestracja {
         plikImpC = new DcPlikImportJpaController();
         //refreshObiekt(); - uwaga - zmiana do testow
     }
-    
+
     public void refreshObiekt() {
         lista.setWrappedData(dcC.findDcDokumentEntities());
         rodzajLista.setWrappedData(dcRodzC.findDcRodzajEntities());
         obiekt = new DcDokument();
+        /*if (obiekt.getDcDokPolaDodList()==null && obiekt.getRodzajId().getDcRodzajPolaDodList()!=null) {
+
+         for (DcRodzajPolaDod poleRodzaj : obiekt.getRodzajId().getDcRodzajPolaDodList()) {
+         DcDokPolaDod poleDodDok = new DcDokPolaDod();
+         poleDodDok.setNazwa(poleRodzaj.getNazwa());
+         poleDodDok.setDlugosc(poleRodzaj.getDlugosc());
+         poleDodDok.setTyp(poleRodzaj.getIdRodzTypyPol().getNazwa());
+         poleDodDok.setWartosc("");
+         obiekt.getDcDokPolaDodList().add(poleDodDok);
+         }
+         }*/
         kontrahent = new DcKontrahenci();
         error = null;
     }
@@ -97,6 +111,12 @@ public class Rejestracja {
 
     public boolean dodajAbst() throws NonexistentEntityException {
         try {
+            List<DcDokPolaDod> pola = new ArrayList<>();
+            for (DcDokPolaDod pole : obiekt.getDcDokPolaDodList()) {
+                pole.setDcDok(obiekt);
+                pola.add(pole);
+            }
+            obiekt.setDcDokPolaDodList(pola);
             error = dcC.create(obiekt, login.getZalogowany());
         } catch (Exception ex) {
             Logger.getLogger(Rejestracja.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,6 +159,12 @@ public class Rejestracja {
     }
 
     public boolean edytujAbst() {
+        List<DcDokPolaDod> pola = new ArrayList<>();
+        for (DcDokPolaDod pole : obiekt.getDcDokPolaDodList()) {
+            pole.setDcDok(obiekt);
+            pola.add(pole);
+        }
+        obiekt.setDcDokPolaDodList(pola);
         try {
             error = dcC.editZmiana(obiekt);
         } catch (IllegalOrphanException ex) {
@@ -222,6 +248,20 @@ public class Rejestracja {
         if (!(rodzaj.getSzablon() == null || rodzaj.getSzablon().isEmpty())) {
             obiekt.setOpisDlugi(rodzaj.getSzablon());
         }
+
+        //pola dodatkowe
+        obiekt.setDcDokPolaDodList(new ArrayList<DcDokPolaDod>());
+        if (obiekt.getRodzajId().getDcRodzajPolaDodList() != null) {
+            for (DcRodzajPolaDod poleRodzaj : obiekt.getRodzajId().getDcRodzajPolaDodList()) {
+                DcDokPolaDod poleDodDok = new DcDokPolaDod();
+                poleDodDok.setNazwa(poleRodzaj.getNazwa());
+                poleDodDok.setDlugosc(poleRodzaj.getDlugosc());
+                poleDodDok.setTyp(poleRodzaj.getIdRodzTypyPol().getNazwa());
+                poleDodDok.setWartosc("");
+                obiekt.getDcDokPolaDodList().add(poleDodDok);
+            }
+        }
+
     }
 
     public void usunPlik() throws IllegalOrphanException, NonexistentEntityException {

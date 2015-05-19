@@ -118,6 +118,9 @@ public class DcDokument extends AbstEncja implements Serializable {
     private List<UmUrzadzenie> urzadzeniaList;
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private List<DcDokumentArch> dcArchList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dcDok", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<DcDokPolaDod> dcDokPolaDodList;
+    
     @Transient
     private String dataWprowStr;
     @Transient
@@ -374,6 +377,16 @@ public class DcDokument extends AbstEncja implements Serializable {
         this.dcArchList = dcArchList;
     }
 
+    public List<DcDokPolaDod> getDcDokPolaDodList() {
+        return dcDokPolaDodList;
+    }
+
+    public void setDcDokPolaDodList(List<DcDokPolaDod> dcDokPolaDodList) {
+        this.dcDokPolaDodList = dcDokPolaDodList;
+    }
+
+    
+    
     public boolean isAlertBrakowanie() {
         alertBrakowanie = false;
         Calendar cal1 = Calendar.getInstance();

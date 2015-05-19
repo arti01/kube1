@@ -27,7 +27,7 @@
         <h:outputLabel for="rodzajD" value="Rodzaj: "/>
         <rich:select id="rodzajD" value="#{RejestracjaRej.obiekt.rodzajId}" converter="#{DcRodzajConv}" valueChangeListener="#{RejestracjaRej.listenerOpis}">
             <f:selectItems value="#{managedBean.rodzajLista}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.nazwa}"/>
-            <a4j:ajax event="selectitem" render="opisDlugiD, opisDlugiDD, test, pgArchDodEdRen"/>
+            <a4j:ajax event="selectitem" render="opisDlugiD, opisDlugiDD, test, pgArchDodEdRen, polaDod"/>
         </rich:select>
         <rich:message for="rodzajD" styleClass="error" />
 
@@ -53,6 +53,17 @@
         <rich:message for="kontrahentD" styleClass="error" />
     </h:panelGrid>
 
+    <rich:panel id="polaDod">
+        <rich:dataTable value="#{RejestracjaRej.obiekt.dcDokPolaDodList}" var="poleDod">
+            <rich:column>
+                #{poleDod.nazwa}
+            </rich:column>
+            <rich:column>
+                <h:inputText id="poleDodWar" value="#{poleDod.wartosc}"  size="#{poleDod.dlugosc}" validatorMessage="#{poleDod.nazwa} maksymalnie #{poleDod.dlugosc} znaków" maxlength="#{poleDod.dlugosc}">
+                </h:inputText>
+            </rich:column>
+        </rich:dataTable>
+    </rich:panel>
     
     <h:panelGroup id="pgArchDodEdRen">
         <rich:panel id="pgArchDodEd" rendered="#{RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.archiw}">
