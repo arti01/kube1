@@ -59,12 +59,17 @@
                 #{poleDod.nazwa}
             </rich:column>
             <rich:column>
-                <h:inputText id="poleDodWar" value="#{poleDod.wartosc}"  size="#{poleDod.dlugosc}" validatorMessage="#{poleDod.nazwa} maksymalnie #{poleDod.dlugosc} znaków" maxlength="#{poleDod.dlugosc}">
-                </h:inputText>
+                <h:inputText id="poleDodWar" value="#{poleDod.wartosc}"  size="#{poleDod.dlugosc}" validatorMessage="#{poleDod.nazwa} maksymalnie #{poleDod.dlugosc} znaków" 
+                             maxlength="#{poleDod.dlugosc}" rendered="#{poleDod.typ!='data'}"/>
+                <rich:calendar value="#{poleDod.wartosc}" id="dataDPD" locale="#{RejestracjaRej.locale}"
+                       popup="true" datePattern="yyyy-MM-dd"
+                       showApplyButton="#{calendarBean.showApply}" style="width:200px" rendered="#{poleDod.typ=='data'}">
+                    <f:convertDateTime pattern="yyyy-MM-dd"  type="date" />
+                </rich:calendar>
             </rich:column>
         </rich:dataTable>
     </rich:panel>
-    
+
     <h:panelGroup id="pgArchDodEdRen">
         <rich:panel id="pgArchDodEd" rendered="#{RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.archiw}">
             <f:facet name="header">

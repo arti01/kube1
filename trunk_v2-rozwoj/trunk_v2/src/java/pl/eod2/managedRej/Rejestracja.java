@@ -2,6 +2,8 @@ package pl.eod2.managedRej;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -113,6 +115,12 @@ public class Rejestracja {
         try {
             List<DcDokPolaDod> pola = new ArrayList<>();
             for (DcDokPolaDod pole : obiekt.getDcDokPolaDodList()) {
+                if (pole.getTyp().equals("data") && !pole.getWartosc().isEmpty()) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+                    Date warData = sdf.parse(pole.getWartosc());
+                    sdf.applyPattern("yyyy-MM-dd");
+                    pole.setWartosc(sdf.format(warData));
+                }
                 pole.setDcDok(obiekt);
                 pola.add(pole);
             }
@@ -146,7 +154,7 @@ public class Rejestracja {
         }
     }
 
-    public void edytuj() {
+    public void edytuj() throws ParseException {
         //System.err.println(obiekt.getDokArchDod());
         if (edytujAbst()) {
             refreshObiekt();
@@ -158,9 +166,19 @@ public class Rejestracja {
         refreshObiekt();
     }
 
-    public boolean edytujAbst() {
+    public boolean edytujAbst(){
         List<DcDokPolaDod> pola = new ArrayList<>();
         for (DcDokPolaDod pole : obiekt.getDcDokPolaDodList()) {
+            if (pole.getTyp().equals("data") && !pole.getWartosc().isEmpty()) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+                    Date warData = sdf.parse(pole.getWartosc());
+                    sdf.applyPattern("yyyy-MM-dd");
+                    pole.setWartosc(sdf.format(warData));
+                } catch (ParseException ex) {
+                    Logger.getLogger(Rejestracja.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             pole.setDcDok(obiekt);
             pola.add(pole);
         }
@@ -188,6 +206,22 @@ public class Rejestracja {
     }
 
     public void edytujZdetale() {
+        List<DcDokPolaDod> pola = new ArrayList<>();
+        for (DcDokPolaDod pole : obiekt.getDcDokPolaDodList()) {
+            if (pole.getTyp().equals("data") && !pole.getWartosc().isEmpty()) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+                    Date warData = sdf.parse(pole.getWartosc());
+                    sdf.applyPattern("yyyy-MM-dd");
+                    pole.setWartosc(sdf.format(warData));
+                } catch (ParseException ex) {
+                    Logger.getLogger(Rejestracja.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            pole.setDcDok(obiekt);
+            pola.add(pole);
+        }
+        obiekt.setDcDokPolaDodList(pola);
         try {
             error = dcC.editZmiana(obiekt);
         } catch (IllegalOrphanException ex) {
