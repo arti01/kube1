@@ -40,7 +40,7 @@
                             #{item.idDokumentKrok.idDok.zrodloId.nazwa}
                     </rich:column>
                     
-                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.idDokumentKrok.idDok.teczkaId.nazwa,RejestracjaRej.filtrTeczka)}">    
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.idDokumentKrok.idDok.teczkaId.nazwa,RejestracjaRej.filtrTeczka)}">    
                         <f:facet name="header">teczka
                             <h:inputText value="#{RejestracjaRej.filtrTeczka}" size="9">
                                 <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>

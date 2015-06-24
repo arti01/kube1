@@ -21,7 +21,7 @@
                         <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
                         <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
                         <rich:column filterValue="#{UrlopM.nameAkceptHistFilter}"
-                                     filterExpression="#{fn:containsIgnoreCase(urlop.uzytkownik.fullname, UrlopM.nameAkceptHistFilter)}">
+                                     filterType="custom" filterExpression="#{fn:containsIgnoreCase(urlop.uzytkownik.fullname, UrlopM.nameAkceptHistFilter)}">
                             <f:facet name="header">
                                 <h:panelGroup>
                                     <h:outputText value="Wniosek osoby  &lt;br/&gt; (do filtrowania użyj TAB)" escape="false"/><br/>

@@ -21,7 +21,7 @@
                         <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
                         <ui:param name="property" value="fullname" />
                         <ui:param name="propSort" value="userId.fullname" />
-                        <rich:column  style="width:60%" filterValue="#{UsersM.filterValues[property]}" filterExpression="#{property}"
+                        <rich:column  style="width:60%" filterValue="#{UsersM.filterValues[property]}" filterType="custom" filterExpression="#{property}"
                                        sortBy="#{propSort}" sortOrder="#{UsersM.sortOrders[propSort]}">
                             <f:facet name="header">
                                 <h:panelGroup>
@@ -89,7 +89,7 @@
                         </rich:column>
     
                         <ui:param name="property" value="nazwa" />
-                        <rich:column id="colKier" style="width:30%; text-align: center" filterValue="#{UsersM.filterValues[property]}" filterExpression="#{property}">
+                        <rich:column id="colKier" style="width:30%; text-align: center" filterValue="#{UsersM.filterValues[property]}" filterType="custom" filterExpression="#{property}">
                             <f:facet name="header">
                                 <h:outputText value="Dział (symbol)"/><br/>
                                 <h:selectOneMenu id="dzialFbez" value="#{UsersM.filterValues[property]}" converter="#{DzialConv}">

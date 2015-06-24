@@ -48,7 +48,7 @@
                 <rich:dataTable id="tableRodzaj" value="#{UrzadzeniaMg.lista}" var="item" iterationStatusVar="it" rows="10" style="width: 100%">
                     <f:facet name="header"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
                     <f:facet name="footer"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
-                    <rich:column sortBy="#{item.nazwa}" sortOrder="ascending" filterExpression="#{fn:containsIgnoreCase(item.nazwa, UrzadzeniaMg.filtrNazwa) or UrzadzeniaMg.filtrNazwa==''}">
+                    <rich:column sortBy="#{item.nazwa}" sortOrder="ascending" filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nazwa, UrzadzeniaMg.filtrNazwa) or UrzadzeniaMg.filtrNazwa==''}">
                         <f:facet name="header">
                             nazwa: <br/> (do filtrowania<br/> użyj TAB)<br/>
                             <h:inputText value="#{UrzadzeniaMg.filtrNazwa}" size="13">
@@ -57,28 +57,28 @@
                         <h:outputText  id="nazwaT" value="#{item.nazwa}"/>
                         <rich:tooltip target="nazwaT" value="#{item.notatka}" layout="block"/>    
                     </rich:column>
-                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.nrInw, UrzadzeniaMg.filtrNrInw) or UrzadzeniaMg.filtrNrInw==''}">
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nrInw, UrzadzeniaMg.filtrNrInw) or UrzadzeniaMg.filtrNrInw==''}">
                         <f:facet name="header">nr<br/> inwentarzowy<br/>
                             <h:inputText value="#{UrzadzeniaMg.filtrNrInw}" size="13">
                                 <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
                             </h:inputText></f:facet>
                             #{item.nrInw}
                     </rich:column>
-                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.nrSer, UrzadzeniaMg.filtrNrSer) or UrzadzeniaMg.filtrNrSer==''}">
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nrSer, UrzadzeniaMg.filtrNrSer) or UrzadzeniaMg.filtrNrSer==''}">
                         <f:facet name="header">nr<br/>seryjny<br/>
                             <h:inputText value="#{UrzadzeniaMg.filtrNrSer}" size="13">
                                 <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
                             </h:inputText></f:facet>
                             #{item.nrSer}
                     </rich:column>
-                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.lokalizacja, UrzadzeniaMg.filtrLokal) or UrzadzeniaMg.filtrLokal==''}">
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.lokalizacja, UrzadzeniaMg.filtrLokal) or UrzadzeniaMg.filtrLokal==''}">
                         <f:facet name="header">lokalizacja<br/>
                             <h:inputText value="#{UrzadzeniaMg.filtrLokal}" size="13">
                                 <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
                             </h:inputText></f:facet>
                             #{item.lokalizacja}
                     </rich:column>
-                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.firmaSerw, UrzadzeniaMg.filtrFirmaSerw) or UrzadzeniaMg.filtrFirmaSerw==''}">
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.firmaSerw, UrzadzeniaMg.filtrFirmaSerw) or UrzadzeniaMg.filtrFirmaSerw==''}">
                         <f:facet name="header">firma<br/>serwisująca<br/>
                             <h:inputText value="#{UrzadzeniaMg.filtrFirmaSerw}" size="13">
                                 <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
@@ -92,14 +92,14 @@
                         <h:outputText value="przeterminowany" style="background-color: red" rendered="#{item.dataNizDzis}"/><br/>
                         <h:outputText value="niedługo termin" style="background-color: orange" rendered="#{item.alertPrzegl}"/>
                     </rich:column>
-                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.userOdpow.fullname, UrzadzeniaMg.filtrOsobOdp) or UrzadzeniaMg.filtrOsobOdp==''}">
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.userOdpow.fullname, UrzadzeniaMg.filtrOsobOdp) or UrzadzeniaMg.filtrOsobOdp==''}">
                         <f:facet name="header">osoba<br/>odpowiedzialna<br/>
                             <h:inputText value="#{UrzadzeniaMg.filtrOsobOdp}" size="13">
                                 <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
                             </h:inputText></f:facet>
                             #{item.userOdpow.fullname}
                     </rich:column>
-                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.grupa.nazwa, UrzadzeniaMg.filtrGrupa) or UrzadzeniaMg.filtrGrupa==''}">
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.grupa.nazwa, UrzadzeniaMg.filtrGrupa) or UrzadzeniaMg.filtrGrupa==''}">
                         <f:facet name="header">grupa<br/>
                             <h:inputText value="#{UrzadzeniaMg.filtrGrupa}" size="13">
                                 <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />

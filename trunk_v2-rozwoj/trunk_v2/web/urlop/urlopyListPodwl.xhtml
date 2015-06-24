@@ -19,7 +19,7 @@
                     <rich:dataTable value="#{UrlopM.urlopyAkcept}" var="urlop" id="table" rows="10">
                         <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
                         <rich:column filterValue="#{UrlopM.namePodwFilter}"
-                                     filterExpression="#{fn:containsIgnoreCase(urlop.uzytkownik.fullname, UrlopM.namePodwFilter)}">
+                                     filterType="custom" filterExpression="#{fn:containsIgnoreCase(urlop.uzytkownik.fullname, UrlopM.namePodwFilter)}">
                             <f:facet name="header">
                                     <h:outputText value="Wniosek osoby  &lt;br/&gt; (do filtrowania użyj TAB), wszyscy - pozostaw puste pole" escape="false"/><br/>
                                     <h:inputText value="#{UrlopM.namePodwFilter}">

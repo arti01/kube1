@@ -18,6 +18,7 @@ import javax.faces.convert.Converter;
 @ManagedBean(name = "StrukturaConv")
 @SessionScoped
 public class StrukturaConv implements Converter, Serializable {
+    private static final long serialVersionUID = 1L;
     private Object object;
     StrukturaJpaController sC=new StrukturaJpaController();
     

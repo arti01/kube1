@@ -14,7 +14,7 @@
         <rich:dataTable value="#{OgloszeniaMg.lista}" var="item" iterationStatusVar="it" id="table" rows="10" style="width: 100%">
             <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
             <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
-            <rich:column sortBy="#{item.id}" sortOrder="descending" filterExpression="#{fn:containsIgnoreCase(item.tytul, OgloszeniaMg.filtrTytul) or OgloszeniaMg.filtrTytul==''}">
+            <rich:column sortBy="#{item.id}" sortOrder="descending" filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.tytul, OgloszeniaMg.filtrTytul) or OgloszeniaMg.filtrTytul==''}">
                 <f:facet name="header">
                     tytuł: <br/> (do filtrowania użyj TAB)<br/>
                     <h:inputText value="#{OgloszeniaMg.filtrTytul}" size="15">
@@ -28,7 +28,7 @@
                 </rich:tooltip>
             </rich:column>
 
-            <rich:column filterExpression="#{fn:containsIgnoreCase(item.wprowadzil.fullname, OgloszeniaMg.filtrWprow) or OgloszeniaMg.filtrWprow==''}">
+            <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.wprowadzil.fullname, OgloszeniaMg.filtrWprow) or OgloszeniaMg.filtrWprow==''}">
                 <f:facet name="header">
                     wprowadził:<br/>
                     <h:inputText value="#{OgloszeniaMg.filtrWprow}" size="10">

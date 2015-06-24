@@ -21,7 +21,7 @@
                         <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
                         <ui:param name="property" value="fullname" />
                         <ui:param name="propSort" value="id" />
-                        <rich:column filterValue="#{UrlopAll.filterValues[property]}" filterExpression="#{property}" 
+                        <rich:column filterValue="#{UrlopAll.filterValues[property]}" filterType="custom" filterExpression="#{property}" 
                                      sortBy="#{propSort}" sortOrder="#{UrlopAll.sortOrders[propSort]}">
                             <f:facet name="header">
                                 <h:panelGroup>
@@ -110,7 +110,7 @@
                             <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopAll.locale}" timeZone="CET"/></h:outputText>
                         </rich:column>
                         <ui:param name="property" value="opis" />
-                        <rich:column filterValue="#{UrlopAll.filterValues[property]}" filterExpression="#{property}" style="background-color: #{urlop.statusId.kolor}; text-align: center">
+                        <rich:column filterValue="#{UrlopAll.filterValues[property]}" filterType="custom" filterExpression="#{property}" style="background-color: #{urlop.statusId.kolor}; text-align: center">
                             <f:facet name="header">
                                 Status<br/>
                                 <h:selectOneMenu id="dzialFbez" value="#{UrlopAll.filterValues[property]}" converter="#{WnStatusyConv}">

@@ -57,7 +57,7 @@
                             #{item.zrodloId.nazwa}
                     </rich:column>
 
-                    <rich:column filterExpression="#{fn:containsIgnoreCase(item.teczkaId.nazwa,RejestracjaRej.filtrTeczka)}">
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.teczkaId.nazwa,RejestracjaRej.filtrTeczka)}">
                         <f:facet name="header">teczka<br/>
                             <h:inputText value="#{RejestracjaRej.filtrTeczka}" size="9">
                                 <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
@@ -75,7 +75,7 @@
                             #{item.kontrahentId.adres} #{item.kontrahentId.adres} #{item.kontrahentId.nipRegon}
                         </rich:tooltip>
                     </rich:column>
-                    <rich:column style="background-color: #{item.dokStatusId.kolor} ; text-align: center" filterExpression="#{fn:containsIgnoreCase(item.dokStatusId.nazwa,RejestracjaRej.filtrStatus)}">    
+                    <rich:column style="background-color: #{item.dokStatusId.kolor} ; text-align: center" filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.dokStatusId.nazwa,RejestracjaRej.filtrStatus)}">    
                         <f:facet name="header">status<br/>
                             <h:inputText value="#{RejestracjaRej.filtrStatus}" size="9">
                                 <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>

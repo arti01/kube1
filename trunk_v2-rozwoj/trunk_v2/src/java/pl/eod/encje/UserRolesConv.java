@@ -10,6 +10,7 @@ import javax.faces.convert.Converter;
 @ManagedBean(name = "UserRolesConv")
 @SessionScoped
 public class UserRolesConv implements Converter, Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Object object;
     UserRolesJpaController sC = new UserRolesJpaController();

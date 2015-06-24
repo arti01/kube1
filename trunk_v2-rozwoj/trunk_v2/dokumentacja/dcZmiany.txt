@@ -1,3 +1,5 @@
+filterType="custom" filterExpression=
+
 2015-05-01
 INSERT INTO dc_rodzaj_typy_pol VALUES (1, 'liczba');
 INSERT INTO dc_rodzaj_typy_pol VALUES (2, 'tekst');
