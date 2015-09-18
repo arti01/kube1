@@ -7,6 +7,7 @@ package pl.eod2.encje;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -27,6 +28,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import pl.eod.encje.Uzytkownik;
@@ -66,6 +69,11 @@ public class UmUrzadzenie implements Serializable {
     @Column(name = "data_wprow")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPrzegl;
+    @Min(0)
+    private int stan;
+    @Min(0)
+    private Double cenaJednostkowa;
+    
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private UmGrupa grupa;
@@ -78,6 +86,8 @@ public class UmUrzadzenie implements Serializable {
     private boolean dataNizDzis;
     @Transient
     private boolean alertPrzegl;
+    @Transient
+    private double wartoscRazem;
 
     public Long getId() {
         return id;
@@ -188,6 +198,27 @@ public class UmUrzadzenie implements Serializable {
         return c.getTime().before(new Date());
     }
 
+    public int getStan() {
+        return stan;
+    }
+
+    public void setStan(int stan) {
+        this.stan = stan;
+    }
+
+    public Double getCenaJednostkowa() {
+        return cenaJednostkowa;
+    }
+
+    public void setCenaJednostkowa(Double cenaJednostkowa) {
+        this.cenaJednostkowa = cenaJednostkowa;
+    }
+    
+    public double getWartoscRazem() {
+        if(cenaJednostkowa==null) return 0;
+        return cenaJednostkowa*stan;
+    }    
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -40,6 +40,19 @@
                                showApplyButton="#{calendarBean.showApply}" style="width:200px">
                     <rich:validator /></rich:calendar>
                 <rich:message for="dataD" styleClass="error" />
+                
+                <h:outputLabel for="cenaJedD" value="cena jednostkowa: "/>
+                <h:inputText id="cenaJedD" value="#{UrzadzeniaMg.obiekt.cenaJednostkowa}"  size="80" ><f:convertNumber groupingUsed="true" minFractionDigits="2" /></h:inputText>
+                <rich:message for="cenaJedD" styleClass="error" />
+                
+                <h:outputLabel for="stanD" value="stan: "/>
+                <h:inputText id="stanD" value="#{UrzadzeniaMg.obiekt.stan}"  size="80" ><rich:validator/></h:inputText>
+                <rich:message for="stanD" styleClass="error" />
+                
+                <h:outputLabel for="wartoscRazemD" value="wartość razem: "/>
+                <h:inputText id="wartoscRazemD" value="#{UrzadzeniaMg.obiekt.wartoscRazem}"  size="80" readonly="true"><rich:validator/><f:convertNumber type="currency"  groupingUsed="true" minFractionDigits="2"/></h:inputText>
+                <rich:message for="wartoscRazemD" styleClass="error" />
+                
 
                 <h:outputLabel for="grupaD" value="grupa: ">
                     <a4j:commandButton id="imgCl_1" render="grupaD" value="wyczyść">
