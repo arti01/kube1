@@ -151,6 +151,16 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             }
             em.merge(dcDokument);
             em.getTransaction().commit();
+            //obsługa akceptu jeśli tworzący dokument jest w pierwszym kroku akceptantem
+            for (DcDokumentKrok dk : dcDokument.getDcDokKrok()) {
+                if (dk.getLp() == 1) {
+                    for(DcDokumentKrokUzytkownik ku: dk.getDcKrokUzytkownikaList()){
+                        if(ku.getIdUser()==dcDokument.getUserId()){
+                            dcDokument=this.akceptuj(ku);
+                        }
+                    }
+                }
+            }
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "blad", ex);
             //return "blad";

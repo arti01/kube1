@@ -70,6 +70,13 @@
                                    addAllText="dodaj wszystkie" addText="dodaj" removeAllText="usuń wszystkie" removeText="usuń">
                         <f:selectItems value="#{UGrupaMg.login.zalogowany.userId.spolkaId.umMasterGrupaList}" var="master" itemValue="#{master}" itemLabel="#{master.nazwa}" />
                     </rich:pickList>
+                    <rich:panel>
+                        <h:selectOneListbox value="#{RodzajeCfg.urzadzeniaPoleDod}">
+                            <f:selectItem itemLabel="nie wpływa na stan" itemValue="nie"/>
+                            <f:selectItem itemLabel="zwiększa stan" itemValue="inkrem"/>
+                            <f:selectItem itemLabel="pomniejsza stan" itemValue="dekrem"/>
+                        </h:selectOneListbox>
+                    </rich:panel>
                 </rich:collapsiblePanel>
             </h:panelGroup>
             <h:panelGroup id="archiwDP">

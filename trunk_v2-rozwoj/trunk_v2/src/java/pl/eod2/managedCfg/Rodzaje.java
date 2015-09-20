@@ -5,7 +5,6 @@
 package pl.eod2.managedCfg;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,6 +56,7 @@ public class Rodzaje {
     private UzytkownikJpaController uC;
     private DcAkceptKroki akcKrok;
     private Uzytkownik user;
+    private String urzadzeniaPoleDod;
 
     @PostConstruct
     void init() {
@@ -74,12 +74,14 @@ public class Rodzaje {
         typKrokuLista = dcTypKrokuC.findDcAkceptTypKrokuEntities();
         usersLista = login.getZalogowany().getUserId().getSpolkaId().getUserList();
         obiekt = new DcRodzaj();
-        poleDod=new DcRodzajPolaDod();
+        poleDod = new DcRodzajPolaDod();
         akcKrok = new DcAkceptKroki();
         error = null;
+        urzadzeniaPoleDod = "";
     }
 
     public void dodaj() {
+
         error = dcC.create(obiekt);
         if (error != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error);
@@ -92,6 +94,39 @@ public class Rodzaje {
     }
 
     public void edytuj() {
+        if(!urzadzeniaPoleDod.equals("")){
+            if (obiekt.getDcRodzajPolaDodList() == null) {
+                obiekt.setDcRodzajPolaDodList(new ArrayList<DcRodzajPolaDod>());
+            }
+            //usuwanie starych
+            List<DcRodzajPolaDod> pdUs = new ArrayList<>();
+            for (DcRodzajPolaDod pd1 : obiekt.getDcRodzajPolaDodList()) {
+                if (pd1.getNazwa().equals("zwiększa stan") || pd1.getNazwa().equals("pomniejsza stan")) {
+                    pdUs.add(pd1);
+                }
+            }
+            obiekt.getDcRodzajPolaDodList().removeAll(pdUs);
+        }
+        if (urzadzeniaPoleDod.equals("inkrem")) {
+            DcRodzajPolaDod pd = new DcRodzajPolaDod();
+            pd.setDlugosc(10);
+            DcRodzajTypyPol pdr = new DcRodzajTypyPolKontr().findObiekt(1);
+            pd.setIdRodzTypyPol(pdr);
+            pd.setNazwa("zwiększa stan");
+            pd.setIdRodz(obiekt);
+            obiekt.getDcRodzajPolaDodList().add(pd);
+        }
+
+        if (urzadzeniaPoleDod.equals("dekrem")) {
+            DcRodzajPolaDod pd = new DcRodzajPolaDod();
+            pd.setDlugosc(10);
+            DcRodzajTypyPol pdr = new DcRodzajTypyPolKontr().findObiekt(1);
+            pd.setIdRodzTypyPol(pdr);
+            pd.setNazwa("pomniejsza stan");
+            pd.setIdRodz(obiekt);
+            obiekt.getDcRodzajPolaDodList().add(pd);
+        }
+
         try {
             //System.err.println(obiekt.getUmMasterGrupaList());
             error = dcC.edit(obiekt);
@@ -199,7 +234,7 @@ public class Rodzaje {
         }
     }
 
-    public void zmienPola(){
+    public void zmienPola() {
         try {
             dcC.edit(obiekt);
             obiekt = dcC.findDcRodzaj(obiekt.getId());
@@ -207,8 +242,8 @@ public class Rodzaje {
             Logger.getLogger(UStruktMg.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void usunPola(){
+
+    public void usunPola() {
         obiekt.getDcRodzajPolaDodList().remove(poleDod);
         try {
             dcC.edit(obiekt);
@@ -217,7 +252,7 @@ public class Rodzaje {
             Logger.getLogger(UStruktMg.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void test() {
         System.err.println("test" + lista.getRowData().getNazwa());
     }
@@ -326,5 +361,13 @@ public class Rodzaje {
     public void setPoleDod(DcRodzajPolaDod poleDod) {
         this.poleDod = poleDod;
     }
-    
+
+    public String getUrzadzeniaPoleDod() {
+        return urzadzeniaPoleDod;
+    }
+
+    public void setUrzadzeniaPoleDod(String urzadzeniaPoleDod) {
+        this.urzadzeniaPoleDod = urzadzeniaPoleDod;
+    }
+
 }

@@ -70,6 +70,8 @@ public class UmUrzadzenie implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPrzegl;
     @Min(0)
+    private int stanPoczatkowy;
+    @Min(0)
     private int stan;
     @Min(0)
     private Double cenaJednostkowa;
@@ -204,6 +206,14 @@ public class UmUrzadzenie implements Serializable {
 
     public void setStan(int stan) {
         this.stan = stan;
+    }
+
+    public int getStanPoczatkowy() {
+        return stanPoczatkowy;
+    }
+
+    public void setStanPoczatkowy(int stanPoczatkowy) {
+        this.stanPoczatkowy = stanPoczatkowy;
     }
 
     public Double getCenaJednostkowa() {
