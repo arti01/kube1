@@ -71,7 +71,6 @@ public class UmUrzadzenie implements Serializable {
     private Date dataPrzegl;
     @Min(0)
     private int stanPoczatkowy;
-    @Min(0)
     private int stan;
     @Min(0)
     private Double cenaJednostkowa;

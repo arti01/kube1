@@ -81,7 +81,38 @@ public class Rodzaje {
     }
 
     public void dodaj() {
+if(!urzadzeniaPoleDod.equals("")){
+            if (obiekt.getDcRodzajPolaDodList() == null) {
+                obiekt.setDcRodzajPolaDodList(new ArrayList<DcRodzajPolaDod>());
+            }
+            //usuwanie starych
+            List<DcRodzajPolaDod> pdUs = new ArrayList<>();
+            for (DcRodzajPolaDod pd1 : obiekt.getDcRodzajPolaDodList()) {
+                if (pd1.getNazwa().equals("zwiększa stan") || pd1.getNazwa().equals("pomniejsza stan")) {
+                    pdUs.add(pd1);
+                }
+            }
+            obiekt.getDcRodzajPolaDodList().removeAll(pdUs);
+        }
+        if (urzadzeniaPoleDod.equals("inkrem")) {
+            DcRodzajPolaDod pd = new DcRodzajPolaDod();
+            pd.setDlugosc(10);
+            DcRodzajTypyPol pdr = new DcRodzajTypyPolKontr().findObiekt(1);
+            pd.setIdRodzTypyPol(pdr);
+            pd.setNazwa("zwiększa stan");
+            pd.setIdRodz(obiekt);
+            obiekt.getDcRodzajPolaDodList().add(pd);
+        }
 
+        if (urzadzeniaPoleDod.equals("dekrem")) {
+            DcRodzajPolaDod pd = new DcRodzajPolaDod();
+            pd.setDlugosc(10);
+            DcRodzajTypyPol pdr = new DcRodzajTypyPolKontr().findObiekt(1);
+            pd.setIdRodzTypyPol(pdr);
+            pd.setNazwa("pomniejsza stan");
+            pd.setIdRodz(obiekt);
+            obiekt.getDcRodzajPolaDodList().add(pd);
+        }
         error = dcC.create(obiekt);
         if (error != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error);

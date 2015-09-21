@@ -1,7 +1,5 @@
 package pl.eod2.managedRej;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +37,6 @@ import pl.eod2.encje.DcRodzajJpaController;
 import pl.eod2.encje.DcRodzajPolaDod;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
-import pl.eod2.plikiUpload.WyswietlPdf;
 
 @ManagedBean(name = "RejestracjaRej")
 @SessionScoped

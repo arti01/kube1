@@ -31,14 +31,14 @@ import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 
 public class DcDokumentJpaController extends AbstKontroler<DcDokument> implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     static final Logger logger = Logger.getAnonymousLogger();
-
+    
     public DcDokumentJpaController() {
         super(new DcDokument());
     }
-
+    
     private DcDokument createKroki(DcDokument dcDokument) {
         dcDokument.setDcDokKrok(new ArrayList<DcDokumentKrok>());
         EntityManager em = null;
@@ -71,10 +71,10 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
         }
         return dcDokument;
     }
-
+    
     public String create(DcDokument dcDokument, Struktura struktura) throws NonexistentEntityException, Exception {
         dcDokument.setUserId(struktura.getUserId());
-
+        
         List<DcPlik> pliki = dcDokument.getDcPlikList();
         dcDokument.setDcPlikList(new ArrayList<DcPlik>());
         if (dcDokument.getKontrahentId() == null) {
@@ -82,7 +82,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             DcKontrahenci dokKon = dcKonC.findDcKontrahenci(1);
             dcDokument.setKontrahentId(dokKon);
         }
-
+        
         DcDokumentStatusJpaController dcDokStatC = new DcDokumentStatusJpaController();
         DcDokumentStatus dokSt = dcDokStatC.findDcDokumentStatus(1);
         dcDokument.setDokStatusId(dokSt);
@@ -94,7 +94,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
         dcDokument.setSymbolSpDzialRok(dcDokument.getUserId().getSpolkaId().getSymbol() + "/" + dcDokument.getUserId().getStruktura().getDzialId().getSymbol() + "/" + sdf.format(dcDokument.getDataWprow()));
         dcDokument.setDokStatusId(new DcDokumentStatus(1));
         dcDokument.setSymbolNrKol(this.findMaxNrKol(dcDokument));
-
+        
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -112,7 +112,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
                 em.close();
             }
         }
-
+        
         if (pliki != null) {
             for (DcPlik plik : pliki) {
                 plik.setIdDok(dcDokument);
@@ -132,10 +132,10 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
                 }
             }
         }
-
+        
         return null;
     }
-
+    
     public DcDokument wyslijDoAkceptacji(DcDokument dcDokument) {
         EntityManager em = null;
         try {
@@ -154,9 +154,9 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             //obsługa akceptu jeśli tworzący dokument jest w pierwszym kroku akceptantem
             for (DcDokumentKrok dk : dcDokument.getDcDokKrok()) {
                 if (dk.getLp() == 1) {
-                    for(DcDokumentKrokUzytkownik ku: dk.getDcKrokUzytkownikaList()){
-                        if(ku.getIdUser()==dcDokument.getUserId()){
-                            dcDokument=this.akceptuj(ku);
+                    for (DcDokumentKrokUzytkownik ku : dk.getDcKrokUzytkownikaList()) {
+                        if (ku.getIdUser() == dcDokument.getUserId()) {
+                            dcDokument = this.akceptuj(ku);
                         }
                     }
                 }
@@ -171,7 +171,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
         }
         return dcDokument;
     }
-
+    
     public DcDokument przeniesDoArchiwum(DcDokument dcDokument, DcDokumentArch docArch, boolean poczekalnia) {
         EntityManager em;
         DcDokumentStatus dS;
@@ -182,18 +182,18 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
         }
         em = getEntityManager();
         try {
-
+            
             docArch.setDokStatusId(dS);
             DcDokumentArchKontr dcArchKontr = new DcDokumentArchKontr();
-
+            
             em.getTransaction().begin();
             em.remove(em.merge(dcDokument));
             em.getTransaction().commit();
-
+            
             em.getTransaction().begin();
             dcArchKontr.create(docArch);
             em.getTransaction().commit();
-
+            
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "blad", ex);
             em.getTransaction().rollback();
@@ -205,7 +205,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
         }
         return dcDokument;
     }
-
+    
     public DcDokument akceptuj(DcDokumentKrokUzytkownik dku) {
         EntityManager em = null;
         DcDokument dok = dku.getIdDokumentKrok().getIdDok();
@@ -252,7 +252,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
                 dku.getIdDokumentKrok().getIdDok().setDokStatusId(new DcDokumentStatus(3));
                 //obsluga dprzypisanych dokumentow z archiwum
                 if ((dku.getIdDokumentKrok().getIdDok().getDcArchList() != null) && (!dku.getIdDokumentKrok().getIdDok().getDcArchList().isEmpty())) {
-                    List<DcDokumentArch> lista = new ArrayList();
+                    List<DcDokumentArch> lista = new ArrayList<>();
                     DcDokumentStatus dsKoncowy = dku.getIdDokumentKrok().getIdDok().getRodzajId().getDcDokStatusKonc();
                     for (DcDokumentArch da : dku.getIdDokumentKrok().getIdDok().getDcArchList()) {
                         da.setDokStatusId(dsKoncowy);
@@ -260,6 +260,23 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
                     }
                     dku.getIdDokumentKrok().getIdDok().getDcArchList().clear();
                     dku.getIdDokumentKrok().getIdDok().getDcArchList().addAll(lista);
+                }
+                //obsluga urzadzen - zmiana stanu
+                if (dku.getIdDokumentKrok().getIdDok().getRodzajId().getIdRodzajGrupa().isUrzMed()) {
+                    if (dku.getIdDokumentKrok().getIdDok().getUrzadzeniaList() != null) {
+                        for (UmUrzadzenie um : dku.getIdDokumentKrok().getIdDok().getUrzadzeniaList()) {
+                            for (DcDokPolaDod pd : dku.getIdDokumentKrok().getIdDok().getDcDokPolaDodList()) {
+                                if (pd.getNazwa().equals("zwiększa stan")) {
+                                    um.setStan(um.getStan() + new Integer(pd.getWartosc()));
+                                    new UmUrzadzenieJpaController().edit(um);
+                                }
+                                if (pd.getNazwa().equals("pomniejsza stan")) {
+                                    um.setStan(um.getStan() - new Integer(pd.getWartosc()));
+                                    new UmUrzadzenieJpaController().edit(um);
+                                }
+                            }
+                        }
+                    }
                 }
                 em.merge(dku.getIdDokumentKrok().getIdDok());
             } //jesli jest kolejny, to zmien  mu status z poczatkowy na brak akceptu
@@ -280,7 +297,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
         }
         return dok;
     }
-
+    
     public DcDokument odrzuc(DcDokumentKrokUzytkownik dku) {
         EntityManager em = null;
         DcDokument dok = dku.getIdDokumentKrok().getIdDok();
@@ -303,7 +320,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             dku.getIdDokumentKrok().getIdDok().setDokStatusId(new DcDokumentStatus(5));
             em.merge(dku.getIdDokumentKrok().getIdDok());
             em.getTransaction().commit();
-
+            
             dok = new DcDokumentJpaController().findDcDokument(dok.getId());
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "blad", ex);
@@ -315,7 +332,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
         }
         return dok;
     }
-
+    
     public String editDoWiad(DcDokument dcDokument, DcDokDoWiadomosci doWiad) {
         EntityManager em = null;
         try {
@@ -335,16 +352,16 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
         }
         return null;
     }
-
+    
     public String editZmiana(DcDokument dcDokument) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
-
+        
         if (dcDokument.getKontrahentId() == null) {
             DcKontrahenciJpaController dcKonC = new DcKontrahenciJpaController();
             DcKontrahenci dokKon = dcKonC.findDcKontrahenci(1);
             dcDokument.setKontrahentId(dokKon);
         }
-
+        
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -398,14 +415,14 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             hs.addAll(dcDokument.getUrzadzeniaList());
             dcDokument.getUrzadzeniaList().clear();
             dcDokument.getUrzadzeniaList().addAll(hs);
-
+            
             dcPlikListNew = attachedDcPlikListNew;
             dcDokument.setDcPlikList(dcPlikListNew);
-
+            
             dcDokument = this.createKroki(dcDokument);
-
+            
             dcDokument = em.merge(dcDokument);
-
+            
             if (userIdOld != null && !userIdOld.equals(userIdNew)) {
                 userIdOld.getDcDokumentList().remove(dcDokument);
                 userIdOld = em.merge(userIdOld);
@@ -466,7 +483,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
         }
         return null;
     }
-
+    
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -479,7 +496,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The dcDokument with id " + id + " no longer exists.", enfe);
             }
-
+            
             Uzytkownik userId = dcDokument.getUserId();
             if (userId != null) {
                 userId.getDcDokumentList().remove(dcDokument);
@@ -508,15 +525,15 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             }
         }
     }
-
+    
     public List<DcDokument> findDcDokumentEntities() {
         return findDcDokumentEntities(true, -1, -1);
     }
-
+    
     public List<DcDokument> findDcDokumentEntities(int maxResults, int firstResult) {
         return findDcDokumentEntities(false, maxResults, firstResult);
     }
-
+    
     @SuppressWarnings("unchecked")
     private List<DcDokument> findDcDokumentEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
@@ -533,7 +550,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             em.close();
         }
     }
-
+    
     public DcDokument findDcDokument(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -542,7 +559,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             em.close();
         }
     }
-
+    
     public int getDcDokumentCount() {
         EntityManager em = getEntityManager();
         try {
@@ -555,7 +572,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             em.close();
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     public List<DcDokument> findRaport(DcRodzajGrupa rodzGrupa, Date dataRejOd, Date dataRejDo, DcZrodlo zrodlo) {
         EntityManager em = getEntityManager();
@@ -569,12 +586,12 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             Predicate warZrodlo;
             Predicate warDataOd;
             Predicate warDataDo;
-
+            
             DcDokumentStatus status = new DcDokumentStatus(3);
             Expression<DcDokumentStatus> statusE = dokument.get(DcDokument_.dokStatusId);
             Predicate warStatus = cb.equal(statusE, status);
             warunek = warStatus;
-
+            
             if (rodzGrupa != null && rodzGrupa.getDcRodzajList() != null && !rodzGrupa.getDcRodzajList().isEmpty()) {
                 Expression<DcRodzaj> rodzaj = dokument.get(DcDokument_.rodzajId);
                 warRodzaj = rodzaj.in(rodzGrupa.getDcRodzajList());
@@ -609,14 +626,14 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             em.close();
         }
     }
-
+    
     public int findMaxNrKol(DcDokument dokument) {
         EntityManager em = getEntityManager();
         try {
             Query q = em.createNamedQuery("DcDokument.findMaxNrKol");
             q.setParameter("symbolSpDzialRok", dokument.getSymbolSpDzialRok());
             int u = (Integer) q.getResultList().get(0);
-
+            
             Query qArch = em.createNamedQuery("DcDokumentArch.findMaxNrKol");
             qArch.setParameter("symbolSpDzialRok", dokument.getSymbolSpDzialRok());
             int uArch = (Integer) qArch.getResultList().get(0);
@@ -625,7 +642,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             } else {
                 return uArch + 1;
             }
-
+            
         } catch (NoResultException | ArrayIndexOutOfBoundsException | NullPointerException ex) {
             logger.log(Level.SEVERE, "blad", ex);
             return 1;
@@ -633,7 +650,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             em.close();
         }
     }
-
+    
     @SuppressWarnings({"unchecked"})
     public List<DcDokument> findByExample(DcDokument dokument, Date dataRejOd, Date dataRejDo, Date dataDokOd, Date dataDokDo) throws ParseException {
         EntityManager em = getEntityManager();
@@ -646,41 +663,41 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             Predicate opis = cb.like(cb.lower(cfg.get(DcDokument_.opis)), "%" + dokument.getOpis().toLowerCase() + "%");
             Predicate opisDlugi = cb.like(cb.lower(cfg.get(DcDokument_.opisDlugi)), "%" + dokument.getOpis().toLowerCase() + "%");
             Predicate rodzaj = cb.equal(cfg.get(DcDokument_.rodzajId), dokument.getRodzajId());
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             
-            if(dataRejOd==null){
-                dataRejOd=sdf.parse("1900-01-01");
+            if (dataRejOd == null) {
+                dataRejOd = sdf.parse("1900-01-01");
             }
-            if(dataRejDo==null){
-                dataRejDo=sdf.parse("2100-01-01");
+            if (dataRejDo == null) {
+                dataRejDo = sdf.parse("2100-01-01");
             }
             
-            if(dataDokOd==null&&dataDokDo!=null){
-                dataDokOd=sdf.parse("1900-01-01");
+            if (dataDokOd == null && dataDokDo != null) {
+                dataDokOd = sdf.parse("1900-01-01");
             }
-            if(dataDokDo==null&&dataDokOd!=null){
-                dataDokDo=sdf.parse("2100-01-01");
+            if (dataDokDo == null && dataDokOd != null) {
+                dataDokDo = sdf.parse("2100-01-01");
             }
             
             Predicate pdata = cb.between(cfg.get(DcDokument_.dataWprow), dataRejOd, dataRejDo);
             Predicate ddata = cb.between(cfg.get(DcDokument_.dataDok), dataDokOd, dataDokDo);
             
-            List<Predicate> warunek=new ArrayList<>();
+            List<Predicate> warunek = new ArrayList<>();
             warunek.add(cb.or(nazwa));
             warunek.add(cb.or(opis, opisDlugi));
             warunek.add(cb.and(pdata));
-            if(dataDokOd!=null&&dataDokDo!=null){
+            if (dataDokOd != null && dataDokDo != null) {
                 warunek.add(cb.and(ddata));
             }
             
             if (dokument.getRodzajId() != null) {
                 warunek.add(cb.and(rodzaj));
             }
-
+            
             cq.where(warunek.toArray(new Predicate[warunek.size()]));
-
+            
             Query q = em.createQuery(cq);
-
+            
             List<DcDokument> wynik;
             wynik = (List<DcDokument>) q.getResultList();
             return wynik;
@@ -688,7 +705,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             em.close();
         }
     }
-
+    
     @SuppressWarnings({"unchecked"})
     public List<DcDokument> findStatus(int statusId) {
         EntityManager em = getEntityManager();
@@ -703,7 +720,7 @@ public class DcDokumentJpaController extends AbstKontroler<DcDokument> implement
             em.close();
         }
     }
-
+    
     @SuppressWarnings({"unchecked"})
     public List<DcDokument> findEntitiesDlaArch() {
         EntityManager em = getEntityManager();
