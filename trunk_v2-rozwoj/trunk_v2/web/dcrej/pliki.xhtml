@@ -14,6 +14,8 @@
         <h3>Pliki po imporcie</h3>
         <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
         <h:form>
+            <h:commandButton value="stwórz dokument dla wybranych plików" action="#{RejestracjaRej.importWielu}" id="dodWiele"/>
+            <rich:message for="dodWiele" styleClass="error" />
             <ui:param name="przyciski" value="./plikiPrzyciski.xhtml"/>
             <ui:include src="./plikiList.xhtml"/>
             <a4j:jsFunction name="remove" action="#{KontrahenciCfg.usun}" render="table" execute="@this"

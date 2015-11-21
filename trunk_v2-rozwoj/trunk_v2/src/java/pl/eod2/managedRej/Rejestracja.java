@@ -55,6 +55,10 @@ public class Rejestracja {
     private Locale locale;
     @ManagedProperty(value = "#{login}")
     private Login login;
+
+    @ManagedProperty(value = "#{RejImpPlik}")
+    private ImpPlik impPlik;
+
     private DcKontrahenci kontrahent;
     private DcDokDoWiadomosci doWiad;
     private DcDokDoWiadCel doWiadCel;
@@ -123,6 +127,8 @@ public class Rejestracja {
             }
             obiekt.setDcDokPolaDodList(pola);
             error = dcC.create(obiekt, login.getZalogowany());
+        } catch (NullPointerException nex) {
+            error = "zapewne brakuje rodzaju dokumentu";
         } catch (Exception ex) {
             Logger.getLogger(Rejestracja.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -137,8 +143,17 @@ public class Rejestracja {
             if (!obiekt.getDcPlikList().isEmpty()) {
                 //System.err.println("usuwanie plikow");
                 //System.err.println(plikImport.getId());
-                plikImpC.destroy(plikImport.getId());
-                plikImport = null;
+                if (plikImport != null) {
+                    plikImpC.destroy(plikImport.getId());
+                    plikImport = null;
+                } else {
+                    for (DcPlikImport pi : impPlik.getLista()) {
+                        if (pi.isWybrany()) {
+                            plikImpC.destroy(pi.getId());
+                        }
+                    }
+                }
+
             }
             return true;
         }
@@ -163,7 +178,7 @@ public class Rejestracja {
         refreshObiekt();
     }
 
-    public boolean edytujAbst(){
+    public boolean edytujAbst() {
         List<DcDokPolaDod> pola = new ArrayList<>();
         for (DcDokPolaDod pole : obiekt.getDcDokPolaDodList()) {
             if (pole.getTyp().equals("data") && !pole.getWartosc().isEmpty()) {
@@ -312,6 +327,7 @@ public class Rejestracja {
             obiekt.setKontrahentId(kontrahent);
         }
         kontrahent = new DcKontrahenci();
+        //obsluga jednego pliku importu
         if (plikImport != null) {
             DcPlik dcPlik = new DcPlik();
             dcPlik.setNazwa(plikImport.getNazwa());
@@ -319,6 +335,30 @@ public class Rejestracja {
             dcPlik.setDataDodania(new Date());
             obiekt.setDcPlikList(new ArrayList<DcPlik>());
             obiekt.getDcPlikList().add(dcPlik);
+        }
+        return "/dcrej/dokumenty";
+    }
+
+    public String importWielu() {
+
+        refreshObiekt();
+        kontrahent = new DcKontrahenci();
+        obiekt.setDcPlikList(new ArrayList<DcPlik>());
+        for (DcPlikImport pi : impPlik.getLista()) {
+            if (pi.isWybrany()) {
+                DcPlik dcPlik = new DcPlik();
+                dcPlik.setNazwa(pi.getNazwa());
+                dcPlik.setPlik(pi.getDcPlikImportBin().getPlik());
+                dcPlik.setDataDodania(new Date());
+                obiekt.getDcPlikList().add(dcPlik);
+            }
+        }
+        if (obiekt.getDcPlikList().isEmpty()) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "brak wybranych plików", "brak wybranych plików");
+            FacesContext context = FacesContext.getCurrentInstance();
+            UIComponent zapisz = UIComponent.getCurrentComponent(context);
+            context.addMessage(zapisz.getClientId(context), message);
+            return "/dcrej/pliki";
         }
         return "/dcrej/dokumenty";
     }
@@ -588,4 +628,13 @@ public class Rejestracja {
     public void setFiltrDaneDod(String filtrDaneDod) {
         this.filtrDaneDod = filtrDaneDod;
     }
+
+    public ImpPlik getImpPlik() {
+        return impPlik;
+    }
+
+    public void setImpPlik(ImpPlik impPlik) {
+        this.impPlik = impPlik;
+    }
+
 }

@@ -21,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -53,6 +54,12 @@ public class DcPlikImport implements Serializable {
     @JoinColumn(name = "id_bin", referencedColumnName = "id")
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private DcPlikImportBin dcPlikImportBin;
+    @Transient
+    private boolean wybrany;
+
+    public DcPlikImport() {
+        this.wybrany = false;
+    }
 
     public Integer getId() {
         return id;
@@ -83,6 +90,14 @@ public class DcPlikImport implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public boolean isWybrany() {
+        return wybrany;
+    }
+
+    public void setWybrany(boolean wybrany) {
+        this.wybrany = wybrany;
     }
 
     @Override

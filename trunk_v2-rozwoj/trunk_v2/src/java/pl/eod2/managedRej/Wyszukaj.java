@@ -8,7 +8,9 @@ package pl.eod2.managedRej;
 import java.text.ParseException;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import pl.eod.managed.Login;
 import pl.eod2.encje.DcDokument;
 
 @ManagedBean(name = "WyszukajRej")
@@ -18,6 +20,9 @@ public class Wyszukaj extends Rejestracja  {
     public Date dataRejDo;
     public Date dataDokOd;
     public Date dataDokDo;
+    
+    @ManagedProperty(value = "#{RejestracjaRej}")
+    private Rejestracja rej;
 
     public Wyszukaj() throws InstantiationException, IllegalAccessException {
     }
@@ -30,6 +35,7 @@ public class Wyszukaj extends Rejestracja  {
     }
     
     public String wyszukaj() throws ParseException{
+        rej.refreshObiekt();
         lista.setWrappedData(dcC.findByExample(obiekt, dataRejOd, dataRejDo, dataDokOd, dataDokDo));
         return "/dcrej/wyszukList?faces-redirect=true";
     }
@@ -64,6 +70,14 @@ public class Wyszukaj extends Rejestracja  {
 
     public void setDataDokDo(Date dataDokDo) {
         this.dataDokDo = dataDokDo;
+    }
+
+    public Rejestracja getRej() {
+        return rej;
+    }
+
+    public void setRej(Rejestracja rej) {
+        this.rej = rej;
     }
 
 }
