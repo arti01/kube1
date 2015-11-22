@@ -43,6 +43,11 @@
                         </rich:panelMenuGroup>
 
                         <rich:panelMenuGroup label="Dokumenty - rejestracja" rendered="#{login.dcRej}" expanded="#{login.menuDcRejExp}" actionListener="#{login.menuDcRejExpList}">
+                            <h:commandLink action="#{RejEmaile.list}">
+                                <rich:panelMenuItem >
+                                    Emaile
+                                </rich:panelMenuItem>
+                            </h:commandLink>
                             <h:commandLink action="#{RejImpPlik.list}">
                                 <rich:panelMenuItem >
                                     Poczekalnia

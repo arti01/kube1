@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/templates/template.xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+    
+    <rich:panel id="listPanel">
+        <rich:dataTable value="#{RejEmaile.lista}" var="item" iterationStatusVar="it" id="table" rows="10" style="width: 100%" filterVar="filterValue">
+            <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+            <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+
+            <rich:column filterExpression="#{empty filterValue or fn:containsIgnoreCase(item.temat, filterValue)}"
+                         filterValue="#{KontrahenciCfg.filtrNazwa}">
+                <f:facet name="header">
+                    temat (do filtrowania użyj TAB)
+                </f:facet>
+                #{item.temat}
+            </rich:column>
+
+            <rich:column filterExpression="#{empty filterValue or fn:containsIgnoreCase(item.nadawca, filterValue)}"
+                         filterValue="#{KontrahenciCfg.filtrNip}">
+                <f:facet name="header">
+                    nadawca (do filtrowania użyj TAB)
+                </f:facet>
+                #{item.nadawca}
+            </rich:column>
+
+            <rich:column sortBy="#{item.data}" sortOrder="descending">
+                <f:facet name="header">data
+                </f:facet>
+                <h:outputText value="#{item.data}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+            </rich:column>
+
+            <rich:column>
+                <f:facet name="header">załaczniki</f:facet>
+                <rich:list value="#{item.zalaczniki}" type="unordered" var="zal">
+                    #{zal.nazwa}
+                </rich:list>
+            </rich:column>
+
+            <rich:column style="width: 45px">
+                <ui:include src="#{przyciski}"/>
+            </rich:column>
+        </rich:dataTable>
+    </rich:panel>
+</html>
+
