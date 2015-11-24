@@ -27,6 +27,8 @@ import pl.eod2.encje.DcDokumentJpaController;
 import pl.eod2.encje.DcDokumentStatus;
 import pl.eod2.encje.DcKontrahenci;
 import pl.eod.abstr.AbstPlik;
+import pl.eod.cron4j.EmailMoj;
+import pl.eod.cron4j.EmailZalacznik;
 import pl.eod2.encje.DcDokPolaDod;
 import pl.eod2.encje.DcPlik;
 import pl.eod2.encje.DcPlikImport;
@@ -58,7 +60,8 @@ public class Rejestracja {
 
     @ManagedProperty(value = "#{RejImpPlik}")
     private ImpPlik impPlik;
-
+    private EmailMoj email;
+    
     private DcKontrahenci kontrahent;
     private DcDokDoWiadomosci doWiad;
     private DcDokDoWiadCel doWiadCel;
@@ -113,6 +116,7 @@ public class Rejestracja {
     }
 
     public boolean dodajAbst() throws NonexistentEntityException {
+        UIComponent input=null;
         try {
             List<DcDokPolaDod> pola = new ArrayList<>();
             for (DcDokPolaDod pole : obiekt.getDcDokPolaDodList()) {
@@ -129,6 +133,9 @@ public class Rejestracja {
             error = dcC.create(obiekt, login.getZalogowany());
         } catch (NullPointerException nex) {
             error = "zapewne brakuje rodzaju dokumentu";
+            FacesContext context = FacesContext.getCurrentInstance();
+            UIComponent zapisz1 = UIComponent.getCurrentComponent(context);
+            input = zapisz1.getParent().findComponent("rodzajD");
         } catch (Exception ex) {
             Logger.getLogger(Rejestracja.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -137,6 +144,9 @@ public class Rejestracja {
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
+            if(input!=null){
+                context.addMessage(input.getClientId(context), message);    
+            }
             return false;
         } else {
             //System.err.println(obiekt.getDcPlikList());
@@ -360,6 +370,23 @@ public class Rejestracja {
             context.addMessage(zapisz.getClientId(context), message);
             return "/dcrej/pliki";
         }
+        return "/dcrej/dokumenty";
+    }
+    
+    public String importEmail(){
+        refreshObiekt();
+        kontrahent = new DcKontrahenci();
+        obiekt.setDcPlikList(new ArrayList<DcPlik>());
+        for (EmailZalacznik ez : email.getZalaczniki()) {
+                DcPlik dcPlik = new DcPlik();
+                dcPlik.setNazwa(ez.getNazwa());
+                dcPlik.setPlik(ez.getPlik());
+                dcPlik.setDataDodania(new Date());
+                obiekt.getDcPlikList().add(dcPlik);
+        }
+        obiekt.setNazwa(email.getTemat());
+        obiekt.setOpis(email.getNadawca());
+        obiekt.setOpisDlugi(email.getTresc());
         return "/dcrej/dokumenty";
     }
 
@@ -635,6 +662,14 @@ public class Rejestracja {
 
     public void setImpPlik(ImpPlik impPlik) {
         this.impPlik = impPlik;
+    }
+
+    public EmailMoj getEmail() {
+        return email;
+    }
+
+    public void setEmail(EmailMoj email) {
+        this.email = email;
     }
 
 }

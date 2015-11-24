@@ -9,8 +9,8 @@
 
     <rich:tooltip target="imgEd" value="zarejestruj dokument dla tego maila" layout="block"/>
     <rich:tooltip target="imgDt" layout="block" mode="ajax" horizontalOffset="-800"><h:outputText value="#{item.tresc}" escape="false"/> </rich:tooltip>
-    <h:commandButton id="imgEd" action="#{RejestracjaRej.list}" image="/images/add.png">
-        <f:setPropertyActionListener target="#{RejestracjaRej.plikImport}" value="#{item}" />
+    <h:commandButton id="imgEd" action="#{RejestracjaRej.importEmail}" image="/images/add.png">
+        <f:setPropertyActionListener target="#{RejestracjaRej.email}" value="#{item}" />
     </h:commandButton>
     <h:commandButton id="imgDt" image="/images/detail.png"/>
 </html>
