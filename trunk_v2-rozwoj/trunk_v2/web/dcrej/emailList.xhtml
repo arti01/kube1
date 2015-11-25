@@ -43,6 +43,12 @@
                 </rich:list>
             </rich:column>
 
+            <rich:column sortBy="#{item.data}" sortOrder="descending">
+                <f:facet name="header">utworzony dokument</f:facet>
+                <h:outputText value="Tak" rendered="#{item.stworzony}"/>
+                <h:outputText value="Nie" rendered="#{!item.stworzony}"/>
+            </rich:column>
+            
             <rich:column style="width: 45px">
                 <ui:include src="#{przyciski}"/>
             </rich:column>

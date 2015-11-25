@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -143,6 +145,7 @@ public class EmailOdbior {
         }
     }
 
+
     private String getText(Part p) throws
             MessagingException, IOException {
 
@@ -189,9 +192,9 @@ public class EmailOdbior {
         if (!msg.isMimeType("multipart/*")) {
             return wynik;
         }
-        Multipart multipart = (Multipart) msg.getContent();
-        for (int i = 0; i < multipart.getCount(); i++) {
-            BodyPart bodyPart = multipart.getBodyPart(i);
+        Multipart mp = (Multipart) msg.getContent();
+        for (int i = 0; i < mp.getCount(); i++) {
+            BodyPart bodyPart = mp.getBodyPart(i);
             if (!Part.ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition())
                     && bodyPart.getFileName() == null) {
                 continue; // dealing with attachments only

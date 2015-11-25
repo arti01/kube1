@@ -19,12 +19,12 @@ public class EmailMoj {
     private String nadawca;
     private String tresc;
     private Date data;
-    private boolean wybrany;
     private List<EmailZalacznik> zalaczniki;
+    private boolean stworzony;
 
     public EmailMoj() {
-        this.wybrany = false;
         this.zalaczniki=new ArrayList<>();
+        this.stworzony=false;
     }
 
     public String getTemat() {
@@ -51,14 +51,6 @@ public class EmailMoj {
         this.data = data;
     }
 
-    public boolean isWybrany() {
-        return wybrany;
-    }
-
-    public void setWybrany(boolean wybrany) {
-        this.wybrany = wybrany;
-    }
-
     public String getTresc() {
         return tresc;
     }
@@ -81,6 +73,14 @@ public class EmailMoj {
 
     public void setIdMsg(String[] idMsg) {
         this.idMsg = idMsg;
+    }
+
+    public boolean isStworzony() {
+        return stworzony;
+    }
+
+    public void setStworzony(boolean stworzony) {
+        this.stworzony = stworzony;
     }
     
 }

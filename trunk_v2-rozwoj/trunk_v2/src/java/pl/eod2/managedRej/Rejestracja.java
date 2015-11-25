@@ -28,6 +28,7 @@ import pl.eod2.encje.DcDokumentStatus;
 import pl.eod2.encje.DcKontrahenci;
 import pl.eod.abstr.AbstPlik;
 import pl.eod.cron4j.EmailMoj;
+import pl.eod.cron4j.EmailOdbior;
 import pl.eod.cron4j.EmailZalacznik;
 import pl.eod2.encje.DcDokPolaDod;
 import pl.eod2.encje.DcPlik;
@@ -60,8 +61,12 @@ public class Rejestracja {
 
     @ManagedProperty(value = "#{RejImpPlik}")
     private ImpPlik impPlik;
+
+    @ManagedProperty(value = "#{EmailOdbior}")
+    EmailOdbior emailOdb;
+
     private EmailMoj email;
-    
+
     private DcKontrahenci kontrahent;
     private DcDokDoWiadomosci doWiad;
     private DcDokDoWiadCel doWiadCel;
@@ -106,7 +111,6 @@ public class Rejestracja {
          obiekt.getDcDokPolaDodList().add(poleDodDok);
          }
          }*/
-        kontrahent = new DcKontrahenci();
         error = null;
     }
 
@@ -116,7 +120,7 @@ public class Rejestracja {
     }
 
     public boolean dodajAbst() throws NonexistentEntityException {
-        UIComponent input=null;
+        UIComponent input = null;
         try {
             List<DcDokPolaDod> pola = new ArrayList<>();
             for (DcDokPolaDod pole : obiekt.getDcDokPolaDodList()) {
@@ -144,8 +148,8 @@ public class Rejestracja {
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
-            if(input!=null){
-                context.addMessage(input.getClientId(context), message);    
+            if (input != null) {
+                context.addMessage(input.getClientId(context), message);
             }
             return false;
         } else {
@@ -328,6 +332,7 @@ public class Rejestracja {
 
     public String kontrahentList() {
         refreshObiekt();
+        kontrahent = new DcKontrahenci();
         return "/dcrej/kontrahenci";
     }
 
@@ -372,17 +377,22 @@ public class Rejestracja {
         }
         return "/dcrej/dokumenty";
     }
-    
-    public String importEmail(){
+
+    public String importEmail() {
         refreshObiekt();
+        emailOdb.getEmaile().remove(email);
+        email.setStworzony(true);
+        emailOdb.getEmaile().add(email);
         kontrahent = new DcKontrahenci();
         obiekt.setDcPlikList(new ArrayList<DcPlik>());
+        System.err.println(email.getZalaczniki());
+        System.err.println(email.getZalaczniki().size());
         for (EmailZalacznik ez : email.getZalaczniki()) {
-                DcPlik dcPlik = new DcPlik();
-                dcPlik.setNazwa(ez.getNazwa());
-                dcPlik.setPlik(ez.getPlik());
-                dcPlik.setDataDodania(new Date());
-                obiekt.getDcPlikList().add(dcPlik);
+            DcPlik dcPlik = new DcPlik();
+            dcPlik.setNazwa(ez.getNazwa());
+            dcPlik.setPlik(ez.getPlik());
+            dcPlik.setDataDodania(new Date());
+            obiekt.getDcPlikList().add(dcPlik);
         }
         obiekt.setNazwa(email.getTemat());
         obiekt.setOpis(email.getNadawca());
@@ -670,6 +680,14 @@ public class Rejestracja {
 
     public void setEmail(EmailMoj email) {
         this.email = email;
+    }
+
+    public EmailOdbior getEmailOdb() {
+        return emailOdb;
+    }
+
+    public void setEmailOdb(EmailOdbior emailOdb) {
+        this.emailOdb = emailOdb;
     }
 
 }
