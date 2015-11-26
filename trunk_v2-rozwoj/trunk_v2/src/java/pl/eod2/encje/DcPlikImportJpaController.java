@@ -4,14 +4,12 @@
  */
 package pl.eod2.encje;
 
-import com.google.common.io.Files;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.nio.file.Path;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +20,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import pl.eod.encje.Config;

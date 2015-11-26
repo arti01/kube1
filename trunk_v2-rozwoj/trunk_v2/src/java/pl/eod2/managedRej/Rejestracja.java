@@ -385,8 +385,6 @@ public class Rejestracja {
         emailOdb.getEmaile().add(email);
         kontrahent = new DcKontrahenci();
         obiekt.setDcPlikList(new ArrayList<DcPlik>());
-        System.err.println(email.getZalaczniki());
-        System.err.println(email.getZalaczniki().size());
         for (EmailZalacznik ez : email.getZalaczniki()) {
             DcPlik dcPlik = new DcPlik();
             dcPlik.setNazwa(ez.getNazwa());

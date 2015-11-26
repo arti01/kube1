@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +26,12 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.MimeUtility;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import org.apache.commons.io.IOUtils;
+import pl.eod.encje.Config;
+import pl.eod.encje.ConfigJpaController;
 
 @ManagedBean(name = "EmailOdbior")
 @ApplicationScoped
@@ -39,13 +42,32 @@ public class EmailOdbior {
     private static final int KROKPOBIERANIA = 5;
     private final Properties props;
     private final Session session;
-
+    private EntityManagerFactory emf = null;
+    private final String emailOdbServer;
+    private final String emailOdbUser;
+    private final String emailOdbPass;
+    private final String emailOdbFolder;
+    
     public EmailOdbior() {
         this.props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         props.setProperty("mail.mime.decodetext.strict", "false");
         session = Session.getDefaultInstance(props, null);
         emaile = new ArrayList<>();
+
+        if (this.emf == null) {
+            this.emf = Persistence.createEntityManagerFactory("eodtPU");
+        }
+        ConfigJpaController cfgC=new ConfigJpaController();
+        
+        emailOdbServer=cfgC.findConfigNazwa("emailOdbServer").getWartosc();
+        emailOdbUser=cfgC.findConfigNazwa("emailOdbUser").getWartosc();
+        emailOdbPass=cfgC.findConfigNazwa("emailOdbPass").getWartosc();
+        emailOdbFolder=cfgC.findConfigNazwa("emailOdbFolder").getWartosc();
+    }
+
+    public EntityManager getEntityManager() {
+        return emf.createEntityManager();
     }
 
     @PostConstruct
@@ -71,8 +93,8 @@ public class EmailOdbior {
         try {
             //session.setDebug(true);
             store = session.getStore("imaps");
-            store.connect("imap.googlemail.com", "arti4077@gmail.com", "4077Atos");
-            folder = store.getFolder("Inbox");
+            store.connect(emailOdbServer, emailOdbUser, emailOdbPass);
+            folder = store.getFolder(emailOdbFolder);
             /* Others GMail folders :
        * [Gmail]/All Mail   This folder contains all of your Gmail messages.
        * [Gmail]/Drafts     Your drafts.
@@ -144,7 +166,6 @@ public class EmailOdbior {
             }
         }
     }
-
 
     private String getText(Part p) throws
             MessagingException, IOException {
