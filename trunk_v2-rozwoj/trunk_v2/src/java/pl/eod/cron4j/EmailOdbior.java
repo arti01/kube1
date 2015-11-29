@@ -230,13 +230,13 @@ public class EmailOdbior {
     }
 
     private void czyscKolejke() throws MessagingException {
+        List<EmailMoj> nowaKolejka = new ArrayList<>();
         Folder folder = null;
         Store store = null;
-        List<EmailMoj> nowaKolejka = new ArrayList<>();
         try {
             store = session.getStore("imaps");
-            store.connect("imap.googlemail.com", "arti4077@gmail.com", "4077Atos");
-            folder = store.getFolder("Inbox");
+            store.connect(emailOdbServer, emailOdbUser, emailOdbPass);
+            folder = store.getFolder(emailOdbFolder);
             folder.open(Folder.READ_ONLY);
             Message messages[] = folder.getMessages();
 

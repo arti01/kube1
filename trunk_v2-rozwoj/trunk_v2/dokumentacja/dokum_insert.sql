@@ -58,6 +58,12 @@ INSERT INTO config (id, nazwa, opis, wartosc) VALUES (13, 'dirImportSkanBak', 'k
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (14, 'kluczLicencji', 'kluczLicencji', 'kluczLicencji');
 INSERT INTO config (id, nazwa, opis, wartosc) VALUES (15, 'dirImportCzasCzyszczenia', 'po ilu dniach usuwac rekordy z importu', '14');
 
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbServer', 'serwer poczty do odbioru zalacznikow', 'imap.googlemail.com');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbUser', 'nazwa konta poczty do odbioru zalacznikow', 'arti4077@gmail.com');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbPass', 'haslo konta poczty do odbioru zalacznikow', 'pasword');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbFolder', 'forder odbioru zalacznikow, np. inbox/test', 'inbox/test');
+
 INSERT INTO dc_rodzaj_typy_pol VALUES (1, 'liczba');
 INSERT INTO dc_rodzaj_typy_pol VALUES (2, 'tekst');
 INSERT INTO dc_rodzaj_typy_pol VALUES (3, 'data');
+
