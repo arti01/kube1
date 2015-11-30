@@ -2,6 +2,7 @@
 package pl.eod2.encje;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -17,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
@@ -76,6 +78,12 @@ public class DcKontrahenci implements Serializable {
     private String infoDod;
     @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "kontrahentId", fetch = FetchType.LAZY, orphanRemoval = false)
     private List<DcDokument> dokumentList;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kontrahentId", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<DcKontahentDodEmail> dodEmailList;
+    
+    @Transient
+    private List<String> emaileAll;
 
     public DcKontrahenci() {
     }
@@ -161,6 +169,33 @@ public class DcKontrahenci implements Serializable {
         this.tel = tel;
     }
 
+    public List<DcDokument> getDokumentList() {
+        return dokumentList;
+    }
+
+    public void setDokumentList(List<DcDokument> dokumentList) {
+        this.dokumentList = dokumentList;
+    }
+
+    public List<DcKontahentDodEmail> getDodEmailList() {
+        return dodEmailList;
+    }
+
+    public void setDodEmailList(List<DcKontahentDodEmail> dodEmailList) {
+        this.dodEmailList = dodEmailList;
+    }    
+
+    public List<String> getEmaileAll() {
+        emaileAll=new ArrayList<>();
+        emaileAll.add(this.email);
+        for(DcKontahentDodEmail email1:dodEmailList){
+            emaileAll.add(email1.getEmail());
+        }
+        return emaileAll;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

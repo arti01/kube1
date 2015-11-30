@@ -3,6 +3,7 @@
   <persistence-unit name="eodtPU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>java:comp/env/jdbc/eod_v2</jta-data-source>
+    <class>pl.eod2.encje.DcKontahentDodEmail</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>ALL</shared-cache-mode>
     <properties>
@@ -10,7 +11,7 @@
       <property name="eclipselink.logging.parameters" value="false"/>
       <property name="eclipselink.logging.level.sql" value="info"/>
       <property name="eclipselink.logging.level.cache" value="info"/>
-      <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
     </properties>
   </persistence-unit>
 </persistence>

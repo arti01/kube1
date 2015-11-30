@@ -1,4 +1,5 @@
-filterType="custom" filterExpression=
+2015-11-30
+lista emaile dodatkowe u kontrahenta, wyszukiwanie kontrahenta przy imporcie z email
 
 2015-11-28
 Import ze skrzynki email

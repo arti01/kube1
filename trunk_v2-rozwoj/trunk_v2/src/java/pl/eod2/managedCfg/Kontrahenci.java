@@ -1,5 +1,6 @@
 package pl.eod2.managedCfg;
 
+import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -8,6 +9,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import pl.eod2.encje.DcKontahentDodEmail;
 import pl.eod2.encje.DcKontrahenci;
 import pl.eod2.encje.DcKontrahenciJpaController;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
@@ -25,10 +27,11 @@ public class Kontrahenci {
     private String filtrNazwa;
     private String filtrNip;
     private String filtrAdres;
+    private DcKontahentDodEmail emailDod;
 
     @PostConstruct
     void init() {
-        this.lista = new ListDataModel<DcKontrahenci>();
+        this.lista = new ListDataModel<>();
         this.dcC = new DcKontrahenciJpaController();
         this.link = "/dccfg/kontrahenci";
         this.filtrNazwa="";
@@ -40,6 +43,8 @@ public class Kontrahenci {
     void refresh() {
         lista.setWrappedData(dcC.findEntities());
         obiekt = new DcKontrahenci();
+        emailDod=new DcKontahentDodEmail();
+        obiekt.setDodEmailList(new ArrayList<DcKontahentDodEmail>());
         error = null;
     }
 
@@ -73,6 +78,17 @@ public class Kontrahenci {
         dcC.destroy(obiekt.getId());
         refresh();
     }
+    
+    public void dodajEmail(){
+        emailDod.setKontrahentId(obiekt);
+        obiekt.getDodEmailList().add(emailDod);
+        emailDod=new DcKontahentDodEmail();
+    }
+    
+    public void usunEmail(){
+        obiekt.getDodEmailList().remove(emailDod);
+        emailDod=new DcKontahentDodEmail();
+    }
 
     public String list() {
         refresh();
@@ -93,6 +109,14 @@ public class Kontrahenci {
 
     public void setObiekt(DcKontrahenci obiekt) {
         this.obiekt = obiekt;
+    }
+
+    public DcKontahentDodEmail getEmailDod() {
+        return emailDod;
+    }
+
+    public void setEmailDod(DcKontahentDodEmail emailDod) {
+        this.emailDod = emailDod;
     }
 
     public String getError() {

@@ -40,6 +40,7 @@ import pl.eod2.encje.DcRodzajJpaController;
 import pl.eod2.encje.DcRodzajPolaDod;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
+import pl.eod2.managedCfg.Kontrahenci;
 
 @ManagedBean(name = "RejestracjaRej")
 @SessionScoped
@@ -64,6 +65,9 @@ public class Rejestracja {
 
     @ManagedProperty(value = "#{EmailOdbior}")
     EmailOdbior emailOdb;
+    
+    @ManagedProperty(value = "#{KontrahenciCfg}")
+    Kontrahenci kontrahCfg;
 
     private EmailMoj email;
 
@@ -395,6 +399,17 @@ public class Rejestracja {
         obiekt.setNazwa(email.getTemat());
         obiekt.setOpis(email.getNadawca());
         obiekt.setOpisDlugi(email.getTresc());
+        
+        //szukanie kontrahenta
+        for(DcKontrahenci k:kontrahCfg.getLista()){
+            for(String em:k.getEmaileAll()){
+                if(email.getNadawca().contains(em)){
+                    obiekt.setKontrahentId(k);
+                    break;
+                }
+            }
+        }
+        
         return "/dcrej/dokumenty";
     }
 
@@ -686,6 +701,14 @@ public class Rejestracja {
 
     public void setEmailOdb(EmailOdbior emailOdb) {
         this.emailOdb = emailOdb;
+    }
+
+    public Kontrahenci getKontrahCfg() {
+        return kontrahCfg;
+    }
+
+    public void setKontrahCfg(Kontrahenci kontrahCfg) {
+        this.kontrahCfg = kontrahCfg;
     }
 
 }
