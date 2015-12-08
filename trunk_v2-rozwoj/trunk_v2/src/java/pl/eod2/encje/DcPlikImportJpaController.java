@@ -7,12 +7,15 @@ package pl.eod2.encje;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -31,6 +34,7 @@ import pl.eod2.encje.exceptions.NonexistentEntityException;
  * @author 103039
  */
 public class DcPlikImportJpaController implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private EntityManagerFactory emf = null;
@@ -161,28 +165,28 @@ public class DcPlikImportJpaController implements Serializable {
         }
     }
 
-    public void czyscImport() throws NonexistentEntityException{
+    public void czyscImport() throws NonexistentEntityException {
         Config cfgDir = new ConfigJpaController().findConfigNazwa("dirImportCzasCzyszczenia");
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery<Object> cq = em.getCriteriaBuilder().createQuery();
             Root<DcPlikImport> rt = cq.from(DcPlikImport.class);
-            Calendar cal=Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DATE, -(new Integer(cfgDir.getWartosc())));
             Predicate warDataOd = em.getCriteriaBuilder().lessThan(rt.get(DcPlikImport_.dataDodania), cal.getTime());
             cq.select(rt).where(warDataOd);
             Query q = em.createQuery(cq);
-            for(Object pi:q.getResultList()){
-                DcPlikImport pii=(DcPlikImport)pi;
+            for (Object pi : q.getResultList()) {
+                DcPlikImport pii = (DcPlikImport) pi;
                 this.destroy(pii.getId());
             }
         } finally {
             em.close();
         }
-        
+
     }
-    
-    public void importFromDir() throws IOException {
+
+    public void importFromDir() {
         Config cfgDir = new ConfigJpaController().findConfigNazwa("dirImportSkan");
         Config cfgDirBak = new ConfigJpaController().findConfigNazwa("dirImportSkanBak");
         File dir = new File(cfgDir.getWartosc());
@@ -199,34 +203,45 @@ public class DcPlikImportJpaController implements Serializable {
                     while ((read = ios.read(buffer)) != -1) {
                         ous.write(buffer, 0, read);
                     }
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(DcPlikImportJpaController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(DcPlikImportJpaController.class.getName()).log(Level.SEVERE, null, ex);
                 } finally {
                     try {
                         if (ous != null) {
                             ous.close();
                         }
 
-                    } catch (IOException e) {
-                    }
-
-                    try {
-                        if (ios != null) {
-                            ios.close();
+                        try {
+                            if (ios != null) {
+                                ios.close();
+                            }
+                            //przenoszenie pliku
+                            if (!f.renameTo(new File(cfgDirBak.getWartosc() + "/" + new Date().getTime() + "_" + f.getName()))) {
+                                System.err.println("zapewne brakuje katalogu bak");
+                                throw new IOException();
+                            }
+                            DcPlikImport plik = new DcPlikImport();
+                            plik.setDataDodania(new Date());
+                            plik.setNazwa(f.getName());
+                            DcPlikImportBin pim = new DcPlikImportBin();
+                            pim.setPlik(ous.toByteArray());
+                            plik.setDcPlikImportBin(pim);
+                            this.create(plik);
+                            System.err.println("stworzylem dokument dla pliku: "+f.getName());
+                        } catch (IOException e) {
+                            Logger.getLogger(DcPlikImportJpaController.class.getName()).log(Level.SEVERE, null, e);
                         }
-                        //przenoszenie pliku
-                        f.renameTo(new File(cfgDirBak.getWartosc() + "/" +new Date().getTime()+"_"+ f.getName()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                         catch (NullPointerException e1) {
+                            Logger.getLogger(DcPlikImportJpaController.class.getName()).log(Level.SEVERE, null, e1);
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(DcPlikImportJpaController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                DcPlikImport plik = new DcPlikImport();
-                plik.setDataDodania(new Date());
-                plik.setNazwa(f.getName());
-                DcPlikImportBin pim=new DcPlikImportBin();
-                pim.setPlik(ous.toByteArray());
-                plik.setDcPlikImportBin(pim);
-                this.create(plik);
             }
-        }
 
+        }
     }
 }

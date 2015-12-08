@@ -18,6 +18,10 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
+                    <file>${libs.rf4.5.6.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
                     <file>${file.reference.javax.faces-2.1.29.jar-1}</file>
                 </library>
                 <library dirs="200">
@@ -41,10 +45,6 @@
                 </library>
                 <library dirs="200">
                     <file>${reference.eodtl-1.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${libs.rf4.5.6.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
