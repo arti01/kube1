@@ -26,8 +26,8 @@ public class UrzadzeniaMg {
 
     @ManagedProperty(value = "#{login}")
     private Login login;
-    private DataModel<UmUrzadzenie> lista = new ListDataModel<UmUrzadzenie>();
-    private List<UmGrupa> grupyList = new ArrayList<UmGrupa>();
+    private DataModel<UmUrzadzenie> lista = new ListDataModel<>();
+    private List<UmGrupa> grupyList = new ArrayList<>();
     private UmUrzadzenieJpaController dcC;
     private UmUrzadzenie obiekt;
     private String error;

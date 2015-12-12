@@ -16,7 +16,6 @@
         <ui:include src="./urzadzenieEdit.xhtml"/>
         <hr/>
         <h:form>
-
             <rich:popupPanel header="Wprowadź podstawowe informacje" id="dodajPane"  autosized="true" domElementAttachment="parent" left="13" top="13" minHeight="450" minWidth="950">
                 <f:facet name="controls">
                     <h:outputLink value="#" onclick="#{rich:component('dodajPane')}.hide();
@@ -41,7 +40,7 @@
 
 
             <rich:panel id="listPanel">
-                <a4j:commandLink  execute="@form" action="#{UrzadzeniaMg.newObiekt}" render="dodajPaneRodzaj, listPanel" oncomplete="#{rich:component('dodajPaneRodzaj')}.show()">
+                <a4j:commandLink  execute="@this" action="#{UrzadzeniaMg.newObiekt}" render="dodajPaneRodzaj, listPanel" oncomplete="#{rich:component('dodajPaneRodzaj')}.show()">
                     <h4>[dodaj zasób]</h4>
                 </a4j:commandLink>
 

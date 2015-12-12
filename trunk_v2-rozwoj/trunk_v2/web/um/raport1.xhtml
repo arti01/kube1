@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <h3>Raport stanów</h3>
+        <ui:param name="filtr" value="#{null}"/>
+        <ui:param name="filtr1" value="#{null}"/>
+        <h:form>
+            <rich:dataTable id="tableRodzaj" value="#{UGrupaMg.lista}" var="item" iterationStatusVar="it" rows="10" style="width: 100%" filterVar="filterValue" sortMode="single">
+                <f:facet name="header"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
+                <f:facet name="footer"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
+
+                <rich:column sortBy="#{item.nazwa}" sortOrder="ascending" filterExpression="#{fn:containsIgnoreCase(item.nazwa, filterValue) or filrt==''}" filterValue="#{filtr}">
+                    <f:facet name="header">nazwa grupy</f:facet>
+                    <h:outputText id="nazwaT" value="#{item.nazwa}"/>
+                </rich:column>
+
+                <rich:column sortBy="#{item.masterGrp.nazwa}" filterExpression="#{fn:containsIgnoreCase(item.masterGrp.nazwa, filterValue) or filtr1==''}" filterValue="#{filtr1}">
+                    <f:facet name="header">master grupa</f:facet>
+                    <h:outputText id="nazwaMgT" value="#{item.masterGrp.nazwa}"/>
+                </rich:column>
+
+                <rich:column sortBy="#{item.stanRazem}">
+                    <f:facet name="header">stan</f:facet>
+                    <h:outputText id="stanT" value="#{item.stanRazem}"/>
+                </rich:column>
+
+                <rich:column sortBy="#{item.wartoscRazem}">
+                    <f:facet name="header">wartość</f:facet>
+                    <h:outputText value="#{item.wartoscRazem}"><f:convertNumber type="currency"  groupingUsed="true" minFractionDigits="2"/></h:outputText>
+                </rich:column>
+
+                <rich:column>
+                    <f:facet name="header">zasoby</f:facet>
+                    <rich:collapsiblePanel expanded="false" switchType="client">
+                        <rich:list value="#{item.urzadzenieList}" var="um">
+                            #{um.nazwa}, stan:#{um.stan}, wartość: <h:outputText value="#{um.wartoscRazem}"><f:convertNumber type="currency"  groupingUsed="true" minFractionDigits="2"/></h:outputText>
+                        </rich:list>
+                    </rich:collapsiblePanel>
+                </rich:column>
+            </rich:dataTable>
+
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+    </ui:define>
+</ui:composition>
+
