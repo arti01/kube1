@@ -19,6 +19,7 @@ public class ImpPlik {
     DcPlikImportJpaController dcpiC;
     private DataModel<DcPlikImport> lista = new ListDataModel<>();
     DcPlikImport plkImp;
+    String paginator="10";
 
     @PostConstruct
     void init() {
@@ -29,6 +30,12 @@ public class ImpPlik {
     public String list() {
         lista.setWrappedData(dcpiC.findDcPlikImportEntities());
         return "/dcrej/pliki";
+    }
+    
+    public void zaznaczWszystkie(){
+        for(DcPlikImport pi:lista){
+            pi.setWybrany(true);
+        }
     }
 
     public DataModel<DcPlikImport> getLista() {
@@ -46,4 +53,13 @@ public class ImpPlik {
     public void setPlkImp(DcPlikImport plkImp) {
         this.plkImp = plkImp;
     }
+
+    public String getPaginator() {
+        return paginator;
+    }
+
+    public void setPaginator(String paginator) {
+        this.paginator = paginator;
+    }
+    
 }

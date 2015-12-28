@@ -11,36 +11,54 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <rich:panel id="listPanel">
-        <rich:dataTable value="#{RejImpPlik.lista}" var="item" iterationStatusVar="it" id="table" rows="10" style="width: 100%">
-            <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
-            <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
-            <rich:column >
-                <f:facet name="header">wybierz</f:facet>
-                <h:selectBooleanCheckbox value="#{item.wybrany}" id="chkRememberMe" />
-            </rich:column>
-            <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nazwa, KontrahenciCfg.filtrNazwa) or KontrahenciCfg.filtrNazwa==''}">
+
+        <a4j:commandButton value="zaznacz wszystkie" action="#{RejImpPlik.zaznaczWszystkie}" render="table"/>
+        <h:commandButton value="stwórz dokument dla wybranych plików" action="#{RejestracjaRej.importWielu}" id="dodWiele"/>
+        <rich:message for="dodWiele" styleClass="error" />
+        <hr/>
+        <a4j:outputPanel id="tablepliki">
+            <rich:dataTable value="#{RejImpPlik.lista}" var="item" iterationStatusVar="it" id="table" rows="#{RejImpPlik.paginator}" style="width: 100%">
                 <f:facet name="header">
-                    nazwa (do filtrowania użyj TAB)<br/>
-                    <h:inputText value="#{KontrahenciCfg.filtrNazwa}" size="15">
-                        <a4j:ajax event="blur" render="table" execute="@this" />
-                    </h:inputText>
+                    <rich:dataScroller for="table" fastControls="hide" maxPages="5"/>
+                    <h:outputLabel value=" pozycji na stronie:"/>
+                    <h:selectOneMenu value="#{RejImpPlik.paginator}">
+                        <f:selectItem itemValue="10" itemLabel="10"/>
+                        <f:selectItem itemValue="20" itemLabel="20"/>
+                        <f:selectItem itemValue="30" itemLabel="30"/>
+                        <f:selectItem itemValue="50" itemLabel="50"/>
+                        <f:selectItem itemValue="100" itemLabel="100"/>
+                        <a4j:ajax event="change" render="tablepliki"/>
+                    </h:selectOneMenu>
                 </f:facet>
-                #{item.nazwa}
-            </rich:column>
+                <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                <rich:column >
+                    <f:facet name="header">wybierz</f:facet>
+                    <h:selectBooleanCheckbox value="#{item.wybrany}" id="chkRememberMe" />
+                </rich:column>
+                <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nazwa, KontrahenciCfg.filtrNazwa) or KontrahenciCfg.filtrNazwa==''}">
+                    <f:facet name="header">
+                        nazwa (do filtrowania użyj TAB)<br/>
+                        <h:inputText value="#{KontrahenciCfg.filtrNazwa}" size="15">
+                            <a4j:ajax event="blur" render="table" execute="@this" />
+                        </h:inputText>
+                    </f:facet>
+                    #{item.nazwa}
+                </rich:column>
 
-            <rich:column sortBy="#{item.id}" sortOrder="descending"
-                         filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.dataDodania,RejestracjaRej.filtrdataWprow)}">
-                <f:facet name="header">data rejestracji<br/>
-                    <h:inputText value="#{RejestracjaRej.filtrdataWprow}" size="9">
-                        <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
-                </f:facet>
-                <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
-            </rich:column>
+                <rich:column sortBy="#{item.id}" sortOrder="descending"
+                             filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.dataDodania,RejestracjaRej.filtrdataWprow)}">
+                    <f:facet name="header">data rejestracji<br/>
+                        <h:inputText value="#{RejestracjaRej.filtrdataWprow}" size="9">
+                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                    </f:facet>
+                    <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                </rich:column>
 
-            <rich:column style="width: 45px">
-                <ui:include src="#{przyciski}"/>
-            </rich:column>
-        </rich:dataTable>
+                <rich:column style="width: 45px">
+                    <ui:include src="#{przyciski}"/>
+                </rich:column>
+            </rich:dataTable>
+        </a4j:outputPanel>
     </rich:panel>
 </html>
 

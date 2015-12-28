@@ -192,7 +192,7 @@ public class DcPlikImportJpaController implements Serializable {
         File dir = new File(cfgDir.getWartosc());
         for (File f : dir.listFiles()) {
             if (f.setLastModified(new Date().getTime() - 10000) && f.isFile()) {
-                System.err.println(f.getAbsolutePath());
+                //System.err.println(f.getAbsolutePath());
                 ByteArrayOutputStream ous = null;
                 InputStream ios = null;
                 try {
