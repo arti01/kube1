@@ -12,7 +12,7 @@
         <rich:popupPanel header="Wprowadź podstawowe informacje" id="dodajPane"  autosized="true" domElementAttachment="parent" left="13" top="13" minHeight="450" minWidth="950">
             <f:facet name="controls">
                 <h:outputLink value="#" onclick="#{rich:component('dodajPane')}.hide();
-                            return false;">
+                        return false;">
                     <h:outputText value="zamknij (X)"  style="font-weight: bold;"/>
                 </h:outputLink>
             </f:facet>
@@ -31,7 +31,7 @@
         <a4j:jsFunction name="test" onbegin="if(#{RejestracjaRej.obiekt.kontrahentId.id}!='') {#{rich:component('dodajPane')}.show();} else {return;}"/>
         <a4j:jsFunction name="test1" onbegin="if(#{fn:length(RejestracjaRej.obiekt.dcPlikList)>0}) {#{rich:component('dodajPane')}.show();} else {return;}"/>
         <a4j:jsFunction name="test2" onbegin="if(#{fn:length(RejestracjaRej.obiekt.opis)>0}) {#{rich:component('dodajPane')}.show();} else {return;}"/>
-        
+
         <script language="javascript">
             window.onload = function () {
                 test();
@@ -62,7 +62,7 @@
                     <br/>
                     <h:outputText value="przeterminowany" style="background-color: red" rendered="#{item.alertAkceptacja}"/>
                 </rich:column>
-                
+
                 <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nazwa,RejestracjaRej.filtrNazwa)||fn:containsIgnoreCase(item.symbolDok,RejestracjaRej.filtrNazwa)}">
                     <f:facet name="header">nazwa i symbol
                         <h:inputText value="#{RejestracjaRej.filtrNazwa}" size="15">
@@ -188,9 +188,9 @@
         <rich:popupPanel id="confirmPane" autosized="true">
             Na pewno chcesz skasować?
             <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPane')}.hide();
-                    return false;" />
+                return false;" />
             <a4j:commandButton value="Tak" onclick="remove();
-                        return false;" />
+                    return false;" />
         </rich:popupPanel>
 
         <a4j:jsFunction name="anuluj" action="#{RejestracjaRej.anuluj}" render="table" execute="@this"
@@ -198,9 +198,9 @@
         <rich:popupPanel id="anulujPane" autosized="true">
             Na pewno chcesz anulować?
             <a4j:commandButton value="Nie" onclick="#{rich:component('anulujPane')}.hide();
-                        return false;" />
+                    return false;" />
             <a4j:commandButton value="Tak" onclick="anuluj();
-                        return false;" />
+                    return false;" />
         </rich:popupPanel>
 
         <rich:popupPanel id="statPane" autosized="true">

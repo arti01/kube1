@@ -168,6 +168,11 @@
                                     Lista dokumentów
                                 </rich:panelMenuItem>
                             </h:commandLink>
+                            <h:commandLink action="#{UGrupaMg.raport1}">
+                                <rich:panelMenuItem >
+                                    Raport stanów
+                                </rich:panelMenuItem>
+                            </h:commandLink>
                         </rich:panelMenuGroup>
 
                         <rich:panelMenuGroup label="Baza Zasob. Mat. - konfiguracja" rendered="#{login.umCfg}" expanded="#{login.menuUmCfg}" actionListener="#{login.menuUmCfgExpList}">

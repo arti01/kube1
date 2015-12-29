@@ -20,15 +20,15 @@ public class ImportSkanTask extends Task {
 
     @Override
     public void execute(TaskExecutionContext tec) throws RuntimeException {
-        DcPlikImportJpaController dcpC=new DcPlikImportJpaController();
         try {
+            DcPlikImportJpaController dcpC=new DcPlikImportJpaController();
+            
             dcpC.importFromDir();
             dcpC.czyscImport();
-        } catch (IOException | NonexistentEntityException ex) {
+        } catch (NonexistentEntityException ex) {
             Logger.getLogger(ImportSkanTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     @Override
     public boolean canBePaused() {
         return super.canBePaused(); //To change body of generated methods, choose Tools | Templates.

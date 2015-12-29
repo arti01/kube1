@@ -52,11 +52,7 @@ public class Raporty {
 
     public void pokazRap() {
         lista.setWrappedData(dcC.findRaport(filtrRodzGrupa, filtrDataRejOd, filtrDataRejDo, filtrZrodlo));
-        if (lista.getRowCount() > 0) {
-            pokazDruk = true;
-        } else {
-            pokazDruk = false;
-        }
+        pokazDruk = lista.getRowCount() > 0;
     }
 
     @SuppressWarnings("unchecked")

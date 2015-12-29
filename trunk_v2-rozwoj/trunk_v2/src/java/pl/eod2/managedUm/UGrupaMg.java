@@ -23,7 +23,7 @@ public class UGrupaMg {
     private Login login;
     @ManagedProperty(value = "#{UStruktMg}")
     private UStruktMg uStruktMg;
-    private DataModel<UmGrupa> lista = new ListDataModel<UmGrupa>();
+    private DataModel<UmGrupa> lista = new ListDataModel<>();
     private UmGrupaJpaController dcC;
     private UmGrupa obiekt;
     private String error;
@@ -79,6 +79,11 @@ public class UGrupaMg {
     public String list() {
         refresh();
         return "/um/grupa";
+    }
+    
+    public String raport1() {
+        refresh();
+        return "/um/raport1";
     }
 
     public Login getLogin() {

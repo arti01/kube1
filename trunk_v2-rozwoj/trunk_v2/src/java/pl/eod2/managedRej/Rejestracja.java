@@ -65,7 +65,7 @@ public class Rejestracja {
 
     @ManagedProperty(value = "#{EmailOdbior}")
     EmailOdbior emailOdb;
-    
+
     @ManagedProperty(value = "#{KontrahenciCfg}")
     Kontrahenci kontrahCfg;
 
@@ -359,7 +359,6 @@ public class Rejestracja {
     }
 
     public String importWielu() {
-
         refreshObiekt();
         kontrahent = new DcKontrahenci();
         obiekt.setDcPlikList(new ArrayList<DcPlik>());
@@ -399,17 +398,17 @@ public class Rejestracja {
         obiekt.setNazwa(email.getTemat());
         obiekt.setOpis(email.getNadawca());
         obiekt.setOpisDlugi(email.getTresc());
-        
+
         //szukanie kontrahenta
-        for(DcKontrahenci k:kontrahCfg.getLista()){
-            for(String em:k.getEmaileAll()){
-                if(email.getNadawca().contains(em)){
+        for (DcKontrahenci k : kontrahCfg.getLista()) {
+            for (String em : k.getEmaileAll()) {
+                if (email.getNadawca().contains(em)) {
                     obiekt.setKontrahentId(k);
                     break;
                 }
             }
         }
-        
+
         return "/dcrej/dokumenty";
     }
 
