@@ -116,6 +116,7 @@ public class DcDokumentArchKontr extends AbstKontroler<DcDokumentArch> {
                         }
                     }
                 }
+                //System.err.println(da.getDokWyszuk().getDokArchDod());
                 if (da.getDokWyszuk().getDokArchDod().getDataPlanZwrot().before(new Date())||!niezwrocone) {
                     wynik.add(da);
                 }
