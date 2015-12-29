@@ -75,9 +75,13 @@ public class Login implements Serializable {
         menuLinki = menuLinkiC.findMenuLinkiEntities();
         
         //licencje
-        String absolutePath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        /*String absolutePath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
         absolutePath = absolutePath.substring(0, absolutePath.lastIndexOf("/"));        
-        String eodtljar=absolutePath+"/../../../../lib/eodtl.jar";
+        String eodtljar=absolutePath+"/../../../../lib/eodtl.jar";*/
+        java.net.URL fileURL = eodt.lib.NewClass.class.getProtectionDomain().getCodeSource().getLocation();
+        String eodtljar = fileURL.getFile();
+        //System.err.println(eodtljar);
+        
         String md5="";
         String klucz=confC.findConfigNazwa("kluczLicencji").getWartosc();
         try {
