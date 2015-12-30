@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -28,6 +29,7 @@ import javax.persistence.criteria.Root;
 import pl.eod.encje.Config;
 import pl.eod.encje.ConfigJpaController;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
+import pl.eod2.plikiUpload.Ocr;
 
 /**
  *
@@ -37,6 +39,9 @@ public class DcPlikImportJpaController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ManagedProperty(value = "#{Ocr}")
+    private Ocr ocr=new Ocr();
+    
     private EntityManagerFactory emf = null;
 
     public DcPlikImportJpaController() {
@@ -195,6 +200,7 @@ public class DcPlikImportJpaController implements Serializable {
                 //System.err.println(f.getAbsolutePath());
                 ByteArrayOutputStream ous = null;
                 InputStream ios = null;
+                String trescOcr="";
                 try {
                     byte[] buffer = new byte[4096];
                     ous = new ByteArrayOutputStream();
@@ -203,6 +209,8 @@ public class DcPlikImportJpaController implements Serializable {
                     while ((read = ios.read(buffer)) != -1) {
                         ous.write(buffer, 0, read);
                     }
+                    trescOcr=ocr.oceeruj(f);
+                    System.err.println("oceeruje automat");
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(DcPlikImportJpaController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -227,6 +235,7 @@ public class DcPlikImportJpaController implements Serializable {
                             plik.setNazwa(f.getName());
                             DcPlikImportBin pim = new DcPlikImportBin();
                             pim.setPlik(ous.toByteArray());
+                            pim.setTresc(trescOcr);
                             plik.setDcPlikImportBin(pim);
                             this.create(plik);
                             System.err.println("stworzylem dokument dla pliku: "+f.getName());
@@ -244,4 +253,14 @@ public class DcPlikImportJpaController implements Serializable {
 
         }
     }
+
+    public Ocr getOcr() {
+        return ocr;
+    }
+
+    public void setOcr(Ocr ocr) {
+        this.ocr = ocr;
+    }
+
+
 }

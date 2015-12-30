@@ -41,6 +41,7 @@ import pl.eod2.encje.DcRodzajPolaDod;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 import pl.eod2.managedCfg.Kontrahenci;
+import pl.eod2.plikiUpload.Ocr;
 
 @ManagedBean(name = "RejestracjaRej")
 @SessionScoped

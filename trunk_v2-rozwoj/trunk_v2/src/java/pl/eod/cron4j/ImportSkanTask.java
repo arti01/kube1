@@ -22,7 +22,6 @@ public class ImportSkanTask extends Task {
     public void execute(TaskExecutionContext tec) throws RuntimeException {
         try {
             DcPlikImportJpaController dcpC=new DcPlikImportJpaController();
-            
             dcpC.importFromDir();
             dcpC.czyscImport();
         } catch (NonexistentEntityException ex) {

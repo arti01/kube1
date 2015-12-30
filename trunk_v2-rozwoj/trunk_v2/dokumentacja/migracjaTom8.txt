@@ -1,6 +1,0 @@
-- Sciągnąć tomcat 8
-- zainstalować jdk8
-- ustawić w catalina.sh JAVA_HOME do nowego jdk
-- zadbać o nowe sterowniki jdbc do MSSQL czy Postgres
-- poprawić contex.xml, zmieniajac org.postgresql.ds.PGConnectionPoolDataSource na org.postgresql.Driver
-- zmieniłem tez sposob wyszukiwania jara z licencją

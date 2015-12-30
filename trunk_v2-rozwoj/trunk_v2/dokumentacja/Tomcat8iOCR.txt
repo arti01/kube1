@@ -1,0 +1,16 @@
+- Sciągnąć tomcat 8
+- zainstalować jdk8
+- ustawić w catalina.sh JAVA_HOME do nowego jdk
+- zadbać o nowe sterowniki jdbc do MSSQL czy Postgres
+- poprawić contex.xml, zmieniajac org.postgresql.ds.PGConnectionPoolDataSource na org.postgresql.Driver
+- zmieniłem tez sposob wyszukiwania jara z licencją
+
+OCR
+- w przypadku linuksa należy zainstalować program Tesseract i być może wyeksportować zmienne (dokładny opis)
+- do katalogu lib tomcat wrzucic:
+    1. jara tess4j-3.0.jar
+    2. tessdata z plikami dla języka polskiego
+    3. podkatalogi z bibliotekami dla windows (win32-x86-64 i win32-x86)
+    4. inne jary potrzebne dla tess4j-3.0.jar
+    
+

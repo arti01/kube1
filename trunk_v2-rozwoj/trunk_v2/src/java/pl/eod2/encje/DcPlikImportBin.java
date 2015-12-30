@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -35,6 +36,9 @@ public class DcPlikImportBin implements Serializable {
     private Integer id;
     @Lob
     private byte[] plik;
+    @Size(max = 10485760)
+    @Lob
+    private String tresc;
     @OneToOne(mappedBy = "dcPlikImportBin")
     private DcPlikImport dcPlikImport;
 
@@ -62,6 +66,14 @@ public class DcPlikImportBin implements Serializable {
         this.plik = plik;
     }
 
+    public String getTresc() {
+        return tresc;
+    }
+
+    public void setTresc(String tresc) {
+        this.tresc = tresc;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -83,8 +95,6 @@ public class DcPlikImportBin implements Serializable {
         }
         return true;
     }
-
-    
 
     @Override
     public String toString() {
