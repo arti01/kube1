@@ -17,12 +17,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
 import pl.eod.encje.ConfigJpaController;
 import pl.eod.encje.MenuLinki;
 import pl.eod.encje.MenuLinkiJpaController;
@@ -108,29 +105,7 @@ public class Login implements Serializable {
             System.err.println(uzytC.iluZprawami() + "licencja" + eodt.lib.NewClass.LICZ);
             template = "../templates/template_login.xhtml";
         }
-
-        //test OCR
-        File imageFile = new File("d:\\java\\ocr\\Tess4J_1\\eurotext.png");
-        
-        ImageIO.scanForPlugins();
-        System.err.println("tttttttttteeeeeeeeeeeeeeeocr"+imageFile.exists());
-        Tesseract instance = new Tesseract(); // JNA Direct Mapping
-        String tessdata=Tesseract.class.getProtectionDomain().getCodeSource().getLocation().getFile();
-        tessdata=tessdata.replace("tess4j-3.0.jar", "");
-        tessdata=tessdata.replaceFirst("/","");
-        System.err.println(tessdata);
-        instance.setDatapath(tessdata);
-        //Tesseract instance = Tesseract.getInstance();  // JNA Interface Mapping
-        //instance.setLanguage("pol");
-
-        try {
-            String result = instance.doOCR(imageFile);
-            System.out.println(result);
-        } catch (TesseractException e) {
-            System.err.println("eeeeeeeeeeeeeeeocr"+e.getMessage());
         }
-
-    }
 
     public String wyloguj() {
         FacesContext context = FacesContext.getCurrentInstance();

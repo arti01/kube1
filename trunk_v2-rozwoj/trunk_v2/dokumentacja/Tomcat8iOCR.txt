@@ -6,11 +6,16 @@
 - zmieniłem tez sposob wyszukiwania jara z licencją
 
 OCR
-- w przypadku linuksa należy zainstalować program Tesseract i być może wyeksportować zmienne (dokładny opis)
+- w przypadku linuksa należy zainstalować program Tesseract i do catalina.sh dopisać na poczatku (po komentarzach):
+
+export LC_NUMERIC="C"
+export TESSDATA_PREFIX=$CATALINA_HOME/lib
+
 - do katalogu lib tomcat wrzucic:
     1. jara tess4j-3.0.jar
     2. tessdata z plikami dla języka polskiego
     3. podkatalogi z bibliotekami dla windows (win32-x86-64 i win32-x86)
     4. inne jary potrzebne dla tess4j-3.0.jar
+- baza danych musi być w UTF-8 (nie latin2)
     
 

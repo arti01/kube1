@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,8 +40,7 @@ public class DcPlikImportJpaController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ManagedProperty(value = "#{Ocr}")
-    private Ocr ocr=new Ocr();
+    private final Ocr ocr=new Ocr();
     
     private EntityManagerFactory emf = null;
 
@@ -210,7 +210,13 @@ public class DcPlikImportJpaController implements Serializable {
                         ous.write(buffer, 0, read);
                     }
                     trescOcr=ocr.oceeruj(f);
+                    /*Charset utf8charset = Charset.forName("UTF-8");
+                    Charset iso88591charset = Charset.forName("ISO-8859-2");
+                    byte[] ocrtmp=trescOcr.getBytes();
+                    trescOcr = new String(ocrtmp, iso88591charset);
                     System.err.println("oceeruje automat");
+                    System.err.println(trescOcr);
+                    //trescOcr = new String(ocrtmp, utf8charset);*/
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(DcPlikImportJpaController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -253,14 +259,4 @@ public class DcPlikImportJpaController implements Serializable {
 
         }
     }
-
-    public Ocr getOcr() {
-        return ocr;
-    }
-
-    public void setOcr(Ocr ocr) {
-        this.ocr = ocr;
-    }
-
-
 }

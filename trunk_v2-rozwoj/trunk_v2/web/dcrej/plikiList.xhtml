@@ -55,7 +55,10 @@
                     </f:facet>
                     <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                 </rich:column>
-
+                <rich:column>
+                    <h:outputText value="#{item.dcPlikImportBin.tresc}" escape="false"/>
+                    
+                </rich:column>
                 <rich:column style="width: 45px">
                     <ui:include src="#{przyciski}"/>
                 </rich:column>
