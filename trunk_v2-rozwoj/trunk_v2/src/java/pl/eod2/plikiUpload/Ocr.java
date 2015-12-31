@@ -18,6 +18,11 @@ public class Ocr {
         ImageIO.scanForPlugins();
         //System.err.println("tttttttttteeeeeeeeeeeeeeeocr"+imageFile.exists());
         instance = new Tesseract(); // JNA Direct Mapping
+        String tessdata=Tesseract.class.getProtectionDomain().getCodeSource().getLocation().getFile();
+        tessdata=tessdata.replace("tess4j-3.0.jar", "");
+        tessdata=tessdata.replaceFirst("/","");
+        //System.err.println(tessdata);
+        instance.setDatapath(tessdata);
         instance.setLanguage("pol");
         instance.setPageSegMode(3);
         instance.setHocr(true);
