@@ -55,6 +55,9 @@ public class DcPlik extends AbstPlik implements Serializable {
     private Date dataDodania;
     @Lob
     private byte[] plik;
+    @Size(max = 10485760)
+    @Lob
+    private String tresc;
     @JoinColumn(name = "id_dok", referencedColumnName = "id", nullable = true)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private DcDokument idDok;
@@ -72,26 +75,32 @@ public class DcPlik extends AbstPlik implements Serializable {
         this.nazwa = nazwa;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getNazwa() {
         return nazwa;
     }
 
+    @Override
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
 
+    @Override
     public byte[] getPlik() {
         return plik;
     }
 
+    @Override
     public void setPlik(byte[] plik) {
         this.plik = plik;
     }
@@ -110,6 +119,14 @@ public class DcPlik extends AbstPlik implements Serializable {
 
     public void setDataDodania(Date dataDodania) {
         this.dataDodania = dataDodania;
+    }
+
+    public String getTresc() {
+        return tresc;
+    }
+
+    public void setTresc(String tresc) {
+        this.tresc = tresc;
     }
 
     @Override

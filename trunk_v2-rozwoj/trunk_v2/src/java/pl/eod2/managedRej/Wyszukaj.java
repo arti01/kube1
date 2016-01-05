@@ -6,37 +6,61 @@
 package pl.eod2.managedRej;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import pl.eod.managed.Login;
 import pl.eod2.encje.DcDokument;
+import pl.eod2.encje.DcPlik;
 
 @ManagedBean(name = "WyszukajRej")
 @SessionScoped
-public class Wyszukaj extends Rejestracja  {
+public class Wyszukaj extends Rejestracja {
+
     public Date dataRejOd;
     public Date dataRejDo;
     public Date dataDokOd;
     public Date dataDokDo;
-    
+
     @ManagedProperty(value = "#{RejestracjaRej}")
     private Rejestracja rej;
 
     public Wyszukaj() throws InstantiationException, IllegalAccessException {
     }
-    
 
     public String form() {
-        obiekt=new DcDokument();
+        obiekt = new DcDokument();
         //obiekt.getRodzajId()
         return "/dcrej/wyszukForm?faces-redirect=true";
     }
+
+    class DokRozsz extends DcDokument{
+        public String info;
+
+        public String getInfo() {
+            return info;
+        }
+
+        public void setInfo(String info) {
+            this.info = info;
+        }
+        
+    }
     
-    public String wyszukaj() throws ParseException{
+    public String wyszukaj() throws ParseException {
         rej.refreshObiekt();
-        lista.setWrappedData(dcC.findByExample(obiekt, dataRejOd, dataRejDo, dataDokOd, dataDokDo));
+        List<DokRozsz> wynikLi = new ArrayList();
+        wynik.addAll(dcC.findByExample(obiekt, dataRejOd, dataRejDo, dataDokOd, dataDokDo));
+
+        DcPlik plik = new DcPlik();
+        plik.setTresc(obiekt.getOpis());
+        for (DcPlik plikW : dcPlikC.findByExample(plik)) {
+            wynik.add(plikW.getIdDok());
+        }
+        lista.setWrappedData(wynik);
+
         return "/dcrej/wyszukList?faces-redirect=true";
     }
 

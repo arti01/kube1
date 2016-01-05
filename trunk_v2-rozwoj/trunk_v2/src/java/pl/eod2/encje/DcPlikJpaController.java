@@ -5,13 +5,17 @@
 package pl.eod2.encje;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 
@@ -160,4 +164,23 @@ public class DcPlikJpaController implements Serializable {
         }
     }
 
+    public List<DcPlik> findByExample(DcPlik plik) throws ParseException {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Object> cq = cb.createQuery();
+            Root<DcPlik> cfg = cq.from(DcPlik.class);
+            cq.select(cfg);
+            Predicate tresc = cb.like(cb.lower(cfg.get(DcPlik_.tresc)), "%" + plik.getTresc().toLowerCase() + "%");
+
+            cq.where(tresc);
+            Query q = em.createQuery(cq);
+
+            List<DcPlik> wynik;
+            wynik = (List<DcPlik>) q.getResultList();
+            return wynik;
+        } finally {
+            em.close();
+        }
+    }
 }

@@ -41,7 +41,6 @@ import pl.eod2.encje.DcRodzajPolaDod;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 import pl.eod2.managedCfg.Kontrahenci;
-import pl.eod2.plikiUpload.Ocr;
 
 @ManagedBean(name = "RejestracjaRej")
 @SessionScoped
@@ -49,8 +48,8 @@ public class Rejestracja {
 
     DataModel<DcDokument> lista = new ListDataModel<>();
     private DataModel<DcRodzaj> rodzajLista = new ListDataModel<>();
-    DcDokumentJpaController dcC;
-    private DcPlikJpaController dcPlikC;
+    public DcDokumentJpaController dcC;
+    public DcPlikJpaController dcPlikC;
     private DcRodzajJpaController dcRodzC;
     DcDokument obiekt;
     private AbstPlik plik;
@@ -352,8 +351,9 @@ public class Rejestracja {
             DcPlik dcPlik = new DcPlik();
             dcPlik.setNazwa(plikImport.getNazwa());
             dcPlik.setPlik(plikImport.getDcPlikImportBin().getPlik());
+            dcPlik.setTresc(plikImport.getDcPlikImportBin().getTresc());
             dcPlik.setDataDodania(new Date());
-            obiekt.setDcPlikList(new ArrayList<DcPlik>());
+            obiekt.setDcPlikList(new ArrayList<>());
             obiekt.getDcPlikList().add(dcPlik);
         }
         return "/dcrej/dokumenty";
@@ -362,12 +362,13 @@ public class Rejestracja {
     public String importWielu() {
         refreshObiekt();
         kontrahent = new DcKontrahenci();
-        obiekt.setDcPlikList(new ArrayList<DcPlik>());
+        obiekt.setDcPlikList(new ArrayList<>());
         for (DcPlikImport pi : impPlik.getLista()) {
             if (pi.isWybrany()) {
                 DcPlik dcPlik = new DcPlik();
                 dcPlik.setNazwa(pi.getNazwa());
                 dcPlik.setPlik(pi.getDcPlikImportBin().getPlik());
+                dcPlik.setTresc(pi.getDcPlikImportBin().getTresc());
                 dcPlik.setDataDodania(new Date());
                 obiekt.getDcPlikList().add(dcPlik);
             }

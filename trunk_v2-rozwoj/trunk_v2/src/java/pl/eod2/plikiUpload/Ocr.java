@@ -38,12 +38,14 @@ public class Ocr {
     }
     
     public String oceeruj(File file){
-        String result="błąd OCR";
+        String result="brak OCR";
         try {
             result = instance.doOCR(file);
             //System.out.println(result);
         } catch (TesseractException e) {
-            System.err.println("eeeeeeeeeeeeeeeocr"+e.getMessage());
+            System.err.println("error_ocr"+e.getMessage());
+        } catch (Exception ex1){
+            System.err.println("error_ocr_inny_blad"+ex1.getMessage());
         }
         return result;
     }
