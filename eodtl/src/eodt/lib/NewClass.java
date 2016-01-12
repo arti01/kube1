@@ -13,5 +13,6 @@ package eodt.lib;
 public class NewClass {
     public static int LICZ=100;
     public static String FIRMA="TESTOWA FIRMA - DEV";
+    public static boolean OCR=true;
     
 }
