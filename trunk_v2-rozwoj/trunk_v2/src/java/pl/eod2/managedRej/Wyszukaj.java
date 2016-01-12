@@ -36,30 +36,25 @@ public class Wyszukaj extends Rejestracja {
         return "/dcrej/wyszukForm?faces-redirect=true";
     }
 
-    class DokRozsz extends DcDokument{
-        public String info;
-
-        public String getInfo() {
-            return info;
-        }
-
-        public void setInfo(String info) {
-            this.info = info;
-        }
-        
-    }
     
     public String wyszukaj() throws ParseException {
         rej.refreshObiekt();
-        List<DokRozsz> wynikLi = new ArrayList();
-        wynik.addAll(dcC.findByExample(obiekt, dataRejOd, dataRejDo, dataDokOd, dataDokDo));
+        List<DcDokument> wynikLi = new ArrayList<>();
+        //wyszukiwanie w dokumentach
+        for(DcDokument dok:dcC.findByExample(obiekt, dataRejOd, dataRejDo, dataDokOd, dataDokDo)){
+            dok.setInfoWyszuk("w opisie dokumentu");
+            wynikLi.add(dok);
+        }
 
         DcPlik plik = new DcPlik();
         plik.setTresc(obiekt.getOpis());
         for (DcPlik plikW : dcPlikC.findByExample(plik)) {
-            wynik.add(plikW.getIdDok());
+            DcDokument dok=plikW.getIdDok();
+            dok.setInfoWyszuk("w zalaczniku: "+plikW.getNazwa());
+            dok.setInfoWyszukPlik(plikW);
+            wynikLi.add(dok);
         }
-        lista.setWrappedData(wynik);
+        lista.setWrappedData(wynikLi);
 
         return "/dcrej/wyszukList?faces-redirect=true";
     }

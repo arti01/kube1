@@ -4,6 +4,7 @@
 - zadbać o nowe sterowniki jdbc do MSSQL czy Postgres
 - poprawić contex.xml, zmieniajac org.postgresql.ds.PGConnectionPoolDataSource na org.postgresql.Driver
 - zmieniłem tez sposob wyszukiwania jara z licencją
+- ustawić sporo pamięci np w catalina.bat -Xmx2048m
 
 OCR
 - w przypadku linuksa należy zainstalować program Tesseract i do catalina.sh dopisać na poczatku (po komentarzach):

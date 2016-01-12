@@ -45,10 +45,12 @@ public class SchedulerServletContextListener implements ServletContextListener {
 		scheduler.addTaskCollector(collector);
 		// 3. Starts the scheduler.
 		scheduler.start();
-		// 4. Registers the scheduler.
+		// 4. Registers the scheduler.s
 		context.setAttribute(Constants.SCHEDULER, scheduler);
 	}
 
+        
+        
         @Override
 	public void contextDestroyed(ServletContextEvent event) {
 		ServletContext context = event.getServletContext();

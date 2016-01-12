@@ -421,7 +421,7 @@ public class Rejestracja {
 
     public void dodajDoWiadUser() {
         if (doWiad.getDcDokDoWiadCelList() == null) {
-            doWiad.setDcDokDoWiadCelList(new ArrayList<DcDokDoWiadCel>());
+            doWiad.setDcDokDoWiadCelList(new ArrayList<>());
         }
         DcDokDoWiadCel cel = new DcDokDoWiadCel();
         //userDoWiad=Uc.findUzytkownik(userDoWiad.getId());

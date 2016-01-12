@@ -135,6 +135,10 @@ public class DcDokument extends AbstEncja implements Serializable {
     private String symbolDok;
     @Transient
     private boolean doArchZnacznik;
+    @Transient
+    private String infoWyszuk;
+    @Transient
+    private DcPlik infoWyszukPlik;
     
     @Embedded
     //pamietać, aby w tej klasie coś dopisać (nawet pusty string w jakims polu), bo wali nulami
@@ -409,6 +413,23 @@ public class DcDokument extends AbstEncja implements Serializable {
         this.dokArchDod = dokArchDod;
     }
 
+    public String getInfoWyszuk() {
+        return infoWyszuk;
+    }
+
+    public void setInfoWyszuk(String infoWyszuk) {
+        this.infoWyszuk = infoWyszuk;
+    }
+
+    public DcPlik getInfoWyszukPlik() {
+        return infoWyszukPlik;
+    }
+
+    public void setInfoWyszukPlik(DcPlik infoWyszukPlik) {
+        this.infoWyszukPlik = infoWyszukPlik;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -423,10 +444,7 @@ public class DcDokument extends AbstEncja implements Serializable {
             return false;
         }
         DcDokument other = (DcDokument) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

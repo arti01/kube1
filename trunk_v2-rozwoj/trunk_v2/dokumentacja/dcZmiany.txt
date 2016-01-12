@@ -1,3 +1,7 @@
+2016-01-10
+OCR - w eodt.lib.NewClass (to ten jar z licencją) jest nowy static:
+public static boolean OCR=true; - wiadomo, co robi :)
+
 2015-12-12
 - Raport stanow magazynowych
 - W lista zasobów->historia dokumentów dodałem wyświetlanie pól dodatkowych, co sprowadza się do tego, że widać jakie zmiany w stanie zasobów wywołał dany dokument
