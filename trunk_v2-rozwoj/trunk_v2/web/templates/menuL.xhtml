@@ -156,6 +156,14 @@
                                 </rich:panelMenuItem>
                             </h:commandLink>
                         </rich:panelMenuGroup>
+                        
+                        <rich:panelMenuGroup label="Rezerwacje" expanded="#{login.menuRezerExp}" actionListener="#{login.menuRezerExpList}">
+                            <h:commandLink action="#{OgloszeniaMg.list}">
+                                <rich:panelMenuItem >
+                                    Rezerwuj
+                                </rich:panelMenuItem>
+                            </h:commandLink>
+                        </rich:panelMenuGroup>
 
                         <rich:panelMenuGroup label="Baza Zasobów Materiałowych" rendered="#{login.umSprz}" expanded="#{login.menuUmSprze}" actionListener="#{login.menuUmSprzExpList}">
                             <h:commandLink action="#{UrzadzeniaMg.list}">
