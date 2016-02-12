@@ -17,7 +17,7 @@
                 <h:outputLabel for="czasAlertD" value="ile dni przed alertować przegląd: "/>
                 <h:inputText id="czasAlertD" value="#{UGrupaMg.obiekt.czasAlert}" size="3" ><rich:validator/></h:inputText>
                 <rich:message for="czasAlertD" styleClass="error" />
-                
+
                 <h:outputLabel for="opisD" value="opis: "/>
                 <h:inputTextarea id="opisD" value="#{UGrupaMg.obiekt.opis}"  cols="90" ><rich:validator/></h:inputTextarea>
                 <rich:message for="opisD" styleClass="error" /> 
@@ -32,6 +32,9 @@
                     <f:selectItems value="#{UGrupaMg.login.zalogowany.userId.spolkaId.umMasterGrupaList}" var="master" itemValue="#{master}" itemLabel="#{master.nazwa}"/>
                 </rich:select>
                 <rich:message for="masterD" styleClass="error" />
+
+                <h:outputLabel value="czy zasoby grupy mogą być rezerwowane"/>
+                <h:selectBooleanCheckbox value="#{UGrupaMg.obiekt.rezerwacje}"/>
             </h:panelGrid>
 
             <hr/>

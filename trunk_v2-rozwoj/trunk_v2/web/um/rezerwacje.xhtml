@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <h:outputStylesheet>
+            .rf-ind-drag.default{
+            background-position: 3px;
+            background-repeat: no-repeat;
+            border:1px solid grey
+            }
+
+            .rf-ind-drag.accept{
+            background-position: 5px;
+            background-repeat: no-repeat;
+            border:2px solid green
+            }
+
+            .rf-ind-drag.reject{
+            background-position: 5px;
+            background-repeat: no-repeat;
+            border:2px solid red
+            }
+
+        </h:outputStylesheet>
+
+        <h:form>
+            <h:panelGrid border="0" columns="2">
+                <rich:panel header="wybierz zasób">
+                    <rich:tree id="listPanel" nodeType="#{node.type}" var="node" value="#{RezerwacjeMg.rootNodes}" toggleType="ajax" rowKeyVar="row" keepSaved="true">
+                        <rich:treeNode type="master" iconCollapsed="/images/folders-stack.png" iconExpanded="/images/folders-stack.png" iconLeaf="/images/folders-stack.png">
+                            <a4j:outputPanel layout="block" id="panelMa_#{row}">
+                                <h:outputText id="MasTx" value="#{node.name}"/>
+                                <rich:tooltip target="MasTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
+                            </a4j:outputPanel>
+                        </rich:treeNode>
+
+                        <rich:treeNode id="treeNode" type="grupa" iconCollapsed="/images/folders.png" iconExpanded="/images/folders.png" iconLeaf="/images/folders.png">
+                            <a4j:outputPanel layout="block">
+                                <h:outputText id="GrTx" value="#{node.name}"/>
+                                <rich:tooltip target="GrTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
+                            </a4j:outputPanel>
+                        </rich:treeNode>
+
+                        <rich:treeNode type="urzadz" iconLeaf="/images/pipette.png">
+                            <a4j:commandLink render="dodajPanel, kalendarz">
+                                <f:setPropertyActionListener target="#{RezerwacjeMg.urzadzenie}" value="#{node.obiektDb}" />
+                                <a4j:outputPanel id="panelUr_#{row}" layout="block">
+                                    <h:outputText id="UrTx" value="#{node.name}"/>
+                                    <rich:tooltip target="UrTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
+                                </a4j:outputPanel>
+                            </a4j:commandLink>
+                        </rich:treeNode>
+                    </rich:tree>
+                </rich:panel>
+                <rich:panel id="kalendarz" header="kalendarz dostępności dla: #{RezerwacjeMg.urzadzenie.nazwa}">
+                    <rich:calendar value="#{calendarBean}" id="calendar" locale="#{RejestracjaRej.locale}"
+                                   popup="false" showApplyButton="false" style="width:200px" rendered="#{RezerwacjeMg.urzadzenie!=null}">
+                    </rich:calendar>
+                </rich:panel>
+            </h:panelGrid>
+            <rich:panel id="dodajPanel">
+                <h:outputLabel value="#{RezerwacjeMg.urzadzenie}ddddd"/>
+            </rich:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -27,7 +27,7 @@ public class UStruktMg {
     private UmMasterGrupaJpaController dcC;
     private UmGrupaJpaController dcG;
     private UmUrzadzenieJpaController dcU;
-    private List<TreeNode> rootNodes = new ArrayList<TreeNode>();
+    private List<TreeNode> rootNodes = new ArrayList<>();
 
     @PostConstruct
     void init() {

@@ -57,6 +57,9 @@ public class UmGrupa implements Serializable {
     @Min(0)
     @Max(999)
     private int czasAlert;
+    
+    private boolean rezerwacje;
+    
     @OrderBy(value = "nazwa ASC")
     @OneToMany(mappedBy = "grupa", cascade = CascadeType.MERGE)
     private List<UmUrzadzenie> urzadzenieList;
@@ -131,6 +134,14 @@ public class UmGrupa implements Serializable {
             wartoscRazem+=u.getWartoscRazem();
         }
         return wartoscRazem;
+    }
+
+    public boolean isRezerwacje() {
+        return rezerwacje;
+    }
+
+    public void setRezerwacje(boolean rezerwacje) {
+        this.rezerwacje = rezerwacje;
     }
 
     @Override
