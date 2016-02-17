@@ -15,7 +15,6 @@ public class DzialValidValidator implements ConstraintValidator<DzialValid, Dzia
     
     @Override
     public void initialize(DzialValid constraintAnnotation) {
-        ;
     }
     
     @Override

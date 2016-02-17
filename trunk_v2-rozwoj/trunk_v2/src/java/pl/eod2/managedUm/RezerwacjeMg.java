@@ -29,8 +29,8 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     }
 
     @Override
-    public void refresh() {
-        login.refresh();
+    public void refresh() throws InstantiationException, IllegalAccessException {
+        super.refresh();
         urzadzenie=null;
         List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
         rootNodes.clear();
@@ -55,6 +55,15 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
         }
     }
 
+    @Override
+    public void dodaj() throws InstantiationException, IllegalAccessException {
+        obiekt.setUrzadzenie(urzadzenie);
+        obiekt.setTworca(login.getZalogowany().getUserId());
+        super.dodaj(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
     public UmRezerwacjeKontr getDcR() {
         return dcR;
     }

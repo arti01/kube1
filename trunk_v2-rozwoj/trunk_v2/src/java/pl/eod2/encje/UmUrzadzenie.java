@@ -20,6 +20,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -79,6 +81,10 @@ public class UmUrzadzenie implements Serializable {
     private Uzytkownik userOdpow;
     @ManyToMany(mappedBy = "urzadzeniaList", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<DcDokument> dokumentyList;
+    @OrderBy(value = "dataOd ASC")
+    @OneToMany(mappedBy = "urzadzenie", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    private List<UmRezerwacje> rezerwacjeList;
+    
     @Transient
     private boolean dataNizDzis;
     @Transient
@@ -223,6 +229,15 @@ public class UmUrzadzenie implements Serializable {
         if(cenaJednostkowa==null) return 0;
         return cenaJednostkowa*stan;
     }    
+
+    public List<UmRezerwacje> getRezerwacjeList() {
+        return rezerwacjeList;
+    }
+
+    public void setRezerwacjeList(List<UmRezerwacje> rezerwacjeList) {
+        this.rezerwacjeList = rezerwacjeList;
+    }
+
     
     @Override
     public int hashCode() {

@@ -37,6 +37,7 @@ import pl.eod2.encje.DcDokument;
 import pl.eod2.encje.DcDokumentArchDod;
 import pl.eod2.encje.DcDokumentKrokUzytkownik;
 import pl.eod2.encje.Ogloszenia;
+import pl.eod2.encje.UmRezerwacje;
 import pl.eod2.encje.UmUrzadzenie;
 
 /**
@@ -130,6 +131,10 @@ public class Uzytkownik implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "userOdpow", orphanRemoval = false, fetch = FetchType.LAZY)
     @OrderBy(value = "id DESC")
     private List<UmUrzadzenie> urzadzenieList;
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "tworca", orphanRemoval = false, fetch = FetchType.LAZY)
+    @OrderBy(value = "dataOd DESC")
+    private List<UmRezerwacje> rezerwacjeList;
+    
     
     //@OneToMany(cascade = CascadeType.MERGE, mappedBy = "wydal", orphanRemoval = false, fetch = FetchType.LAZY)
     //@OrderBy(value = "id DESC")
@@ -395,7 +400,16 @@ public class Uzytkownik implements Serializable {
         }
         return urzadzenieAletrPrzeglList;
     }
-/*
+
+    public List<UmRezerwacje> getRezerwacjeList() {
+        return rezerwacjeList;
+    }
+
+    public void setRezerwacjeList(List<UmRezerwacje> rezerwacjeList) {
+        this.rezerwacjeList = rezerwacjeList;
+    }
+
+    /*
     public List<DcDokumentArchDod> getDokArchDodList() {
         return dokArchDodList;
     }
