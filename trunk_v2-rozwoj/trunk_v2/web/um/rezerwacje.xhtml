@@ -32,7 +32,19 @@
             }
 
         </h:outputStylesheet>
+        <h:outputStylesheet>
+            .bdc {
+            background-color: gray;
+            }
 
+            .wdc {
+            font-weight: bold;
+            font-style: italic;
+            }            
+            .ccc{
+            font-size=30px;
+            }
+        </h:outputStylesheet>
         <h:form>
             <h:panelGrid border="0" columns="2">
                 <rich:panel header="wybierz zasób">
@@ -68,13 +80,28 @@
                         </rich:treeNode>
                     </rich:tree>
                 </rich:panel>
+
                 <rich:panel id="kalendarz" header="kalendarz dostępności dla: #{RezerwacjeMg.urzadzenie.nazwa}">
-                    <rich:calendar id="calendar" locale="#{RejestracjaRej.locale}"
+                    <rich:calendar id="calendar" locale="#{RejestracjaRej.locale}" mode="ajax" value="#{RezerwacjeMg.dataZKal}" dataModel="#{CalendarModel}" valueChangeListener="#{RezerwacjeMg.calList}"
                                    popup="false" showApplyButton="false" style="width:200px" rendered="#{RezerwacjeMg.urzadzenie!=null}">
+                        <a4j:ajax render="test"/>
                     </rich:calendar>
                 </rich:panel>
             </h:panelGrid>
+            <rich:panel id="test">
+                #{RezerwacjeMg.urzadzenie.nazwa}
+                #{RezerwacjeMg.dataZKal}
 
+                <rich:chart id="bar" title="GDP sector composition" rendered="#{RezerwacjeMg.chartList.size()>0}">
+                    <rich:chartXAxis label="godziny" max="24"/>
+                    <a4j:repeat value="#{RezerwacjeMg.chartList}" var="record" rowKeyVar="row">
+                        <rich:chartSeries label="#{record.tworca}" type="bar" symbol="circle">
+                            <rich:chartPoint y="ssss" x="#{record.stop}"/>
+                        </rich:chartSeries>
+                    </a4j:repeat>
+                </rich:chart>
+
+            </rich:panel>
             <rich:popupPanel header="Wprowadź dane dla: #{RezerwacjeMg.urzadzenie.nazwa}" id="dodajRezerwacje"  autosized="true" domElementAttachment="parent" >
                 <h:panelGrid columns="3" id="dodajGrid">
                     <h:outputLabel for="nameD" value="cel rezerwacji: "/>
@@ -102,13 +129,13 @@
                 <rich:message for="dodaj" styleClass="error" />
                 <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
 
-                <a4j:commandButton id="dodaj" value="Dodaj" action="#{RezerwacjeMg.dodaj}" render="dodajRezerwacje" execute="dodajRezerwacje"
+                <a4j:commandButton id="dodaj" value="Dodaj" action="#{RezerwacjeMg.dodaj}" render="dodajRezerwacje, kalendarz" execute="dodajRezerwacje"
                                    oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajRezerwacje')}.hide();} else {#{rich:component('dodajRezerwacje')}.show();}" 
                                    rendered="#{RezerwacjeMg.obiekt.id==null}"></a4j:commandButton>
-                <a4j:commandButton id="zapisz" value="Zapisz" action="#{UGrupaMg.edytuj}" render="dodajRezerwacje" execute="dodajRezerwacje"
+                <a4j:commandButton id="zapisz" value="Zapisz" action="#{UGrupaMg.edytuj}" render="dodajRezerwacje, kalendarz" execute="dodajRezerwacje"
                                    oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajRezerwacje')}.hide();}  else {#{rich:component('dodajRezerwacje')}.show();}" 
                                    rendered="#{RezerwacjeMg.obiekt.id!=null}"/>
-                <a4j:commandButton value="Wyjdź" onclick ="#{rich:component('dodajRezerwacje')}.hide(); return false;" action="#{RezerwacjeMg.refresh}"/>
+                <a4j:commandButton value="Wyjdź" oncomplete="#{rich:component('dodajRezerwacje')}.hide(); return false;" action="#{RezerwacjeMg.refresh}" immediate="true"/>
             </rich:popupPanel>
 
         </h:form>
