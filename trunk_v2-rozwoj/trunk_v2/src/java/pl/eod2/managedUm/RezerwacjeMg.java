@@ -91,11 +91,26 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
             if (rez.getDataOd().before(calendar.getTime()) && rez.getDataDo().before(calendar.getTime())) {
                 continue;
             }
-            Calendar calStSt=Calendar.getInstance();
+            Calendar calStSt = Calendar.getInstance();
             calStSt.setTime(rez.getDataOd());
-            double start=calStSt.get(Calendar.HOUR_OF_DAY)+(calStSt.get(Calendar.MINUTE)/60);
+
+            //jesli start jest wczesniej to start ustaw na zero
+            double start;
+            if (calStSt.before(calendar)) {
+                start = 0;
+            } else {
+                start = calStSt.get(Calendar.HOUR_OF_DAY) + (calStSt.get(Calendar.MINUTE) / 60);
+            }
+
             calStSt.setTime(rez.getDataDo());
-            double stop=calStSt.get(Calendar.HOUR_OF_DAY)+(calStSt.get(Calendar.MINUTE)/60);
+            //jesli stop jest wczesniej to start ustaw na 24
+            double stop;
+            if (calStSt.after(calendar)) {
+                stop = 24;
+            } else {
+                stop = calStSt.get(Calendar.HOUR_OF_DAY) + (calStSt.get(Calendar.MINUTE) / 60);
+            }
+
             chartList.add(new RezerChart(calendar.getTime(), start, stop, "tworca"));
         }
     }
