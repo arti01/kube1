@@ -125,7 +125,7 @@
                                 </rich:panelMenuItem>
                             </h:commandLink>
                         </rich:panelMenuGroup>
-                        
+
                         <rich:panelMenuGroup label="Archiwum - raporty" rendered="#{login.dcArc}" expanded="#{login.menuDcArcRap}" actionListener="#{login.menuDcArcRapList}">
                             <h:commandLink action="#{BrakowanieArch.list}">
                                 <rich:panelMenuItem >
@@ -148,7 +148,13 @@
                                 </rich:panelMenuItem>
                             </h:commandLink>
                         </rich:panelMenuGroup>
-
+                        
+                        <h:commandLink action="#{RepozytMg.list}">
+                            <rich:panelMenuItem >
+                                Repozytorium
+                            </rich:panelMenuItem>
+                        </h:commandLink>
+                        
                         <rich:panelMenuGroup label="Ogłoszenia - zarządzanie" rendered="#{login.ogl}" expanded="#{login.menuOglExp}" actionListener="#{login.menuOglExpList}">
                             <h:commandLink action="#{OgloszeniaMg.list}">
                                 <rich:panelMenuItem >
@@ -156,7 +162,7 @@
                                 </rich:panelMenuItem>
                             </h:commandLink>
                         </rich:panelMenuGroup>
-                        
+
                         <rich:panelMenuGroup label="Rezerwacje" expanded="#{login.menuRezerExp}" actionListener="#{login.menuRezerExpList}">
                             <h:commandLink action="#{RezerwacjeMg.list}">
                                 <rich:panelMenuItem >

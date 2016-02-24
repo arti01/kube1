@@ -41,9 +41,6 @@
             font-weight: bold;
             font-style: italic;
             }            
-            .ccc{
-            font-size=30px;
-            }
         </h:outputStylesheet>
         <h:form>
             <h:panelGrid border="0" columns="2">
@@ -83,7 +80,8 @@
 
                 <rich:panel id="kalendarz" header="kalendarz dostępności dla: #{RezerwacjeMg.urzadzenie.nazwa}">
                     <rich:calendar id="calendar" locale="#{RejestracjaRej.locale}" mode="ajax" value="#{RezerwacjeMg.dataZKal}" dataModel="#{CalendarModel}" valueChangeListener="#{RezerwacjeMg.calList}"
-                                   popup="false" showApplyButton="false" style="width:200px" rendered="#{RezerwacjeMg.urzadzenie!=null}">
+                                   popup="false" showApplyButton="false" style="width:200px" rendered="#{RezerwacjeMg.urzadzenie!=null}"
+                                   resetTimeOnDateSelect="true" showInput="false">
                         <a4j:ajax render="test"/>
                     </rich:calendar>
                 </rich:panel>
@@ -94,58 +92,68 @@
 
                 <rich:dataTable value="#{RezerwacjeMg.chartList}" var="rez">
                     <rich:column>
-                        <f:facet name="header">
-                            6
-                        </f:facet>
-                        <h:outputText value="#{rez.tworca}" rendered="#{rez.start&lt;7 and rez.stop&gt;5}"/>
+                        <f:facet name="header">6</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;7 and rez.stop&gt;5}"/>
                     </rich:column>
                     <rich:column>
-                        <f:facet name="header">
-                            7
-                        </f:facet>
-                        <h:outputText value="#{rez.tworca}" rendered="#{rez.start&lt;8 and rez.stop&gt;6}"/>
+                        <f:facet name="header">7</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;8 and rez.stop&gt;6}"/>
                     </rich:column>
                     <rich:column>
-                        <f:facet name="header">
-                            8
-                        </f:facet>
-                        <h:outputText value="#{rez.tworca}" rendered="#{rez.start&lt;9 and rez.stop&gt;7}"/>
+                        <f:facet name="header">8</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;9 and rez.stop&gt;7}"/>
                     </rich:column>
                     <rich:column>
-                        <f:facet name="header">
-                            9
-                        </f:facet>
-                        <h:outputText value="#{rez.tworca}" rendered="#{rez.start&lt;10 and rez.stop&gt;8}"/>
+                        <f:facet name="header">9</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;10 and rez.stop&gt;8}"/>
                     </rich:column>
                     <rich:column>
-                        <f:facet name="header">
-                            10
-                        </f:facet>
-                        <h:outputText value="#{rez.tworca}" rendered="#{rez.start&lt;11 and rez.stop&gt;9}"/>
+                        <f:facet name="header">10</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;11 and rez.stop&gt;9}"/>
                     </rich:column>
                     <rich:column>
-                        <f:facet name="header">
-                            11
-                        </f:facet>
-                        <h:outputText value="#{rez.tworca}" rendered="#{rez.start&lt;12 and rez.stop&gt;10}"/>
+                        <f:facet name="header">11</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;12 and rez.stop&gt;10}"/>
                     </rich:column>
                     <rich:column>
-                        <f:facet name="header">
-                            12
-                        </f:facet>
-                        <h:outputText value="#{rez.tworca}" rendered="#{rez.start&lt;13 and rez.stop&gt;11}"/>
+                        <f:facet name="header">12</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;13 and rez.stop&gt;11}"/>
                     </rich:column>
                     <rich:column>
-                        <f:facet name="header">
-                            13
-                        </f:facet>
-                        <h:outputText value="#{rez.tworca}" rendered="#{rez.start&lt;14 and rez.stop&gt;12}"/>
+                        <f:facet name="header">13</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;14 and rez.stop&gt;12}"/>
                     </rich:column>
                     <rich:column>
-                        <f:facet name="header">
-                            14
-                        </f:facet>
-                        <h:outputText value="#{rez.tworca}" rendered="#{rez.start&lt;15 and rez.stop&gt;13}"/>
+                        <f:facet name="header">14</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;15 and rez.stop&gt;13}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">15</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;16 and rez.stop&gt;14}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">16</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;17 and rez.stop&gt;15}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">17</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;18 and rez.stop&gt;16}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">18</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;19 and rez.stop&gt;17}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">19</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;20 and rez.stop&gt;18}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">20</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;21 and rez.stop&gt;19}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">21</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;22 and rez.stop&gt;20}"/>
                     </rich:column>
                 </rich:dataTable>
 

@@ -1,3 +1,7 @@
+2016-02-25
+dodać nowe pole do konfig
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'dir_repo', 'forder gdzie sa przechowywane dokumenty', 'd:\\tmp');
+
 2016-01-10
 OCR - w eodt.lib.NewClass (to ten jar z licencją) jest nowy static:
 public static boolean OCR=true; - wiadomo, co robi :)

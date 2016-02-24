@@ -13,11 +13,11 @@ import java.util.Date;
  */
 public class RezerChart {
     private Date data;
-    private double start;
-    private double stop;
+    private int start;
+    private int stop;
     private String tworca;
 
-    public RezerChart(Date data, double start, double stop, String tworca) {
+    public RezerChart(Date data, int start, int stop, String tworca) {
         this.data = data;
         this.start = start;
         this.stop = stop;
@@ -33,19 +33,19 @@ public class RezerChart {
         this.data = data;
     }
 
-    public double getStart() {
+    public int getStart() {
         return start;
     }
 
-    public void setStart(double start) {
+    public void setStart(int start) {
         this.start = start;
     }
 
-    public double getStop() {
+    public int getStop() {
         return stop;
     }
 
-    public void setStop(double stop) {
+    public void setStop(int stop) {
         this.stop = stop;
     }
 
