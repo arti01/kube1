@@ -14,13 +14,18 @@
         <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
         <h:form>
             <rich:panel header="Lista katalogow">
-                <rich:tree toggleType="ajax" var="item" style="max-width: 400px">
+                <rich:tree toggleType="ajax" var="item" style="max-width: 800px" >
                     <rich:treeModelRecursiveAdaptor roots="#{RepozytMg.sourceRoots}" nodes="#{item.directories}">
-                        <rich:treeNode>
+                        <rich:treeNode expanded="true">
                             #{item.shortPath}
                         </rich:treeNode>
-                        <rich:treeModelAdaptor nodes="#{item.files}">
-                            <rich:treeNode>#{item}</rich:treeNode>
+                        <rich:treeModelAdaptor nodes="#{item.filesDwnl}">
+                            <rich:treeNode expanded="true">
+                                <h:commandLink action="#{fileUploadBean.downloadFromDysk}" value="#{item.nazwa}" immediate="true">
+                                    <f:setPropertyActionListener target="#{RepozytMg.plikDownl}" value="#{item.fullPatch}" />
+                                    <f:setPropertyActionListener target="#{RepozytMg.plikDownlName}" value="#{item.nazwa}" />
+                                </h:commandLink>
+                            </rich:treeNode>
                         </rich:treeModelAdaptor>
                     </rich:treeModelRecursiveAdaptor>
                 </rich:tree>

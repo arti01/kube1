@@ -1,11 +1,15 @@
 package pl.eod2.plikiUpload;
 
+import java.io.File;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +21,7 @@ import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 import pl.eod2.managedRej.ImpPlik;
 import pl.eod2.managedRej.Rejestracja;
+import pl.eod2.managedRep.RepozytMg;
 
 /**
  * @author Ilya Shaikovsky
@@ -35,6 +40,9 @@ public class FileUploadBean implements Serializable {
     private Rejestracja rejRej;
     @ManagedProperty(value = "#{RejImpPlik}")
     private ImpPlik impPlik;
+    @ManagedProperty(value = "#{RepozytMg}")
+    private RepozytMg repoz;
+
     /*public int getSize() {
      if (getFiles().size() > 0) {
      return getFiles().size();
@@ -77,6 +85,21 @@ public class FileUploadBean implements Serializable {
         try {
             response.getOutputStream().write(rejRej.getPlik().getPlik()); // from the UploadDetails bean
             response.setContentLength(rejRej.getPlik().getPlik().length);
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FacesContext.getCurrentInstance().responseComplete();
+    }
+
+    public void downloadFromDysk() {
+        final HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + repoz.getPlikDownlName() + "\""); // or whatever type you're sending back
+        try {
+            Path path = Paths.get(repoz.getPlikDownl());
+            response.getOutputStream().write(Files.readAllBytes(path)); // from the UploadDetails bean
+            response.setContentLength(Files.readAllBytes(path).length);
             response.getOutputStream().flush();
             response.getOutputStream().close();
         } catch (IOException e) {
@@ -154,5 +177,13 @@ public class FileUploadBean implements Serializable {
     public void setImpPlik(ImpPlik impPlik) {
         this.impPlik = impPlik;
     }
-    
+
+    public RepozytMg getRepoz() {
+        return repoz;
+    }
+
+    public void setRepoz(RepozytMg repoz) {
+        this.repoz = repoz;
+    }
+
 }
