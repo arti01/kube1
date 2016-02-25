@@ -67,15 +67,16 @@ public class UmRezerwacje extends AbstEncja implements Serializable {
     private Uzytkownik tworca;
 
     @Override
-    public void setId(Integer id) {
-        super.setId(id);
+    public Integer getId() {
+        return id;
     }
 
     @Override
-    public Integer getId() {
-        return super.getId();
+    public void setId(Integer id) {
+        this.id = id;
     }
 
+    
     @Override
     public String getNazwa() {
         return nazwa;

@@ -96,17 +96,13 @@
                         <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;12 and rez.stop&gt;10}"/>
                     </rich:column>
 
-                    <rich:column style="background-color: red" rendered="#{rez.start&lt;13 and rez.stop&gt;11}">
+                    <rich:column>
                         <f:facet name="header">12</f:facet>
-                        <a4j:commandButton value=" [edytuj]" oncomplete="#{rich:component('dodajRezerwacje')}.show()" execute="@this" render="dodajRezerwacje, kalendarz">
+                        <a4j:commandLink value="R" oncomplete="#{rich:component('dodajRezerwacje')}.show()" execute="@this" 
+                                         render="dodajRezerwacje, kalendarz" style="display: block;background-color: red" rendered="#{rez.start&lt;13 and rez.stop&gt;11}">
                             <f:setPropertyActionListener target="#{RezerwacjeMg.obiekt}" value="#{rez.rezerwacja}" />
-                        </a4j:commandButton>
-                        #{rez.rezerwacja}
-                        #{rez.rezerwacja.id}
-                    </rich:column>
-                    <rich:column rendered="#{!(rez.start&lt;13 and rez.stop&gt;11)}">
-                        <f:facet name="header">12</f:facet>
-                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;13 and rez.stop&gt;11}"/>
+                        </a4j:commandLink>
+                        <rich:tooltip value="#{rez.rezerwacja.nazwa} <br/> #{rez.rezerwacja.tworca.adrEmail}" rendered="#{rez.start&lt;13 and rez.stop&gt;11}"/>
                     </rich:column>
                     <rich:column>
                         <f:facet name="header">13</f:facet>
@@ -171,9 +167,6 @@
 
                 </h:panelGrid>
                 <hr/>
-#{RezerwacjeMg.obiekt}
-#{RezerwacjeMg.obiekt.id}
-#{RezerwacjeMg.obiekt.id!=null}
                 <rich:message for="zapisz" styleClass="error" />
                 <rich:message for="dodaj" styleClass="error" />
                 <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>

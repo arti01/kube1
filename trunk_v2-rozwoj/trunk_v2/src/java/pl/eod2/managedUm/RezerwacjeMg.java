@@ -111,8 +111,6 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
             } else {
                 stop = calStSt.get(Calendar.HOUR_OF_DAY);
             }
-            System.err.println(rez);
-            System.err.println(rez.getId());
             chartList.add(new RezerChart(calendar.getTime(), start, stop, rez));
         }
     }
