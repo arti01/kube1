@@ -6,17 +6,10 @@
 package pl.eod2.managedRep;
 
 import com.google.common.base.Function;
-import static com.google.common.base.Predicates.containsPattern;
-import static com.google.common.base.Predicates.not;
-import com.google.common.collect.Iterables;
-import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.transform;
 import com.google.common.collect.Lists;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.faces.context.ExternalContext;
@@ -65,6 +58,7 @@ public class DrzPliki {
     };
  
     private static final Function<String, String> TO_SHORT_PATH = new Function<String, String>() {
+
         @Override
         public String apply(String from) {
             int idx = from.lastIndexOf('/');
@@ -87,9 +81,12 @@ public class DrzPliki {
     public DrzPliki(String path) {
         this.path = path;
         int idx = path.lastIndexOf('/');
+        int idxWin = path.lastIndexOf('\\');
         if (idx != -1) {
             shortPath = path.substring(idx + 1);
-        } else {
+        }else if(idxWin != -1){
+            shortPath = path.substring(idxWin + 1);
+        }else {
             shortPath = path;
         }
     }

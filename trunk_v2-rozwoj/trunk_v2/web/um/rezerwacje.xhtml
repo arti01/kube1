@@ -12,31 +12,11 @@
 
     <ui:define name="content">
         <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
-        <h:outputStylesheet>
-            .rf-ind-drag.default{
-            background-position: 3px;
-            background-repeat: no-repeat;
-            border:1px solid grey
-            }
-
-            .rf-ind-drag.accept{
-            background-position: 5px;
-            background-repeat: no-repeat;
-            border:2px solid green
-            }
-
-            .rf-ind-drag.reject{
-            background-position: 5px;
-            background-repeat: no-repeat;
-            border:2px solid red
-            }
-
-        </h:outputStylesheet>
+        <link type="text/css" rel="stylesheet" href="../resources/css/cssLayout.css"></link>
         <h:outputStylesheet>
             .bdc {
             background-color: gray;
             }
-
             .wdc {
             font-weight: bold;
             font-style: italic;
@@ -115,7 +95,16 @@
                         <f:facet name="header">11</f:facet>
                         <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;12 and rez.stop&gt;10}"/>
                     </rich:column>
-                    <rich:column>
+
+                    <rich:column style="background-color: red" rendered="#{rez.start&lt;13 and rez.stop&gt;11}">
+                        <f:facet name="header">12</f:facet>
+                        <a4j:commandButton value=" [edytuj]" oncomplete="#{rich:component('dodajRezerwacje')}.show()" execute="@this" render="dodajRezerwacje, kalendarz">
+                            <f:setPropertyActionListener target="#{RezerwacjeMg.obiekt}" value="#{rez.rezerwacja}" />
+                        </a4j:commandButton>
+                        #{rez.rezerwacja}
+                        #{rez.rezerwacja.id}
+                    </rich:column>
+                    <rich:column rendered="#{!(rez.start&lt;13 and rez.stop&gt;11)}">
                         <f:facet name="header">12</f:facet>
                         <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;13 and rez.stop&gt;11}"/>
                     </rich:column>
@@ -156,11 +145,12 @@
                         <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;22 and rez.stop&gt;20}"/>
                     </rich:column>
                 </rich:dataTable>
-
             </rich:panel>
-
-            <rich:popupPanel header="Wprowadź dane dla: #{RezerwacjeMg.urzadzenie.nazwa}" id="dodajRezerwacje"  autosized="true" domElementAttachment="parent" >
-                <h:panelGrid columns="3" id="dodajGrid">
+        </h:form>
+        
+        <h:form>
+            <rich:popupPanel header="Wprowadź dane dla: #{RezerwacjeMg.urzadzenie.nazwa}" id="dodajRezerwacje"  autosized="true" domElementAttachment="parent">
+                <h:panelGrid columns="3" id="dodajGrid"  style="font-size: 11px">
                     <h:outputLabel for="nameD" value="cel rezerwacji: "/>
                     <h:inputText id="nameD" value="#{RezerwacjeMg.obiekt.nazwa}" size="90" ><rich:validator/></h:inputText>
                     <rich:message for="nameD" styleClass="error" />
@@ -181,7 +171,9 @@
 
                 </h:panelGrid>
                 <hr/>
-
+#{RezerwacjeMg.obiekt}
+#{RezerwacjeMg.obiekt.id}
+#{RezerwacjeMg.obiekt.id!=null}
                 <rich:message for="zapisz" styleClass="error" />
                 <rich:message for="dodaj" styleClass="error" />
                 <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
@@ -189,13 +181,14 @@
                 <a4j:commandButton id="dodaj" value="Dodaj" action="#{RezerwacjeMg.dodaj}" render="dodajRezerwacje, kalendarz" execute="dodajRezerwacje"
                                    oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajRezerwacje')}.hide();} else {#{rich:component('dodajRezerwacje')}.show();}" 
                                    rendered="#{RezerwacjeMg.obiekt.id==null}"></a4j:commandButton>
-                <a4j:commandButton id="zapisz" value="Zapisz" action="#{UGrupaMg.edytuj}" render="dodajRezerwacje, kalendarz" execute="dodajRezerwacje"
+                <a4j:commandButton id="zapisz" value="Zapisz" action="#{RezerwacjeMg.edytuj}" render="dodajRezerwacje, kalendarz" execute="dodajRezerwacje"
                                    oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajRezerwacje')}.hide();}  else {#{rich:component('dodajRezerwacje')}.show();}" 
                                    rendered="#{RezerwacjeMg.obiekt.id!=null}"/>
                 <a4j:commandButton value="Wyjdź" oncomplete="#{rich:component('dodajRezerwacje')}.hide(); return false;" action="#{RezerwacjeMg.refresh}" immediate="true"/>
             </rich:popupPanel>
 
         </h:form>
+        
     </ui:define>
 
 </ui:composition>

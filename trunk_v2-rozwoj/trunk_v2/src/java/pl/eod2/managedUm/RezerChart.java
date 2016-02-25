@@ -6,6 +6,7 @@
 package pl.eod2.managedUm;
 
 import java.util.Date;
+import pl.eod2.encje.UmRezerwacje;
 
 /**
  *
@@ -15,13 +16,13 @@ public class RezerChart {
     private Date data;
     private int start;
     private int stop;
-    private String tworca;
+    private UmRezerwacje rezerwacja;
 
-    public RezerChart(Date data, int start, int stop, String tworca) {
+    public RezerChart(Date data, int start, int stop, UmRezerwacje rez) {
         this.data = data;
         this.start = start;
         this.stop = stop;
-        this.tworca = tworca;
+        this.rezerwacja=rez;
     }
 
     
@@ -49,13 +50,12 @@ public class RezerChart {
         this.stop = stop;
     }
 
-    public String getTworca() {
-        return tworca;
+    public UmRezerwacje getRezerwacja() {
+        return rezerwacja;
     }
 
-    public void setTworca(String tworca) {
-        this.tworca = tworca;
+    public void setRezerwacja(UmRezerwacje rezerwacja) {
+        this.rezerwacja = rezerwacja;
     }
-    
-    
+
 }
