@@ -17,6 +17,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -106,7 +107,7 @@ public class Login implements Serializable {
             System.err.println(uzytC.iluZprawami() + "licencja" + eodt.lib.NewClass.LICZ);
             template = "../templates/template_login.xhtml";
         }
-        }
+    }
 
     public String wyloguj() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -153,6 +154,23 @@ public class Login implements Serializable {
             //System.err.println("tutaj");
             return "../index.html";
         }
+    }
+
+    public void loginTest() {
+        System.err.println("ssssseeeeeeeeeeee");
+    }
+    
+    public String loginNew() {
+        System.err.println("ssssssssssssssssssssssssssssssss");
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        try {
+            request.login(this.username, this.password);
+        } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage("Login failed."));
+            return "error";
+        }
+        return "/all/index";
     }
 
     public String login() {
@@ -212,7 +230,7 @@ public class Login implements Serializable {
         menuUmCfg = false;
         menuUmSprze = false;
         menuDcArcRap = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
 
     public void menuUrlopExpList(ActionEvent event) {
@@ -226,7 +244,7 @@ public class Login implements Serializable {
         menuUmCfg = false;
         menuUmSprze = false;
         menuDcArcRap = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
 
     public void menuDcCfgExpList(ActionEvent event) {
@@ -240,7 +258,7 @@ public class Login implements Serializable {
         menuUmCfg = false;
         menuUmSprze = false;
         menuDcArcRap = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
 
     public void menuDcRejExpList(ActionEvent event) {
@@ -254,7 +272,7 @@ public class Login implements Serializable {
         menuUmCfg = false;
         menuUmSprze = false;
         menuDcArcRap = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
 
     public void menuDcOdbExpList(ActionEvent event) {
@@ -268,7 +286,7 @@ public class Login implements Serializable {
         menuUmCfg = false;
         menuUmSprze = false;
         menuDcArcRap = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
 
     public void menuDcArcExpList(ActionEvent event) {
@@ -282,7 +300,7 @@ public class Login implements Serializable {
         menuUmCfg = false;
         menuUmSprze = false;
         menuDcArcRap = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
 
     public void menuDcArcRapList(ActionEvent event) {
@@ -296,7 +314,7 @@ public class Login implements Serializable {
         menuOglExp = false;
         menuUmCfg = false;
         menuUmSprze = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
 
     public void menuOglExpList(ActionEvent event) {
@@ -310,7 +328,7 @@ public class Login implements Serializable {
         menuUmCfg = false;
         menuUmSprze = false;
         menuDcArcRap = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
 
     public void menuUmCfgExpList(ActionEvent event) {
@@ -324,7 +342,7 @@ public class Login implements Serializable {
         menuDcOdbExp = false;
         menuUmSprze = false;
         menuDcArcRap = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
 
     public void menuUmSprzExpList(ActionEvent event) {
@@ -338,9 +356,9 @@ public class Login implements Serializable {
         menuDcOdbExp = false;
         menuUmCfg = false;
         menuDcArcRap = false;
-        menuRezerExp =false;
+        menuRezerExp = false;
     }
-    
+
     public void menuRezerExpList(ActionEvent event) {
         menuRezerExp = !menuRezerExp;
         menuUmSprze = false;
@@ -389,6 +407,7 @@ public class Login implements Serializable {
     }
 
     public void setUsername(String username) {
+        System.err.println(username);
         this.username = username;
     }
 
@@ -397,6 +416,7 @@ public class Login implements Serializable {
     }
 
     public void setPassword(String password) {
+        System.err.println(password);
         this.password = password;
     }
 

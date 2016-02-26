@@ -42,7 +42,10 @@ textarea{
     color: red;
     font-weight: bold;
 }
-
+.rf-tt {
+	position: relative;
+	display: block;
+}
 .rf-cp {
   padding: 0px;
 }

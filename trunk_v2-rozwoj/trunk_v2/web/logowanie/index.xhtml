@@ -5,7 +5,8 @@
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="#{login.template}"
                 xmlns:rich="http://richfaces.org/rich"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
         <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
@@ -102,9 +103,9 @@
                                     <h:outputText id="nazwaList" value="#{item.idDokumentKrok.idDok.nazwa}"/>
                                     <br/>
                                     <h:outputText id="symbolList" value="#{item.idDokumentKrok.idDok.symbolDok}"/>
-                                    <rich:tooltip target="nazwaList">
+                                    <p:tooltip for="nazwaList">
                                         #{item.idDokumentKrok.idDok.opis}
-                                    </rich:tooltip>
+                                    </p:tooltip>
                                 </rich:column>
                                 <rich:column>
                                     <f:facet name="header">data dokumentu</f:facet>
@@ -117,9 +118,9 @@
                                 <rich:column>
                                     <f:facet name="header">rodzaj</f:facet>
                                     <h:outputText id="rodzajList" value="#{item.idDokumentKrok.idDok.rodzajId.nazwa}"/>
-                                    <rich:tooltip target="rodzajList">
+                                    <p:tooltip for="rodzajList">
                                         #{item.idDokumentKrok.idDok.rodzajId.opis} z grupy:#{item.idDokumentKrok.idDok.rodzajId.idRodzajGrupa.nazwa}
-                                    </rich:tooltip>
+                                    </p:tooltip>
                                 </rich:column>
                             </rich:dataTable>
                         </rich:collapsiblePanel>
