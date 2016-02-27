@@ -71,7 +71,7 @@
         <realm-name>eod</realm-name>
         <form-login-config>
             <!-- ?faces-redirect=true -->
-            <form-login-page>/login.xhtml</form-login-page>
+            <form-login-page>/logowanie/login.xhtml</form-login-page>
             <form-error-page>/logowanie/loginerr.xhtml</form-error-page>
         </form-login-config>
     </login-config>
@@ -94,7 +94,7 @@
         <display-name>Eod</display-name>
         <web-resource-collection>
             <web-resource-name>eod</web-resource-name>
-            <url-pattern>/*/*.xhtml</url-pattern>
+            <url-pattern>*.xhtml</url-pattern>
             <http-method>DELETE</http-method>
             <http-method>GET</http-method>
             <http-method>POST</http-method>

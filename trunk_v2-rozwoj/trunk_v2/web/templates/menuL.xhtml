@@ -17,11 +17,9 @@
         }
     </style>
     <h:form>
-        <p:tieredMenu>
+        <p:slideMenu style="width: 190px; font-size: small" backLabel="wróc">
             <p:menuitem value="Start" action="#{login.stronaIndex}" icon="ui-icon-refresh"/>
-        </p:tieredMenu>
 
-        <p:tieredMenu>
             <p:submenu label="Dokumenty - konfiguracja" rendered="#{login.dcCfg}">
                 <p:menuitem value="Grupy rodzajów" action="#{RodzajeGrupyCfg.list}" />
                 <p:menuitem value="Rodzaje" action="#{RodzajeCfg.list}"/>
@@ -47,9 +45,7 @@
                 <p:menuitem value="Historia akceptacji" action="#{HistOdb.list}"/>
                 <p:menuitem value="Do wiadomości" action="#{DoWiadOdb.list}"/>
             </p:submenu>
-        </p:tieredMenu>
 
-        <p:tieredMenu>
             <p:submenu label="Dokumenty - archiwum" rendered="#{login.dcArc}">
                 <p:menuitem value="Do archiwum" action="#{PrzeniesArch.list}"/>
                 <p:menuitem value="Poczekalnia" action="#{PoczekalniaArch.list}"/>
@@ -64,9 +60,7 @@
                 <p:menuitem value="Niezwrócone" action="#{RaportyArch.nieZwrocone}"/>
                 <p:menuitem value="Wydane wg osoby" action="#{RaportyArch.wydWgOsoby}"/>
             </p:submenu>
-        </p:tieredMenu>
 
-        <p:tieredMenu>
             <p:menuitem value="Repozytorium" action="#{RepozytMg.list}"/>
 
             <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}"/>
@@ -74,9 +68,7 @@
             <p:submenu label="Rezerwacje" expanded="#{login.menuRezerExp}">
                 <p:menuitem value="Rezerwuj" action="#{RezerwacjeMg.list}"/>
             </p:submenu>
-        </p:tieredMenu>
 
-        <p:tieredMenu>
             <p:submenu label="Baza Zasobów Materiałowych" rendered="#{login.umSprz}">
                 <p:menuitem value="Lista zasobów" action="#{URejDokMg.list}"/>
                 <p:menuitem value="Lista dokumentów" action="#{UrzadzeniaMg.list}"/>
@@ -89,33 +81,25 @@
                 <p:menuitem value="Grupy" action="#{UGrupaMg.list}"/>
                 <p:menuitem value="Drzewo" action="#{UStruktMg.list}"/>
             </p:submenu>
-        </p:tieredMenu>
-
-        <p:tieredMenu>
+            
             <p:submenu label="Struktura organizacyjna" rendered="#{login.struktura}">
                 <p:menuitem value="Nowy pracownik" action="#{UsersM.nowy}"/>
                 <p:menuitem value="Lista pracowników" action="#{UsersM.lista}"/>
                 <p:menuitem value="Struktura osobowa" action="#{StruktOsM.lista}"/>
                 <p:menuitem value="Struktura działów" action="#{StruktDzialM.lista}"/>
             </p:submenu>
-        </p:tieredMenu>
-
-        <p:tieredMenu>
+            
             <p:menuitem value="Zarządzanie spółkami" action="#{SpolkiMg.list}" rendered="#{login.admin}"/>
             <p:menuitem value="Ustaw swojego zastępcę" action="#{UsersM.ustawZastepce}"  rendered="#{login.kierownik}"/>
             <p:menuitem value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin}"/>
-        </p:tieredMenu>
 
-        <p:tieredMenu rendered="#{login.urlop}">
-            <p:submenu label="Obsługa urlopów" rendered="#{login.struktura}">
+            <p:submenu label="Obsługa urlopów" rendered="#{login.urlop}">
                 <p:menuitem value="Twoje wnioski" action="#{UrlopM.list}"/>
                 <p:menuitem value="Wnioski do akceptacji" action="#{UrlopM.listPodwl}" rendered="#{login.zalogowany.stKier or fn:length(login.zalogowany.userId.strukturaSec)>0}"/>
                 <p:menuitem value="Historia wniosków" action="#{UrlopM.listPodwlHist}" rendered="#{login.zalogowany.stKier}"/>
                 <p:menuitem value="Obce wnioski" action="#{UrlopObceM.list}" rendered="#{login.zalogowany.przyjmowanieWnioskow}"/>
             </p:submenu>
-        </p:tieredMenu>
 
-        <p:tieredMenu>
             <p:menuitem value="Zmiana hasła" action="#{login.htmlZmianaHasla}" 
                         rendered="#{(login.zalogowany.userId.extId=='' or fn:contains(login.zalogowany.userId.extId, '@') or fn:contains(login.zalogowany.userId.extId, 'FN')) and login.zalogowany!=null}"/>
             <p:menuitem value="Wyjście" url="../logowanie/logout.jsp" />
@@ -126,7 +110,7 @@
                 Dostępny urlop:<br/>
                 <strong>#{login.zalogowany.userId.wnLimity.ulimit}</strong>
             </p:menuitem>
-        </p:tieredMenu>
+        </p:slideMenu>
 
 
         <h:panelGroup rendered="#{fn:length(login.menuLinki)>0}">

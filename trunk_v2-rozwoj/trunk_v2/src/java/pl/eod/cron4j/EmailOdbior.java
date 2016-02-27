@@ -52,7 +52,8 @@ public class EmailOdbior {
         this.props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         props.setProperty("mail.mime.decodetext.strict", "false");
-        session = Session.getDefaultInstance(props, null);
+        //session = Session.getDefaultInstance(props, null);
+        session=Session.getInstance(props,null);
         emaile = new ArrayList<>();
 
         if (this.emf == null) {

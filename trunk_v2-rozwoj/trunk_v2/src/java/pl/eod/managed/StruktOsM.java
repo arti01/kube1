@@ -68,8 +68,16 @@ public class StruktOsM implements Serializable {
             firma.setBezpPod(srcRoots);
             wynik.add(firma);
         } else {
-
             for (Struktura s : struktC.findGeneryczny().getBezpPod()) {
+                //System.err.println(s.getUserId().getAdrEmail());
+                //System.err.println(s.getUserId().getFullname());
+                //System.err.println(s.getUserId());
+                //System.err.println(s.getUserId().getSpolkaId());
+                //System.err.println(login.zalogowany.getUserId().getSpolkaId());
+                /*
+                jesli po zalogowaniu na admina widać drzewko, a po zalogowaniu na usera nie, to moze to śwoadczyć, że bezpośredni
+                podwladny generycznego (prezes) nie ma ustawionego lub ma zle id spolki
+                */
                 try {
                     if (s.getUserId().getSpolkaId().equals(login.zalogowany.getUserId().getSpolkaId())) {
                         wynik.add(s);
