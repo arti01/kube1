@@ -10,7 +10,7 @@
     </context-param>
     <context-param>  
         <param-name>primefaces.THEME</param-name>  
-        <param-value>bootstrap</param-value>  
+        <param-value>none</param-value>  
     </context-param>
     <context-param>
         <param-name>org.richfaces.enableControlSkinning</param-name>
@@ -48,7 +48,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            33
         </session-timeout>
     </session-config>
     <welcome-file-list>
@@ -136,11 +136,18 @@
         <role-name>eoddok_rej</role-name>
     </security-role>
     <error-page>
+        <location>/error/500.xhtml</location>
+    </error-page>
+    <error-page>
         <error-code>500</error-code>
         <location>/error/500.xhtml</location>
     </error-page>
     <error-page>
         <error-code>403</error-code>
         <location>/error/403.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/500.xhtml</location>
     </error-page>
 </web-app>

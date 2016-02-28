@@ -3,34 +3,28 @@
 
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-                xmlns:rich="http://richfaces.org/rich"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/template.xhtml"
-                xmlns:a4j="http://richfaces.org/a4j">
+                template="/templates/templatePF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
 
-    <ui:define name="content">
-        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
-        <h:form>
-            <rich:panel header="Lista katalogow">
-                <rich:tree toggleType="ajax" var="item" style="max-width: 800px" >
-                    <rich:treeModelRecursiveAdaptor roots="#{RepozytMg.sourceRoots}" nodes="#{item.directories}">
-                        <rich:treeNode expanded="true">
-                            #{item.shortPath}
-                        </rich:treeNode>
-                        <rich:treeModelAdaptor nodes="#{item.filesDwnl}">
-                            <rich:treeNode expanded="true">
-                                <h:commandLink action="#{fileUploadBean.downloadFromDysk}" value="#{item.nazwa}" immediate="true">
-                                    <f:setPropertyActionListener target="#{RepozytMg.plikDownl}" value="#{item.fullPatch}" />
-                                    <f:setPropertyActionListener target="#{RepozytMg.plikDownlName}" value="#{item.nazwa}" />
-                                </h:commandLink>
-                            </rich:treeNode>
-                        </rich:treeModelAdaptor>
-                    </rich:treeModelRecursiveAdaptor>
-                </rich:tree>
-            </rich:panel>
-        </h:form>
+    <ui:define name="tytul">
+        <h3>Lista Plików</h3>
     </ui:define>
-
+    <ui:define name="content">
+        <p:tree value="#{RepozytMg.root}" var="node" dynamic="true" style="width: 97%; background-color: white;" selectionMode="single">
+            <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                <h:outputText value="#{node.shortName}" />
+            </p:treeNode>
+            <p:treeNode type="file" icon="ui-icon-document">
+                <p:commandLink ajax="false">
+                    <f:setPropertyActionListener target="#{fileUploadBean.plikDownl}" value="#{node.fullPath}" />
+                    <f:setPropertyActionListener target="#{fileUploadBean.plikDownlName}" value="#{node.shortName}" />
+                    <h:outputText value="#{node.shortName}" />
+                    <p:fileDownload value="#{fileUploadBean.file}" />
+                </p:commandLink>
+            </p:treeNode>
+        </p:tree>
+    </ui:define>
+    
 </ui:composition>

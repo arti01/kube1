@@ -8,7 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
-import javax.swing.tree.TreeNode;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 import pl.eod.abstr.AbstMg;
 import pl.eod.managed.Login;
 import pl.eod2.encje.UmGrupa;
@@ -27,8 +28,9 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     private UrzadzeniaMg urzMg;
 
     private UmRezerwacjeKontr dcR;
-    private List<TreeNode> rootNodes = new ArrayList<>();
-    private UmUrzadzenie urzadzenie;
+    //private List<TreeNode> rootNodes = new ArrayList<>();
+    private TreeNode root;
+    private TreeNode urzadzenie;
     private Date dataZKal;
     private List<RezerChart> chartList = new ArrayList<>();
 
@@ -41,7 +43,22 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     @Override
     public void refresh() throws InstantiationException, IllegalAccessException {
         super.refresh();
-        if (urzadzenie != null) {
+        login.refresh();
+        List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
+        root = new DefaultTreeNode("urządzenia", null);
+        for (UmMasterGrupa mg : masterList) {
+            TreeNode mtr = new DefaultTreeNode("grupa", mg, root);
+            for (UmGrupa gr : mg.getGrupaList()) {
+                if (!gr.isRezerwacje()) {
+                    continue;
+                }
+                TreeNode gtr = new DefaultTreeNode("grupa", gr, mtr);
+                for (UmUrzadzenie uz : gr.getUrzadzenieList()) {
+                    TreeNode utr = new DefaultTreeNode("urzadzenie", uz, gtr);    
+                }
+            }
+        }
+        /*   if (urzadzenie != null) {
             urzadzenie = urzMg.getDcC().findUmUrzadzenie(urzadzenie.getId());
         }
         login.refresh();
@@ -65,10 +82,10 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
             if (!drMa.getDrzGrupa().isEmpty()) {
                 rootNodes.add(drMa);
             }
-        }
+        }*/
     }
 
-    @Override
+   /* @Override
     public void dodaj() throws InstantiationException, IllegalAccessException {
         obiekt.setUrzadzenie(urzadzenie);
         obiekt.setTworca(login.getZalogowany().getUserId());
@@ -97,7 +114,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
             //jesli start jest wczesniej to start ustaw na zero
             int start;
             //if (calStSt.before(calendar)) {
-            if (calStSt.get(Calendar.DAY_OF_YEAR)<calendar.get(Calendar.DAY_OF_YEAR)) {
+            if (calStSt.get(Calendar.DAY_OF_YEAR) < calendar.get(Calendar.DAY_OF_YEAR)) {
                 start = 0;
             } else {
                 start = calStSt.get(Calendar.HOUR_OF_DAY);
@@ -106,7 +123,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
             calStSt.setTime(rez.getDataDo());
             //jesli stop jest wczesniej to start ustaw na 24
             int stop;
-            if (calStSt.get(Calendar.DAY_OF_YEAR)>calendar.get(Calendar.DAY_OF_YEAR)) {
+            if (calStSt.get(Calendar.DAY_OF_YEAR) > calendar.get(Calendar.DAY_OF_YEAR)) {
                 stop = 24;
             } else {
                 stop = calStSt.get(Calendar.HOUR_OF_DAY);
@@ -122,15 +139,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     public void setDcR(UmRezerwacjeKontr dcR) {
         this.dcR = dcR;
     }
-
-    public List<TreeNode> getRootNodes() {
-        return rootNodes;
-    }
-
-    public void setRootNodes(List<TreeNode> rootNodes) {
-        this.rootNodes = rootNodes;
-    }
-
+*/
     public Login getLogin() {
         return login;
     }
@@ -139,11 +148,14 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
         this.login = login;
     }
 
-    public UmUrzadzenie getUrzadzenie() {
+    public TreeNode getUrzadzenie() {
         return urzadzenie;
     }
 
-    public void setUrzadzenie(UmUrzadzenie urzadzenie) {
+    public void setUrzadzenie(TreeNode urzadzenie) {
+        if(urzadzenie!=null){
+        System.err.println(urzadzenie.getData());
+                }
         this.urzadzenie = urzadzenie;
     }
 
@@ -178,4 +190,13 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     public void setChartList(List<RezerChart> chartList) {
         this.chartList = chartList;
     }
+
+    public TreeNode getRoot() {
+        return root;
+    }
+
+    public void setRoot(TreeNode root) {
+        this.root = root;
+    }
+    
 }

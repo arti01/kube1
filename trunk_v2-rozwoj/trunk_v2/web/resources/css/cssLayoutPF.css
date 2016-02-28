@@ -24,49 +24,12 @@
 
 #left {
     float: left;
-    background-color: #e9efef;
     color: black;
     padding: 0;
-    width: 150px;
+    width: 200px;
     min-height: 520px;
     font-size: 11px;
     font-family: Arial, tahoma,sans;
-    border: 1px solid black;
-}
-#left ul
-{
-    margin: 0;
-    padding: 2px 2px 2px 2px;
-    list-style: none;
-}
-
-
-#left li
-{
-    margin: 0;
-    /*padding: 5px 10px 5px 10px;*/
-   /* border-bottom: 2px  dotted #006633; */
-    font-weight: bold;
-}
-
-#left tbody h4 {
-	font-size: 11px;
-	padding: 0,0,0,0;
-	margin: 0,0,0,0;
-}
-#left li a
-{
-    color: black;
-    /*font-style: normal;*/
-    text-decoration: none;
-    /*font-weight: normal;*/
-}
-
-#left li a:hover
-{
-    color: gray;
-    text-decoration: none;
-    text-shadow: 1px 1px 3px #FFFFFF;
 }
 
 #right {
@@ -78,8 +41,8 @@
 
 #content {
 	font-size: 11px;
-	position: relative;
-   float: top;
+	
+        float: top;
 }
 
 #contentLewy {
@@ -127,21 +90,18 @@
     padding: 0px;
 }
 
-.left_content {
-	
+.left_content {	
     background-color: white;
     padding: 1px;
     margin-left: 155px;
     height: 650px;
-    width: 1100px;
+    width: 1050px;
     overflow: auto;
-    border: 1px solid black;
     font-size: 11px;
     font-family: arial, tahoma, sans;
 }
 .login_content {
-	background-color: #C1DFFF;
-    
+    background-color: #C1DFFF;
     padding: 0px;
     text-align: center;
     min-height: 520px;

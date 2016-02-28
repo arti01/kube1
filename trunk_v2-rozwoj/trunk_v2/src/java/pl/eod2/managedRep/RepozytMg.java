@@ -4,16 +4,20 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 import pl.eod.encje.ConfigJpaController;
 
 @ManagedBean(name = "RepozytMg")
-@ApplicationScoped
+@SessionScoped
 public class RepozytMg {
 
     private String dir_repo;
     private List<DrzPliki> sourceRoots;
-    private String plikDownl;
-    private String plikDownlName;
+    private TreeNode root;
+    DrzPF drR;
 
     @PostConstruct
     public void init() {
@@ -23,13 +27,20 @@ public class RepozytMg {
 
     public String list() {
         sourceRoots = null;
+        this.drzewko();
         return "/rep/lista";
+    }
+
+    private void drzewko() {
+        root = new DefaultTreeNode(this.dir_repo, null);
+        drR = new DrzPF(dir_repo, "repozytorium", null);
+        createTree(root, drR);
     }
 
     public synchronized List<DrzPliki> getSourceRoots() {
         if (sourceRoots == null) {
-            DrzPliki dp=new DrzPliki("dddddddddddddddddd");
-            DrzPliki dp1=new DrzPliki(dir_repo);
+            DrzPliki dp = new DrzPliki("dddddddddddddddddd");
+            DrzPliki dp1 = new DrzPliki(dir_repo);
             dp1.getDirectories();
             dp.addDir(dp1);
             sourceRoots = dp.getDirectories();
@@ -38,20 +49,19 @@ public class RepozytMg {
         return sourceRoots;
     }
 
-    public String getPlikDownl() {
-        return plikDownl;
+    public TreeNode getRoot() {
+        return root;
     }
 
-    public void setPlikDownl(String plikDownl) {
-        this.plikDownl = plikDownl;
+    public void setRoot(TreeNode root) {
+        this.root = root;
     }
 
-    public String getPlikDownlName() {
-        return plikDownlName;
+    private TreeNode createTree(TreeNode node, DrzPF dp) {
+        TreeNode tr = new DefaultTreeNode(dp.getType(), dp, node);
+        for (DrzPF dpN : dp.getChidren()) {
+            TreeNode tr1 = this.createTree(tr, dpN);
+        }
+        return tr;
     }
-
-    public void setPlikDownlName(String plikDownlName) {
-        this.plikDownlName = plikDownlName;
-    }
-
 }
