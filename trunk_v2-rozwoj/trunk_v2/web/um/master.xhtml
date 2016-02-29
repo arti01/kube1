@@ -1,88 +1,51 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+<ui:composition template="../templates/template_work.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:rich="http://richfaces.org/rich"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/template.xhtml"
-                xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-
+                xmlns:f="http://java.sun.com/jsf/core">
     <ui:define name="content">
-        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
-        <link type="text/css" rel="stylesheet" href="../resources/css/cssLayout.css"></link>
-        <h3>MasterGrupy</h3>
-        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
-        <ui:include src="./masterEdit.xhtml"/>
-        <hr/>
-        <h:form>
-            <rich:panel id="listPanel">
-                <a4j:commandLink  execute="@form" action="#{UMasterMg.newObiekt}" render="dodajPaneMaster, listPanel"  oncomplete="#{rich:component('dodajPaneMaster')}.show()">
-                    <h4>[dodaj]</h4>
-                </a4j:commandLink>
+        <h3>Master Grupy</h3>
 
-                <rich:dataTable id="tableRodzaj" value="#{UMasterMg.lista}" var="item" iterationStatusVar="it" rows="10" style="width: 100%">
-                    <f:facet name="header"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
-                    <f:facet name="footer"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
-                    <rich:column sortBy="#{item.nazwa}" sortOrder="ascending">
-                        <f:facet name="header">nazwa</f:facet>
-                            #{item.nazwa}
-                    </rich:column>
-                    <rich:column>
-                        <f:facet name="header">opis</f:facet>
-                            #{item.opis}
-                    </rich:column>
-                    <rich:column>
-                        <f:facet name="header">grupy zasobów</f:facet>
-                        <rich:collapsiblePanel switchType="client" expanded="false" header=" - rozwiń" rendered="#{fn:length(item.grupaList)!=0}">
-                            <rich:dataTable value="#{item.grupaList}" var="grupa" style="width: auto; border: white thick">
-                                <rich:column>
-                                    <rich:tooltip target="grupaN" value="#{grupa.opis}" layout="block"/>
-                                    <h:outputText id="grupaN" value="#{grupa.nazwa}"/>
-                                    </rich:column>
-                            </rich:dataTable>
-                        </rich:collapsiblePanel>
-                    </rich:column>
+        <p:dialog id="dodPanel" header="wprowadź dane" widgetVar="dlg3" showEffect="fold" hideEffect="fold" modal="true" appendTo="@(body)">
+            <h:outputLabel for="nameD" value="nazwa: "/>
+            <p:inputText id="nameD" value="#{UMasterMg.obiekt.nazwa}" size="90"/>
+            <h:outputLabel for="opisD" value="opis: "/>
+            <p:inputTextarea id="opisD" value="#{UMasterMg.obiekt.opis}" cols="90"/>
+            <p:commandButton id="dodajsss" value="Dodaj" action="#{UMasterMg.dodaj}" process=":contform:dodPanel"/>
+            <p:commandButton id="zapisz" value="Zapisz" action="#{UMasterMg.edytuj}" rendered="#{UMasterMg.obiekt.id!=null}"/>
+            <p:commandButton value="Wyjdź" onclick="PF('dlg3').hide();"/>
+        </p:dialog>
 
-                    <rich:column>
-                        <f:facet name="header">rodzaje dokumentów</f:facet>
-                        <rich:collapsiblePanel switchType="client" expanded="false" header=" - rozwiń" rendered="#{fn:length(item.rodzajeDokList)!=0}">
-                            <rich:dataTable value="#{item.rodzajeDokList}" var="dcRodz" style="width: auto; border: white thick">
-                                <rich:column>
-                                    <rich:tooltip target="dcRodzN" value="#{dcRodz.opis}" layout="block"/>
-                                    <h:outputText id="dcRodzN" value="#{dcRodz.nazwa}"/>
-                                    </rich:column>
-                            </rich:dataTable>
-                        </rich:collapsiblePanel>
-                    </rich:column>
-                    
-                    <rich:column style="width: 45px">
-                        <rich:tooltip target="imgDe" value="usuń" layout="block"/>
-                        <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
-                        <a4j:commandButton id="imgDe" execute="@this" render="@none" image="/images/delete.png"
-                                           oncomplete="#{rich:component('confirmPaneRodzaj')}.show()" rendered="#{fn:length(item.grupaList)==0}">
-                            <f:setPropertyActionListener target="#{UMasterMg.obiekt}" value="#{item}" />
-                        </a4j:commandButton>
-                        <h:graphicImage id="imgB"  value="/images/delete.png" alt="delete" rendered="#{fn:length(item.grupaList)>0}"/>
-                        <rich:tooltip id="ttbl" layout="block"  rendered="#{fn:length(item.grupaList)>0}" target="imgB">
-                            nie można usunąć - posiada grupy
-                        </rich:tooltip>
-                        <a4j:commandButton id="imgEd" render="dodajPaneMaster" execute="@this" oncomplete="#{rich:component('dodajPaneMaster')}.show()" image="/images/edit.png">
-                            <f:setPropertyActionListener target="#{UMasterMg.obiekt}" value="#{item}" />
-                        </a4j:commandButton>
-                    </rich:column>
-                </rich:dataTable>
-            </rich:panel>
+        <p:outputPanel id="listPanel">
 
-            <rich:popupPanel id="statPane" autosized="true">
-                <h:graphicImage value="/images/ai.gif" alt="ai" />
-                Proszę czekać
-            </rich:popupPanel>
-        </h:form>
-        <hr/>
+            <p:commandButton value="Effects" type="button" onclick="PF('dlg3').show();" />
+
+            <p:dataTable value="#{UMasterMg.lista}" var="item" id="tableRodzaj">
+
+                <p:column headerText="Title">
+                    <h:outputText value="#{item.nazwa}" />
+                </p:column>
+
+                <p:column headerText="Author">
+                    <h:outputText value="#{item.opis}" />
+                </p:column>
+
+                <p:column headerText="Action">
+                    <p:commandLink value="Remove" update=":contform:listPanel" process=":contform:listPanel">
+                        <p:collector value="#{item}" removeFrom="#{UMasterMg.lista}" unique="true"/>
+                    </p:commandLink>
+                </p:column>
+
+            </p:dataTable>
+        </p:outputPanel>
+
+        <p:ring id="basic" value="#{UMasterMg.lista}" var="car" >
+            <p:outputPanel style="text-align: center;" layout="block">
+                #{car.nazwa}
+                #{car.opis}
+            </p:outputPanel>
+        </p:ring>
 
     </ui:define>
-
 </ui:composition>
-
