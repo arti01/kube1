@@ -131,7 +131,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
             chartList.add(new RezerChart(calendar.getTime(), start, stop, rez));
         }
     }
-
+*/
     public UmRezerwacjeKontr getDcR() {
         return dcR;
     }
@@ -139,7 +139,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     public void setDcR(UmRezerwacjeKontr dcR) {
         this.dcR = dcR;
     }
-*/
+
     public Login getLogin() {
         return login;
     }
@@ -153,9 +153,6 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     }
 
     public void setUrzadzenie(TreeNode urzadzenie) {
-        if(urzadzenie!=null){
-        System.err.println(urzadzenie.getData());
-                }
         this.urzadzenie = urzadzenie;
     }
 
