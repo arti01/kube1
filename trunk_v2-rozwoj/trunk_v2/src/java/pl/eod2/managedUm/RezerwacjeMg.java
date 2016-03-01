@@ -1,14 +1,15 @@
 package pl.eod2.managedUm;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.ValueChangeEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.TreeNode;
 import pl.eod.abstr.AbstMg;
 import pl.eod.managed.Login;
@@ -31,8 +32,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     //private List<TreeNode> rootNodes = new ArrayList<>();
     private TreeNode root;
     private TreeNode urzadzenie;
-    private Date dataZKal;
-    private List<RezerChart> chartList = new ArrayList<>();
+    private ScheduleModel eventModel;
 
     private int wartTest = 20;
 
@@ -40,10 +40,8 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
         super("/um/rezerwacje", new UmRezerwacjeKontr(), new UmRezerwacje());
     }
 
-    @Override
-    public void refresh() throws InstantiationException, IllegalAccessException {
-        super.refresh();
-        login.refresh();
+    @PostConstruct
+    private void init(){
         List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
         root = new DefaultTreeNode("urządzenia", null);
         for (UmMasterGrupa mg : masterList) {
@@ -58,80 +56,23 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
                 }
             }
         }
-        /*   if (urzadzenie != null) {
-            urzadzenie = urzMg.getDcC().findUmUrzadzenie(urzadzenie.getId());
-        }
+        eventModel = new DefaultScheduleModel();
+    }
+    
+    @Override
+    public void refresh() throws InstantiationException, IllegalAccessException {
+        super.refresh();
         login.refresh();
-        List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
-        rootNodes.clear();
-        for (UmMasterGrupa mg : masterList) {
-            DrzMaster drMa = new DrzMaster(mg);
-
-            for (UmGrupa gr : mg.getGrupaList()) {
-                if (!gr.isRezerwacje()) {
-                    continue;
-                }
-                DrzGrupa drGr = new DrzGrupa(drMa, gr);
-                for (UmUrzadzenie uz : gr.getUrzadzenieList()) {
-                    DrzUrzad drzU = new DrzUrzad(drGr, uz);
-                    drGr.getDrzUrzad().add(drzU);
-                }
-                drMa.getDrzGrupa().add(drGr);
-            }
-
-            if (!drMa.getDrzGrupa().isEmpty()) {
-                rootNodes.add(drMa);
-            }
-        }*/
     }
-
-   /* @Override
-    public void dodaj() throws InstantiationException, IllegalAccessException {
-        obiekt.setUrzadzenie(urzadzenie);
-        obiekt.setTworca(login.getZalogowany().getUserId());
-        super.dodaj(); //To change body of generated methods, choose Tools | Templates.
-        //urzadzenie.getRezerwacjeList().add(obiekt);
-    }
-
-    public void calList(ValueChangeEvent event) {
-        chartList.clear();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime((Date) event.getNewValue());
-        //wyszukiwanie rezerwacji
-        Calendar calplus = Calendar.getInstance();
-        calplus.setTime(calendar.getTime());
-        calplus.add(Calendar.DATE, 1);
-        for (UmRezerwacje rez : urzadzenie.getRezerwacjeList()) {
-            if (rez.getDataOd().after(calplus.getTime())) {
-                continue;
-            }
-            if (rez.getDataOd().before(calendar.getTime()) && rez.getDataDo().before(calendar.getTime())) {
-                continue;
-            }
-            Calendar calStSt = Calendar.getInstance();
-            calStSt.setTime(rez.getDataOd());
-
-            //jesli start jest wczesniej to start ustaw na zero
-            int start;
-            //if (calStSt.before(calendar)) {
-            if (calStSt.get(Calendar.DAY_OF_YEAR) < calendar.get(Calendar.DAY_OF_YEAR)) {
-                start = 0;
-            } else {
-                start = calStSt.get(Calendar.HOUR_OF_DAY);
-            }
-
-            calStSt.setTime(rez.getDataDo());
-            //jesli stop jest wczesniej to start ustaw na 24
-            int stop;
-            if (calStSt.get(Calendar.DAY_OF_YEAR) > calendar.get(Calendar.DAY_OF_YEAR)) {
-                stop = 24;
-            } else {
-                stop = calStSt.get(Calendar.HOUR_OF_DAY);
-            }
-            chartList.add(new RezerChart(calendar.getTime(), start, stop, rez));
+    
+    public void ustawSched(){
+        UmUrzadzenie urz=(UmUrzadzenie) this.urzadzenie.getData();
+        eventModel.clear();
+        for(UmRezerwacje rez:urz.getRezerwacjeList()){
+            eventModel.addEvent(new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataOd()));
         }
     }
-*/
+    
     public UmRezerwacjeKontr getDcR() {
         return dcR;
     }
@@ -156,14 +97,6 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
         this.urzadzenie = urzadzenie;
     }
 
-    public Date getDataZKal() {
-        return dataZKal;
-    }
-
-    public void setDataZKal(Date dataZKal) {
-        this.dataZKal = dataZKal;
-    }
-
     public UrzadzeniaMg getUrzMg() {
         return urzMg;
     }
@@ -180,20 +113,20 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
         this.wartTest = wartTest;
     }
 
-    public List<RezerChart> getChartList() {
-        return chartList;
-    }
-
-    public void setChartList(List<RezerChart> chartList) {
-        this.chartList = chartList;
-    }
-
     public TreeNode getRoot() {
         return root;
     }
 
     public void setRoot(TreeNode root) {
         this.root = root;
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
     }
     
 }

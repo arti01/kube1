@@ -12,9 +12,9 @@
         <h3>Rezerwacje</h3>
     </ui:define>
     <ui:define name="content" id="content">
-        <p:panelGrid columns="2" style="width: 97%">
+        <p:panel header="Wybierz zasób">
             <p:tree value="#{RezerwacjeMg.root}" var="node" dynamic="true" style=" background-color: white;" selectionMode="single" selection="#{RezerwacjeMg.urzadzenie}">
-                <p:ajax event="select" update=":center:out1, :center:panelCal"/>
+                <p:ajax event="select" update=":center:schedule" listener="#{RezerwacjeMg.ustawSched}"/>
                 <p:treeNode type="grupa" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                     <h:outputText value="#{node.nazwa}" />
                 </p:treeNode>
@@ -22,15 +22,9 @@
                     <h:outputText value="#{node.nazwa}"/>
                 </p:treeNode>
             </p:tree>
-            <p:panel id="panelCal">
-                <p:calendar id="cal" mode="inline" rendered="#{RezerwacjeMg.urzadzenie.type=='urzadzenie'}"/>    
-                <p:outputLabel value="wybierz zasób" rendered="#{RezerwacjeMg.urzadzenie.type!='urzadzenie'}"/>
-            </p:panel>
-
-        </p:panelGrid>
-        <p:outputLabel for="button" value="Button:" />
-        <p:calendar id="button" value="#{calendarView.date3}" showOn="button" />
-        <h:outputText id="out1" value="#{RezerwacjeMg.urzadzenie}"/>    
+        </p:panel>
+        <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" aspectRatio="4" >
+        </p:schedule>
     </ui:define>
 
 </ui:composition>
