@@ -1,4 +1,4 @@
-<ui:composition template="../templates/template_work.xhtml"
+<ui:composition template="/templates/templatePF.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
@@ -7,45 +7,52 @@
     <ui:define name="content">
         <h3>Master Grupy</h3>
 
-        <p:dialog id="dodPanel" header="wprowadź dane" widgetVar="dlg3" showEffect="fold" hideEffect="fold" modal="true" appendTo="@(body)">
-            <h:outputLabel for="nameD" value="nazwa: "/>
-            <p:inputText id="nameD" value="#{UMasterMg.obiekt.nazwa}" size="90"/>
-            <h:outputLabel for="opisD" value="opis: "/>
-            <p:inputTextarea id="opisD" value="#{UMasterMg.obiekt.opis}" cols="90"/>
-            <p:commandButton id="dodajsss" value="Dodaj" action="#{UMasterMg.dodaj}" process=":contform:dodPanel"/>
+        <p:fieldset id="dodPanel" legend="Dodaj" toggleable="true" toggleSpeed="300" collapsed="true">
+            <p:panelGrid columns="2">
+                <p:outputLabel for="nameD" value="nazwa: "/>
+                <p:inputText id="nameD" value="#{UMasterMg.obiekt.nazwa}" size="90"/>
+                <p:outputLabel for="opisD" value="opis: "/>
+                <p:inputTextarea id="opisD" value="#{UMasterMg.obiekt.opis}" cols="90"/>
+            </p:panelGrid>
+            <p:commandButton id="dodaj" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":center:listPanel, :center:dodPanel"/>
             <p:commandButton id="zapisz" value="Zapisz" action="#{UMasterMg.edytuj}" rendered="#{UMasterMg.obiekt.id!=null}"/>
             <p:commandButton value="Wyjdź" onclick="PF('dlg3').hide();"/>
-        </p:dialog>
-
+            <p:commandButton id="dodaj1" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":center:listPanel, :center:dodPanel"/>
+        </p:fieldset>
+        
+        
+        
         <p:outputPanel id="listPanel">
 
-            <p:commandButton value="Effects" type="button" onclick="PF('dlg3').show();" />
-
-            <p:dataTable value="#{UMasterMg.lista}" var="item" id="tableRodzaj">
-
+            <p:dataTable value="#{UMasterMg.lista}" var="item" id="tableRodzaj" editable="true" selection="#{UMasterMg.obiekt}">
                 <p:column headerText="Title">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{item.nazwa}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInput" value="#{item.nazwa}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
                     <h:outputText value="#{item.nazwa}" />
                 </p:column>
 
                 <p:column headerText="Author">
                     <h:outputText value="#{item.opis}" />
                 </p:column>
-
                 <p:column headerText="Action">
-                    <p:commandLink value="Remove" update=":contform:listPanel" process=":contform:listPanel">
-                        <p:collector value="#{item}" removeFrom="#{UMasterMg.lista}" unique="true"/>
-                    </p:commandLink>
+                    
                 </p:column>
-
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
             </p:dataTable>
+            
+            
+            <p:ring id="basic" value="#{UMasterMg.lista}" var="car" >
+                <p:outputPanel style="text-align: center;" layout="block">
+                    #{car.nazwa}
+                    #{car.opis}
+                </p:outputPanel>
+            </p:ring>
         </p:outputPanel>
 
-        <p:ring id="basic" value="#{UMasterMg.lista}" var="car" >
-            <p:outputPanel style="text-align: center;" layout="block">
-                #{car.nazwa}
-                #{car.opis}
-            </p:outputPanel>
-        </p:ring>
-
+            
     </ui:define>
 </ui:composition>

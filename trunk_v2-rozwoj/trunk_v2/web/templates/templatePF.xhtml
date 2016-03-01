@@ -9,7 +9,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>eSK.EOD dla: #{login.licencjaDla}</title>
         <link href="../javax.faces.resource/theme.css.xhtml?ln=primefaces-redmond" rel="stylesheet" type="text/css"/>
-        <style>    
+        <style>
+            .ui-widget{
+                font-size: 80%;
+            }
             ul.ui-menu-child
             {
                 white-space: nowrap;
@@ -39,7 +42,7 @@
                 </h:form>
             </p:layoutUnit>
 
-            <p:layoutUnit position="center" style="font-size: smaller;background-color: #C1DFFF; margin-left: auto">
+            <p:layoutUnit position="center" style="background-color: #C1DFFF; margin-left: auto">
                 <ui:insert name="tytul"/>
                 <h:form id="center">
                     <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
