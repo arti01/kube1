@@ -34,7 +34,7 @@ public class CalendarModel implements CalendarDataModel {
         Calendar calplus = Calendar.getInstance();
         calplus.setTime(calendar.getTime());
         calplus.add(Calendar.DATE, 1);
-        for (UmRezerwacje rezerwacja : rezerwacje.getUrzadzenie().getRezerwacjeList()) {
+        /*for (UmRezerwacje rezerwacja : rezerwacje.getUrzadzenie().getRezerwacjeList()) {
             if (rezerwacja.getDataOd().after(calplus.getTime())) {
                 //System.err.println("11111111111");
                 continue;
@@ -44,7 +44,7 @@ public class CalendarModel implements CalendarDataModel {
                 continue;
             }
             return true;
-        }
+        }*/
         return false;
     }
 

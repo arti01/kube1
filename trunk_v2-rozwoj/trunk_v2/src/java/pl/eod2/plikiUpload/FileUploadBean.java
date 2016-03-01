@@ -1,11 +1,14 @@
 package pl.eod2.plikiUpload;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,7 +18,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import pl.eod2.encje.DcPlik;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
@@ -40,9 +46,13 @@ public class FileUploadBean implements Serializable {
     private Rejestracja rejRej;
     @ManagedProperty(value = "#{RejImpPlik}")
     private ImpPlik impPlik;
-    @ManagedProperty(value = "#{RepozytMg}")
-    private RepozytMg repoz;
+    //@ManagedProperty(value = "#{RepozytMg}")
+    //private RepozytMg repoz;
+    private StreamedContent file;
 
+    private String plikDownl;
+    private String plikDownlName;
+    
     /*public int getSize() {
      if (getFiles().size() > 0) {
      return getFiles().size();
@@ -93,7 +103,7 @@ public class FileUploadBean implements Serializable {
         FacesContext.getCurrentInstance().responseComplete();
     }
 
-    public void downloadFromDysk() {
+    /*public void downloadFromDysk() {
         final HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         response.setHeader("Content-Disposition", "attachment;filename=\"" + repoz.getPlikDownlName() + "\""); // or whatever type you're sending back
         try {
@@ -106,7 +116,7 @@ public class FileUploadBean implements Serializable {
             e.printStackTrace();
         }
         FacesContext.getCurrentInstance().responseComplete();
-    }
+    }*/
 
     public void downloadImport() {
         final HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
@@ -178,12 +188,39 @@ public class FileUploadBean implements Serializable {
         this.impPlik = impPlik;
     }
 
-    public RepozytMg getRepoz() {
+    /*public RepozytMg getRepoz() {
         return repoz;
     }
 
     public void setRepoz(RepozytMg repoz) {
         this.repoz = repoz;
+    }*/
+
+    public String getPlikDownl() {
+        return plikDownl;
+    }
+
+    public void setPlikDownl(String plikDownl) {
+        this.plikDownl = plikDownl;
+    }
+
+    public String getPlikDownlName() {
+        return plikDownlName;
+    }
+
+    public void setPlikDownlName(String plikDownlName) {
+        this.plikDownlName = plikDownlName;
+    }
+
+    public StreamedContent getFile() {
+        InputStream stream;
+        try {
+            stream = new FileInputStream(this.getPlikDownl());
+            file = new DefaultStreamedContent(stream, null, this.getPlikDownlName());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return file;
     }
 
 }

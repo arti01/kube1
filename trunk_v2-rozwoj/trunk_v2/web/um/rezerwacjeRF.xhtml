@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j">
+
+    <ui:define name="content">
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <link type="text/css" rel="stylesheet" href="../resources/css/cssLayout.css"></link>
+        <h:outputStylesheet>
+            .bdc {
+            background-color: gray;
+            }
+            .wdc {
+            font-weight: bold;
+            font-style: italic;
+            }            
+        </h:outputStylesheet>
+        <h:form>
+            <h:panelGrid border="0" columns="2">
+                <rich:panel header="wybierz zasób">
+                    <rich:tree id="listPanel" nodeType="#{node.type}" var="node" value="#{RezerwacjeMg.rootNodes}" toggleType="ajax" rowKeyVar="row" keepSaved="true">
+                        <rich:treeNode type="master" iconCollapsed="/images/folders-stack.png" iconExpanded="/images/folders-stack.png" iconLeaf="/images/folders-stack.png">
+                            <a4j:outputPanel layout="block" id="panelMa_#{row}">
+                                <h:outputText id="MasTx" value="#{node.name}"/>
+                                <rich:tooltip target="MasTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
+                            </a4j:outputPanel>
+                        </rich:treeNode>
+
+                        <rich:treeNode id="treeNode" type="grupa" iconCollapsed="/images/folders.png" iconExpanded="/images/folders.png" iconLeaf="/images/folders.png">
+                            <a4j:outputPanel layout="block">
+                                <h:outputText id="GrTx" value="#{node.name}"/>
+                                <rich:tooltip target="GrTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
+                            </a4j:outputPanel>
+                        </rich:treeNode>
+
+                        <rich:treeNode type="urzadz" iconLeaf="/images/pipette.png">
+                            <a4j:outputPanel id="panelUr_#{row}" layout="block">
+                                <a4j:commandLink render="kalendarz" execute="@thiss" immediate="true">
+                                    <f:setPropertyActionListener target="#{RezerwacjeMg.urzadzenie}" value="#{node.obiektDb}" />
+
+                                    <h:outputText id="UrTx" value="#{node.name}"/>
+                                    <rich:tooltip target="UrTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
+
+                                </a4j:commandLink>
+                                <a4j:commandLink value=" [rezerwuj]" oncomplete="#{rich:component('dodajRezerwacje')}.show()" execute="@this" render="dodajRezerwacje, kalendarz">
+                                    <f:setPropertyActionListener target="#{RezerwacjeMg.urzadzenie}" value="#{node.obiektDb}" />
+                                </a4j:commandLink>
+                            </a4j:outputPanel>
+
+                        </rich:treeNode>
+                    </rich:tree>
+                </rich:panel>
+
+                <rich:panel id="kalendarz" header="kalendarz dostępności dla: #{RezerwacjeMg.urzadzenie.nazwa}">
+                    <rich:calendar id="calendar" locale="#{RejestracjaRej.locale}" mode="ajax" value="#{RezerwacjeMg.dataZKal}" dataModel="#{CalendarModel}" valueChangeListener="#{RezerwacjeMg.calList}"
+                                   popup="false" showApplyButton="false" style="width:200px" rendered="#{RezerwacjeMg.urzadzenie!=null}"
+                                   resetTimeOnDateSelect="true" showInput="false">
+                        <a4j:ajax render="test"/>
+                    </rich:calendar>
+                </rich:panel>
+            </h:panelGrid>
+            <rich:panel id="test">
+                #{RezerwacjeMg.urzadzenie.nazwa}
+                #{RezerwacjeMg.dataZKal}
+
+                <rich:dataTable value="#{RezerwacjeMg.chartList}" var="rez">
+                    <rich:column>
+                        <f:facet name="header">6</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;7 and rez.stop&gt;5}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">7</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;8 and rez.stop&gt;6}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">8</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;9 and rez.stop&gt;7}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">9</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;10 and rez.stop&gt;8}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">10</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;11 and rez.stop&gt;9}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">11</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;12 and rez.stop&gt;10}"/>
+                    </rich:column>
+
+                    <rich:column>
+                        <f:facet name="header">12</f:facet>
+                        <a4j:commandLink value="R" oncomplete="#{rich:component('dodajRezerwacje')}.show()" execute="@this" 
+                                         render="dodajRezerwacje, kalendarz" style="display: block;background-color: red" rendered="#{rez.start&lt;13 and rez.stop&gt;11}">
+                            <f:setPropertyActionListener target="#{RezerwacjeMg.obiekt}" value="#{rez.rezerwacja}" />
+                        </a4j:commandLink>
+                        <rich:tooltip value="#{rez.rezerwacja.nazwa} <br/> #{rez.rezerwacja.tworca.adrEmail}" rendered="#{rez.start&lt;13 and rez.stop&gt;11}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">13</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;14 and rez.stop&gt;12}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">14</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;15 and rez.stop&gt;13}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">15</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;16 and rez.stop&gt;14}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">16</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;17 and rez.stop&gt;15}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">17</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;18 and rez.stop&gt;16}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">18</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;19 and rez.stop&gt;17}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">19</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;20 and rez.stop&gt;18}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">20</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;21 and rez.stop&gt;19}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">21</f:facet>
+                        <h:outputText value="#{rez.start} #{rez.stop}" rendered="#{rez.start&lt;22 and rez.stop&gt;20}"/>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+        </h:form>
+        
+        <h:form>
+            <rich:popupPanel header="Wprowadź dane dla: #{RezerwacjeMg.urzadzenie.nazwa}" id="dodajRezerwacje"  autosized="true" domElementAttachment="parent">
+                <h:panelGrid columns="3" id="dodajGrid"  style="font-size: 11px">
+                    <h:outputLabel for="nameD" value="cel rezerwacji: "/>
+                    <h:inputText id="nameD" value="#{RezerwacjeMg.obiekt.nazwa}" size="90" ><rich:validator/></h:inputText>
+                    <rich:message for="nameD" styleClass="error" />
+
+                    <h:outputLabel for="dataO" value="Data od:"/>
+                    <rich:calendar value="#{RezerwacjeMg.obiekt.dataOd}" id="dataO" locale="#{RejestracjaRej.locale}"
+                                   popup="true" datePattern="yyyy-MM-dd HH:mm"
+                                   showApplyButton="true" style="width:200px">
+                        <rich:validator /></rich:calendar>
+                    <rich:message for="dataO" styleClass="error" />
+
+                    <h:outputLabel for="dataD" value="Data do:"/>
+                    <rich:calendar value="#{RezerwacjeMg.obiekt.dataDo}" id="dataD" locale="#{RejestracjaRej.locale}"
+                                   popup="true" datePattern="yyyy-MM-dd HH:mm"
+                                   showApplyButton="#{true}" style="width:200px">
+                        <rich:validator /></rich:calendar>
+                    <rich:message for="dataD" styleClass="error" />
+
+                </h:panelGrid>
+                <hr/>
+                <rich:message for="zapisz" styleClass="error" />
+                <rich:message for="dodaj" styleClass="error" />
+                <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
+
+                <a4j:commandButton id="dodaj" value="Dodaj" action="#{RezerwacjeMg.dodaj}" render="dodajRezerwacje, kalendarz" execute="dodajRezerwacje"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajRezerwacje')}.hide();} else {#{rich:component('dodajRezerwacje')}.show();}" 
+                                   rendered="#{RezerwacjeMg.obiekt.id==null}"></a4j:commandButton>
+                <a4j:commandButton id="zapisz" value="Zapisz" action="#{RezerwacjeMg.edytuj}" render="dodajRezerwacje, kalendarz" execute="dodajRezerwacje"
+                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajRezerwacje')}.hide();}  else {#{rich:component('dodajRezerwacje')}.show();}" 
+                                   rendered="#{RezerwacjeMg.obiekt.id!=null}"/>
+                <a4j:commandButton value="Wyjdź" oncomplete="#{rich:component('dodajRezerwacje')}.hide(); return false;" action="#{RezerwacjeMg.refresh}" immediate="true"/>
+            </rich:popupPanel>
+
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>
