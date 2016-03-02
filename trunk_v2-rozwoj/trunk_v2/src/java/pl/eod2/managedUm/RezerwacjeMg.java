@@ -1,14 +1,19 @@
 package pl.eod2.managedUm;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.TreeNode;
 import pl.eod.abstr.AbstMg;
@@ -21,7 +26,9 @@ import pl.eod2.encje.UmUrzadzenie;
 
 @ManagedBean(name = "RezerwacjeMg")
 @SessionScoped
-public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
+public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     @ManagedProperty(value = "#{login}")
     private Login login;
@@ -33,6 +40,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     private TreeNode root;
     private TreeNode urzadzenie;
     private ScheduleModel eventModel;
+    private ScheduleEvent event = new DefaultScheduleEvent();
 
     private int wartTest = 20;
 
@@ -41,9 +49,21 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     }
 
     @PostConstruct
-    private void init(){
-        List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
+    private void init() {
+        eventModel = new DefaultScheduleModel();
+        zrobDrzewo();
+    }
+
+    @Override
+    public void refresh() throws InstantiationException, IllegalAccessException {
+        super.refresh();
+        login.refresh();
+        zrobDrzewo();
+    }
+    
+    public void zrobDrzewo(){
         root = new DefaultTreeNode("urządzenia", null);
+        List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
         for (UmMasterGrupa mg : masterList) {
             TreeNode mtr = new DefaultTreeNode("grupa", mg, root);
             for (UmGrupa gr : mg.getGrupaList()) {
@@ -52,27 +72,44 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
                 }
                 TreeNode gtr = new DefaultTreeNode("grupa", gr, mtr);
                 for (UmUrzadzenie uz : gr.getUrzadzenieList()) {
-                    TreeNode utr = new DefaultTreeNode("urzadzenie", uz, gtr);    
+                    TreeNode utr = new DefaultTreeNode("urzadzenie", uz, gtr);
                 }
             }
         }
-        eventModel = new DefaultScheduleModel();
     }
-    
-    @Override
-    public void refresh() throws InstantiationException, IllegalAccessException {
-        super.refresh();
-        login.refresh();
-    }
-    
-    public void ustawSched(){
-        UmUrzadzenie urz=(UmUrzadzenie) this.urzadzenie.getData();
+
+    public void ustawSched() {
+        if (!this.urzadzenie.getType().equals("urzadzenie")) {
+            return;
+        }
+        UmUrzadzenie urz = (UmUrzadzenie) this.urzadzenie.getData();
+        urz=urzMg.getDcC().findUmUrzadzenie(urz.getId());
         eventModel.clear();
-        for(UmRezerwacje rez:urz.getRezerwacjeList()){
-            eventModel.addEvent(new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataOd()));
+        for (UmRezerwacje rez : urz.getRezerwacjeList()) {
+            eventModel.addEvent(new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo()));
         }
     }
-    
+
+    public void onDateSelect(SelectEvent selectEvent) {
+        event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+    }
+
+    public void addEvent(ActionEvent actionEvent) throws InstantiationException, IllegalAccessException {
+        if (event.getId() == null) {
+            obiekt.setNazwa(event.getTitle());
+            obiekt.setDataOd(event.getStartDate());
+            obiekt.setDataDo(event.getEndDate());
+            obiekt.setTworca(login.getZalogowany().getUserId());
+            obiekt.setUrzadzenie((UmUrzadzenie) urzadzenie.getData());
+            ScheduleEvent newEvent=new DefaultScheduleEvent(obiekt.getNazwa(), obiekt.getDataOd(), obiekt.getDataDo());
+            dodaj();
+            eventModel.addEvent(newEvent);
+        } else {
+            eventModel.updateEvent(event);
+        }
+        event = new DefaultScheduleEvent();
+    }
+
     public UmRezerwacjeKontr getDcR() {
         return dcR;
     }
@@ -128,5 +165,13 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> {
     public void setEventModel(ScheduleModel eventModel) {
         this.eventModel = eventModel;
     }
-    
+
+    public ScheduleEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(ScheduleEvent event) {
+        this.event = event;
+    }
+
 }

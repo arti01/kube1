@@ -44,14 +44,13 @@
 
             <p:layoutUnit position="center" style="background-color: #C1DFFF; margin-left: auto">
                 <ui:insert name="tytul"/>
-                <h:form id="center">
+                <h:form>                
                     <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
                     <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">
                         <p:button outcome="../logowanie/logout.jsp" value="Wyjdź" icon="ui-icon-extlink"/>
                     </p:dialog>
-
-                    <ui:insert name="content">Put default content here, if any.</ui:insert>
                 </h:form>
+                    <ui:insert name="content">Put default content here, if any.</ui:insert>
             </p:layoutUnit>
 
             <p:layoutUnit position="south" style="background-color:  #C1DFFF">
