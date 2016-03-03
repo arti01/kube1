@@ -50,6 +50,7 @@ public class UmRezerwacjeKontr extends AbstKontroler<UmRezerwacje> {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(obiekt);
+            System.err.println("3333tttttttttttttttttt");
             urz.getRezerwacjeList().add(obiekt);
             em.merge(urz);
             obiekt.getTworca().getRezerwacjeList().add(obiekt);

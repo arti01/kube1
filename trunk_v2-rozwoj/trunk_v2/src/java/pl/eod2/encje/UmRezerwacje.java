@@ -49,13 +49,16 @@ public class UmRezerwacje extends AbstEncja implements Serializable {
 
     @Size(min = 1, max = 256)
     @Column(name = "nazwa", nullable = false, length = 256, unique = false)
-    
     private String nazwa;
 
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date dataOd;
-
+    
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date dataDo;
     
     @ManyToOne(optional = false)

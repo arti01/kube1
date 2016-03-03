@@ -27,6 +27,8 @@
             <p:panel header="Kalendarz dla: #{RezerwacjeMg.urzadzenie.data.nazwa}" id="schedulePanel">
                 <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" aspectRatio="4" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}">
                     <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                    <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                    <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}"/>
                 </p:schedule>
             </p:panel>
 
@@ -45,7 +47,7 @@
                     <h:selectBooleanCheckbox id="allDay" value="#{RezerwacjeMg.event.allDay}" />
 
                     <p:commandButton type="reset" value="Reset" />
-                    <p:commandButton id="addButton" value="Zapisz" actionListener="#{RezerwacjeMg.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" update="schedule"/>
+                    <p:commandButton id="addButton" value="Zapisz" actionListener="#{RezerwacjeMg.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" update="schedule, :infoForm:messages"/>
                 </h:panelGrid>
             </p:dialog> 
         </h:form>

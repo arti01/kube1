@@ -126,7 +126,6 @@ public abstract class AbstKontroler<X extends AbstEncja> {
     }
 
     public Map<String, String> edit(X obiekt) {
-        System.err.println(obiekt.getId());
         X oldObiekt=findObiekt(obiekt);
         Map<String, String> bledy = new HashMap<>();
         EntityManager em = null;

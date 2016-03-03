@@ -7,8 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -23,6 +23,7 @@ import pl.eod2.encje.UmMasterGrupa;
 import pl.eod2.encje.UmRezerwacje;
 import pl.eod2.encje.UmRezerwacjeKontr;
 import pl.eod2.encje.UmUrzadzenie;
+import pl.eod2.encje.exceptions.NonexistentEntityException;
 
 @ManagedBean(name = "RezerwacjeMg")
 @SessionScoped
@@ -89,7 +90,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         urz = urzMg.getDcC().findUmUrzadzenie(urz.getId());
         eventModel.clear();
         for (UmRezerwacje rez : urz.getRezerwacjeList()) {
-            eventModel.addEvent(new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo()));
+            eventModel.addEvent(new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez));
         }
     }
 
@@ -97,17 +98,38 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
     }
 
-    public void addEvent(ActionEvent actionEvent) throws InstantiationException, IllegalAccessException {
+    public void onEventSelect(SelectEvent selectEvent) {
+        event = (ScheduleEvent) selectEvent.getObject();
+    }
+
+    public void onEventMove(ScheduleEntryMoveEvent selectEvent) throws NonexistentEntityException, Exception {
+        ScheduleEvent oldEvent = selectEvent.getScheduleEvent();
+        obiekt = (UmRezerwacje) oldEvent.getData();
+        obiekt.setDataOd(oldEvent.getStartDate());
+        obiekt.setDataDo(oldEvent.getEndDate());
+        edytuj();
+        //FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());    
+        //addMessage(message);
+    }
+
+    public void addEvent(ActionEvent actionEvent) throws InstantiationException, IllegalAccessException, NonexistentEntityException, Exception {
         if (event.getId() == null) {
+            obiekt = new UmRezerwacje();
             obiekt.setNazwa(event.getTitle());
             obiekt.setDataOd(event.getStartDate());
             obiekt.setDataDo(event.getEndDate());
             obiekt.setTworca(login.getZalogowany().getUserId());
             obiekt.setUrzadzenie((UmUrzadzenie) urzadzenie.getData());
-            ScheduleEvent newEvent = new DefaultScheduleEvent(obiekt.getNazwa(), obiekt.getDataOd(), obiekt.getDataDo());
-            dodaj();
+            if(!dodaj().isEmpty()){
+                return;
+            }
+            ScheduleEvent newEvent = new DefaultScheduleEvent(event.getTitle(),event.getStartDate(),event.getEndDate(), obiekt);
             eventModel.addEvent(newEvent);
         } else {
+            obiekt = (UmRezerwacje) event.getData();
+            obiekt.setDataOd(event.getStartDate());
+            obiekt.setDataDo(event.getEndDate());
+            edytuj();
             eventModel.updateEvent(event);
         }
         event = new DefaultScheduleEvent();

@@ -5,6 +5,8 @@
  */
 package pl.eod2.managedArch;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -56,7 +58,8 @@ public class Dokumenty extends AbstMg<DcDokument, DcDokumentJpaController> {
     }
     
     @Override
-    public void dodaj() throws InstantiationException, IllegalAccessException {
+    public Map<String, String> dodaj() throws InstantiationException, IllegalAccessException {
+        Map<String, String> bledy = new HashMap<>();
         try {
             if (rejestracja.dodajAbst()) {
                 refresh();
@@ -66,14 +69,17 @@ public class Dokumenty extends AbstMg<DcDokument, DcDokumentJpaController> {
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(Dokumenty.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return bledy;
     }
 
     @Override
-    public void edytuj() {
+    public Map<String, String> edytuj() {
+        Map<String, String> bledy = new HashMap<>();
         if (rejestracja.edytujAbst()) {
             rejestracja.refreshObiekt();
             refresh();
         }
+        return bledy;
     }
 
     public DataModel<DcRodzaj> getRodzajLista() {
