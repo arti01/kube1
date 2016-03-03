@@ -12,19 +12,21 @@
         <h3>Lista Plików</h3>
     </ui:define>
     <ui:define name="content">
-        <p:tree value="#{RepozytMg.root}" var="node" dynamic="true" style="width: 97%; background-color: white;" selectionMode="single">
-            <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
-                <h:outputText value="#{node.shortName}" />
-            </p:treeNode>
-            <p:treeNode type="file" icon="ui-icon-document">
-                <p:commandLink ajax="false">
-                    <f:setPropertyActionListener target="#{fileUploadBean.plikDownl}" value="#{node.fullPath}" />
-                    <f:setPropertyActionListener target="#{fileUploadBean.plikDownlName}" value="#{node.shortName}" />
+        <h:form id="center">
+            <p:tree value="#{RepozytMg.root}" var="node" dynamic="true" style="width: 97%; background-color: white;" selectionMode="single">
+                <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                     <h:outputText value="#{node.shortName}" />
-                    <p:fileDownload value="#{fileUploadBean.file}" />
-                </p:commandLink>
-            </p:treeNode>
-        </p:tree>
+                </p:treeNode>
+                <p:treeNode type="file" icon="ui-icon-document">
+                    <p:commandLink ajax="false">
+                        <f:setPropertyActionListener target="#{fileUploadBean.plikDownl}" value="#{node.fullPath}" />
+                        <f:setPropertyActionListener target="#{fileUploadBean.plikDownlName}" value="#{node.shortName}" />
+                        <h:outputText value="#{node.shortName}" />
+                        <p:fileDownload value="#{fileUploadBean.file}" />
+                    </p:commandLink>
+                </p:treeNode>
+            </p:tree>
+        </h:form>
     </ui:define>
-    
+
 </ui:composition>

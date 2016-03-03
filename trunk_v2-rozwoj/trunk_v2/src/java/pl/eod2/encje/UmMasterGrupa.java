@@ -24,9 +24,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import pl.eod.encje.Spolki;
+
 /**
  *
  * @author arti01
@@ -38,6 +40,7 @@ import pl.eod.encje.Spolki;
     @NamedQuery(name = "UmMasterGrupa.findById", query = "SELECT d FROM UmMasterGrupa d WHERE d.id = :id"),
     @NamedQuery(name = "UmMasterGrupa.findByNazwa", query = "SELECT d FROM UmMasterGrupa d WHERE d.nazwa = :nazwa")})
 public class UmMasterGrupa implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -59,6 +62,8 @@ public class UmMasterGrupa implements Serializable {
     private Spolki spolkaId;
     @ManyToMany(mappedBy = "umMasterGrupaList", fetch = FetchType.EAGER)
     private List<DcRodzaj> rodzajeDokList;
+    @Transient
+    private boolean grZrezerwacja;
 
     public Long getId() {
         return id;
@@ -108,6 +113,18 @@ public class UmMasterGrupa implements Serializable {
         this.rodzajeDokList = rodzajeDokList;
     }
 
+    public boolean isGrZrezerwacja() {
+        if (this.grupaList.isEmpty()) {
+            return false;
+        }
+        for(UmGrupa gr:this.grupaList){
+            if(gr.isRezerwacje()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -129,5 +146,5 @@ public class UmMasterGrupa implements Serializable {
         }
         return true;
     }
-        
+
 }

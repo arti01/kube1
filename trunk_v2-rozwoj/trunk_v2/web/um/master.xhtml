@@ -4,55 +4,55 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">
-    <ui:define name="content">
+    <ui:define name="tytul">
         <h3>Master Grupy</h3>
+    </ui:define>
 
-        <p:fieldset id="dodPanel" legend="Dodaj" toggleable="true" toggleSpeed="300" collapsed="true">
-            <p:panelGrid columns="2">
-                <p:outputLabel for="nameD" value="nazwa: "/>
-                <p:inputText id="nameD" value="#{UMasterMg.obiekt.nazwa}" size="90"/>
-                <p:outputLabel for="opisD" value="opis: "/>
-                <p:inputTextarea id="opisD" value="#{UMasterMg.obiekt.opis}" cols="90"/>
-            </p:panelGrid>
-            <p:commandButton id="dodaj" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":center:listPanel, :center:dodPanel"/>
-            <p:commandButton id="zapisz" value="Zapisz" action="#{UMasterMg.edytuj}" rendered="#{UMasterMg.obiekt.id!=null}"/>
-            <p:commandButton value="Wyjdź" onclick="PF('dlg3').hide();"/>
-            <p:commandButton id="dodaj1" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":center:listPanel, :center:dodPanel"/>
-        </p:fieldset>
-        
-        
-        
-        <p:outputPanel id="listPanel">
+    <ui:define name="content">
+        <h:form id="center">
+            <p:fieldset id="dodPanel" legend="Dodaj" toggleable="true" toggleSpeed="300" collapsed="true">
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="nameD" value="nazwa: "/>
+                    <p:inputText id="nameD" value="#{UMasterMg.obiekt.nazwa}" size="90"/>
+                    <p:outputLabel for="opisD" value="opis: "/>
+                    <p:inputTextarea id="opisD" value="#{UMasterMg.obiekt.opis}" cols="90"/>
+                </p:panelGrid>
+                <p:commandButton id="dodaj" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":listPanelForm:listPanel, :center:dodPanel"/>
+                <p:commandButton id="zapisz" value="Zapisz" action="#{UMasterMg.edytuj}" rendered="#{UMasterMg.obiekt.id!=null}"/>
+                <p:commandButton value="Wyjdź" onclick="PF('dlg3').hide();"/>
+                <p:commandButton id="dodaj1" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":listPanelForm:listPanel, :center:dodPanel"/>
+            </p:fieldset>
+        </h:form>
+        <h:form id="listPanelForm">
+            <p:outputPanel id="listPanel">
+                <p:dataTable value="#{UMasterMg.lista}" var="item" id="tableRodzaj" editable="true">
+                    <p:column headerText="nazwa">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{item.nazwa}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInput" value="#{item.nazwa}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
 
-            <p:dataTable value="#{UMasterMg.lista}" var="item" id="tableRodzaj" editable="true" selection="#{UMasterMg.obiekt}">
-                <p:column headerText="Title">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{item.nazwa}" /></f:facet>
-                        <f:facet name="input"><p:inputText id="modelInput" value="#{item.nazwa}" style="width:100%"/></f:facet>
-                    </p:cellEditor>
-                    <h:outputText value="#{item.nazwa}" />
-                </p:column>
+                    <p:column headerText="opis">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{item.opis}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInputOpis" value="#{item.opis}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width: 30px">
+                        <p:rowEditor editTitle="edytuj"/>
+                    </p:column>
+                    <p:column style="width: 30px">
+                        <p:commandButton title="posiada grupy - nie można usunąć" icon="ui-icon-circle-minus"
+                                         rendered="#{item.grupaList.size()>0}" style="font-weight: lighter; font-size: smaller;"/>
+                        <p:commandButton title="usuń" update="tableRodzaj" icon="ui-icon-trash" action="#{UMasterMg.usun}" 
+                                         rendered="#{item.grupaList.size()==0}" style="font-weight: lighter; font-size: smaller;">
+                            <f:setPropertyActionListener value="#{item}" target="#{UMasterMg.obiekt}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
 
-                <p:column headerText="Author">
-                    <h:outputText value="#{item.opis}" />
-                </p:column>
-                <p:column headerText="Action">
-                    
-                </p:column>
-                <p:column style="width:32px">
-                    <p:rowEditor />
-                </p:column>
-            </p:dataTable>
-            
-            
-            <p:ring id="basic" value="#{UMasterMg.lista}" var="car" >
-                <p:outputPanel style="text-align: center;" layout="block">
-                    #{car.nazwa}
-                    #{car.opis}
-                </p:outputPanel>
-            </p:ring>
-        </p:outputPanel>
-
-            
+            </p:outputPanel>
+        </h:form>
     </ui:define>
 </ui:composition>

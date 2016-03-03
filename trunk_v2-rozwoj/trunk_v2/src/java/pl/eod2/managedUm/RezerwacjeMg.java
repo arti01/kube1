@@ -26,7 +26,7 @@ import pl.eod2.encje.UmUrzadzenie;
 
 @ManagedBean(name = "RezerwacjeMg")
 @SessionScoped
-public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implements Serializable{
+public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -60,11 +60,14 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         login.refresh();
         zrobDrzewo();
     }
-    
-    public void zrobDrzewo(){
+
+    public void zrobDrzewo() {
         root = new DefaultTreeNode("urządzenia", null);
         List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
         for (UmMasterGrupa mg : masterList) {
+            if (!mg.isGrZrezerwacja()) {
+                continue;
+            }
             TreeNode mtr = new DefaultTreeNode("grupa", mg, root);
             for (UmGrupa gr : mg.getGrupaList()) {
                 if (!gr.isRezerwacje()) {
@@ -83,7 +86,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             return;
         }
         UmUrzadzenie urz = (UmUrzadzenie) this.urzadzenie.getData();
-        urz=urzMg.getDcC().findUmUrzadzenie(urz.getId());
+        urz = urzMg.getDcC().findUmUrzadzenie(urz.getId());
         eventModel.clear();
         for (UmRezerwacje rez : urz.getRezerwacjeList()) {
             eventModel.addEvent(new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo()));
@@ -101,7 +104,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             obiekt.setDataDo(event.getEndDate());
             obiekt.setTworca(login.getZalogowany().getUserId());
             obiekt.setUrzadzenie((UmUrzadzenie) urzadzenie.getData());
-            ScheduleEvent newEvent=new DefaultScheduleEvent(obiekt.getNazwa(), obiekt.getDataOd(), obiekt.getDataDo());
+            ScheduleEvent newEvent = new DefaultScheduleEvent(obiekt.getNazwa(), obiekt.getDataOd(), obiekt.getDataDo());
             dodaj();
             eventModel.addEvent(newEvent);
         } else {

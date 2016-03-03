@@ -26,7 +26,11 @@
     <h:body style="background-color: #C1DFFF">
 
         <p:layout style="min-width:400px;min-height:200px;background-color: #C1DFFF" fullPage="true">
-
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage value="/images/ai.gif"/>
+                proszę czekać
+            </p:dialog>
             <p:layoutUnit position="north" style="background-color:  #C1DFFF">
                 <table width="100%" style="font-size: 20px; background-color: #C1DFFF" border="0"><tr>
                         <td align="right" width="100px;"><img src="../images/fmc.png" alt="Fresenius Medical Care" border="0"  style="width: 60%; height: 60%"/>
@@ -50,7 +54,7 @@
                         <p:button outcome="../logowanie/logout.jsp" value="Wyjdź" icon="ui-icon-extlink"/>
                     </p:dialog>
                 </h:form>
-                    <ui:insert name="content">Put default content here, if any.</ui:insert>
+                <ui:insert name="content">Put default content here, if any.</ui:insert>
             </p:layoutUnit>
 
             <p:layoutUnit position="south" style="background-color:  #C1DFFF">
@@ -65,7 +69,7 @@
             </p:layoutUnit>
         </p:layout>
         <script type="text/javascript">
-        PrimeFaces.locales['pl'] = { closeText: 'Zamknij', prevText: 'Poprzedni', nextText: 'Następny', monthNames: ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'], monthNamesShort: ['Sty','Lut','Mar','Kwi','Maj','Cze', 'Lip','Sie','Wrz','Paź','Lis','Gru'], dayNames: ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'], dayNamesShort: ['Nie','Pon','Wt','Śr','Czw','Pt','So'], dayNamesMin: ['N','P','W','Ś','Cz','P','S'], weekHeader: 'Tydzień', firstDay: 1, isRTL: false, showMonthAfterYear: false, yearSuffix: 'r', timeOnlyTitle: 'Tylko czas', timeText: 'Czas', hourText: 'Godzina', minuteText: 'Minuta', secondText: 'Sekunda', currentText: 'Teraz', ampm: false, month: 'Miesiąc', week: 'Tydzień', day: 'Dzień', allDayText : 'Cały dzień' };
+            PrimeFaces.locales['pl'] = { closeText: 'Zamknij', prevText: 'Poprzedni', nextText: 'Następny', monthNames: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'], monthNamesShort: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'], dayNames: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'], dayNamesShort: ['Nie', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'So'], dayNamesMin: ['N', 'P', 'W', 'Ś', 'Cz', 'P', 'S'], weekHeader: 'Tydzień', firstDay: 1, isRTL: false, showMonthAfterYear: false, yearSuffix: 'r', timeOnlyTitle: 'Tylko czas', timeText: 'Czas', hourText: 'Godzina', minuteText: 'Minuta', secondText: 'Sekunda', currentText: 'Teraz', ampm: false, month: 'Miesiąc', week: 'Tydzień', day: 'Dzień', allDayText : 'Cały dzień' };
         </script>
     </h:body>
 </html>
