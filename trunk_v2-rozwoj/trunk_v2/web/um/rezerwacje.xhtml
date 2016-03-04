@@ -29,6 +29,7 @@
                     <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
                     <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
                     <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}"/>
+                    <p:ajax event="eventResize" listener="#{RezerwacjeMg.onEventResize}"/>
                 </p:schedule>
             </p:panel>
 

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>eSK.EOD dla: #{login.licencjaDla}</title>
+        <f:metadata>
+            <ui:insert name="metadata" />
+        </f:metadata>
+
+        <h:head>
+            <link href="../javax.faces.resource/theme.css.xhtml?ln=primefaces-redmond" rel="stylesheet" type="text/css"/>
+            <style>
+                .ui-widget{
+                    font-size: 80%;
+                }
+                ul.ui-menu-child
+                {
+                    white-space: nowrap;
+                    width: auto !important;
+                }
+                .ui-widget-content{
+                }
+            </style>
+        </h:head>
+            <h:body onload="statusDialog.hide();" style="background-color: #C1DFFF">
+            <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();" />
+            <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
+
+            <p:layout style="min-width:400px;min-height:200px;background-color: #C1DFFF" fullPage="true">
+                <p:layoutUnit position="north" style="background-color:  #C1DFFF">
+                    <table width="100%" style="font-size: 20px; background-color: #C1DFFF" border="0"><tr>
+                            <td align="right" width="100px;"><img src="../images/fmc.png" alt="Fresenius Medical Care" border="0"  style="width: 60%; height: 60%"/>
+                            </td>
+                            <td align="center"><i><b><font size="6">E</font></b><font size="5">LEKTRONICZNY</font> <b><font size="6">O</font></b><font size="5">BIEG</font> <b><font size="6">D</font></b><font size="5">OKUMENTÓW</font></i>&nbsp;<sub>v1.2</sub></td>
+                            <td align="right"  width="100px;"><img src="../images/eod_logo.png" alt="eSK.EOD" border="0" style="width: 50%; height: 50%"/>
+                            </td></tr>
+                    </table>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="230" style="background-color: #C1DFFF">
+                    
+                        <ui:include src="../templates/menuLPF.xhtml"/>
+                    
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" style="background-color: #C1DFFF; margin-left: auto">
+                    <ui:insert name="tytul"/>
+                    <h:form id="center">
+                        <p:messages autoUpdate="true" id="msgs" showDetail="true" showSummary="true" />
+                        <ui:insert name="content" />
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" style="background-color:  #C1DFFF">
+                    <table width="100%" border="0" cellpadding="5" cellspacing="0" style="background-color:  #C1DFFF">
+                        <tr valign="middle">
+                            <td align="center">Licencja dla: #{login.licencjaDla}</td>
+                        </tr>
+                        <tr valign="middle">
+                            <td align="center">&copy; Wszelkie prawa zastrzeżone eSoftKing 2012</td>
+                        </tr>
+                    </table>
+                </p:layoutUnit>
+            </p:layout>
+
+            <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">
+                <p:button outcome="../logowanie/logout.jsp" value="Wyjdź" icon="ui-icon-extlink"/>
+            </p:dialog>
+        
+        </h:body>
+
+</html>
