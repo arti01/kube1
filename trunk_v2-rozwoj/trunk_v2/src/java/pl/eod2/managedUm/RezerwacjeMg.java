@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.SelectEvent;
@@ -26,7 +27,7 @@ import pl.eod2.encje.UmUrzadzenie;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 
 @ManagedBean(name = "RezerwacjeMg")
-@SessionScoped
+@ViewScoped
 public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -102,9 +103,9 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         event = (ScheduleEvent) selectEvent.getObject();
     }
 
-    public void onEventMove(ScheduleEntryMoveEvent selectEvent) throws NonexistentEntityException, Exception {
+    public void onEventMove(ScheduleEntryMoveEvent selectEvent) throws NonexistentEntityException, Exception{
         ScheduleEvent oldEvent = selectEvent.getScheduleEvent();
-        obiekt = (UmRezerwacje) oldEvent.getData();
+        obiekt = dcC.findObiekt(((UmRezerwacje)oldEvent.getData()).getId());
         obiekt.setDataOd(oldEvent.getStartDate());
         obiekt.setDataDo(oldEvent.getEndDate());
         edytuj();
