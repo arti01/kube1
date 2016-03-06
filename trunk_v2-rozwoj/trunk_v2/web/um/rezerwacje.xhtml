@@ -25,33 +25,48 @@
                 </p:tree>
             </p:panel>
             <p:panel header="Kalendarz dla: #{RezerwacjeMg.urzadzenie.data.nazwa}" id="schedulePanel">
-                <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" aspectRatio="4" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}">
+                <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" timeZone="CET"
+                            aspectRatio="4" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}" timeFormat="HH:mm" axisFormat="HH:mm">
                     <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}"/>
-                    <p:ajax event="eventResize" listener="#{RezerwacjeMg.onEventResize}"/>
+                    <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update=":center:dialog, :center:contekst" oncomplete="PF('contekst').show();"/>
+                    <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
+                    <p:ajax event="eventResize" listener="#{RezerwacjeMg.onEventResize}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
                 </p:schedule>
             </p:panel>
+            <p:dialog id="contekst" header="wybierz" widgetVar="contekst" width="150" height="70" resizable="false" style="overflow: hidden !important;">
+                <p:menu>
+                    <p:menuitem value="Edycja"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <p:menuitem value="Podgląd"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{!RezerwacjeMg.event.editable}"/>
+                    <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerwacjeMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();" rendered="#{RezerwacjeMg.event.editable}"/>
+                </p:menu>
+            </p:dialog>
 
             <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji #{RezerwacjeMg.urzadzenie.data.nazwa}" showEffect="clip" hideEffect="clip" id="dialog">
                 <h:panelGrid id="eventDetails" columns="2">
-                    <p:outputLabel for="title" value="Nazwa:" />
-                    <p:inputText id="title" value="#{RezerwacjeMg.event.title}" required="true" />
+                    <p:outputLabel for="title" value="Nazwa:"/>
+                    <p:inputText id="title" value="#{RezerwacjeMg.event.title}" size='100' rendered="#{RezerwacjeMg.event.editable}"/>
+                    <h:outputText value="#{RezerwacjeMg.event.title}" rendered="#{!RezerwacjeMg.event.editable}"/>
 
                     <p:outputLabel for="from" value="Od:" />
-                    <p:calendar id="from" value="#{RezerwacjeMg.event.startDate}" pattern="dd/MM/yyyy HH:mm"/>
-
+                    <p:calendar id="from" value="#{RezerwacjeMg.event.startDate}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <h:outputText value="#{RezerwacjeMg.event.startDate}" rendered="#{!RezerwacjeMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
+                    
                     <p:outputLabel for="to" value="Do:" />
-                    <p:calendar id="to" value="#{RezerwacjeMg.event.endDate}" pattern="dd/MM/yyyy HH:mm"/>
+                    <p:calendar id="to" value="#{RezerwacjeMg.event.endDate}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <h:outputText value="#{RezerwacjeMg.event.endDate}" rendered="#{!RezerwacjeMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
 
-                    <p:outputLabel for="allDay" value="Cały dzień:" />
-                    <h:selectBooleanCheckbox id="allDay" value="#{RezerwacjeMg.event.allDay}" />
+                    <p:outputLabel value="Twórca:" />
+                    <h:outputText value="#{RezerwacjeMg.event.data.tworca.fullname} #{RezerwacjeMg.event.data.tworca.adrEmail}"/>
 
-                    <p:commandButton type="reset" value="Reset" />
-                    <p:commandButton id="addButton" value="Zapisz" actionListener="#{RezerwacjeMg.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" update="schedule, :infoForm:messages"/>
+                    <p:commandButton type="reset" value="Reset"  rendered="#{RezerwacjeMg.event.editable}"/>
+                    <p:commandButton id="addButton" value="Zapisz" actionListener="#{RezerwacjeMg.addEvent}" validateClient="true"
+                                     oncomplete="if(#{facesContext.maximumSeverity==null}) {PF('myschedule').update();PF('eventDialog').hide();}" 
+                                     update="schedule, :infoForm:messages" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <p:message for="addButton"/>
                 </h:panelGrid>
             </p:dialog> 
+
+            <p:remoteCommand name="updateGrowl" update="schedulePanel"/>
         </h:form>
     </ui:define>
-
 </ui:composition>

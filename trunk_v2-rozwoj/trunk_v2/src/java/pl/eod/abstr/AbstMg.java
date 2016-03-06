@@ -2,6 +2,7 @@ package pl.eod.abstr;
 
 import java.util.Map;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -138,4 +139,11 @@ public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
     public void setRejestracja(Rejestracja rejestracja) {
         this.rejestracja = rejestracja;
     }
+
+    public void pfMess(Severity sev, String mess, String messDet) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        FacesMessage message = new FacesMessage(sev, mess, messDet);
+        context.addMessage(null, message);
+    }
+
 }

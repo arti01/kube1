@@ -8,9 +8,9 @@
     <shared-cache-mode>ALL</shared-cache-mode>
     <properties>
       <property name="javax.persistence.validation.group.pre-update" value="true"/>
-      <property name="eclipselink.logging.parameters" value="true"/>
-      <property name="eclipselink.logging.level.sql" value="fine"/>
-      <property name="eclipselink.logging.level.cache" value="fine"/>
+      <property name="eclipselink.logging.parameters" value="false"/>
+      <property name="eclipselink.logging.level.sql" value="info"/>
+      <property name="eclipselink.logging.level.cache" value="info"/>
       <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
     </properties>
   </persistence-unit>

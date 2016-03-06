@@ -79,9 +79,6 @@ public class UmRezerwacjeKontr extends AbstKontroler<UmRezerwacje> {
         UmUrzadzenie urz=em.find(UmUrzadzenie.class, obiekt.getUrzadzenie().getId());
         for (UmRezerwacje ur : urz.getRezerwacjeList()) {
             if(Objects.equals(ur.getId(), obiekt.getId())){
-                System.err.println("walida1");
-                System.err.println(ur.getDataOd());
-                System.err.println(ur.getDataDo());
                 continue;
             }
             if ((obiekt.getDataDo().after(ur.getDataOd()) || obiekt.getDataDo().equals(ur.getDataOd()))
@@ -104,11 +101,9 @@ public class UmRezerwacjeKontr extends AbstKontroler<UmRezerwacje> {
         if(!bledy.isEmpty()) return bledy;
         try {
             em = getEntityManager();
-            System.err.println(obiekt.getDataDo()+"walid3");
             em.getTransaction().begin();
             em.merge(obiekt);
             em.getTransaction().commit();
-            System.err.println(obiekt.getDataDo()+"walid3");
         } catch (Exception ex) {
             ex.printStackTrace();
             //logger.log(Level.SEVERE, "blad", ex);
