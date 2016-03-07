@@ -10,27 +10,35 @@
 
     <ui:define name="content">
         <h:form id="center">
-            <p:fieldset id="dodPanel" legend="Dodaj" toggleable="true" toggleSpeed="300" collapsed="true">
-                <p:panelGrid columns="2">
+            <p:fieldset id="dodPanel" legend="Dodaj" toggleable="true" toggleSpeed="200" collapsed="true">
+                <p:panelGrid columns="3">
                     <p:outputLabel for="nameD" value="nazwa: "/>
+                    <p:message for="nameD" />
                     <p:inputText id="nameD" value="#{UMasterMg.obiekt.nazwa}" size="90"/>
+
                     <p:outputLabel for="opisD" value="opis: "/>
+                    <p:message for="opisD" />
                     <p:inputTextarea id="opisD" value="#{UMasterMg.obiekt.opis}" cols="90"/>
+
+                    <p:commandButton id="dodaj" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":center:listPanel, :center:dodPanel"/>
+                    <p:commandButton value="Reset" actionListener="#{UMasterMg.refresh}" immediate="true" ajax="false" style="margin-right:20px;">
+                        <p:resetInput target="dodPanel" />
+                    </p:commandButton>
+                    <p:message for="dodaj"/>
                 </p:panelGrid>
-                <p:commandButton id="dodaj" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":listPanelForm:listPanel, :center:dodPanel"/>
-                <p:commandButton id="zapisz" value="Zapisz" action="#{UMasterMg.edytuj}" rendered="#{UMasterMg.obiekt.id!=null}"/>
-                <p:commandButton value="Wyjdź" onclick="PF('dlg3').hide();"/>
-                <p:commandButton id="dodaj1" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":listPanelForm:listPanel, :center:dodPanel"/>
             </p:fieldset>
-        </h:form>
-        <h:form id="listPanelForm">
+
             <p:outputPanel id="listPanel">
-                <p:dataTable value="#{UMasterMg.lista}" var="item" id="tableRodzaj" editable="true">
-                    <p:column headerText="nazwa">
-                        <p:cellEditor>
+                <p:dataTable value="#{UMasterMg.lista}" var="item" id="tableRodzaj" editable="true" emptyMessage="brak rekordów">
+                    <p:ajax event="rowEdit" listener="#{UMasterMg.editList}" update="@this"/>
+                    <p:column headerText="nazwa" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}" filterMatchMode="contains">
+                        <p:cellEditor id="celEdit">
                             <f:facet name="output"><h:outputText value="#{item.nazwa}" /></f:facet>
-                            <f:facet name="input"><p:inputText id="modelInput" value="#{item.nazwa}" style="width:100%"/></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInput" value="#{item.nazwa}" style="width:100%"/>
+                                <p:message for="modelInput"/>
+                            </f:facet>
                         </p:cellEditor>
+                        <p:message for="tableRodzaj"/>
                     </p:column>
 
                     <p:column headerText="opis">
@@ -39,6 +47,15 @@
                             <f:facet name="input"><p:inputText id="modelInputOpis" value="#{item.opis}" style="width:100%"/></f:facet>
                         </p:cellEditor>
                     </p:column>
+                    <p:column headerText="grupy">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:dataList value="#{item.grupaList}" var="grupa" type="ordered" emptyMessage="brak grup">
+                            #{grupa.nazwa} #{grupa.opis}
+                        </p:dataList>
+                    </p:rowExpansion>
+
                     <p:column style="width: 30px">
                         <p:rowEditor editTitle="edytuj"/>
                     </p:column>

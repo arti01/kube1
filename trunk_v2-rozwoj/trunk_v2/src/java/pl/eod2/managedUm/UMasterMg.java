@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import pl.eod.managed.Login;
 import pl.eod2.encje.UmMasterGrupa;
 import pl.eod2.encje.UmMasterGrupaJpaController;
@@ -67,7 +69,6 @@ public class UMasterMg {
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
-            //lista.setWrappedData(dcC.findUmMasterGrupaEntities());
             lista.clear();
             lista.addAll(dcC.findUmMasterGrupaEntities());
         } else {
@@ -79,6 +80,11 @@ public class UMasterMg {
     public void usun() throws IllegalOrphanException, NonexistentEntityException {
         dcC.destroy(obiekt.getId());
         refresh();
+    }
+
+    public void editList(RowEditEvent event) throws NonexistentEntityException, Exception {
+        obiekt=(UmMasterGrupa) event.getObject();
+        edytuj();
     }
 
     public String list() {
@@ -93,7 +99,6 @@ public class UMasterMg {
     public void setLogin(Login login) {
         this.login = login;
     }
-
 
     public List<UmMasterGrupa> getLista() {
         return lista;
