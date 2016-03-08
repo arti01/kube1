@@ -90,7 +90,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         urz = urzMg.getDcC().findUmUrzadzenie(urz.getId());
         eventModel.clear();
         for (UmRezerwacje rez : urz.getRezerwacjeList()) {
-            DefaultScheduleEvent ev=new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
+            DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             ev.setEditable(rez.getTworca().equals(login.getZalogowany().getUserId()));
             eventModel.addEvent(ev);
         }
@@ -98,10 +98,15 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
 
     public void onDateSelect(SelectEvent selectEvent) {
         event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+        obiekt = new UmRezerwacje();
+        obiekt.setNazwa("nowa rezerwacja");
+        obiekt.setDataOd(event.getStartDate());
+        obiekt.setDataDo(event.getEndDate());
     }
 
     public void onEventSelect(SelectEvent selectEvent) {
         event = (DefaultScheduleEvent) selectEvent.getObject();
+        obiekt = (UmRezerwacje) event.getData();
     }
 
     public void onEventMove(ScheduleEntryMoveEvent selectEvent) throws NonexistentEntityException, Exception {
@@ -114,7 +119,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         ruchEvent(oldEvent);
     }
 
-    private void ruchEvent(DefaultScheduleEvent oldEvent) throws NonexistentEntityException, Exception{
+    private void ruchEvent(DefaultScheduleEvent oldEvent) throws NonexistentEntityException, Exception {
         obiekt = dcC.findObiekt(((UmRezerwacje) oldEvent.getData()).getId());
         Date stOd = obiekt.getDataOd();
         Date stDo = obiekt.getDataDo();
@@ -125,7 +130,42 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             oldEvent.setEndDate(stDo);
         }
     }
-    
+
+    public void addEventObj() throws InstantiationException, IllegalAccessException, NonexistentEntityException, Exception {
+        if (event.getId() == null) {
+            /*obiekt = new UmRezerwacje();
+            obiekt.setNazwa(event.getTitle());
+            obiekt.setDataOd(event.getStartDate());
+            obiekt.setDataDo(event.getEndDate());*/
+            obiekt.setTworca(login.getZalogowany().getUserId());
+            obiekt.setUrzadzenie((UmUrzadzenie) urzadzenie.getData());
+            Date stOd = obiekt.getDataOd();
+            Date stDo = obiekt.getDataDo();
+            if (!dodaj().isEmpty()) {
+                return;
+            }
+            DefaultScheduleEvent newEvent = new DefaultScheduleEvent(obiekt.getNazwa(), stOd, stDo, obiekt);
+            System.err.println(newEvent.getStartDate() + "-----" + newEvent.getEndDate());
+            eventModel.addEvent(newEvent);
+        } else {
+            /*obiekt = (UmRezerwacje) event.getData();
+            obiekt.setDataOd(event.getStartDate());
+            obiekt.setDataDo(event.getEndDate());
+            obiekt.setNazwa(event.getTitle());*/
+            Date stOd = obiekt.getDataOd();
+            Date stDo = obiekt.getDataDo();
+            String tyt=obiekt.getNazwa();
+            if (!edytuj().isEmpty()) {
+                return;
+            }
+            event.setTitle(tyt);
+            event.setStartDate(stOd);
+            event.setEndDate(stDo);
+            eventModel.updateEvent(event);
+        }
+        event = new DefaultScheduleEvent();
+    }
+
     public void addEvent(ActionEvent actionEvent) throws InstantiationException, IllegalAccessException, NonexistentEntityException, Exception {
         if (event.getId() == null) {
             obiekt = new UmRezerwacje();
@@ -137,7 +177,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             if (!dodaj().isEmpty()) {
                 return;
             }
-            ScheduleEvent newEvent = new DefaultScheduleEvent(event.getTitle(), event.getStartDate(), event.getEndDate(), obiekt);
+            DefaultScheduleEvent newEvent = new DefaultScheduleEvent(event.getTitle(), event.getStartDate(), event.getEndDate(), obiekt);
             eventModel.addEvent(newEvent);
         } else {
             obiekt = (UmRezerwacje) event.getData();
@@ -149,9 +189,9 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         }
         event = new DefaultScheduleEvent();
     }
-    
+
     public void delEvent(ActionEvent actionEvent) throws IllegalOrphanException, NonexistentEntityException, InstantiationException, IllegalAccessException {
-        obiekt=(UmRezerwacje) event.getData();
+        obiekt = (UmRezerwacje) event.getData();
         usun();
         eventModel.deleteEvent(event);
     }
