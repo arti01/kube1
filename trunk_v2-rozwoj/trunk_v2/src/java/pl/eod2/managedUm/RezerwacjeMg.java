@@ -133,10 +133,6 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
 
     public void addEventObj() throws InstantiationException, IllegalAccessException, NonexistentEntityException, Exception {
         if (event.getId() == null) {
-            /*obiekt = new UmRezerwacje();
-            obiekt.setNazwa(event.getTitle());
-            obiekt.setDataOd(event.getStartDate());
-            obiekt.setDataDo(event.getEndDate());*/
             obiekt.setTworca(login.getZalogowany().getUserId());
             obiekt.setUrzadzenie((UmUrzadzenie) urzadzenie.getData());
             Date stOd = obiekt.getDataOd();
@@ -145,13 +141,8 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
                 return;
             }
             DefaultScheduleEvent newEvent = new DefaultScheduleEvent(obiekt.getNazwa(), stOd, stDo, obiekt);
-            System.err.println(newEvent.getStartDate() + "-----" + newEvent.getEndDate());
             eventModel.addEvent(newEvent);
         } else {
-            /*obiekt = (UmRezerwacje) event.getData();
-            obiekt.setDataOd(event.getStartDate());
-            obiekt.setDataDo(event.getEndDate());
-            obiekt.setNazwa(event.getTitle());*/
             Date stOd = obiekt.getDataOd();
             Date stDo = obiekt.getDataDo();
             String tyt=obiekt.getNazwa();
@@ -166,33 +157,10 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         event = new DefaultScheduleEvent();
     }
 
-    public void addEvent(ActionEvent actionEvent) throws InstantiationException, IllegalAccessException, NonexistentEntityException, Exception {
-        if (event.getId() == null) {
-            obiekt = new UmRezerwacje();
-            obiekt.setNazwa(event.getTitle());
-            obiekt.setDataOd(event.getStartDate());
-            obiekt.setDataDo(event.getEndDate());
-            obiekt.setTworca(login.getZalogowany().getUserId());
-            obiekt.setUrzadzenie((UmUrzadzenie) urzadzenie.getData());
-            if (!dodaj().isEmpty()) {
-                return;
-            }
-            DefaultScheduleEvent newEvent = new DefaultScheduleEvent(event.getTitle(), event.getStartDate(), event.getEndDate(), obiekt);
-            eventModel.addEvent(newEvent);
-        } else {
-            obiekt = (UmRezerwacje) event.getData();
-            obiekt.setDataOd(event.getStartDate());
-            obiekt.setDataDo(event.getEndDate());
-            obiekt.setNazwa(event.getTitle());
-            edytuj();
-            eventModel.updateEvent(event);
-        }
-        event = new DefaultScheduleEvent();
-    }
-
     public void delEvent(ActionEvent actionEvent) throws IllegalOrphanException, NonexistentEntityException, InstantiationException, IllegalAccessException {
         obiekt = (UmRezerwacje) event.getData();
         usun();
+        refresh();
         eventModel.deleteEvent(event);
     }
 

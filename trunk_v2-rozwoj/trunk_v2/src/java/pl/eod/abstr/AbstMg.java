@@ -77,11 +77,12 @@ public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             for (Map.Entry<String, String> entry : errorMap.entrySet()) {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, entry.getValue(), entry.getValue());
-                UIComponent input = zapisz.getParent().findComponent(entry.getKey());
+                UIComponent input = zapisz.getParent().findComponent(entry.getKey());    
                 try {
                     context.addMessage(input.getClientId(context), message);
                 } catch (NullPointerException e) {
                     context.addMessage(null, message);
+                    context.addMessage(zapisz.getClientId(context), message);
                     System.err.println("po migracji na PF wywalic");
                 }
                 lista.setWrappedData(dcC.findEntities());
