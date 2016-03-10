@@ -41,37 +41,37 @@
                 </p:menu>
             </p:dialog>
 
-                <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji #{RezerwacjeMg.urzadzenie.data.nazwa}" showEffect="clip" hideEffect="clip" id="dialog">
-                    #{facesContext.maximumSeverity==null}
-                    <h:panelGrid id="eventDetails" columns="3">
-                        <p:outputLabel for="title" value="Nazwa:"/>
-                        <p:inputText id="title" value="#{RezerwacjeMg.obiekt.nazwa}" size='100' rendered="#{RezerwacjeMg.event.editable}"/>
-                        <h:outputText value="#{RezerwacjeMg.obiekt.nazwa}" rendered="#{!RezerwacjeMg.event.editable}"/>
-                        <p:message for="title"/>
 
-                        <p:outputLabel for="from" value="Od:" />
-                        <p:calendar id="from" value="#{RezerwacjeMg.obiekt.dataOd}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerwacjeMg.event.editable}"/>
-                        <h:outputText value="#{RezerwacjeMg.obiekt.dataOd}" rendered="#{!RezerwacjeMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
-                        <p:message for="from"/>
+            <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji #{RezerwacjeMg.urzadzenie.data.nazwa}" showEffect="clip" id="dialog">
+                <p:panelGrid id="eventDetails" columns="3">
+                    <p:outputLabel for="title" value="Nazwa:"/>
+                    <p:inputText id="title" value="#{RezerwacjeMg.obiekt.nazwa}" size='100' rendered="#{RezerwacjeMg.event.editable}"/>
+                    <h:outputText value="#{RezerwacjeMg.obiekt.nazwa}" rendered="#{!RezerwacjeMg.event.editable}"/>
+                    <p:message for="title"/>
 
-                        <p:outputLabel for="to" value="Do:" />
-                        <p:calendar id="to" value="#{RezerwacjeMg.obiekt.dataDo}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerwacjeMg.event.editable}"/>
-                        <h:outputText value="#{RezerwacjeMg.obiekt.dataDo}" rendered="#{!RezerwacjeMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
-                        <p:message for="to"/>
+                    <p:outputLabel for="from" value="Od:" />
+                    <p:calendar id="from" value="#{RezerwacjeMg.obiekt.dataOd}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <h:outputText value="#{RezerwacjeMg.obiekt.dataOd}" rendered="#{!RezerwacjeMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
+                    <p:message for="from"/>
 
-                        <p:outputLabel value="Twórca:" />
-                        <h:outputText value="#{RezerwacjeMg.obiekt.tworca.fullname} #{RezerwacjeMg.obiekt.tworca.adrEmail}"/>
-                        <p:message for="from"/>
+                    <p:outputLabel for="to" value="Do:" />
+                    <p:calendar id="to" value="#{RezerwacjeMg.obiekt.dataDo}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <h:outputText value="#{RezerwacjeMg.obiekt.dataDo}" rendered="#{!RezerwacjeMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
+                    <p:message for="to"/>
 
-                        <p:commandButton type="reset" value="Reset" rendered="#{RezerwacjeMg.event.editable}"/>
-                        <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}"
-                                         oncomplete="if(#{facesContext.maximumSeverity!=null}) {PF('eventDialog').show();}" 
-                                         update="schedule, :infoForm:messages, :center:dialog" rendered="#{RezerwacjeMg.event.editable}"/>
-                        <p:message for="addButton"/>
-                    </h:panelGrid>
-                </p:dialog> 
+                    <p:outputLabel value="Twórca:" />
+                    <h:outputText value="#{RezerwacjeMg.obiekt.tworca.fullname} #{RezerwacjeMg.obiekt.tworca.adrEmail}"/>
+                    <p:message for="from"/>
 
-                <p:remoteCommand name="updateGrowl" update="schedulePanel"/>
+                    <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}" oncomplete="if(#{facesContext.validationFailed}){PF('eventDialog').hide();} else{false;}"
+                                     update="schedule, :infoForm:messages, :center:eventDetails" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <p:message for="addButton"/>
+                    <p:commandButton value="Reset" actionListener="#{RezerwacjeMg.refresh}" immediate="true" ajax="false" rendered="#{RezerwacjeMg.event.editable}">
+                        <p:resetInput target="eventDetails"/>
+                    </p:commandButton>
+                </p:panelGrid>
+            </p:dialog> 
+            <p:remoteCommand name="updateGrowl" update="schedulePanel"/>
         </h:form>
     </ui:define>
 </ui:composition>
