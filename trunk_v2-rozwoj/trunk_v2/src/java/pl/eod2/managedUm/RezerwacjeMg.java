@@ -31,9 +31,9 @@ import pl.eod2.encje.exceptions.NonexistentEntityException;
 @ManagedBean(name = "RezerwacjeMg")
 @SessionScoped
 public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
-
+    
     @ManagedProperty(value = "#{login}")
     private Login login;
     @ManagedProperty(value = "#{UrzadzeniaMg}")
@@ -44,24 +44,24 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private TreeNode urzadzenie;
     private ScheduleModel eventModel;
     private DefaultScheduleEvent event = new DefaultScheduleEvent();
-
+    
     public RezerwacjeMg() throws InstantiationException, IllegalAccessException {
         super("/um/rezerwacje", new UmRezerwacjeKontr(), new UmRezerwacje());
     }
-
+    
     @PostConstruct
     private void init() {
         eventModel = new DefaultScheduleModel();
         zrobDrzewo();
     }
-
+    
     @Override
     public void refresh() throws InstantiationException, IllegalAccessException {
         super.refresh();
         login.refresh();
         zrobDrzewo();
     }
-
+    
     public void zrobDrzewo() {
         root = new DefaultTreeNode("urządzenia", null);
         List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
@@ -81,7 +81,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             }
         }
     }
-
+    
     public void ustawSched() {
         if (!this.urzadzenie.getType().equals("urzadzenie")) {
             return;
@@ -95,7 +95,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             eventModel.addEvent(ev);
         }
     }
-
+    
     public void onDateSelect(SelectEvent selectEvent) {
         event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
         obiekt = new UmRezerwacje();
@@ -103,22 +103,22 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         obiekt.setDataOd(event.getStartDate());
         obiekt.setDataDo(event.getEndDate());
     }
-
+    
     public void onEventSelect(SelectEvent selectEvent) {
         event = (DefaultScheduleEvent) selectEvent.getObject();
         obiekt = (UmRezerwacje) event.getData();
     }
-
+    
     public void onEventMove(ScheduleEntryMoveEvent selectEvent) throws NonexistentEntityException, Exception {
         DefaultScheduleEvent oldEvent = (DefaultScheduleEvent) selectEvent.getScheduleEvent();
         ruchEvent(oldEvent);
     }
-
+    
     public void onEventResize(ScheduleEntryResizeEvent selectEvent) throws NonexistentEntityException, Exception {
         DefaultScheduleEvent oldEvent = (DefaultScheduleEvent) selectEvent.getScheduleEvent();
         ruchEvent(oldEvent);
     }
-
+    
     private void ruchEvent(DefaultScheduleEvent oldEvent) throws NonexistentEntityException, Exception {
         obiekt = dcC.findObiekt(((UmRezerwacje) oldEvent.getData()).getId());
         Date stOd = obiekt.getDataOd();
@@ -128,9 +128,13 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         if (!edytuj().isEmpty()) {
             oldEvent.setStartDate(stOd);
             oldEvent.setEndDate(stDo);
+        } else {
+            oldEvent.setData(obiekt);
+            event = oldEvent;
+            eventModel.updateEvent(event);            
         }
     }
-
+    
     public void addEventObj() throws InstantiationException, IllegalAccessException, NonexistentEntityException, Exception {
         if (event.getId() == null) {
             obiekt.setTworca(login.getZalogowany().getUserId());
@@ -145,7 +149,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         } else {
             Date stOd = obiekt.getDataOd();
             Date stDo = obiekt.getDataDo();
-            String tyt=obiekt.getNazwa();
+            String tyt = obiekt.getNazwa();
             if (!edytuj().isEmpty()) {
                 return;
             }
@@ -156,60 +160,60 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         }
         event = new DefaultScheduleEvent();
     }
-
+    
     public void delEvent(ActionEvent actionEvent) throws IllegalOrphanException, NonexistentEntityException, InstantiationException, IllegalAccessException {
         obiekt = (UmRezerwacje) event.getData();
         usun();
         refresh();
         eventModel.deleteEvent(event);
     }
-
+    
     public Login getLogin() {
         return login;
     }
-
+    
     public void setLogin(Login login) {
         this.login = login;
     }
-
+    
     public TreeNode getUrzadzenie() {
         return urzadzenie;
     }
-
+    
     public void setUrzadzenie(TreeNode urzadzenie) {
         this.urzadzenie = urzadzenie;
     }
-
+    
     public UrzadzeniaMg getUrzMg() {
         return urzMg;
     }
-
+    
     public void setUrzMg(UrzadzeniaMg urzMg) {
         this.urzMg = urzMg;
     }
-
+    
     public TreeNode getRoot() {
         return root;
     }
-
+    
     public void setRoot(TreeNode root) {
         this.root = root;
     }
-
+    
     public ScheduleModel getEventModel() {
         return eventModel;
     }
-
+    
     public void setEventModel(ScheduleModel eventModel) {
         this.eventModel = eventModel;
     }
-
+    
     public DefaultScheduleEvent getEvent() {
         return event;
     }
-
+    
     public void setEvent(DefaultScheduleEvent event) {
         this.event = event;
     }
-
+    
 }

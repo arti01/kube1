@@ -28,9 +28,9 @@
                 <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" timeZone="CET"
                             aspectRatio="4" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}" timeFormat="HH:mm" axisFormat="HH:mm">
                     <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
-                    <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
-                    <p:ajax event="eventResize" listener="#{RezerwacjeMg.onEventResize}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
+                    <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update=":center:test,:center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
+                    <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}" update=":center:test, :infoForm:messages" oncomplete="PF('myschedule').update();"/>
+                    <p:ajax event="eventResize" listener="#{RezerwacjeMg.onEventResize}" update=":center:test, :infoForm:messages" oncomplete="PF('myschedule').update();"/>
                 </p:schedule>
             </p:panel>
             <p:dialog id="contekst" header="wybierz" widgetVar="contekst" resizable="false" styleClass="disable-scroll">
@@ -40,7 +40,10 @@
                     <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerwacjeMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();" rendered="#{RezerwacjeMg.event.editable}"/>
                 </p:menu>
             </p:dialog>
-
+            <p:panel id="test">
+                #{RezerwacjeMg.obiekt.dataOd}
+                ssssssssssssss
+            </p:panel>
 
             <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji #{RezerwacjeMg.urzadzenie.data.nazwa}" showEffect="clip" id="dialog">
                 <p:panelGrid id="eventDetails" columns="3">
@@ -63,14 +66,19 @@
                     <h:outputText value="#{RezerwacjeMg.obiekt.tworca.fullname} #{RezerwacjeMg.obiekt.tworca.adrEmail}"/>
                     <p:message for="from"/>
 
-                    <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}" oncomplete="if(#{facesContext.validationFailed}){PF('eventDialog').hide();} else{false;}"
-                                     update="schedule, :infoForm:messages, :center:eventDetails" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
+                                     update="schedule, :infoForm:messages, :center:eventDetails, :center:valid" rendered="#{RezerwacjeMg.event.editable}"/>
                     <p:message for="addButton"/>
-                    <p:commandButton value="Reset" actionListener="#{RezerwacjeMg.refresh}" immediate="true" ajax="false" rendered="#{RezerwacjeMg.event.editable}">
+                    <p:commandButton value="Reset" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" rendered="#{RezerwacjeMg.event.editable}" oncomplete="PF('eventDialog').hide()">
                         <p:resetInput target="eventDetails"/>
                     </p:commandButton>
                 </p:panelGrid>
             </p:dialog> 
+            
+            <h:panelGroup id="valid">
+                <p:remoteCommand oncomplete="PF('eventDialog').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
+            </h:panelGroup>
+
             <p:remoteCommand name="updateGrowl" update="schedulePanel"/>
         </h:form>
     </ui:define>
