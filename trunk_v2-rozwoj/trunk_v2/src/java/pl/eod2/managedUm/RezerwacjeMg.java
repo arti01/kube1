@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -15,7 +14,6 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.DefaultTreeNode;
-import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.TreeNode;
 import pl.eod.abstr.AbstMg;
@@ -106,7 +104,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     
     public void onEventSelect(SelectEvent selectEvent) {
         event = (DefaultScheduleEvent) selectEvent.getObject();
-        obiekt = (UmRezerwacje) event.getData();
+        obiekt = obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
     }
     
     public void onEventMove(ScheduleEntryMoveEvent selectEvent) throws NonexistentEntityException, Exception {
@@ -128,10 +126,6 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         if (!edytuj().isEmpty()) {
             oldEvent.setStartDate(stOd);
             oldEvent.setEndDate(stDo);
-        } else {
-            oldEvent.setData(obiekt);
-            event = oldEvent;
-            eventModel.updateEvent(event);            
         }
     }
     

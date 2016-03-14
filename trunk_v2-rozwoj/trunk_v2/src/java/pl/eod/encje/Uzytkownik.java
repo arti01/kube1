@@ -116,6 +116,7 @@ public class Uzytkownik implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "userid", orphanRemoval = false, fetch = FetchType.LAZY)
     @OrderBy(value = "id DESC")
     private List<DcDokDoWiadCel> dcDoWiadCelList;
+    
     @Transient
     private List<DcDokDoWiadCel> dcDoWiadCelListFiltr;
     @Transient
@@ -134,6 +135,8 @@ public class Uzytkownik implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "tworca", orphanRemoval = false, fetch = FetchType.LAZY)
     @OrderBy(value = "dataOd DESC")
     private List<UmRezerwacje> rezerwacjeList;
+    @ManyToMany(mappedBy = "uczestnikList", fetch = FetchType.LAZY)
+    private List<UmRezerwacje> rezUczestnikList;
     
     
     //@OneToMany(cascade = CascadeType.MERGE, mappedBy = "wydal", orphanRemoval = false, fetch = FetchType.LAZY)
@@ -407,6 +410,14 @@ public class Uzytkownik implements Serializable {
 
     public void setRezerwacjeList(List<UmRezerwacje> rezerwacjeList) {
         this.rezerwacjeList = rezerwacjeList;
+    }
+
+    public List<UmRezerwacje> getRezUczestnikList() {
+        return rezUczestnikList;
+    }
+
+    public void setRezUczestnikList(List<UmRezerwacje> rezUczestnikList) {
+        this.rezUczestnikList = rezUczestnikList;
     }
 
     /*

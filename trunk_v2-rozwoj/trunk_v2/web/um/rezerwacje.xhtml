@@ -40,10 +40,6 @@
                     <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerwacjeMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();" rendered="#{RezerwacjeMg.event.editable}"/>
                 </p:menu>
             </p:dialog>
-            <p:panel id="test">
-                #{RezerwacjeMg.obiekt.dataOd}
-                ssssssssssssss
-            </p:panel>
 
             <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji #{RezerwacjeMg.urzadzenie.data.nazwa}" showEffect="clip" id="dialog">
                 <p:panelGrid id="eventDetails" columns="3">
@@ -72,9 +68,18 @@
                     <p:commandButton value="Reset" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" rendered="#{RezerwacjeMg.event.editable}" oncomplete="PF('eventDialog').hide()">
                         <p:resetInput target="eventDetails"/>
                     </p:commandButton>
+
+                    <p:outputLabel value="Multiple:" for="osoby" />
+                    <p:autoComplete id="osoby" multiple="true" value="#{RezerwacjeMg.obiekt.uczestnikList}" completeMethod="#{RezerwacjeMg.login.zalogowany.userId.spolkaId.userList}"
+                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{theme}" forceSelection="true">
+                        <p:column>
+                            <h:outputText value="#{user.adrEmail}" />
+                        </p:column>
+                    </p:autoComplete>
+
                 </p:panelGrid>
             </p:dialog> 
-            
+
             <h:panelGroup id="valid">
                 <p:remoteCommand oncomplete="PF('eventDialog').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
             </h:panelGroup>
