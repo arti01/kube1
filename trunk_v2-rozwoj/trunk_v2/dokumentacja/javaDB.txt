@@ -12,6 +12,5 @@
            url="jdbc:derby://10.151.64.147:1527/eod_v2"
            org.apache.derby.jdbc.ClientDriver
     -->
-  <Resource auth="Container" driverClassName="org.apache.derby.jdbc.ClientDriver" maxActive="10" maxIdle="3" maxWait="10000" name="jdbc/eod_v2" password="eod" removeAbandoned="true" removeAbandonedTimeout="100" type="javax.sql.DataSource" url="jdbc:derby://10.151.80.152:1527/eod_v2" username="eod"/>
+  <Resource auth="Container" driverClassName="org.apache.derby.jdbc.ClientDriver" maxTotal="10" maxIdle="3" maxWaitMillis="20000" name="jdbc/eod_v2" password="eod" removeAbandoned="true" removeAbandonedTimeout="100" type="javax.sql.DataSource" url="jdbc:derby://10.151.80.152:1527/eod_v2" username="eod"/>
 </Context>
-
