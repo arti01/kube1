@@ -28,9 +28,9 @@
                 <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" timeZone="CET"
                             aspectRatio="4" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}" timeFormat="HH:mm" axisFormat="HH:mm">
                     <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update=":center:test,:center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
-                    <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}" update=":center:test, :infoForm:messages" oncomplete="PF('myschedule').update();"/>
-                    <p:ajax event="eventResize" listener="#{RezerwacjeMg.onEventResize}" update=":center:test, :infoForm:messages" oncomplete="PF('myschedule').update();"/>
+                    <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
+                    <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
+                    <p:ajax event="eventResize" listener="#{RezerwacjeMg.onEventResize}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
                 </p:schedule>
             </p:panel>
             <p:dialog id="contekst" header="wybierz" widgetVar="contekst" resizable="false" styleClass="disable-scroll">
@@ -69,9 +69,12 @@
                         <p:resetInput target="eventDetails"/>
                     </p:commandButton>
 
-                    <p:outputLabel value="Multiple:" for="osoby" />
-                    <p:autoComplete id="osoby" multiple="true" value="#{RezerwacjeMg.obiekt.uczestnikList}" completeMethod="#{RezerwacjeMg.login.zalogowany.userId.spolkaId.userList}"
-                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{theme}" forceSelection="true">
+                    <p:outputLabel value="wybierz uczestników rezerwacji:" for="osoby" />
+                    <p:autoComplete id="osoby" multiple="true" value="#{RezerwacjeMg.obiekt.uczestnikList}" completeMethod="#{RezerwacjeMg.dostepniList}"
+                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}">
+                        <p:column>
+                            <h:outputText value="#{user.fullname}" />
+                        </p:column>
                         <p:column>
                             <h:outputText value="#{user.adrEmail}" />
                         </p:column>

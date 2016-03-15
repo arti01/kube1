@@ -12,5 +12,5 @@
            url="jdbc:derby://10.151.64.147:1527/eod_v2"
            org.apache.derby.jdbc.ClientDriver
     -->
-  <Resource auth="Container" driverClassName="org.postgresql.Driver" maxActive="10" maxIdle="3" maxWait="10000" name="jdbc/eod_v2" password="eod" removeAbandoned="true" removeAbandonedTimeout="100" type="javax.sql.DataSource" url="jdbc:postgresql://192.168.1.13:5432/eod_ocr" username="eod"/>
+  <Resource auth="Container" driverClassName="org.postgresql.Driver" maxTotal="10" maxIdle="3" maxWaitMillis="20000" name="jdbc/eod_v2" password="eod" type="javax.sql.DataSource" url="jdbc:postgresql://192.168.1.13:5432/eod_ocr" username="eod"/>
 </Context>
