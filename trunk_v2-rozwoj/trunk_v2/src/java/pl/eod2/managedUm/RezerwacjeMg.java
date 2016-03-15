@@ -9,10 +9,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.DefaultTreeNode;
@@ -55,11 +57,6 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private void init() {
         eventModel = new DefaultScheduleModel();
         usersList = new ArrayList<>();
-        for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
-            if (!u.getStruktura().isUsuniety()) {
-                usersList.add(u);
-            }
-        }
         /*login.getZalogowany().getUserId().getSpolkaId().getUserList().stream().filter((u) -> (!u.getStruktura().isUsuniety())).forEach((u) -> {
             usersList.add(u);
         });*/
@@ -113,11 +110,24 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         obiekt.setNazwa("nowa rezerwacja");
         obiekt.setDataOd(event.getStartDate());
         obiekt.setDataDo(event.getEndDate());
+        usersList.clear();
+        for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
+            if (!u.getStruktura().isUsuniety()) {
+                usersList.add(u);
+            }
+        }
     }
 
     public void onEventSelect(SelectEvent selectEvent) {
         event = (DefaultScheduleEvent) selectEvent.getObject();
         obiekt = obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
+        usersList.clear();
+        for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
+            if (!u.getStruktura().isUsuniety()) {
+                usersList.add(u);
+            }
+        }
+        usersList.removeAll(obiekt.getUczestnikList());
     }
 
     public void onEventMove(ScheduleEntryMoveEvent selectEvent) throws NonexistentEntityException, Exception {
@@ -146,13 +156,14 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         if (event.getId() == null) {
             obiekt.setTworca(login.getZalogowany().getUserId());
             obiekt.setUrzadzenie((UmUrzadzenie) urzadzenie.getData());
-            Date stOd = obiekt.getDataOd();
-            Date stDo = obiekt.getDataDo();
+            /*Date stOd = obiekt.getDataOd();
+            Date stDo = obiekt.getDataDo();*/
+            DefaultScheduleEvent newEvent = new DefaultScheduleEvent(obiekt.getNazwa(), obiekt.getDataOd(), obiekt.getDataDo(), obiekt);
+            eventModel.addEvent(newEvent);
             if (!dodaj().isEmpty()) {
+                eventModel.deleteEvent(newEvent);
                 return;
             }
-            DefaultScheduleEvent newEvent = new DefaultScheduleEvent(obiekt.getNazwa(), stOd, stDo, obiekt);
-            eventModel.addEvent(newEvent);
         } else {
             Date stOd = obiekt.getDataOd();
             Date stDo = obiekt.getDataDo();
@@ -233,14 +244,10 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
 
     public List<Uzytkownik> dostepniList(String cos) {
         List<Uzytkownik> wynik = new ArrayList<>();
-        System.err.println(usersList);
         if (obiekt.getUczestnikList() == null) {
             obiekt.setUczestnikList(new ArrayList<>());
         }
-        System.err.println(obiekt.getUczestnikList());
-        //System.err.println(obiekt.getUczestnikList());
-        usersList.removeAll(obiekt.getUczestnikList());
-        System.err.println(usersList);
+        //usersList.removeAll(obiekt.getUczestnikList());
         for (Uzytkownik u : usersList) {
             if (u.getAdrEmail().toLowerCase().contains(cos.toLowerCase()) || u.getFullname().toLowerCase().contains(cos.toLowerCase())) {
                 wynik.add(u);
@@ -248,7 +255,13 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         }
         return wynik;
     }
-    public void onChangeUsers(ValueChangeEvent event){
-        event.getNewValue();
+    
+    public void onAddUsers(SelectEvent event){
+        Uzytkownik u=(Uzytkownik) event.getObject();
+        usersList.remove(u);
+    }
+    public void onDelUsers(UnselectEvent event){
+        Uzytkownik u=(Uzytkownik) event.getObject();
+        usersList.add(u);
     }
 }

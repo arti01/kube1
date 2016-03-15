@@ -62,17 +62,11 @@
                     <h:outputText value="#{RezerwacjeMg.obiekt.tworca.fullname} #{RezerwacjeMg.obiekt.tworca.adrEmail}"/>
                     <p:message for="from"/>
 
-                    <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
-                                     update="schedule, :infoForm:messages, :center:eventDetails, :center:valid" rendered="#{RezerwacjeMg.event.editable}"/>
-                    <p:message for="addButton"/>
-                    <p:commandButton value="Reset" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" rendered="#{RezerwacjeMg.event.editable}" oncomplete="PF('eventDialog').hide()">
-                        <p:resetInput target="eventDetails"/>
-                    </p:commandButton>
-
                     <p:outputLabel value="wybierz uczestników rezerwacji:" for="osoby" />
                     <p:autoComplete id="osoby" multiple="true" value="#{RezerwacjeMg.obiekt.uczestnikList}" completeMethod="#{RezerwacjeMg.dostepniList}"
-                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}"
-                                    >
+                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}">
+                        <p:ajax event="itemSelect" listener="#{RezerwacjeMg.onAddUsers}"/>
+                        <p:ajax event="itemUnselect" listener="#{RezerwacjeMg.onDelUsers}"/>
                         <p:column>
                             <h:outputText value="#{user.fullname}" />
                         </p:column>
@@ -80,6 +74,14 @@
                             <h:outputText value="#{user.adrEmail}" />
                         </p:column>
                     </p:autoComplete>
+                    <p:message for="osoby"/>
+                    
+                    <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
+                                     update="schedule, :infoForm:messages, :center:eventDetails, :center:valid" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <p:message for="addButton"/>
+                    <p:commandButton value="Reset" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" rendered="#{RezerwacjeMg.event.editable}" oncomplete="PF('eventDialog').hide()">
+                        <p:resetInput target="eventDetails"/>
+                    </p:commandButton>
 
                 </p:panelGrid>
             </p:dialog> 
