@@ -13,17 +13,34 @@
     </ui:define>
     <ui:define name="content" id="content">
         <h:form id="center">
-            <p:panel header="Wybierz zasób">
-                <p:tree value="#{RezerwacjeMg.root}" var="node" dynamic="true" style=" background-color: white;" selectionMode="single" selection="#{RezerwacjeMg.urzadzenie}" id="drzewo">
-                    <p:ajax event="select" update=":center:schedulePanel, center:dialog" listener="#{RezerwacjeMg.ustawSched}"/>
-                    <p:treeNode type="grupa" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
-                        <h:outputText value="#{node.nazwa}" />
-                    </p:treeNode>
-                    <p:treeNode type="urzadzenie" icon="ui-icon-script">
-                        <h:outputText value="#{node.nazwa}"/>
-                    </p:treeNode>
-                </p:tree>
-            </p:panel>
+            <p:panelGrid  columns="2">
+                <p:panel header="Wybierz zasób z listy">
+                    <p:tree value="#{RezerwacjeMg.root}" var="node" dynamic="true" style=" background-color: white;" selectionMode="single" selection="#{RezerwacjeMg.urzadzenie}" id="drzewo">
+                        <p:ajax event="select" update=":center:schedulePanel" listener="#{RezerwacjeMg.ustawSched}"/>
+                        <p:treeNode type="grupa" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                            <h:outputText value="#{node.nazwa}" />
+                        </p:treeNode>
+                        <p:treeNode type="urzadzenie" icon="ui-icon-script">
+                            <h:outputText value="#{node.nazwa}"/>
+                        </p:treeNode>
+                    </p:tree>
+                </p:panel>
+                <p:panel header="lub wpisz jego nazwę">
+                    <p:autoComplete id="zasob" completeMethod="#{RezerwacjeMg.urzAllList}"
+                                    var="urz" forceSelection="true" itemValue="#{urz}" converter="#{UmUrzadzenieConv}">
+                        <p:ajax event="itemSelect" update=":center:schedulePanel" listener="#{RezerwacjeMg.ustawSchedCompl}"/>
+                        <p:column>
+                            <h:outputText value="#{urz.nazwa}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{urz.grupa.nazwa}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{urz.grupa.masterGrp.nazwa}" />
+                        </p:column>
+                    </p:autoComplete>
+                </p:panel>
+            </p:panelGrid>
             <p:panel header="Kalendarz dla: #{RezerwacjeMg.urzadzenie.data.nazwa}" id="schedulePanel">
                 <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" timeZone="CET"
                             aspectRatio="4" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}" timeFormat="HH:mm" axisFormat="HH:mm">
@@ -62,9 +79,10 @@
                     <h:outputText value="#{RezerwacjeMg.obiekt.tworca.fullname} #{RezerwacjeMg.obiekt.tworca.adrEmail}"/>
                     <p:message for="from"/>
 
-                    <p:outputLabel value="wybierz uczestników rezerwacji:" for="osoby" />
+                    <p:outputLabel value="uczestnicy rezerwacji:" for="osoby"/>
                     <p:autoComplete id="osoby" multiple="true" value="#{RezerwacjeMg.obiekt.uczestnikList}" completeMethod="#{RezerwacjeMg.dostepniList}"
-                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}">
+                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}"
+                                    rendered="#{RezerwacjeMg.event.editable}">
                         <p:ajax event="itemSelect" listener="#{RezerwacjeMg.onAddUsers}"/>
                         <p:ajax event="itemUnselect" listener="#{RezerwacjeMg.onDelUsers}"/>
                         <p:column>
@@ -74,8 +92,11 @@
                             <h:outputText value="#{user.adrEmail}" />
                         </p:column>
                     </p:autoComplete>
+                    <p:dataList value="#{RezerwacjeMg.obiekt.uczestnikList}" var="user" type="ordered" rendered="#{!RezerwacjeMg.event.editable}">
+                        <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
+                    </p:dataList>
                     <p:message for="osoby"/>
-                    
+
                     <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
                                      update="schedule, :infoForm:messages, :center:eventDetails, :center:valid" rendered="#{RezerwacjeMg.event.editable}"/>
                     <p:message for="addButton"/>

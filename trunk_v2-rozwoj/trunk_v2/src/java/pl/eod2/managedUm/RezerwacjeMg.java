@@ -9,8 +9,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
@@ -48,6 +46,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private ScheduleModel eventModel;
     private DefaultScheduleEvent event = new DefaultScheduleEvent();
     private List<Uzytkownik> usersList;
+    private List<UmUrzadzenie> urzAll;
 
     public RezerwacjeMg() throws InstantiationException, IllegalAccessException {
         super("/um/rezerwacje", new UmRezerwacjeKontr(), new UmRezerwacje());
@@ -57,9 +56,6 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private void init() {
         eventModel = new DefaultScheduleModel();
         usersList = new ArrayList<>();
-        /*login.getZalogowany().getUserId().getSpolkaId().getUserList().stream().filter((u) -> (!u.getStruktura().isUsuniety())).forEach((u) -> {
-            usersList.add(u);
-        });*/
         zrobDrzewo();
     }
 
@@ -71,6 +67,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     }
 
     public void zrobDrzewo() {
+        urzAll = new ArrayList<>();
         root = new DefaultTreeNode("urządzenia", null);
         List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
         for (UmMasterGrupa mg : masterList) {
@@ -85,6 +82,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
                 TreeNode gtr = new DefaultTreeNode("grupa", gr, mtr);
                 for (UmUrzadzenie uz : gr.getUrzadzenieList()) {
                     TreeNode utr = new DefaultTreeNode("urzadzenie", uz, gtr);
+                    urzAll.add(uz);
                 }
             }
         }
@@ -96,6 +94,18 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         }
         UmUrzadzenie urz = (UmUrzadzenie) this.urzadzenie.getData();
         urz = urzMg.getDcC().findUmUrzadzenie(urz.getId());
+        eventModel.clear();
+        for (UmRezerwacje rez : urz.getRezerwacjeList()) {
+            DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
+            ev.setEditable(rez.getTworca().equals(login.getZalogowany().getUserId()));
+            eventModel.addEvent(ev);
+        }
+    }
+    
+    public void ustawSchedCompl(SelectEvent event) {
+        UmUrzadzenie urz = (UmUrzadzenie) event.getObject();
+        urz = urzMg.getDcC().findUmUrzadzenie(urz.getId());
+        urzadzenie = new DefaultTreeNode("urzadzenie", urz, null);
         eventModel.clear();
         for (UmRezerwacje rez : urz.getRezerwacjeList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
@@ -255,13 +265,27 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         }
         return wynik;
     }
-    
-    public void onAddUsers(SelectEvent event){
-        Uzytkownik u=(Uzytkownik) event.getObject();
+
+    public List<UmUrzadzenie> urzAllList(String cos) {
+        List<UmUrzadzenie> wynik = new ArrayList<>();
+
+        for (UmUrzadzenie urz : urzAll) {
+            if (urz.getNazwa().toLowerCase().contains(cos.toLowerCase())
+                    || urz.getGrupa().getNazwa().toLowerCase().contains(cos.toLowerCase())
+                    || urz.getGrupa().getMasterGrp().getNazwa().toLowerCase().contains(cos.toLowerCase())) {
+                wynik.add(urz);
+            }
+        }
+        return wynik;
+    }
+
+    public void onAddUsers(SelectEvent event) {
+        Uzytkownik u = (Uzytkownik) event.getObject();
         usersList.remove(u);
     }
-    public void onDelUsers(UnselectEvent event){
-        Uzytkownik u=(Uzytkownik) event.getObject();
+
+    public void onDelUsers(UnselectEvent event) {
+        Uzytkownik u = (Uzytkownik) event.getObject();
         usersList.add(u);
     }
 }
