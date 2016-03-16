@@ -14,9 +14,9 @@
     <ui:define name="content" id="content">
         <h:form id="center">
             <p:panelGrid  columns="2">
-                <p:panel header="Wybierz zasób z listy">
+                <p:panel header="Wybierz zasób z listy" id="drzewoPanel">
                     <p:tree value="#{RezerwacjeMg.root}" var="node" dynamic="true" style=" background-color: white;" selectionMode="single" selection="#{RezerwacjeMg.urzadzenie}" id="drzewo">
-                        <p:ajax event="select" update=":center:schedulePanel" listener="#{RezerwacjeMg.ustawSched}"/>
+                        <p:ajax event="select" update=":center:schedulePanel" listener="#{RezerwacjeMg.ustawSched}" process="@this"/>
                         <p:treeNode type="grupa" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                             <h:outputText value="#{node.nazwa}" />
                         </p:treeNode>
@@ -54,7 +54,8 @@
                 <p:menu id="contekstmenu">
                     <p:menuitem value="Edycja"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{RezerwacjeMg.event.editable}"/>
                     <p:menuitem value="Podgląd"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{!RezerwacjeMg.event.editable}"/>
-                    <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerwacjeMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();" rendered="#{RezerwacjeMg.event.editable}"/>
+                    <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerwacjeMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();"
+                                rendered="#{RezerwacjeMg.event.editable}" process="@this"/>
                 </p:menu>
             </p:dialog>
 
@@ -92,13 +93,13 @@
                             <h:outputText value="#{user.adrEmail}" />
                         </p:column>
                     </p:autoComplete>
-                    <p:dataList value="#{RezerwacjeMg.obiekt.uczestnikList}" var="user" type="ordered" rendered="#{!RezerwacjeMg.event.editable}">
+                    <p:dataList value="#{RezerwacjeMg.obiekt.uczestnikList}" var="user" type="ordered" rendered="#{!RezerwacjeMg.event.editable}" emptyMessage="brak" >
                         <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
                     </p:dataList>
                     <p:message for="osoby"/>
 
                     <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
-                                     update="schedule, :infoForm:messages, :center:eventDetails, :center:valid" rendered="#{RezerwacjeMg.event.editable}"/>
+                                     update="schedule, :infoForm:messages, :center:eventDetails, :center:valid" rendered="#{RezerwacjeMg.event.editable}" process=":center:dialog"/>
                     <p:message for="addButton"/>
                     <p:commandButton value="Reset" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" rendered="#{RezerwacjeMg.event.editable}" oncomplete="PF('eventDialog').hide()">
                         <p:resetInput target="eventDetails"/>

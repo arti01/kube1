@@ -103,6 +103,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     }
     
     public void ustawSchedCompl(SelectEvent event) {
+        
         UmUrzadzenie urz = (UmUrzadzenie) event.getObject();
         urz = urzMg.getDcC().findUmUrzadzenie(urz.getId());
         urzadzenie = new DefaultTreeNode("urzadzenie", urz, null);

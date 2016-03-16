@@ -62,6 +62,7 @@ INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from conf
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbUser', 'nazwa konta poczty do odbioru zalacznikow', 'arti4077@gmail.com');
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbPass', 'haslo konta poczty do odbioru zalacznikow', 'pasword');
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbFolder', 'forder odbioru zalacznikow, np. inbox/test', 'inbox/test');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'dir_repo', 'forder gdzie sa przechowywane dokumenty', 'd:\\tmp');
 
 INSERT INTO dc_rodzaj_typy_pol VALUES (1, 'liczba');
 INSERT INTO dc_rodzaj_typy_pol VALUES (2, 'tekst');
