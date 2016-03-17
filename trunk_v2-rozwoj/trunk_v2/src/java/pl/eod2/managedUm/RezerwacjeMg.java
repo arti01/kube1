@@ -46,6 +46,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private ScheduleModel eventModel;
     private DefaultScheduleEvent event = new DefaultScheduleEvent();
     private List<Uzytkownik> usersList;
+    private List<Uzytkownik> usersListSelect;
     private List<UmUrzadzenie> urzAll;
 
     public RezerwacjeMg() throws InstantiationException, IllegalAccessException {
@@ -56,7 +57,14 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private void init() {
         eventModel = new DefaultScheduleModel();
         usersList = new ArrayList<>();
+        usersListSelect = new ArrayList<>();
         zrobDrzewo();
+        for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
+            if (!u.getStruktura().isUsuniety()) {
+                usersList.add(u);
+            }
+        }
+        usersListSelect.addAll(usersList);
     }
 
     @Override
@@ -103,7 +111,6 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     }
     
     public void ustawSchedCompl(SelectEvent event) {
-        
         UmUrzadzenie urz = (UmUrzadzenie) event.getObject();
         urz = urzMg.getDcC().findUmUrzadzenie(urz.getId());
         urzadzenie = new DefaultTreeNode("urzadzenie", urz, null);
@@ -121,24 +128,16 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         obiekt.setNazwa("nowa rezerwacja");
         obiekt.setDataOd(event.getStartDate());
         obiekt.setDataDo(event.getEndDate());
-        usersList.clear();
-        for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
-            if (!u.getStruktura().isUsuniety()) {
-                usersList.add(u);
-            }
-        }
+        usersListSelect.clear();
+        usersListSelect.addAll(usersList);
     }
 
     public void onEventSelect(SelectEvent selectEvent) {
         event = (DefaultScheduleEvent) selectEvent.getObject();
         obiekt = obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
-        usersList.clear();
-        for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
-            if (!u.getStruktura().isUsuniety()) {
-                usersList.add(u);
-            }
-        }
-        usersList.removeAll(obiekt.getUczestnikList());
+        usersListSelect.clear();
+        usersListSelect.addAll(usersList);
+        usersListSelect.removeAll(obiekt.getUczestnikList());
     }
 
     public void onEventMove(ScheduleEntryMoveEvent selectEvent) throws NonexistentEntityException, Exception {
@@ -259,7 +258,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             obiekt.setUczestnikList(new ArrayList<>());
         }
         //usersList.removeAll(obiekt.getUczestnikList());
-        for (Uzytkownik u : usersList) {
+        for (Uzytkownik u : usersListSelect) {
             if (u.getAdrEmail().toLowerCase().contains(cos.toLowerCase()) || u.getFullname().toLowerCase().contains(cos.toLowerCase())) {
                 wynik.add(u);
             }
@@ -282,11 +281,11 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
 
     public void onAddUsers(SelectEvent event) {
         Uzytkownik u = (Uzytkownik) event.getObject();
-        usersList.remove(u);
+        usersListSelect.remove(u);
     }
 
     public void onDelUsers(UnselectEvent event) {
         Uzytkownik u = (Uzytkownik) event.getObject();
-        usersList.add(u);
+        usersListSelect.add(u);
     }
 }

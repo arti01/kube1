@@ -1,4 +1,4 @@
-<ui:composition template="/templates/templatePF.xhtml"
+<ui:composition template="/templates/templateGPF.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
@@ -9,6 +9,7 @@
     </ui:define>
 
     <ui:define name="content">
+        
         <h:form id="center">
             <p:fieldset id="dodPanel" legend="Dodaj" toggleable="true" toggleSpeed="200" collapsed="true">
                 <p:panelGrid columns="3">
@@ -28,6 +29,9 @@
                 </p:panelGrid>
             </p:fieldset>
 
+
+
+
             <p:outputPanel id="listPanel">
                 <p:dataTable value="#{UMasterMg.lista}" var="item" id="tableRodzaj" editable="true" emptyMessage="brak rekordów">
                     <p:ajax event="rowEdit" listener="#{UMasterMg.editList}" update="@this"/>
@@ -43,7 +47,7 @@
 
                     <p:column headerText="opis">
                         <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{item.opis}" /></f:facet>
+                            <f:facet name="output"><p:outputLabel value="#{item.opis}" /></f:facet>
                             <f:facet name="input"><p:inputText id="modelInputOpis" value="#{item.opis}" style="width:100%"/></f:facet>
                         </p:cellEditor>
                     </p:column>

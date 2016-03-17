@@ -10,15 +10,13 @@
         <title>eSK.EOD dla: #{login.licencjaDla}</title>
         <link href="../javax.faces.resource/theme.css.xhtml?ln=primefaces-redmond" rel="stylesheet" type="text/css"/>
         <style>
-            .ui-widget{
-                font-size: 70%;
+            .ui-widget, .ui-widget .ui-widget, .ui-widget .ui-widget .ui-widget {
+                font-size: 90%;
             }
-            ul.ui-menu-child
+            .ui-menu-child
             {
                 white-space: nowrap;
-                width: auto;
-            }
-            .ui-widget-content{
+                width: auto !important;
             }
             .disable-scroll .ui-dialog-content {
                 overflow: hidden !important;
@@ -47,15 +45,11 @@
                         </td></tr>
                 </table>
             </p:layoutUnit>
-            <p:layoutUnit position="west" size="230" style="background-color: #C1DFFF">
-                <h:form>
-                    <ui:include src="../templates/menuLPF.xhtml"/>
-                </h:form>
-            </p:layoutUnit>
 
             <p:layoutUnit position="center" style="background-color: #C1DFFF; margin-left: auto">
-                <ui:insert name="tytul"/>
-                <h:form id="infoForm"> 
+
+                <h:form id="infoForm">
+                    <ui:include src="../templates/menuGPF.xhtml"/>
                     <p:growl id="messages" showDetail="false" life="5300"/>
                     <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
                     <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">

@@ -55,11 +55,13 @@
                     <p:menuitem value="Edycja"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{RezerwacjeMg.event.editable}"/>
                     <p:menuitem value="Podgląd"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{!RezerwacjeMg.event.editable}"/>
                     <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerwacjeMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();"
-                                rendered="#{RezerwacjeMg.event.editable}" process="@this"/>
+                                rendered="#{RezerwacjeMg.event.editable}" process="@this">
+                        <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                    </p:menuitem>
                 </p:menu>
             </p:dialog>
 
-            <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji #{RezerwacjeMg.urzadzenie.data.nazwa}" showEffect="clip" id="dialog">
+            <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji" showEffect="clip" id="dialog" closable="false">
                 <p:panelGrid id="eventDetails" columns="3">
                     <p:outputLabel for="title" value="Nazwa:"/>
                     <p:inputText id="title" value="#{RezerwacjeMg.obiekt.nazwa}" size='100' rendered="#{RezerwacjeMg.event.editable}"/>
@@ -101,7 +103,8 @@
                     <p:commandButton id="addButton" value="Zapisz" action="#{RezerwacjeMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
                                      update="schedule, :infoForm:messages, :center:eventDetails, :center:valid" rendered="#{RezerwacjeMg.event.editable}" process=":center:dialog"/>
                     <p:message for="addButton"/>
-                    <p:commandButton value="Reset" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" rendered="#{RezerwacjeMg.event.editable}" oncomplete="PF('eventDialog').hide()">
+                    <p:commandButton value="Reset/Wyjdź" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" rendered="#{RezerwacjeMg.event.editable}" oncomplete="PF('eventDialog').hide()"
+                                     styleClass="ui-state-disabled">
                         <p:resetInput target="eventDetails"/>
                     </p:commandButton>
 
