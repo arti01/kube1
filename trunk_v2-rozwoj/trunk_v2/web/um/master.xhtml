@@ -9,9 +9,11 @@
     </ui:define>
 
     <ui:define name="content">
-        
+
         <h:form id="center">
-            <p:fieldset id="dodPanel" legend="Dodaj" toggleable="true" toggleSpeed="200" collapsed="true">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+            <p:fieldset id="dodPanel" legend="Dodaj" toggleable="true" toggleSpeed="230" collapsed="true">
                 <p:panelGrid columns="3">
                     <p:outputLabel for="nameD" value="nazwa: "/>
                     <p:message for="nameD" />
@@ -21,7 +23,7 @@
                     <p:message for="opisD" />
                     <p:inputTextarea id="opisD" value="#{UMasterMg.obiekt.opis}" cols="90"/>
 
-                    <p:commandButton id="dodaj" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":center:listPanel, :center:dodPanel"/>
+                    <p:commandButton id="dodaj" value="Dodaj" action="#{UMasterMg.dodaj}" process=":center:dodPanel" update=":center:listPanel, :center:dodPanel, :infoForm:messages"/>
                     <p:commandButton value="Reset" actionListener="#{UMasterMg.refresh}" immediate="true" ajax="false" style="margin-right:20px;">
                         <p:resetInput target="dodPanel" />
                     </p:commandButton>
@@ -29,12 +31,9 @@
                 </p:panelGrid>
             </p:fieldset>
 
-
-
-
             <p:outputPanel id="listPanel">
                 <p:dataTable value="#{UMasterMg.lista}" var="item" id="tableRodzaj" editable="true" emptyMessage="brak rekordów">
-                    <p:ajax event="rowEdit" listener="#{UMasterMg.editList}" update="@this"/>
+                    <p:ajax event="rowEdit" listener="#{UMasterMg.editList}" update=":infoForm:messages"/>
                     <p:column headerText="nazwa" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}" filterMatchMode="contains">
                         <p:cellEditor id="celEdit">
                             <f:facet name="output"><h:outputText value="#{item.nazwa}" /></f:facet>
@@ -52,7 +51,7 @@
                         </p:cellEditor>
                     </p:column>
                     <p:column headerText="grupy">
-                        <p:rowToggler />
+                        <p:rowToggler/>
                     </p:column>
                     <p:rowExpansion>
                         <p:dataList value="#{item.grupaList}" var="grupa" type="ordered" emptyMessage="brak grup">
@@ -66,9 +65,10 @@
                     <p:column style="width: 30px">
                         <p:commandButton title="posiada grupy - nie można usunąć" icon="ui-icon-circle-minus"
                                          rendered="#{item.grupaList.size()>0}" style="font-weight: lighter; font-size: smaller;"/>
-                        <p:commandButton title="usuń" update="tableRodzaj" icon="ui-icon-trash" action="#{UMasterMg.usun}" 
+                        <p:commandButton title="usuń" update="tableRodzaj" icon="ui-icon-trash" action="#{UMasterMg.usun}" process="@this"
                                          rendered="#{item.grupaList.size()==0}" style="font-weight: lighter; font-size: smaller;">
                             <f:setPropertyActionListener value="#{item}" target="#{UMasterMg.obiekt}"/>
+                            <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>

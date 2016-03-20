@@ -1,80 +1,29 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-                xmlns:rich="http://richfaces.org/rich"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/template.xhtml"
-                xmlns:a4j="http://richfaces.org/a4j">
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
 
-    <ui:define name="content">
-        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
-        <h:outputStylesheet>
-            .rf-ind-drag.default{
-            background-position: 3px;
-            background-repeat: no-repeat;
-            border:1px solid grey
-            }
-
-            .rf-ind-drag.accept{
-            background-position: 5px;
-            background-repeat: no-repeat;
-            border:2px solid green
-            }
-
-            .rf-ind-drag.reject{
-            background-position: 5px;
-            background-repeat: no-repeat;
-            border:2px solid red
-            }
-
-        </h:outputStylesheet>
-        <ui:include src="./grupaEdit.xhtml"/>
-        <ui:include src="./masterEdit.xhtml"/>
-        <rich:dragIndicator id="ind" acceptClass="accept" rejectClass="reject" draggingClass="default">
-            Przenieś do właściwej gałęzi
-        </rich:dragIndicator>
-        <h:form>
-            <rich:panel header="Chwyć i przesuń zasób do grupy lub grupę do mastergrupy">
-                <rich:tree id="listPanel" nodeType="#{node.type}" var="node" value="#{UStruktMg.rootNodes}" toggleType="ajax" rowKeyVar="row" keepSaved="true">
-                    <rich:treeNode type="master" iconCollapsed="/images/folders-stack.png" iconExpanded="/images/folders-stack.png" iconLeaf="/images/folders-stack.png">
-                        <a4j:outputPanel layout="block" id="panelMa_#{row}">
-                            <h:outputText id="MasTx" value="#{node.name}"/>
-                            <rich:tooltip target="MasTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
-                            <rich:dropTarget acceptedTypes="grupa"  dropListener="#{UStruktMg.drop}" 
-                                             render="listPanel" dropValue="#{node}"/>
-                            <a4j:commandButton id="imgEdM" render="dodajPaneMaster" execute="@this" oncomplete="#{rich:component('dodajPaneMaster')}.show()" image="/images/edit.png" style="width: 16px; height: 16px">
-                                <f:setPropertyActionListener target="#{UMasterMg.obiekt}" value="#{node.obiektDb}" />
-                            </a4j:commandButton>
-                        </a4j:outputPanel>
-                    </rich:treeNode>
-
-                    <rich:treeNode id="treeNode" type="grupa" iconCollapsed="/images/folders.png" iconExpanded="/images/folders.png" iconLeaf="/images/folders.png">
-                        <a4j:outputPanel layout="block">
-                            <h:outputText id="GrTx" value="#{node.name}"/>
-                            <rich:tooltip target="GrTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
-                            <rich:dragSource dragValue="#{node}" type="grupa" dragIndicator="ind"/>
-                            <rich:dropTarget acceptedTypes="urzadz"  dropListener="#{UStruktMg.drop}" 
-                                             render="listPanel" dropValue="#{node}"/>
-                            <a4j:commandButton id="imgEd" render="dodajPaneGrupa" execute="@this" oncomplete="#{rich:component('dodajPaneGrupa')}.show()" image="/images/edit.png" style="width: 16px; height: 16px">
-                                <f:setPropertyActionListener target="#{UGrupaMg.obiekt}" value="#{node.obiektDb}" />
-                            </a4j:commandButton>
-                        </a4j:outputPanel>
-                    </rich:treeNode>
-
-                    <rich:treeNode type="urzadz" iconLeaf="/images/pipette.png">
-                        <a4j:outputPanel id="panelUr_#{row}" layout="block">
-                            <h:outputText id="UrTx" value="#{node.name}"/>
-                            <rich:tooltip target="UrTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
-                            <rich:dragSource dragValue="#{node}" type="urzadz" dragIndicator="ind"/>
-                            <rich:dropTarget acceptedTypes="nic"/>
-                        </a4j:outputPanel>
-                    </rich:treeNode>
-                </rich:tree>
-            </rich:panel>
+    <ui:define name="tytul">
+        <h3>Drzewo zasobów</h3>
+    </ui:define>
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:panel header="zasoby" id="drzewoPanel">
+                <p:tree value="#{UStruktMg.root}" var="node" dynamic="true" style=" background-color: white;" selectionMode="single" id="drzewo"
+                        draggable="true" droppable="true" selection="#{UStruktMg.selectedNode}" dropRestrict="sibling">
+                    <p:ajax event="dragdrop" listener="#{UStruktMg.onDragDrop}" update=":infoForm:messages"/>
+                    <p:treeNode type="grupa" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                        <h:outputText value="#{node.nazwa}"/>
+                    </p:treeNode>
+                    <p:treeNode type="urzadzenie" icon="ui-icon-script">
+                        <h:outputText value="#{node.nazwa}"/>
+                    </p:treeNode>
+                </p:tree>
+            </p:panel>
         </h:form>
     </ui:define>
 

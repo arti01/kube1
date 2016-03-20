@@ -56,7 +56,7 @@
             <p:layoutUnit position="center" style="background-color: #C1DFFF; margin-left: auto">
                 <ui:insert name="tytul"/>
                 <h:form id="infoForm"> 
-                    <p:growl id="messages" showDetail="false" life="5300"/>
+                    <p:growl id="messages" showDetail="false" life="3700"/>
                     <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
                     <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">
                         <p:button outcome="../logowanie/index.xhtml" value="Wyjdź" icon="ui-icon-extlink"/>

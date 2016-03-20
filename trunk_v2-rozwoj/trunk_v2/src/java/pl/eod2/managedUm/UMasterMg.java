@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import pl.eod.managed.Login;
+import pl.eod2.encje.UmGrupa;
 import pl.eod2.encje.UmMasterGrupa;
 import pl.eod2.encje.UmMasterGrupaJpaController;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
@@ -44,9 +45,11 @@ public class UMasterMg {
         obiekt = new UmMasterGrupa();
         error = null;
     }
-
-    public void newObiekt() {
+    
+    public void refreshBezLista() {
+        login.refresh();
         obiekt = new UmMasterGrupa();
+        error = null;
     }
 
     public void dodaj() {
@@ -73,7 +76,7 @@ public class UMasterMg {
             lista.addAll(dcC.findUmMasterGrupaEntities());
         } else {
             uStruktMg.refresh();
-            refresh();
+            refreshBezLista();
         }
     }
 

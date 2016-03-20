@@ -8,23 +8,25 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>eSK.EOD dla: #{login.licencjaDla}</title>
-        <link href="../javax.faces.resource/theme.css.xhtml?ln=primefaces-redmond" rel="stylesheet" type="text/css"/>
+        <link href="../javax.faces.resource/theme.css.xhtml?ln=primefaces-casablanca" rel="stylesheet" type="text/css"/>
         <style>
-            .ui-widget, .ui-widget .ui-widget, .ui-widget .ui-widget .ui-widget {
-                font-size: 90%;
+            .ui-widget, .ui-widget .ui-widget, .ui-widget .ui-widget .ui-widget{
+                font-size: 95%;
             }
-            .ui-menu-child
-            {
-                white-space: nowrap;
-                width: auto !important;
-            }
+
             .disable-scroll .ui-dialog-content {
                 overflow: hidden !important;
             }
+
+            .ui-menu .ui-menu-parent .ui-menu-child {
+                white-space: nowrap !important;
+                width: 17em;
+            }
+
         </style>
     </h:head>
 
-    <h:body style="background-color: #C1DFFF">
+    <h:body style="background-color: ghostwhite">
         <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
         <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
             <p:graphicImage value="/images/ai.gif"/>
@@ -34,10 +36,10 @@
             <p:commandButton value="Tak" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
             <p:commandButton value="Nie" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
-        <p:layout style="min-width:400px;min-height:200px;background-color: #C1DFFF" fullPage="true">
+        <p:layout style="min-width:400px;min-height:200px;background-color: ghostwhite" fullPage="true">
 
-            <p:layoutUnit position="north" style="background-color:  #C1DFFF">
-                <table width="100%" style="font-size: 20px; background-color: #C1DFFF" border="0"><tr>
+            <p:layoutUnit position="north" style="background-color: ghostwhite">
+                <table width="100%" style="font-size: 20px; background-color: ghostwhite" border="0"><tr>
                         <td align="right" width="100px;"><img src="../images/fmc.png" alt="Fresenius Medical Care" border="0"  style="width: 60%; height: 60%"/>
                         </td>
                         <td align="center"><i><b><font size="6">E</font></b><font size="5">LEKTRONICZNY</font> <b><font size="6">O</font></b><font size="5">BIEG</font> <b><font size="6">D</font></b><font size="5">OKUMENTÓW</font></i>&nbsp;<sub>v1.2</sub></td>
@@ -46,21 +48,21 @@
                 </table>
             </p:layoutUnit>
 
-            <p:layoutUnit position="center" style="background-color: #C1DFFF; margin-left: auto">
-
+            <p:layoutUnit position="center" style="background-color: ghostwhite">
                 <h:form id="infoForm">
-                    <ui:include src="../templates/menuGPF.xhtml"/>
-                    <p:growl id="messages" showDetail="false" life="5300"/>
+                    <p:growl id="messages" showDetail="false" life="3700"/>
                     <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
                     <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">
                         <p:button outcome="../logowanie/index.xhtml" value="Wyjdź" icon="ui-icon-extlink"/>
                     </p:dialog>
+                    <ui:include src="../templates/menuGPF.xhtml"/>
                 </h:form>
+                <ui:insert name="tytul"/>
                 <ui:insert name="content">Put default content here, if any.</ui:insert>
             </p:layoutUnit>
 
-            <p:layoutUnit position="south" style="background-color:  #C1DFFF">
-                <table width="100%" border="0" cellpadding="5" cellspacing="0" style="background-color:  #C1DFFF">
+            <p:layoutUnit position="south" style="background-color: ghostwhite">
+                <table width="100%" border="0" cellpadding="5" cellspacing="0" style="background-color: ghostwhite">
                     <tr valign="middle">
                         <td align="center">Licencja dla: #{login.licencjaDla}</td>
                     </tr>
