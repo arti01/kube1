@@ -44,10 +44,10 @@ import pl.eod.encje.exceptions.NonexistentEntityException;
 public class UsersM implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    List<Uzytkownik> users = new ArrayList<Uzytkownik>();
-    List<UserRoles> roleAll = new ArrayList<UserRoles>();
-    List<Dzial> dzialyAll = new ArrayList<Dzial>();
-    List<Struktura> kierownicyAll = new ArrayList<Struktura>();
+    List<Uzytkownik> users = new ArrayList<>();
+    List<UserRoles> roleAll = new ArrayList<>();
+    List<Dzial> dzialyAll = new ArrayList<>();
+    List<Struktura> kierownicyAll = new ArrayList<>();
     //DataModel<Struktura> struktury = new ListDataModel<Struktura>();
     UzytkownikJpaController userC;
     Uzytkownik user;

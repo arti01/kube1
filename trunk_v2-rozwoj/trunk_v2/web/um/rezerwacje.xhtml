@@ -43,7 +43,7 @@
             <p:panel header="Kalendarz dla: #{RezerwacjeMg.urzadzenie.data.nazwa}" id="schedulePanel">
                 <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" timeZone="CET"
                             aspectRatio="4" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}" timeFormat="HH:mm" axisFormat="HH:mm">
-                    <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                    <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update=":infoForm:messages, eventDetails, :center:invalid" oncomplete="PF('eventDialog').show();" />
                     <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
                     <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
                     <p:ajax event="eventResize" listener="#{RezerwacjeMg.onEventResize}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
@@ -113,7 +113,17 @@
             <h:panelGroup id="valid">
                 <p:remoteCommand oncomplete="PF('eventDialog').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
             </h:panelGroup>
-
+            <h:panelGroup id="invalid">
+                <p:remoteCommand oncomplete="PF('eventDialog').hide();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
+                <p:dialog visible="#{facesContext.maximumSeverity!=null}" closable="false" widgetVar="infoBrak">
+                    <p:panelGrid columns="1">
+                    <h:outputText value="Nie możesz rezerwować zasobu do którego nie masz uprawnień" style="font-size: larger; font-weight: bolder"/>
+                    <p:commandButton value="OK" immediate="true" actionListener="#{RezerwacjeMg.newObiekt}" oncomplete="PF('infoBrak').hide();">
+                        <p:resetInput target="eventDetails"/>
+                    </p:commandButton>
+                    </p:panelGrid>
+                </p:dialog>
+            </h:panelGroup>
             <p:remoteCommand name="updateGrowl" update="schedulePanel"/>
         </h:form>
     </ui:define>

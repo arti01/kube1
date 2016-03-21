@@ -38,8 +38,10 @@ import pl.eod.encje.ConfigJpaController;
 public class EmailOdbior {
 
     private List<EmailMoj> emaile;
-    private static final int MAXMAIL = 30;
-    private static final int KROKPOBIERANIA = 5;
+    //private static final int MAXMAIL = 30;
+    //private static final int KROKPOBIERANIA = 5;
+    private final int MAXMAIL;
+    private final int KROKPOBIERANIA;
     private final Properties props;
     private final Session session;
     private EntityManagerFactory emf = null;
@@ -65,6 +67,8 @@ public class EmailOdbior {
         emailOdbUser=cfgC.findConfigNazwa("emailOdbUser").getWartosc();
         emailOdbPass=cfgC.findConfigNazwa("emailOdbPass").getWartosc();
         emailOdbFolder=cfgC.findConfigNazwa("emailOdbFolder").getWartosc();
+        MAXMAIL=new Long(cfgC.findConfigNazwa("emailOdbmaxMail").getWartosc()).intValue();
+        KROKPOBIERANIA=new Long(cfgC.findConfigNazwa("emailOdbkrokPobierania").getWartosc()).intValue();
     }
 
     public EntityManager getEntityManager() {
@@ -273,5 +277,10 @@ public class EmailOdbior {
     public void setEmaile(List<EmailMoj> emaile) {
         this.emaile = emaile;
     }
+
+    public int getMAXMAIL() {
+        return MAXMAIL;
+    }
+
 
 }

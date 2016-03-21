@@ -107,12 +107,12 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         for (UmRezerwacje rez : urz.getRezerwacjeList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             //Może edytować osoba z prawami rezerwacji, tworca lub zastępca            
-            ev.setEditable(rez.getTworca().equals(login.isUmRez()||rez.getTworca().equals(login.getZalogowany().getUserId())
-                ||rez.getTworca().equals(login.getZalogowany().getSecUserId())));
+            ev.setEditable(rez.getTworca().equals(login.isUmRez() || rez.getTworca().equals(login.getZalogowany().getUserId())
+                    || rez.getTworca().equals(login.getZalogowany().getSecUserId())));
             eventModel.addEvent(ev);
         }
     }
-    
+
     public void ustawSchedCompl(SelectEvent event) {
         UmUrzadzenie urz = (UmUrzadzenie) event.getObject();
         urz = urzMg.getDcC().findUmUrzadzenie(urz.getId());
@@ -127,17 +127,17 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
 
     public void onDateSelect(SelectEvent selectEvent) {
         //sprawdzenie czy może dodać do urządzenia rezerwacje
-        UmUrzadzenie urz=(UmUrzadzenie) urzadzenie.getData();
-        if(login.isUmRez()||urz.getUserOdpow().equals(login.getZalogowany().getUserId())
-                ||urz.getUserOdpow().equals(login.getZalogowany().getSecUserId())){
-        event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
-        obiekt = new UmRezerwacje();
-        obiekt.setNazwa("nowa rezerwacja");
-        obiekt.setDataOd(event.getStartDate());
-        obiekt.setDataDo(event.getEndDate());
-        usersListSelect.clear();
-        usersListSelect.addAll(usersList);
-        }else {
+        UmUrzadzenie urz = (UmUrzadzenie) urzadzenie.getData();
+        if (login.isUmRez() || urz.getUserOdpow().equals(login.getZalogowany().getUserId())
+                || urz.getUserOdpow().equals(login.getZalogowany().getSecUserId())) {
+            event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+            obiekt = new UmRezerwacje();
+            obiekt.setNazwa("nowa rezerwacja");
+            obiekt.setDataOd(event.getStartDate());
+            obiekt.setDataDo(event.getEndDate());
+            usersListSelect.clear();
+            usersListSelect.addAll(usersList);
+        } else {
             pfMess(FacesMessage.SEVERITY_WARN, "brak praw do zasobu", "brak praw do zasobu");
         }
     }

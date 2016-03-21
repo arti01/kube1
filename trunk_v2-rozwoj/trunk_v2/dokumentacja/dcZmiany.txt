@@ -7,6 +7,8 @@ I nadać tą rolę osobom które mogą wprowadzać rezerwacje
 Dodać nową rezerwację może osoba, która ma ww prawo lub która jest osobą odpowiedzialną za dany zasób (lub jej zastępca),
 modyfikować rezerwację może osoba, która ma ww lub twórca rezerwacji (lub jego zastępca).
 
+konfigurowalnosc pobierania email
+
 
 2016-02-25
 dodać nowe pole do konfig

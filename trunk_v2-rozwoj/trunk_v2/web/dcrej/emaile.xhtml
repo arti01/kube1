@@ -11,7 +11,7 @@
 
     <ui:define name="content">
         <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
-        <h3>Emaile (maksymalnie 30 najnowszych)</h3>
+        <h3>Emaile (maksymalnie #{EmailOdbior.MAXMAIL} najnowszych)</h3>
         <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
         <h:form>
             <a4j:poll action="#{RejEmaile.emailOdb.autoObsluga}" interval="900000" render="table"/>

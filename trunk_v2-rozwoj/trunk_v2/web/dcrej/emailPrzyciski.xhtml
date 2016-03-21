@@ -5,13 +5,21 @@
     xmlns:rich="http://richfaces.org/rich"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    template="/templates/template.xhtml">
+    template="/templates/template.xhtml"
+    xmlns:a4j="http://richfaces.org/a4j">
 
     <rich:tooltip target="imgEd" value="zarejestruj dokument dla tego maila" layout="block"/>
-    <rich:tooltip target="imgDt" layout="block" mode="ajax" horizontalOffset="-800"><h:outputText value="#{item.tresc}" escape="false"/> </rich:tooltip>
     <h:commandButton id="imgEd" action="#{RejestracjaRej.importEmail}" image="/images/add.png">
         <f:setPropertyActionListener target="#{RejestracjaRej.email}" value="#{item}" />
     </h:commandButton>
-    <h:commandButton id="imgDt" image="/images/detail.png"/>
+    <a4j:commandButton id="imgDt" image="/images/detail.png" oncomplete="#{rich:component('popTresc')}.show();"/>
+    <rich:popupPanel header="treść" autosized="true" id="popTresc" domElementAttachment="parent" maxHeight="600" maxWidth="900">
+        <f:facet name="controls">
+            <h:outputLink value="#" onclick="#{rich:component('popTresc')}.hide(); return false;" style="color: inherit">
+                X
+            </h:outputLink>
+        </f:facet>
+        <h:outputText value="#{item.tresc}" escape="false"/>
+    </rich:popupPanel>
 </html>
 
