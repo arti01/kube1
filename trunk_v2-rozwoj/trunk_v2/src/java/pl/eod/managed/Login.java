@@ -52,6 +52,7 @@ public class Login implements Serializable {
     boolean ogl;
     boolean umCfg;
     boolean umSprz;
+    boolean umRez;
     String typLogowania;
     List<MenuLinki> menuLinki;
     MenuLinkiJpaController menuLinkiC;
@@ -486,6 +487,12 @@ public class Login implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         return request.isUserInRole("eod_um_sprz");
+    }
+
+    public boolean isUmRez() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_um_rez");
     }
 
     public boolean isKierownik() {

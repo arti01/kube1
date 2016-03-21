@@ -1,3 +1,13 @@
+2016-03-18
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbmaxMail', 'max wiadomosci w skrzynce odbiorczej', '30');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbkrokPobierania', 'ilosc maili pobierana w jednej iteracji crona', '5');
+
+INSERT INTO user_roles (id, role_name, opis) VALUES (12, 'eod_um_rez','rezerwacja zasobów');
+I nadać tą rolę osobom które mogą wprowadzać rezerwacje
+Dodać nową rezerwację może osoba, która ma ww prawo lub która jest osobą odpowiedzialną za dany zasób (lub jej zastępca),
+modyfikować rezerwację może osoba, która ma ww lub twórca rezerwacji (lub jego zastępca).
+
+
 2016-02-25
 dodać nowe pole do konfig
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'dir_repo', 'forder gdzie sa przechowywane dokumenty', 'd:\\tmp');
