@@ -40,9 +40,16 @@
                     </p:autoComplete>
                 </p:panel>
             </p:panelGrid>
+            <h:panelGrid columns="1" style="margin: 10px">
+                <h:outputText id="output" value="rozmiar kalendarza #{RezerMojKalMg.number2}" style="font-size: smaller"/>
+                <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
+                <p:slider for="txt2" display="output" style="width: 200px; height: 10px" maxValue="5" minValue="1" step="-1" displayTemplate="rozmiar kalendarza {value}">
+                    <p:ajax event="slideEnd" update=":center:schedulePanel" listener="#{RezerMojKalMg.onSlideEnd}"/>
+                </p:slider>
+            </h:panelGrid>
             <p:panel header="Kalendarz dla: #{RezerwacjeMg.urzadzenie.data.nazwa}" id="schedulePanel">
                 <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" timeZone="CET"
-                            aspectRatio="4" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}" timeFormat="HH:mm" axisFormat="HH:mm">
+                             aspectRatio="#{6-RezerMojKalMg.number2}" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}" timeFormat="HH:mm" axisFormat="HH:mm">
                     <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update=":infoForm:messages, eventDetails, :center:invalid" oncomplete="PF('eventDialog').show();" />
                     <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
                     <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>

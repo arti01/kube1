@@ -48,7 +48,7 @@
                 <h:outputLabel for="dodEmail" value="dodEmail: "/>
                 <h:inputText id="dodEmail" value="#{KontrahenciCfg.emailDod.email}"  size="30" ><rich:validator/></h:inputText>
                 <rich:message for="dodEmail" styleClass="error" />
-                <a4j:commandButton value="dodaj" action="#{KontrahenciCfg.dodajEmail}" render="dodEmailPanel"  execute="dodajEmailGrid" limitRender="true" immediate="true"/>
+                <a4j:commandButton value="dodaj" action="#{KontrahenciCfg.dodajEmail}" render="dodEmailPanel" execute="dodajEmailTab" limitRender="true"/>
             </h:panelGrid>
             
             <rich:dataTable value="#{KontrahenciCfg.obiekt.dodEmailList}" var="dodMail" id="dodEmailTab">

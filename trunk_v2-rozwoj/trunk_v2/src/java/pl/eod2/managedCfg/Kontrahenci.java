@@ -44,7 +44,7 @@ public class Kontrahenci {
         lista.setWrappedData(dcC.findEntities());
         obiekt = new DcKontrahenci();
         emailDod=new DcKontahentDodEmail();
-        obiekt.setDodEmailList(new ArrayList<DcKontahentDodEmail>());
+        obiekt.setDodEmailList(new ArrayList<>());
         error = null;
     }
 

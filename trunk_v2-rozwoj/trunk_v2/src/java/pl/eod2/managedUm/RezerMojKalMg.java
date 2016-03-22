@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.SlideEndEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
@@ -24,18 +26,17 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
 
     @ManagedProperty(value = "#{login}")
     private Login login;
-    
+
     private ScheduleModel eventModel;
     private DefaultScheduleEvent event = new DefaultScheduleEvent();
-    private int number2;
-    private int rozmiar;
+    private int number2=3;
 
     public RezerMojKalMg() throws InstantiationException, IllegalAccessException {
         super("/um/rez_moj_kal", new UmRezerwacjeKontr(), new UmRezerwacje());
     }
 
     @PostConstruct
-    private void init(){
+    private void init() {
         eventModel = new DefaultScheduleModel();
         try {
             refresh();
@@ -43,7 +44,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             Logger.getLogger(RezerMojKalMg.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     public void refresh() throws InstantiationException, IllegalAccessException {
         super.refresh();
@@ -54,18 +55,20 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     public void ustawSched() {
         eventModel.clear();
         for (UmRezerwacje rez : login.getZalogowany().getUserId().getRezUczestnikList()) {
-            DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa()+"\ndla: "+rez.getUrzadzenie().getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
+            DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa() + "\ndla: " + rez.getUrzadzenie().getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             ev.setEditable(false);
             eventModel.addEvent(ev);
         }
     }
-
 
     public void onEventSelect(SelectEvent selectEvent) {
         event = (DefaultScheduleEvent) selectEvent.getObject();
         obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
     }
 
+    public void onSlideEnd(SlideEndEvent event) {
+        number2 = event.getValue();
+    }
 
     public Login getLogin() {
         return login;
@@ -75,7 +78,6 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         this.login = login;
     }
 
-    
     public ScheduleModel getEventModel() {
         return eventModel;
     }
@@ -100,8 +102,4 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         this.number2 = number2;
     }
 
-    public int getRozmiar() {
-        return 1+(number2/20);
-    }
-    
 }

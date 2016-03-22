@@ -13,19 +13,16 @@
 
     <ui:define name="content" id="content">
         <h:form id="center">
-            <p:panel header="rozmiar kalendarza">
-                <h:panelGrid columns="1" style="margin-bottom: 10px">
-                    <h:outputText id="output" value="Set ratio to %#{sliderView.number2}" />
-                    <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
-                    <p:slider for="txt2" display="output" style="width: 200px" displayTemplate="Set ratio to %{value}">
-                        <p:ajax event="slideEnd" update=":center:schedulePanel" />
-                    </p:slider>
-                </h:panelGrid>
-            </p:panel>
+            <h:panelGrid columns="1" style="margin: 10px">
+                <h:outputText id="output" value="rozmiar kalendarza #{RezerMojKalMg.number2}" style="font-size: smaller"/>
+                <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
+                <p:slider for="txt2" display="output" style="width: 200px; height: 10px" maxValue="5" minValue="1" step="-1" displayTemplate="rozmiar kalendarza {value}">
+                    <p:ajax event="slideEnd" update=":center:schedulePanel" listener="#{RezerMojKalMg.onSlideEnd}"/>
+                </p:slider>
+            </h:panelGrid>
+
             <p:panel id="schedulePanel">
-                #{RezerMojKalMg.rozmiar}
-                #{RezerMojKalMg.number2}
-                <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="3"
+                <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="#{6-RezerMojKalMg.number2}"
                             locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;">
                     <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog" oncomplete="PF('eventDialog').show();"/>
                 </p:schedule>
