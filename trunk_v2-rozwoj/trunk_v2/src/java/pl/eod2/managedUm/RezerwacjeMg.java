@@ -107,8 +107,8 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         for (UmRezerwacje rez : urz.getRezerwacjeList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             //Może edytować osoba z prawami rezerwacji, tworca lub zastępca            
-            ev.setEditable(rez.getTworca().equals(login.isUmRez() || rez.getTworca().equals(login.getZalogowany().getUserId())
-                    || rez.getTworca().equals(login.getZalogowany().getSecUserId())));
+            ev.setEditable(rez.getTworca().equals(login.isUmRez()) || rez.getTworca().equals(login.getZalogowany().getUserId())
+                    || rez.getTworca().equals(login.getZalogowany().getSecUserId()));
             eventModel.addEvent(ev);
         }
     }
@@ -120,7 +120,9 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         eventModel.clear();
         for (UmRezerwacje rez : urz.getRezerwacjeList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
-            ev.setEditable(rez.getTworca().equals(login.getZalogowany().getUserId()));
+            //Może edytować osoba z prawami rezerwacji, tworca lub zastępca
+            ev.setEditable(rez.getTworca().equals(login.isUmRez()) || rez.getTworca().equals(login.getZalogowany().getUserId())
+                    || rez.getTworca().equals(login.getZalogowany().getSecUserId()));
             eventModel.addEvent(ev);
         }
     }
@@ -144,7 +146,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
 
     public void onEventSelect(SelectEvent selectEvent) {
         event = (DefaultScheduleEvent) selectEvent.getObject();
-        obiekt = obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
+        obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
         usersListSelect.clear();
         usersListSelect.addAll(usersList);
         usersListSelect.removeAll(obiekt.getUczestnikList());

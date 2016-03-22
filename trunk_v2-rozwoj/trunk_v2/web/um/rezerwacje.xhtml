@@ -60,7 +60,7 @@
                 </p:menu>
             </p:dialog>
 
-            <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji" showEffect="clip" id="dialog" closable="false">
+            <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji dla #{RezerwacjeMg.obiekt.urzadzenie.nazwa}" showEffect="clip" id="dialog" closable="#{!RezerwacjeMg.event.editable}">
                 <p:panelGrid id="eventDetails" columns="3">
                     <p:outputLabel for="title" value="Nazwa:"/>
                     <p:inputText id="title" value="#{RezerwacjeMg.obiekt.nazwa}" size='100' rendered="#{RezerwacjeMg.event.editable}"/>

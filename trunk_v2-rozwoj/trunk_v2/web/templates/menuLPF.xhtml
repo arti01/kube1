@@ -54,8 +54,9 @@
 
             <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}"/>
 
-            <p:submenu label="Rezerwacje" expanded="#{login.menuRezerExp}">
+            <p:submenu label="Rezerwacje">
                 <p:menuitem value="dodawanie, modyfikacja, podgląd" action="#{RezerwacjeMg.list}"/>
+                <p:menuitem value="mój kalendarz" action="#{RezerMojKalMg.list}"/>
             </p:submenu>
 
             <p:submenu label="Baza Zasobów Materiałowych" rendered="#{login.umSprz}">

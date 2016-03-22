@@ -169,6 +169,11 @@
                                     Rezerwuj
                                 </rich:panelMenuItem>
                             </h:commandLink>
+                            <h:commandLink action="#{RezerMojKalMg.list}">
+                                <rich:panelMenuItem >
+                                    mój kalendarz
+                                </rich:panelMenuItem>
+                            </h:commandLink>
                         </rich:panelMenuGroup>
 
                         <rich:panelMenuGroup label="Baza Zasobów Materiałowych" rendered="#{login.umSprz}" expanded="#{login.menuUmSprze}" actionListener="#{login.menuUmSprzExpList}">

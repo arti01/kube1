@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/templatePF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="tytul">
+        <h3>Rezerwacje - mój kalendarz</h3>
+    </ui:define>
+
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:panel header="rozmiar kalendarza">
+                <h:panelGrid columns="1" style="margin-bottom: 10px">
+                    <h:outputText id="output" value="Set ratio to %#{sliderView.number2}" />
+                    <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
+                    <p:slider for="txt2" display="output" style="width: 200px" displayTemplate="Set ratio to %{value}">
+                        <p:ajax event="slideEnd" update=":center:schedulePanel" />
+                    </p:slider>
+                </h:panelGrid>
+            </p:panel>
+            <p:panel id="schedulePanel">
+                #{RezerMojKalMg.rozmiar}
+                #{RezerMojKalMg.number2}
+                <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="3"
+                            locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;">
+                    <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog" oncomplete="PF('eventDialog').show();"/>
+                </p:schedule>
+            </p:panel>
+
+            <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji dla #{RezerMojKalMg.obiekt.urzadzenie.nazwa}" showEffect="clip" id="dialog" closable="true">
+                <p:panelGrid id="eventDetails" columns="2">
+                    <p:outputLabel value="Nazwa:"/>
+                    <h:outputText value="#{RezerMojKalMg.obiekt.nazwa}" escape="false"/>
+
+                    <p:outputLabel value="Od:" />
+                    <h:outputText value="#{RezerMojKalMg.obiekt.dataOd}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
+
+                    <p:outputLabel value="Do:" />
+                    <h:outputText value="#{RezerMojKalMg.obiekt.dataDo}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
+
+                    <p:outputLabel value="Twórca:" />
+                    <h:outputText value="#{RezerMojKalMg.obiekt.tworca.fullname} #{RezerMojKalMg.obiekt.tworca.adrEmail}"/>
+
+                    <p:outputLabel value="uczestnicy rezerwacji:"/>
+                    <p:dataList value="#{RezerMojKalMg.obiekt.uczestnikList}" var="user" type="ordered" rendered="#{!RezerMojKalMg.event.editable}" emptyMessage="brak" >
+                        <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
+                    </p:dataList>
+                </p:panelGrid>
+            </p:dialog> 
+        </h:form>
+    </ui:define>
+</ui:composition>
