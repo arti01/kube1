@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -14,6 +13,7 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
 import pl.eod.abstr.AbstMg;
+import pl.eod.encje.Uzytkownik;
 import pl.eod.managed.Login;
 import pl.eod2.encje.UmRezerwacje;
 import pl.eod2.encje.UmRezerwacjeKontr;
@@ -30,6 +30,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     private ScheduleModel eventModel;
     private DefaultScheduleEvent event = new DefaultScheduleEvent();
     private int number2=3;
+    private Uzytkownik uzyt;
 
     public RezerMojKalMg() throws InstantiationException, IllegalAccessException {
         super("/um/rez_moj_kal", new UmRezerwacjeKontr(), new UmRezerwacje());
@@ -38,6 +39,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     @PostConstruct
     private void init() {
         eventModel = new DefaultScheduleModel();
+        uzyt=login.getZalogowany().getUserId();
         try {
             refresh();
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -52,9 +54,19 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         ustawSched();
     }
 
+    @Override
+    public String list() throws InstantiationException, IllegalAccessException{
+        uzyt=login.getZalogowany().getUserId();
+        return super.list();
+    }
+    
+    public String listObcy() throws InstantiationException, IllegalAccessException{
+        return super.list();
+    }
+    
     public void ustawSched() {
         eventModel.clear();
-        for (UmRezerwacje rez : login.getZalogowany().getUserId().getRezUczestnikList()) {
+        for (UmRezerwacje rez : uzyt.getRezUczestnikList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa() + "\ndla: " + rez.getUrzadzenie().getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             ev.setEditable(false);
             eventModel.addEvent(ev);
@@ -100,6 +112,14 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
 
     public void setNumber2(int number2) {
         this.number2 = number2;
+    }
+
+    public Uzytkownik getUzyt() {
+        return uzyt;
+    }
+
+    public void setUzyt(Uzytkownik uzyt) {
+        this.uzyt = uzyt;
     }
 
 }

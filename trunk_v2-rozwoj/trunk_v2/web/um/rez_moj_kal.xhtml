@@ -8,11 +8,25 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="tytul">
-        <h3>Rezerwacje - mój kalendarz</h3>
+        <h3>Rezerwacje - pokaż dla osób</h3>
     </ui:define>
 
     <ui:define name="content" id="content">
         <h:form id="center">
+            <p:panelGrid id="osobyWybor" columns="3" style="margin: 10px">
+            <p:outputLabel value="kalendarz dla:" for="osoby"/>
+            <p:autoComplete id="osoby" value="#{RezerMojKalMg.uzyt}" completeMethod="#{RezerwacjeMg.uzytkownicyAucoComp}" var="user" itemValue="#{user}" itemLabel="#{user.fullname}"
+                            forceSelection="true" converter="#{UzytkownikConv}">
+                <p:column>
+                    <h:outputText value="#{user.fullname}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{user.adrEmail}" />
+                </p:column>
+            </p:autoComplete>
+            <p:commandButton value="pokaż" process="osobyWybor" update=":center:schedulePanel" action="#{RezerMojKalMg.listObcy}"/>
+            </p:panelGrid>
+
             <h:panelGrid columns="1" style="margin: 10px">
                 <h:outputText id="output" value="rozmiar kalendarza #{RezerMojKalMg.number2}" style="font-size: smaller"/>
                 <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
@@ -23,7 +37,7 @@
 
             <p:panel id="schedulePanel">
                 <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="#{6-RezerMojKalMg.number2}"
-                            locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;">
+                            locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true">
                     <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog" oncomplete="PF('eventDialog').show();"/>
                 </p:schedule>
             </p:panel>

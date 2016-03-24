@@ -104,7 +104,7 @@
                             <h:outputText id="dzialES" value="(#{strukt.dzialId.symbol})"/>
                         </rich:column>
 
-                        <rich:column   style="width:10%">
+                        <rich:column   style="width:13%">
                             <f:facet name="header">
                                 <h:outputText value="Akcje"/>
                             </f:facet>
@@ -117,6 +117,9 @@
                                              oncomplete="#{rich:component('confirmPane')}.show()" rendered="#{fn:length(strukt.bezpPod)==0}" execute="@this">
                                 <f:setPropertyActionListener target="#{UsersM.strukt}" value="#{strukt}"/>
                             </a4j:commandLink>
+                            <h:commandLink id="kalendarz" value="[Rezerwacje]"  action="#{RezerMojKalMg.listObcy()}" immediate="true">
+                                <f:setPropertyActionListener target="#{RezerMojKalMg.uzyt}" value="#{strukt.userId}"/>
+                            </h:commandLink>
                         </rich:column>
                     </rich:dataTable>
                 </a4j:outputPanel>

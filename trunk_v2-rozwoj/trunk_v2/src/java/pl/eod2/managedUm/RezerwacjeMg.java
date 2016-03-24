@@ -300,4 +300,15 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         Uzytkownik u = (Uzytkownik) event.getObject();
         usersListSelect.add(u);
     }
+    
+    public List<Uzytkownik> uzytkownicyAucoComp(String query){
+        query=query.toLowerCase();
+        List<Uzytkownik>wynik=new ArrayList<>();
+        for(Uzytkownik u:usersList){
+            if(u.getAdrEmail().toLowerCase().contains(query)||u.getFullname().toLowerCase().contains(query)){
+                wynik.add(u);
+            }
+        }
+        return wynik;
+    }
 }

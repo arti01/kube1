@@ -9,7 +9,7 @@
     <p:menubar>
         <p:menuitem style="background-color: #C1DFFF" value="Start" action="#{login.stronaIndex}" icon="ui-icon-refresh"/>
 
-        <p:submenu label="Dokumenty">
+        <p:submenu style="width: 170px" label="Dokumenty">
             <p:submenu label="konfiguracja" rendered="#{login.dcCfg}">
                 <p:menuitem value="Grupy rodzajów" action="#{RodzajeGrupyCfg.list}" />
                 <p:menuitem value="Rodzaje" action="#{RodzajeCfg.list}"/>
@@ -35,7 +35,7 @@
             </p:submenu>
         </p:submenu>
 
-        <p:submenu label="Archiwum">
+        <p:submenu style="width: 170px" label="Archiwum">
             <p:submenu label="Dokumenty - archiwum" rendered="#{login.dcArc}">
                 <p:menuitem value="Do archiwum" action="#{PrzeniesArch.list}"/>
                 <p:menuitem value="Poczekalnia" action="#{PoczekalniaArch.list}"/>
@@ -51,12 +51,12 @@
             </p:submenu>
         </p:submenu>
 
-        <p:submenu label="Rezerwacje" expanded="#{login.menuRezerExp}">
+        <p:submenu style="width: 170px" label="Rezerwacje" expanded="#{login.menuRezerExp}">
             <p:menuitem value="dodawanie, modyfikacja, podgląd" action="#{RezerwacjeMg.list}"/>
             <p:menuitem value="mój kalendarz" action="#{RezerMojKalMg.list}"/>
         </p:submenu>
 
-        <p:submenu label="Zasoby Materiałowe">
+        <p:submenu style="width: 170px" label="Zasoby Materiałowe">
             <p:menuitem value="Lista zasobów" action="#{UrzadzeniaMg.list}"/>
             <p:menuitem value="Lista dokumentów" action="#{URejDokMg.list}"/>
             <p:menuitem value="Raport stanów" action="#{UGrupaMg.raport1}"/>
@@ -68,29 +68,28 @@
             </p:submenu>
         </p:submenu>
 
-        <p:submenu label="Struktura organizacyjna" rendered="#{login.struktura}">
+        <p:submenu style="width: 170px" label="Struktura organizacyjna" rendered="#{login.struktura}">
             <p:menuitem value="Nowy pracownik" action="#{UsersM.nowy}"/>
-            <p:menuitem value="Lista pracowników" action="#{UsersM.lista}"/>
+            <p:menuitem value="Lista pracowników" action="#{UsersM.lista}" ajax="false"/>
             <p:menuitem value="Struktura osobowa" action="#{StruktOsM.lista}"/>
             <p:menuitem value="Struktura działów" action="#{StruktDzialM.lista}"/>
         </p:submenu>
 
-        <p:menuitem value="Zarządzanie spółkami" action="#{SpolkiMg.list}" rendered="#{login.admin}"/>
-        <p:menuitem value="Ustaw swojego zastępcę" action="#{UsersM.ustawZastepce}"  rendered="#{login.kierownik}"/>
-        <p:menuitem value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin}"/>
-
-        <p:submenu label="Obsługa urlopów" rendered="#{login.urlop}">
+        <p:submenu style="width: 170px" label="Obsługa urlopów" rendered="#{login.urlop}">
             <p:menuitem value="Twoje wnioski" action="#{UrlopM.list}"/>
             <p:menuitem value="Wnioski do akceptacji" action="#{UrlopM.listPodwl}" rendered="#{login.zalogowany.stKier or fn:length(login.zalogowany.userId.strukturaSec)>0}"/>
             <p:menuitem value="Historia wniosków" action="#{UrlopM.listPodwlHist}" rendered="#{login.zalogowany.stKier}"/>
             <p:menuitem value="Obce wnioski" action="#{UrlopObceM.list}" rendered="#{login.zalogowany.przyjmowanieWnioskow}"/>
+            <p:menuitem value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin}"/>
         </p:submenu>
 
-        <p:submenu label="Inne">
+        <p:submenu style="width: 170px" label="Inne">
             <p:menuitem value="Repozytorium dokumentów" action="#{RepozytMg.list}"/>
             <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}"/>
             <p:menuitem value="Zmiana hasła" action="#{login.htmlZmianaHasla}" 
                         rendered="#{(login.zalogowany.userId.extId=='' or fn:contains(login.zalogowany.userId.extId, '@') or fn:contains(login.zalogowany.userId.extId, 'FN')) and login.zalogowany!=null}"/>
+            <p:menuitem value="Zarządzanie spółkami" action="#{SpolkiMg.list}" rendered="#{login.admin}"/>
+            <p:menuitem value="Ustaw swojego zastępcę" action="#{UsersM.ustawZastepce}"  rendered="#{login.kierownik}"/>
             <p:menuitem rendered="#{fn:length(login.zalogowany.userId.wnLimity.ulimit)!=0}">
                 Dostępny urlop:<br/>
                 <strong>#{login.zalogowany.userId.wnLimity.ulimit}</strong>
