@@ -9,89 +9,89 @@
     <p:menubar>
         <p:menuitem style="background-color: #C1DFFF" value="Start" action="#{login.stronaIndex}" icon="ui-icon-refresh"/>
 
-        <p:submenu style="background-color: #e2e8fa" label="Dokumenty">
-            <p:submenu style="background-color: #e2e8fa" label="konfiguracja" rendered="#{login.dcCfg}">
-                <p:menuitem style="background-color: #e2e8fa" value="Grupy rodzajów" action="#{RodzajeGrupyCfg.list}" />
-                <p:menuitem style="background-color: #e2e8fa" value="Rodzaje" action="#{RodzajeCfg.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Teczki" action="#{TeczkiCfg.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Żródła" action="#{ZrodlaCfg.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Kat. arch. w kom. merytorycznej" action="#{SymbMer1Cfg.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Kat. arch. w innych komórkach" action="#{SymbMer2Cfg.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Kontrahenci" action="#{KontrahenciCfg.list}"/>
+        <p:submenu label="Dokumenty">
+            <p:submenu label="konfiguracja" rendered="#{login.dcCfg}">
+                <p:menuitem value="Grupy rodzajów" action="#{RodzajeGrupyCfg.list}" />
+                <p:menuitem value="Rodzaje" action="#{RodzajeCfg.list}"/>
+                <p:menuitem value="Teczki" action="#{TeczkiCfg.list}"/>
+                <p:menuitem value="Żródła" action="#{ZrodlaCfg.list}"/>
+                <p:menuitem value="Kat. arch. w kom. merytorycznej" action="#{SymbMer1Cfg.list}"/>
+                <p:menuitem value="Kat. arch. w innych komórkach" action="#{SymbMer2Cfg.list}"/>
+                <p:menuitem value="Kontrahenci" action="#{KontrahenciCfg.list}"/>
             </p:submenu>    
-            <p:submenu style="background-color: #e2e8fa" label="rejestracja" rendered="#{login.dcRej}">
-                <p:menuitem style="background-color: #e2e8fa" value="Emaile" action="#{RejEmaile.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Poczekalnia" action="#{RejImpPlik.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Rejestracja" action="#{RejestracjaRej.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Lista kontrahentów" action="#{RejestracjaRej.kontrahentList}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Raport pocztowy" action="#{RaportyRej.raportPocz}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Wyszukaj" action="#{WyszukajRej.form}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Do brakowania" action="#{BrakowanieRej.list}"/>
+            <p:submenu label="rejestracja" rendered="#{login.dcRej}">
+                <p:menuitem value="Emaile" action="#{RejEmaile.list}"/>
+                <p:menuitem value="Poczekalnia" action="#{RejImpPlik.list}"/>
+                <p:menuitem value="Rejestracja" action="#{RejestracjaRej.list}"/>
+                <p:menuitem value="Lista kontrahentów" action="#{RejestracjaRej.kontrahentList}"/>
+                <p:menuitem value="Raport pocztowy" action="#{RaportyRej.raportPocz}"/>
+                <p:menuitem value="Wyszukaj" action="#{WyszukajRej.form}"/>
+                <p:menuitem value="Do brakowania" action="#{BrakowanieRej.list}"/>
             </p:submenu>
-            <p:submenu style="background-color: #e2e8fa" label="odbiór" rendered="#{login.dcOdb}">
-                <p:menuitem style="background-color: #e2e8fa" value="Do akceptacji" action="#{AkceptOdb.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Historia akceptacji" action="#{HistOdb.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Do wiadomości" action="#{DoWiadOdb.list}"/>
-            </p:submenu>
-        </p:submenu>
-
-        <p:submenu style="background-color: #e2e8fa" label="Archiwum">
-            <p:submenu style="background-color: #e2e8fa" label="Dokumenty - archiwum" rendered="#{login.dcArc}">
-                <p:menuitem style="background-color: #e2e8fa" value="Do archiwum" action="#{PrzeniesArch.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Poczekalnia" action="#{PoczekalniaArch.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Archiwum" action="#{WArchiwumArch.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Dokumenty" action="#{DokumentyArch.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Wyszukaj w archiwum" action="#{WyszukajArch.form}"/>
-            </p:submenu>
-            <p:submenu style="background-color: #e2e8fa" label="Archiwum - raporty" rendered="#{login.dcArc}">
-                <p:menuitem style="background-color: #e2e8fa" value="Do brakowania" action="#{BrakowanieArch.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Zajętość Archiwów" action="#{ZajetoscArch.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Niezwrócone" action="#{RaportyArch.nieZwrocone}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Wydane wg osoby" action="#{RaportyArch.wydWgOsoby}"/>
+            <p:submenu label="odbiór" rendered="#{login.dcOdb}">
+                <p:menuitem value="Do akceptacji" action="#{AkceptOdb.list}"/>
+                <p:menuitem value="Historia akceptacji" action="#{HistOdb.list}"/>
+                <p:menuitem value="Do wiadomości" action="#{DoWiadOdb.list}"/>
             </p:submenu>
         </p:submenu>
 
-        <p:submenu style="background-color: #e2e8fa" label="Rezerwacje" expanded="#{login.menuRezerExp}">
-            <p:menuitem style="background-color: #e2e8fa" value="dodawanie, modyfikacja, podgląd" action="#{RezerwacjeMg.list}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="mój kalendarz" action="#{RezerMojKalMg.list}"/>
-        </p:submenu>
-
-        <p:submenu style="background-color: #e2e8fa" label="Zasoby Materiałowe">
-            <p:menuitem style="background-color: #e2e8fa" value="Lista zasobów" action="#{UrzadzeniaMg.list}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Lista dokumentów" action="#{URejDokMg.list}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Raport stanów" action="#{UGrupaMg.raport1}"/>
-
-            <p:submenu style="background-color: #e2e8fa" label="Konfiguracja" rendered="#{login.umCfg}">
-                <p:menuitem style="background-color: #e2e8fa" value="Master Grupy" action="#{UMasterMg.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Grupy" action="#{UGrupaMg.list}"/>
-                <p:menuitem style="background-color: #e2e8fa" value="Drzewo" action="#{UStruktMg.list}"/>
+        <p:submenu label="Archiwum">
+            <p:submenu label="Dokumenty - archiwum" rendered="#{login.dcArc}">
+                <p:menuitem value="Do archiwum" action="#{PrzeniesArch.list}"/>
+                <p:menuitem value="Poczekalnia" action="#{PoczekalniaArch.list}"/>
+                <p:menuitem value="Archiwum" action="#{WArchiwumArch.list}"/>
+                <p:menuitem value="Dokumenty" action="#{DokumentyArch.list}"/>
+                <p:menuitem value="Wyszukaj w archiwum" action="#{WyszukajArch.form}"/>
+            </p:submenu>
+            <p:submenu label="Archiwum - raporty" rendered="#{login.dcArc}">
+                <p:menuitem value="Do brakowania" action="#{BrakowanieArch.list}"/>
+                <p:menuitem value="Zajętość Archiwów" action="#{ZajetoscArch.list}"/>
+                <p:menuitem value="Niezwrócone" action="#{RaportyArch.nieZwrocone}"/>
+                <p:menuitem value="Wydane wg osoby" action="#{RaportyArch.wydWgOsoby}"/>
             </p:submenu>
         </p:submenu>
 
-        <p:submenu style="background-color: #e2e8fa" label="Struktura organizacyjna" rendered="#{login.struktura}">
-            <p:menuitem style="background-color: #e2e8fa" value="Nowy pracownik" action="#{UsersM.nowy}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Lista pracowników" action="#{UsersM.lista}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Struktura osobowa" action="#{StruktOsM.lista}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Struktura działów" action="#{StruktDzialM.lista}"/>
+        <p:submenu label="Rezerwacje" expanded="#{login.menuRezerExp}">
+            <p:menuitem value="dodawanie, modyfikacja, podgląd" action="#{RezerwacjeMg.list}"/>
+            <p:menuitem value="mój kalendarz" action="#{RezerMojKalMg.list}"/>
         </p:submenu>
 
-        <p:menuitem style="background-color: #e2e8fa" value="Zarządzanie spółkami" action="#{SpolkiMg.list}" rendered="#{login.admin}"/>
-        <p:menuitem style="background-color: #e2e8fa" value="Ustaw swojego zastępcę" action="#{UsersM.ustawZastepce}"  rendered="#{login.kierownik}"/>
-        <p:menuitem style="background-color: #e2e8fa" value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin}"/>
+        <p:submenu label="Zasoby Materiałowe">
+            <p:menuitem value="Lista zasobów" action="#{UrzadzeniaMg.list}"/>
+            <p:menuitem value="Lista dokumentów" action="#{URejDokMg.list}"/>
+            <p:menuitem value="Raport stanów" action="#{UGrupaMg.raport1}"/>
 
-        <p:submenu style="background-color: #e2e8fa" label="Obsługa urlopów" rendered="#{login.urlop}">
-            <p:menuitem style="background-color: #e2e8fa" value="Twoje wnioski" action="#{UrlopM.list}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Wnioski do akceptacji" action="#{UrlopM.listPodwl}" rendered="#{login.zalogowany.stKier or fn:length(login.zalogowany.userId.strukturaSec)>0}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Historia wniosków" action="#{UrlopM.listPodwlHist}" rendered="#{login.zalogowany.stKier}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Obce wnioski" action="#{UrlopObceM.list}" rendered="#{login.zalogowany.przyjmowanieWnioskow}"/>
+            <p:submenu label="Konfiguracja" rendered="#{login.umCfg}">
+                <p:menuitem value="Master Grupy" action="#{UMasterMg.list}"/>
+                <p:menuitem value="Grupy" action="#{UGrupaMg.list}"/>
+                <p:menuitem value="Drzewo" action="#{UStruktMg.list}"/>
+            </p:submenu>
         </p:submenu>
 
-        <p:submenu style="background-color: #e2e8fa" label="Inne">
-            <p:menuitem style="background-color: #e2e8fa" value="Repozytorium dokumentów" action="#{RepozytMg.list}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}"/>
-            <p:menuitem style="background-color: #e2e8fa" value="Zmiana hasła" action="#{login.htmlZmianaHasla}" 
+        <p:submenu label="Struktura organizacyjna" rendered="#{login.struktura}">
+            <p:menuitem value="Nowy pracownik" action="#{UsersM.nowy}"/>
+            <p:menuitem value="Lista pracowników" action="#{UsersM.lista}"/>
+            <p:menuitem value="Struktura osobowa" action="#{StruktOsM.lista}"/>
+            <p:menuitem value="Struktura działów" action="#{StruktDzialM.lista}"/>
+        </p:submenu>
+
+        <p:menuitem value="Zarządzanie spółkami" action="#{SpolkiMg.list}" rendered="#{login.admin}"/>
+        <p:menuitem value="Ustaw swojego zastępcę" action="#{UsersM.ustawZastepce}"  rendered="#{login.kierownik}"/>
+        <p:menuitem value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin}"/>
+
+        <p:submenu label="Obsługa urlopów" rendered="#{login.urlop}">
+            <p:menuitem value="Twoje wnioski" action="#{UrlopM.list}"/>
+            <p:menuitem value="Wnioski do akceptacji" action="#{UrlopM.listPodwl}" rendered="#{login.zalogowany.stKier or fn:length(login.zalogowany.userId.strukturaSec)>0}"/>
+            <p:menuitem value="Historia wniosków" action="#{UrlopM.listPodwlHist}" rendered="#{login.zalogowany.stKier}"/>
+            <p:menuitem value="Obce wnioski" action="#{UrlopObceM.list}" rendered="#{login.zalogowany.przyjmowanieWnioskow}"/>
+        </p:submenu>
+
+        <p:submenu label="Inne">
+            <p:menuitem value="Repozytorium dokumentów" action="#{RepozytMg.list}"/>
+            <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}"/>
+            <p:menuitem value="Zmiana hasła" action="#{login.htmlZmianaHasla}" 
                         rendered="#{(login.zalogowany.userId.extId=='' or fn:contains(login.zalogowany.userId.extId, '@') or fn:contains(login.zalogowany.userId.extId, 'FN')) and login.zalogowany!=null}"/>
-            <p:menuitem style="background-color: #e2e8fa" rendered="#{fn:length(login.zalogowany.userId.wnLimity.ulimit)!=0}">
+            <p:menuitem rendered="#{fn:length(login.zalogowany.userId.wnLimity.ulimit)!=0}">
                 Dostępny urlop:<br/>
                 <strong>#{login.zalogowany.userId.wnLimity.ulimit}</strong>
             </p:menuitem>
