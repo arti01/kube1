@@ -13,31 +13,45 @@
 
     <ui:define name="content" id="content">
         <h:form id="center">
-            <p:panelGrid id="osobyWybor" columns="3" style="margin: 10px">
-            <p:outputLabel value="kalendarz dla:" for="osoby"/>
-            <p:autoComplete id="osoby" value="#{RezerMojKalMg.uzyt}" completeMethod="#{RezerwacjeMg.uzytkownicyAucoComp}" var="user" itemValue="#{user}" itemLabel="#{user.fullname}"
-                            forceSelection="true" converter="#{UzytkownikConv}">
-                <p:column>
-                    <h:outputText value="#{user.fullname}" />
-                </p:column>
-                <p:column>
-                    <h:outputText value="#{user.adrEmail}" />
-                </p:column>
-            </p:autoComplete>
-            <p:commandButton value="pokaż" process="osobyWybor" update=":center:schedulePanel" action="#{RezerMojKalMg.listObcy}"/>
+            <p:panelGrid id="osobyWybor" columns="3" style="margin: 10px; width: 100%;" columnClasses="">
+                <p:panel>
+                    <p:outputLabel value="kalendarz dla:" for="osoby"/>
+                    <p:autoComplete id="osoby" value="#{RezerMojKalMg.uzyt}" completeMethod="#{RezerwacjeMg.uzytkownicyAucoComp}" var="user" itemValue="#{user}" itemLabel="#{user.fullname}"
+                                    forceSelection="true" converter="#{UzytkownikConv}">
+                        <p:column>
+                            <h:outputText value="#{user.fullname}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{user.adrEmail}" />
+                        </p:column>
+                    </p:autoComplete>
+                    <p:commandButton value="pokaż" process="osobyWybor" update=":center:schedulePanel" action="#{RezerMojKalMg.listObcy}"/>
+                </p:panel>
+
+                <p:panel style="border-style: hidden;">
+                    <h:outputText id="output" value="rozmiar kalendarza = #{RezerMojKalMg.number2}"/>
+                    <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
+                    <p:slider for="txt2" display="output" style="width: 200px; height: 10px" maxValue="5" minValue="1" step="-1" displayTemplate="rozmiar kalendarza {value}">
+                        <p:ajax event="slideEnd" update=":center:schedule" process="@parent" listener="#{RezerMojKalMg.onSlideEnd}"/>
+                    </p:slider>
+                </p:panel>
+
+                <p:panel style="border-style: hidden; text-align: right">
+                    <p:commandButton value="dzień" update=":center:schedulePanel" process="@this">
+                        <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="agendaDay"/>
+                    </p:commandButton>
+                    <p:commandButton value="tydzień" update=":center:schedulePanel" process="@this">
+                        <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="agendaWeek"/>
+                    </p:commandButton>
+                    <p:commandButton value="miesiąc" update=":center:schedulePanel" process="@this">
+                        <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="month"/>
+                    </p:commandButton>
+                </p:panel>
             </p:panelGrid>
 
-            <h:panelGrid columns="1" style="margin: 10px">
-                <h:outputText id="output" value="rozmiar kalendarza #{RezerMojKalMg.number2}" style="font-size: smaller"/>
-                <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
-                <p:slider for="txt2" display="output" style="width: 200px; height: 10px" maxValue="5" minValue="1" step="-1" displayTemplate="rozmiar kalendarza {value}">
-                    <p:ajax event="slideEnd" update=":center:schedule" process="@parent" listener="#{RezerMojKalMg.onSlideEnd}"/>
-                </p:slider>
-            </h:panelGrid>
-
             <p:panel id="schedulePanel">
-                <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="#{6-RezerMojKalMg.number2}"
-                            locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true">
+                <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="#{6-RezerMojKalMg.number2}" view="#{RezerwacjeMg.viewKal}"
+                            locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true" rightHeaderTemplate="">
                     <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog" oncomplete="PF('eventDialog').show();"/>
                 </p:schedule>
             </p:panel>

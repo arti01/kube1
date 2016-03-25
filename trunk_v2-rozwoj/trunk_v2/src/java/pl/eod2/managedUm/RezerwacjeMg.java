@@ -49,6 +49,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private List<Uzytkownik> usersList;
     private List<Uzytkownik> usersListSelect;
     private List<UmUrzadzenie> urzAll;
+    private String viewKal;
 
     public RezerwacjeMg() throws InstantiationException, IllegalAccessException {
         super("/um/rezerwacje", new UmRezerwacjeKontr(), new UmRezerwacje());
@@ -311,4 +312,17 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         }
         return wynik;
     }
+
+    public String getViewKal() {
+        if(viewKal==null){
+            viewKal="month";
+        }
+        return viewKal;
+    }
+
+    public void setViewKal(String viewKal) {
+        this.viewKal = viewKal;
+    }
+    
 }
+
