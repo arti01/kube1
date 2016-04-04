@@ -25,7 +25,7 @@ public StrukturaDataModel(Spolki spolka) {
     @Override
     public Expression<Boolean> createFilterCriteria(CriteriaBuilder criteriaBuilder, Root<Struktura> root) {
         Expression<Boolean> filterCriteria = null;
-        if(getArrangeableState().getFilterFields()==null) return null;
+        if(getArrangeableState()==null||getArrangeableState().getFilterFields()==null) return null;
         List<FilterField> filterFields = getArrangeableState().getFilterFields();
         Join<Struktura, Uzytkownik>juser=root.join(Struktura_.userId);
         Join<Struktura, Dzial> jstatus=root.join(Struktura_.dzialId);

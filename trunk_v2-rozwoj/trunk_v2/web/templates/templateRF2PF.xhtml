@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>eSK.EOD dla: #{login.licencjaDla}</title>
+        <link href="../javax.faces.resource/theme.css.xhtml?ln=primefaces-redmond" rel="stylesheet" type="text/css"/>
+        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+        <link href="../resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <style>
+            body {
+                font-size: 0.7em;
+            }
+
+            .disable-scroll .ui-dialog-content {
+                overflow: hidden !important;
+            }
+            .ui-menu .ui-menu-parent .ui-menu-child {
+                white-space: nowrap !important;
+                width: 19em;
+            }
+
+            ul.ui-menu-child
+            {
+                white-space: nowrap;
+                width: auto;
+            }
+            .ui-menu .ui-menu-child
+            {
+                left: 30px;
+            }
+            .ui-menu .ui-menuitem-link{
+                font-size: 95%
+            }
+            .column1 {
+                width: 50%;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2 {
+                width: 50%;
+                text-align: left;
+                border-style: hidden;
+            }
+        </style>
+    </h:head>
+    <h:body style="background-color: ghostwhite">
+        <table width="100%" style="font-size: 20px; background-color: ghostwhite" border="0"><tr>
+                <td align="right" width="100px;"><img src="../images/fmc.png" alt="Fresenius Medical Care" border="0"  style="width: 60%; height: 60%"/>
+                </td>
+                <td align="center"><i><b><font size="6">E</font></b><font size="5">LEKTRONICZNY</font> <b><font size="6">O</font></b><font size="5">BIEG</font> <b><font size="6">D</font></b><font size="5">OKUMENTÓW</font></i>&nbsp;<sub>v1.2</sub></td>
+                <td align="right" width="100px;"><img src="../images/eod_logo.png" alt="eSK.EOD" border="0" style="width: 50%; height: 50%"/>
+                </td></tr>
+        </table>
+        <h:form id="infoForm" style="position: relative; height: 42px; visibility: visible;">
+            <ui:include src="../templates/menuGPF.xhtml"/>
+        </h:form>
+        <ui:insert name="content">Put default content here, if any.</ui:insert>     
+
+        <table width="100%" border="0" cellpadding="5" cellspacing="0" style="background-color: ghostwhite; font-size: 95%;">
+            <tr valign="middle">
+                <td align="center">Licencja dla: #{login.licencjaDla}</td>
+            </tr>
+            <tr valign="middle">
+                <td align="center">&copy; Wszelkie prawa zastrzeżone eSoftKing 2012</td>
+            </tr>
+        </table>
+
+    </h:body>
+</html>

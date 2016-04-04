@@ -70,10 +70,8 @@
                 </rich:column>
 
                 <rich:column sortBy="#{item.id}" sortOrder="descending"
-                             filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.dataWprowStr,RejestracjaRej.filtrdataWprow)}">
+                             filterType="string" filterExpression="#{fn:containsIgnoreCase(item.dataWprowStr,RejestracjaRej.filtrdataWprow)}">
                     <f:facet name="header">data<br/> rejestracji<br/>(użyj TAB)
-                        <h:inputText value="#{RejestracjaRej.filtrdataWprow}" size="9">
-                            <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
                     </f:facet>
                     <h:outputText value="#{item.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                     <br/>

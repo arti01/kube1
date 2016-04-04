@@ -4,11 +4,11 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:rich="http://richfaces.org/rich"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/templateRF2PF.xhtml"
-                xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+                template="/templates/template.xhtml">
 
     <ui:define name="content">
         <h:outputStylesheet library="css" name="../resources/css/default.css"/>
@@ -21,7 +21,8 @@
                         <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
                         <ui:param name="property" value="fullname" />
                         <ui:param name="propSort" value="userId.fullname" />
-                        <rich:column  style="width:60%" filterValue="#{UsersM.filterValues[property]}" filterType="custom" filterExpression="#{property}">
+                        <rich:column  style="width:60%" filterValue="#{UsersM.filterValues[property]}" filterType="custom" filterExpression="#{property}"
+                                      sortBy="#{propSort}" sortOrder="#{UsersM.sortOrders[propSort]}">
                             <f:facet name="header">
                                 <h:panelGroup>
                                     <h:outputText value="Imię i nazwisko  &lt;br/&gt; (do filtrowania użyj TAB), aby wyświetlić wszystkich pozostaw puste miejsce" escape="false"/><br/>
@@ -59,7 +60,7 @@
 
                                     <h:outputLabel for="przyjwnioski" value="Czy uprawniony do przyjmowania wniosków innych osób?: "/>
                                     <h:selectBooleanCheckbox id="przyjwnioski" value="#{strukt.przyjmowanieWnioskow}" readonly="true"/>
-                                    
+
                                     <h:outputLabel for="musZast" value="Czy musi mieć ustawionego zastępcę?: "/>
                                     <h:selectBooleanCheckbox id="musZast" value="#{strukt.musZast}" readonly="true"/>
 
@@ -68,11 +69,11 @@
 
                                     <h:outputLabel for="extraemail" value="Dodatkowe emaile:"/>
                                     <h:outputText id="extraemail" value="#{strukt.extraemail}"/>
-                                    
+
                                     <h:outputLabel for="roles" value="uprawnienia:"/>
-                                <ui:repeat id="roles" value="#{strukt.userId.role}" var="rola">
-                                    #{rola.opis},
-                                </ui:repeat>
+                                    <ui:repeat id="roles" value="#{strukt.userId.role}" var="rola">
+                                        #{rola.opis},
+                                    </ui:repeat>
                                 </h:panelGrid>
                                 <h:panelGrid columns="1" rendered="#{fn:length(strukt.bezpPodWidoczni)>0}">
                                     <br/>
@@ -86,7 +87,7 @@
 
                             </rich:collapsiblePanel>
                         </rich:column>
-    
+
                         <ui:param name="property" value="nazwa" />
                         <rich:column id="colKier" style="width:30%; text-align: center" filterValue="#{UsersM.filterValues[property]}" filterType="custom" filterExpression="#{property}">
                             <f:facet name="header">

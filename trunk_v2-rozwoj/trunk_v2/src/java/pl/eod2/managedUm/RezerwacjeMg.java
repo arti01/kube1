@@ -2,6 +2,7 @@ package pl.eod2.managedUm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -50,6 +51,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     private List<Uzytkownik> usersListSelect;
     private List<UmUrzadzenie> urzAll;
     private String viewKal;
+    private Date initDate;
 
     public RezerwacjeMg() throws InstantiationException, IllegalAccessException {
         super("/um/rezerwacje", new UmRezerwacjeKontr(), new UmRezerwacje());
@@ -57,6 +59,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
 
     @PostConstruct
     private void init() {
+        initDate = Calendar.getInstance().getTime();
         eventModel = new DefaultScheduleModel();
         usersList = new ArrayList<>();
         usersListSelect = new ArrayList<>();
@@ -137,7 +140,11 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             obiekt = new UmRezerwacje();
             obiekt.setNazwa("nowa rezerwacja");
             obiekt.setDataOd(event.getStartDate());
-            obiekt.setDataDo(event.getEndDate());
+            initDate = event.getStartDate();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(event.getEndDate());
+            cal.add(Calendar.HOUR, 1);
+            obiekt.setDataDo(cal.getTime());
             usersListSelect.clear();
             usersListSelect.addAll(usersList);
         } else {
@@ -301,12 +308,12 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         Uzytkownik u = (Uzytkownik) event.getObject();
         usersListSelect.add(u);
     }
-    
-    public List<Uzytkownik> uzytkownicyAucoComp(String query){
-        query=query.toLowerCase();
-        List<Uzytkownik>wynik=new ArrayList<>();
-        for(Uzytkownik u:usersList){
-            if(u.getAdrEmail().toLowerCase().contains(query)||u.getFullname().toLowerCase().contains(query)){
+
+    public List<Uzytkownik> uzytkownicyAucoComp(String query) {
+        query = query.toLowerCase();
+        List<Uzytkownik> wynik = new ArrayList<>();
+        for (Uzytkownik u : usersList) {
+            if (u.getAdrEmail().toLowerCase().contains(query) || u.getFullname().toLowerCase().contains(query)) {
                 wynik.add(u);
             }
         }
@@ -314,8 +321,8 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     }
 
     public String getViewKal() {
-        if(viewKal==null){
-            viewKal="month";
+        if (viewKal == null) {
+            viewKal = "month";
         }
         return viewKal;
     }
@@ -323,6 +330,13 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     public void setViewKal(String viewKal) {
         this.viewKal = viewKal;
     }
-    
-}
 
+    public Date getInitDate() {
+        return initDate;
+    }
+
+    public void setInitDate(Date initDate) {
+        this.initDate = initDate;
+    }
+
+}

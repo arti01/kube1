@@ -64,7 +64,7 @@
             <p:panel header="Kalendarz dla: #{RezerwacjeMg.urzadzenie.data.nazwa}" id="schedulePanel">
                 <p:schedule id="schedule" value="#{RezerwacjeMg.eventModel}" widgetVar="myschedule" locale="pl" timeZone="CET"
                             aspectRatio="#{6-RezerMojKalMg.number2}" rendered="#{RezerwacjeMg.urzadzenie.type.equals('urzadzenie')}" timeFormat="HH:mm" axisFormat="HH:mm"
-                            displayEventEnd="true" rightHeaderTemplate="" view="#{RezerwacjeMg.viewKal}">
+                            displayEventEnd="true" rightHeaderTemplate="" view="#{RezerwacjeMg.viewKal}" initialDate="#{RezerwacjeMg.initDate}">
                     <p:ajax event="dateSelect" listener="#{RezerwacjeMg.onDateSelect}" update=":infoForm:messages, eventDetails, :center:invalid" oncomplete="PF('eventDialog').show();" />
                     <p:ajax event="eventSelect" listener="#{RezerwacjeMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
                     <p:ajax event="eventMove" listener="#{RezerwacjeMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>

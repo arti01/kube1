@@ -8,12 +8,13 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-                template="/templates/template.xhtml">
+                template="/templates/templateRF2PF.xhtml">
 
     <ui:define name="content">
         <h:outputStylesheet library="css" name="../resources/css/default.css"/>
         <div id="tabela">
-            <h4>Wszystkie wnioski</h4>
+            <h4>Wszystkie 
+                wnioski</h4>
             <h:form id="form1">
                 <a4j:outputPanel id="formTab" layout="block">
                     <rich:dataTable value="#{UrlopAll.dataModel}" var="urlop" id="table" rowKeyVar="rowkey" rows="10">
