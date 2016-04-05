@@ -6,8 +6,10 @@ package pl.eod.managwn;
 
 import com.google.common.collect.Maps;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -38,9 +40,9 @@ public class UrlopM implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private WnUrlop urlop;
-    private DataModel<WnUrlop> urlopyList = new ListDataModel<WnUrlop>();
-    private DataModel<WnUrlop> urlopyAkcept = new ListDataModel<WnUrlop>();
-    private DataModel<WnUrlop> urlopyAkceptHist = new ListDataModel<WnUrlop>();
+    private DataModel<WnUrlop> urlopyList = new ListDataModel<>();
+    private DataModel<WnUrlop> urlopyAkcept = new ListDataModel<>();
+    private DataModel<WnUrlop> urlopyAkceptHist = new ListDataModel<>();
     private WnUrlopJpaController urlopC;
     private WnRodzajeJpaController rodzajeC;
     private KomKolejkaJpaController KomKolC;
@@ -52,6 +54,10 @@ public class UrlopM implements Serializable {
     String namePodwFilter;
     private Map<String, String> filterValues = Maps.newHashMap();
     private Map<String, SortOrder> sortOrders = Maps.newHashMapWithExpectedSize(1);
+    private String godzOd;
+    private String godzDo;
+    private Date dataUrlopu;
+    boolean calyDzien;
 
     public String list() {
         initUrlop();
@@ -404,7 +410,26 @@ public class UrlopM implements Serializable {
         initUrlop();
     }
 
-    public void dodaj() {
+    public void dodaj() throws ParseException {
+        if(!calyDzien){
+            System.err.println(godzOd);
+            System.err.println(godzDo);
+            Calendar cal=Calendar.getInstance();
+            Calendar calOd=Calendar.getInstance();
+            Calendar calDo=Calendar.getInstance();
+            calOd.setTime(dataUrlopu);
+            calDo.setTime(dataUrlopu);
+            SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
+            
+            cal.setTime(sdf.parse(godzOd));
+            calOd.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+            System.err.println(calOd);
+            cal.setTime(sdf.parse(godzDo));
+            calDo.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+            System.err.println(calDo);
+            urlop.setDataOd(calOd.getTime());
+            urlop.setDataDo(calDo.getTime());
+        }
         WnStatusy st = new WnStatusy();
         st.setId(new Long(1));
         urlop.setStatusId(st);
@@ -449,6 +474,10 @@ public class UrlopM implements Serializable {
     }
 
     private void initUrlop() {
+        godzOd="HH:MM";
+        godzDo="HH:MM";
+        dataUrlopu=new Date();
+        calyDzien=true;
         login.refresh();
         urlop = new WnUrlop();
         urlop.setUzytkownik(login.getZalogowany().getUserId());
@@ -457,14 +486,14 @@ public class UrlopM implements Serializable {
         }
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopList());
 
-        ArrayList<WnUrlop> akceptL = new ArrayList<WnUrlop>();
+        ArrayList<WnUrlop> akceptL = new ArrayList<>();
         akceptL.addAll(login.getZalogowany().getUserId().getWnUrlopListDoAkceptu());
         for (Struktura s : login.getZalogowany().getUserId().getStrukturaSec()) {
             akceptL.addAll(s.getUserId().getWnUrlopListDoAkceptu());
         }
         urlopyAkcept.setWrappedData(akceptL);
 
-        ArrayList<WnUrlop> akceptHist = new ArrayList<WnUrlop>();
+        ArrayList<WnUrlop> akceptHist = new ArrayList<>();
         for (WnHistoria wh : login.getZalogowany().getUserId().getWnHistoriaListAkceptant()) {
             if (!akceptHist.contains(wh.getUrlopId())) {
                 akceptHist.add(wh.getUrlopId());
@@ -562,4 +591,37 @@ public class UrlopM implements Serializable {
     public Map<String, SortOrder> getSortOrders() {
         return sortOrders;
     }
+
+    public String getGodzOd() {
+        return godzOd;
+    }
+
+    public void setGodzOd(String godzOd) {
+        this.godzOd = godzOd;
+    }
+
+    public String getGodzDo() {
+        return godzDo;
+    }
+
+    public void setGodzDo(String godzDo) {
+        this.godzDo = godzDo;
+    }
+
+    public boolean isCalyDzien() {
+        return calyDzien;
+    }
+
+    public void setCalyDzien(boolean calyDzien) {
+        this.calyDzien = calyDzien;
+    }
+
+    public Date getDataUrlopu() {
+        return dataUrlopu;
+    }
+
+    public void setDataUrlopu(Date dataUrlopu) {
+        this.dataUrlopu = dataUrlopu;
+    }
+    
 }

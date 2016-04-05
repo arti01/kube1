@@ -1,3 +1,14 @@
+2016-04-05
+godziny we wnioskach urlopowych
+
+Koniecznie zrobić backup :D
+alter table wn_urlop alter data_od type timestamp;
+alter table wn_urlop alter data_do type timestamp;
+
+
+2016-04-04
+zmiana układu dla stron RichFaces - z górnym menu w PrimeFaces
+
 2016-03-18
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbmaxMail', 'max wiadomosci w skrzynce odbiorczej', '30');
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbkrokPobierania', 'ilosc maili pobierana w jednej iteracji crona', '5');

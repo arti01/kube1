@@ -69,9 +69,8 @@
                     </h:commandButton>
                 </rich:column>
 
-                <rich:column sortBy="#{item.id}" sortOrder="descending"
-                             filterType="string" filterExpression="#{fn:containsIgnoreCase(item.dataWprowStr,RejestracjaRej.filtrdataWprow)}">
-                    <f:facet name="header">data<br/> rejestracji<br/>(użyj TAB)
+                <rich:column sortBy="#{item.id}" sortOrder="descending">
+                    <f:facet name="header">data rejestracji
                     </f:facet>
                     <h:outputText value="#{item.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                     <br/>
@@ -94,7 +93,7 @@
                 </rich:column>
 
                 <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.dataDokStr,RejestracjaRej.filtrdataDok)}">    
-                    <f:facet name="header">data <br/>dokumentu
+                    <f:facet name="header">data dokumentu
                         <h:inputText value="#{RejestracjaRej.filtrdataDok}" size="9">
                             <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
                     </f:facet>

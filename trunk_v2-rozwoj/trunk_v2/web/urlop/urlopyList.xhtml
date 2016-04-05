@@ -13,11 +13,10 @@
     <ui:define name="content">
         <h:outputStylesheet library="css" name="../resources/css/default.css"/>
         <div id="tabela">
-            <h4>Twoje wnioski</h4>
+            <h2>Twoje wnioski</h2>
             <h:form id="form1">
                 <a4j:outputPanel id="formWprow" layout="block">
-
-                    <h:panelGrid columns="3" id="form">
+                    <h:panelGrid columns="3" id="form" style="width: auto">
                         <h:outputLabel for="name" value="Imię i nazwisko: "/>
                         <h:inputText id="name" value="#{UrlopM.urlop.uzytkownik.fullname}"  size="50" readonly="true"/>
                         <rich:message for="name" styleClass="error" />
@@ -29,19 +28,50 @@
                         </h:selectOneMenu>
                         <rich:message for="rodzajW" styleClass="error" />
 
-                        <h:outputLabel for="data_od" value="Data od:"/>
-                        <rich:calendar value="#{UrlopM.urlop.dataOd}" id="data_od" locale="#{UrlopM.locale}"
-                                       popup="true" datePattern="yyyy-MM-dd"
-                                       showApplyButton="#{calendarBean.showApply}" style="width:200px">
-                            <rich:validator /></rich:calendar>
-                        <rich:message for="data_od" styleClass="error" />
+                        <h:outputLabel value="cały dzień?"/>
+                        <h:selectBooleanCheckbox value="#{UrlopM.calyDzien}">
+                            <a4j:ajax render="dni"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel/>
 
-                        <h:outputLabel for="data_do" value="Data do:"/>
-                        <rich:calendar value="#{UrlopM.urlop.dataDo}" id="data_do" locale="#{UrlopM.locale}"
-                                       popup="true" datePattern="yyyy-MM-dd"
-                                       showApplyButton="#{calendarBean.showApply}" style="width:200px">
-                            <rich:validator /></rich:calendar>
-                        <rich:message for="data_do" styleClass="error" />
+                        <h:panelGroup id="dni">
+                            <h:panelGroup rendered="#{UrlopM.calyDzien}">
+                                <h:outputLabel for="data_od" value="Data od:"/>
+                                <rich:calendar value="#{UrlopM.urlop.dataOd}" id="data_od" locale="#{UrlopM.locale}"
+                                               popup="true" datePattern="yyyy-MM-dd"
+                                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                                    <rich:validator /></rich:calendar>
+                                <rich:message for="data_od" styleClass="error" />
+
+                                <h:outputLabel for="data_do" value="Data do:"/>
+                                <rich:calendar value="#{UrlopM.urlop.dataDo}" id="data_do" locale="#{UrlopM.locale}"
+                                               popup="true" datePattern="yyyy-MM-dd"
+                                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                                    <rich:validator /></rich:calendar>
+                                <rich:message for="data_do" styleClass="error" />
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{!UrlopM.calyDzien}">
+                                <h:outputLabel for="data_url" value="Dzień urlopu:"/>
+                                <rich:calendar value="#{UrlopM.dataUrlopu}" id="data_url" locale="#{UrlopM.locale}"
+                                               popup="true" datePattern="yyyy-MM-dd"
+                                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                                    <rich:validator /></rich:calendar>
+                                <rich:message for="data_url" styleClass="error" />
+                                
+                                <h:outputLabel value="Godzina od:"/>
+                                <h:inputText id="data_od_godz" value="#{UrlopM.godzOd}">
+                                </h:inputText>
+                                <rich:message for="data_od_godz" styleClass="error" />
+
+                                <h:outputLabel for="data_do_godz" value="Godzina do:"/>
+                                <h:inputText id="data_do_godz" value="#{UrlopM.godzDo}">
+                                </h:inputText>
+                                <rich:message for="data_do_godz" styleClass="error" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <h:outputLabel/>
+                        <h:outputLabel/>
 
                         <h:outputLabel for="extraemail" value="czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
                         <h:selectBooleanCheckbox value="#{UrlopM.urlop.extraemail}" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
@@ -69,7 +99,7 @@
 
                     </h:panelGrid>
                     <center>
-                        <a4j:commandLink id="dodaj" value="[  Zapisz wniosek  ]" action="#{UrlopM.dodaj}" render="formTab, formWprow" execute="formWprow"/>
+                        <a4j:commandButton id="dodaj" value="[ Zapisz wniosek ]" action="#{UrlopM.dodaj}" render="formTab, formWprow" execute="formWprow" style="font-weight: bold; font-size: larger"/>
                     </center>
                 </a4j:outputPanel>
                 <hr/>
