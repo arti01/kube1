@@ -201,23 +201,26 @@ public class UrlopObceM {
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent zapisz = UIComponent.getCurrentComponent(context);
         FacesMessage message = new FacesMessage();
-
-        if(!calyDzien){
-            Calendar cal=Calendar.getInstance();
-            Calendar calOd=Calendar.getInstance();
-            Calendar calDo=Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
+        Calendar calOd = Calendar.getInstance();
+        Calendar calDo = Calendar.getInstance();
+        if (!calyDzien) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
-            SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
-            
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
             cal.setTime(sdf.parse(godzOd));
             calOd.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
             cal.setTime(sdf.parse(godzDo));
             calDo.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
             urlop.setDataOd(calOd.getTime());
             urlop.setDataDo(calDo.getTime());
+        } else {
+            calDo.setTime(urlop.getDataDo());
+            calDo.add(Calendar.HOUR_OF_DAY, 23);
+            calDo.add(Calendar.MINUTE, 59);
         }
-        
+
         if (urlop.getUzytkownik() == null) {
             message.setSummary("wybierz pracownika");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -268,10 +271,10 @@ public class UrlopObceM {
 
     private void initUrlop() {
         login.refresh();
-        godzOd="HH:MM";
-        godzDo="HH:MM";
-        dataUrlopu=new Date();
-        calyDzien=true;
+        godzOd = "HH:MM";
+        godzDo = "HH:MM";
+        dataUrlopu = new Date();
+        calyDzien = true;
         urlop = new WnUrlop();
         urlop.setUzytkownik(new Uzytkownik());
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopListPrzyjmujacy());
@@ -341,5 +344,5 @@ public class UrlopObceM {
     public void setCalyDzien(boolean calyDzien) {
         this.calyDzien = calyDzien;
     }
-    
+
 }

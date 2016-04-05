@@ -45,7 +45,7 @@ public class WnUrlopJpaController implements Serializable {
         }
 
         if (wnUrlop.getWnHistoriaList() == null) {
-            wnUrlop.setWnHistoriaList(new ArrayList<WnHistoria>());
+            wnUrlop.setWnHistoriaList(new ArrayList<>());
         }
         EntityManager em = null;
         try {

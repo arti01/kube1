@@ -359,8 +359,6 @@ public class UrlopM implements Serializable {
 
         urlop.getWnHistoriaList().add(wnh);
 
-        System.err.println(urlopC.createEdit(urlop));
-
         if (!urlop.getUzytkownik().getAdrEmail().equals("")) {
             KomKolejka kk = new KomKolejka();
             kk.setAdresList(urlop.getUzytkownik().getAdrEmail());
@@ -380,7 +378,7 @@ public class UrlopM implements Serializable {
             kk.setTresc("Twoj wniosek o urlop " + urlop.getNrWniosku() + " został cofnięty do poprawy");
             KomKolC.create(kk);
         }
-        
+
         if (urlop.isExtraemail()) {
             KomKolejka kk = new KomKolejka();
             kk.setAdresList(urlop.getUzytkownik().getStruktura().getExtraemail());
@@ -411,20 +409,24 @@ public class UrlopM implements Serializable {
     }
 
     public void dodaj() throws ParseException {
-        if(!calyDzien){
-            Calendar cal=Calendar.getInstance();
-            Calendar calOd=Calendar.getInstance();
-            Calendar calDo=Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
+        Calendar calOd = Calendar.getInstance();
+        Calendar calDo = Calendar.getInstance();
+        if (!calyDzien) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
-            SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
-            
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
             cal.setTime(sdf.parse(godzOd));
             calOd.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
             cal.setTime(sdf.parse(godzDo));
             calDo.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
             urlop.setDataOd(calOd.getTime());
             urlop.setDataDo(calDo.getTime());
+        } else {
+            calDo.setTime(urlop.getDataDo());
+            calDo.add(Calendar.HOUR_OF_DAY, 23);
+            calDo.add(Calendar.MINUTE, 59);
         }
         WnStatusy st = new WnStatusy();
         st.setId(new Long(1));
@@ -470,14 +472,14 @@ public class UrlopM implements Serializable {
     }
 
     private void initUrlop() {
-        godzOd="HH:MM";
-        godzDo="HH:MM";
-        dataUrlopu=new Date();
-        calyDzien=true;
+        godzOd = "HH:MM";
+        godzDo = "HH:MM";
+        dataUrlopu = new Date();
+        calyDzien = true;
         login.refresh();
         urlop = new WnUrlop();
         urlop.setUzytkownik(login.getZalogowany().getUserId());
-        if(!login.getZalogowany().getExtraemail().isEmpty()){
+        if (!login.getZalogowany().getExtraemail().isEmpty()) {
             urlop.setExtraemail(true);
         }
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopList());
@@ -619,5 +621,5 @@ public class UrlopM implements Serializable {
     public void setDataUrlopu(Date dataUrlopu) {
         this.dataUrlopu = dataUrlopu;
     }
-    
+
 }
