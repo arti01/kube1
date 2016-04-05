@@ -60,14 +60,16 @@
                                 <rich:message for="data_url" styleClass="error" />
                                 
                                 <h:outputLabel value="Godzina od:"/>
-                                <h:inputText id="data_od_godz" value="#{UrlopM.godzOd}">
+                                <h:inputText id="data_od_godz" value="#{UrlopM.godzOd}" validatorMessage="wprowadź poprawną godzinę">
+                                    <f:validateRegex pattern="(?:2[0-3]|[01][0-9]):[0-5][0-9]"/>
                                 </h:inputText>
                                 <rich:message for="data_od_godz" styleClass="error" />
 
                                 <h:outputLabel for="data_do_godz" value="Godzina do:"/>
-                                <h:inputText id="data_do_godz" value="#{UrlopM.godzDo}">
+                                <h:inputText id="data_do_godz" value="#{UrlopM.godzDo}" validatorMessage="wprowadź poprawną godzinę">
+                                    <f:validateRegex pattern="(?:2[0-3]|[01][0-9]):[0-5][0-9]" />
                                 </h:inputText>
-                                <rich:message for="data_do_godz" styleClass="error" />
+                                <rich:message for="data_do_godz" styleClass="error"  />
                             </h:panelGroup>
                         </h:panelGroup>
                         <h:outputLabel/>
@@ -185,9 +187,9 @@
                             <f:facet name="header">
                                 Od Do
                             </f:facet>
-                            <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
+                            <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
                             <br/>
-                            <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
+                            <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
                         </rich:column>
                         <rich:column style="background-color: #{urlop.statusId.kolor} ; text-align: center">
                             <f:facet name="header">

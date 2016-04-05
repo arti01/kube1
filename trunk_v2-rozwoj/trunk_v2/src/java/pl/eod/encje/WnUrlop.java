@@ -52,12 +52,12 @@ public class WnUrlop implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_od")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataOd;
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_do")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataDo;
     @Basic(optional = false)
     @NotNull

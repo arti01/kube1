@@ -4,8 +4,10 @@
  */
 package pl.eod.managwn;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
@@ -32,13 +34,17 @@ import pl.eod.managed.Login;
 public class UrlopObceM {
 
     private WnUrlop urlop;
-    private DataModel<WnUrlop> urlopyList = new ListDataModel<WnUrlop>();
+    private DataModel<WnUrlop> urlopyList = new ListDataModel<>();
     private WnUrlopJpaController urlopC;
     private WnRodzajeJpaController rodzajeC;
     private KomKolejkaJpaController KomKolC;
     @ManagedProperty(value = "#{login}")
     private Login login;
     private Locale locale;
+    private String godzOd;
+    private String godzDo;
+    private Date dataUrlopu;
+    boolean calyDzien;
 
     public String list() {
         initUrlop();
@@ -191,11 +197,27 @@ public class UrlopObceM {
         initUrlop();
     }
 
-    public void dodaj() {
+    public void dodaj() throws ParseException {
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent zapisz = UIComponent.getCurrentComponent(context);
         FacesMessage message = new FacesMessage();
 
+        if(!calyDzien){
+            Calendar cal=Calendar.getInstance();
+            Calendar calOd=Calendar.getInstance();
+            Calendar calDo=Calendar.getInstance();
+            calOd.setTime(dataUrlopu);
+            calDo.setTime(dataUrlopu);
+            SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
+            
+            cal.setTime(sdf.parse(godzOd));
+            calOd.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+            cal.setTime(sdf.parse(godzDo));
+            calDo.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+            urlop.setDataOd(calOd.getTime());
+            urlop.setDataDo(calDo.getTime());
+        }
+        
         if (urlop.getUzytkownik() == null) {
             message.setSummary("wybierz pracownika");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -246,6 +268,10 @@ public class UrlopObceM {
 
     private void initUrlop() {
         login.refresh();
+        godzOd="HH:MM";
+        godzDo="HH:MM";
+        dataUrlopu=new Date();
+        calyDzien=true;
         urlop = new WnUrlop();
         urlop.setUzytkownik(new Uzytkownik());
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopListPrzyjmujacy());
@@ -283,4 +309,37 @@ public class UrlopObceM {
         locale = new Locale("pl", "PL");
         return locale;
     }
+
+    public String getGodzOd() {
+        return godzOd;
+    }
+
+    public void setGodzOd(String godzOd) {
+        this.godzOd = godzOd;
+    }
+
+    public String getGodzDo() {
+        return godzDo;
+    }
+
+    public void setGodzDo(String godzDo) {
+        this.godzDo = godzDo;
+    }
+
+    public Date getDataUrlopu() {
+        return dataUrlopu;
+    }
+
+    public void setDataUrlopu(Date dataUrlopu) {
+        this.dataUrlopu = dataUrlopu;
+    }
+
+    public boolean isCalyDzien() {
+        return calyDzien;
+    }
+
+    public void setCalyDzien(boolean calyDzien) {
+        this.calyDzien = calyDzien;
+    }
+    
 }

@@ -107,9 +107,9 @@
                             <f:facet name="header">
                                 Od Do
                             </f:facet>
-                            <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                            <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
                             <br/>
-                            <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                            <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
                         </rich:column>
                         <rich:column style="background-color: #{urlop.statusId.kolor}; text-align: center">
                             <f:facet name="header">

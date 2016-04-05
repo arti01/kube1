@@ -412,8 +412,6 @@ public class UrlopM implements Serializable {
 
     public void dodaj() throws ParseException {
         if(!calyDzien){
-            System.err.println(godzOd);
-            System.err.println(godzDo);
             Calendar cal=Calendar.getInstance();
             Calendar calOd=Calendar.getInstance();
             Calendar calDo=Calendar.getInstance();
@@ -423,10 +421,8 @@ public class UrlopM implements Serializable {
             
             cal.setTime(sdf.parse(godzOd));
             calOd.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
-            System.err.println(calOd);
             cal.setTime(sdf.parse(godzDo));
             calDo.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
-            System.err.println(calDo);
             urlop.setDataOd(calOd.getTime());
             urlop.setDataDo(calDo.getTime());
         }

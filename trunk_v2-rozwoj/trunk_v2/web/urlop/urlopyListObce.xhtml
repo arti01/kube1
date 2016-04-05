@@ -40,19 +40,53 @@
                         </h:selectOneMenu>
                         <rich:message for="rodzajW" styleClass="error" />
 
-                        <h:outputLabel for="data_od" value="Data od:"/>
-                        <rich:calendar value="#{UrlopObceM.urlop.dataOd}" id="data_od" locale="#{UrlopObceM.locale}"
-                                       popup="true" datePattern="yyyy-MM-dd"
-                                       showApplyButton="#{calendarBean.showApply}" style="width:200px">
-                            <rich:validator /></rich:calendar>
-                        <rich:message for="data_od" styleClass="error" />
+                        <h:outputLabel value="cały dzień?"/>
+                        <h:selectBooleanCheckbox value="#{UrlopM.calyDzien}">
+                            <a4j:ajax render="dni"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel/>
 
-                        <h:outputLabel for="data_do" value="Data do:"/>
-                        <rich:calendar value="#{UrlopObceM.urlop.dataDo}" id="data_do" locale="#{UrlopObceM.locale}"
-                                       popup="true" datePattern="yyyy-MM-dd"
-                                       showApplyButton="#{calendarBean.showApply}" style="width:200px">
-                            <rich:validator /></rich:calendar>
-                        <rich:message for="data_do" styleClass="error" />
+                        <h:panelGroup id="dni">
+                            <h:panelGroup rendered="#{UrlopObceM.calyDzien}">
+                                <h:outputLabel for="data_od" value="Data od:"/>
+                                <rich:calendar value="#{UrlopObceM.urlop.dataOd}" id="data_od" locale="#{UrlopM.locale}"
+                                               popup="true" datePattern="yyyy-MM-dd"
+                                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                                    <rich:validator /></rich:calendar>
+                                <rich:message for="data_od" styleClass="error" />
+
+                                <h:outputLabel for="data_do" value="Data do:"/>
+                                <rich:calendar value="#{UrlopObceM.urlop.dataDo}" id="data_do" locale="#{UrlopM.locale}"
+                                               popup="true" datePattern="yyyy-MM-dd"
+                                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                                    <rich:validator /></rich:calendar>
+                                <rich:message for="data_do" styleClass="error" />
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{!UrlopObceM.calyDzien}">
+                                <h:outputLabel for="data_url" value="Dzień urlopu:"/>
+                                <rich:calendar value="#{UrlopObceM.dataUrlopu}" id="data_url" locale="#{UrlopM.locale}"
+                                               popup="true" datePattern="yyyy-MM-dd"
+                                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                                    <rich:validator /></rich:calendar>
+                                <rich:message for="data_url" styleClass="error" />
+                                
+                                <h:outputLabel value="Godzina od:"/>
+                                <h:inputText id="data_od_godz" value="#{UrlopObceM.godzOd}" validatorMessage="wprowadź poprawną godzinę">
+                                    <f:validateRegex pattern="(?:2[0-3]|[01][0-9]):[0-5][0-9]"/>
+                                </h:inputText>
+                                <rich:message for="data_od_godz" styleClass="error" />
+
+                                <h:outputLabel for="data_do_godz" value="Godzina do:"/>
+                                <h:inputText id="data_do_godz" value="#{UrlopObceM.godzDo}" validatorMessage="wprowadź poprawną godzinę">
+                                    <f:validateRegex pattern="(?:2[0-3]|[01][0-9]):[0-5][0-9]" />
+                                </h:inputText>
+                                <rich:message for="data_do_godz" styleClass="error"  />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <h:outputLabel/>
+                        <h:outputLabel/>
+                        
                         <h:outputLabel for="extraemail" value="czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopObceM.urlop.uzytkownik.struktura.extraemail)>0}"/>
                         <h:selectBooleanCheckbox id="extraemailB" value="#{UrlopObceM.urlop.extraemail}" rendered="#{fn:length(UrlopObceM.urlop.uzytkownik.struktura.extraemail)>0}"/>
                         <h:outputText id="extraemail" value="#{UrlopObceM.urlop.uzytkownik.struktura.extraemail}" rendered="#{fn:length(UrlopObceM.urlop.uzytkownik.struktura.extraemail)>0}"/>
@@ -175,9 +209,9 @@
                             <f:facet name="header">
                                 Od Do
                             </f:facet>
-                            <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                            <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
                             <br/>
-                            <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                            <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
                         </rich:column>
                         <rich:column style="background-color: #{urlop.statusId.kolor}; text-align: center">
                             <f:facet name="header">
