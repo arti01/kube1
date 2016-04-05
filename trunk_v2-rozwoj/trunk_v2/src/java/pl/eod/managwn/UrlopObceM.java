@@ -219,6 +219,7 @@ public class UrlopObceM {
             calDo.setTime(urlop.getDataDo());
             calDo.add(Calendar.HOUR_OF_DAY, 23);
             calDo.add(Calendar.MINUTE, 59);
+            urlop.setDataDo(calDo.getTime());
         }
 
         if (urlop.getUzytkownik() == null) {

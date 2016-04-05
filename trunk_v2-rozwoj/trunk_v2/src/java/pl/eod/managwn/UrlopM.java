@@ -427,6 +427,7 @@ public class UrlopM implements Serializable {
             calDo.setTime(urlop.getDataDo());
             calDo.add(Calendar.HOUR_OF_DAY, 23);
             calDo.add(Calendar.MINUTE, 59);
+            urlop.setDataDo(calDo.getTime());
         }
         WnStatusy st = new WnStatusy();
         st.setId(new Long(1));
