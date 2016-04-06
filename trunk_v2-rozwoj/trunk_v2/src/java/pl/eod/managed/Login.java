@@ -39,7 +39,7 @@ public class Login implements Serializable {
     StrukturaJpaController strukC;
     String username;
     String password;
-    String template = "../templates/template.xhtml";
+    String template = "../templates/templateRF2PF.xhtml";
     String licencjaDla;
     boolean urlop;
     boolean struktura;

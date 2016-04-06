@@ -11,92 +11,92 @@
 
         <p:submenu style="width: 145px" label="Dokumenty">
             <p:submenu label="konfiguracja" rendered="#{login.dcCfg}">
-                <p:menuitem value="Grupy rodzajów" action="#{RodzajeGrupyCfg.list}" />
-                <p:menuitem value="Rodzaje" action="#{RodzajeCfg.list}"/>
-                <p:menuitem value="Teczki" action="#{TeczkiCfg.list}"/>
-                <p:menuitem value="Żródła" action="#{ZrodlaCfg.list}"/>
-                <p:menuitem value="Kat. arch. w kom. merytorycznej" action="#{SymbMer1Cfg.list}"/>
-                <p:menuitem value="Kat. arch. w innych komórkach" action="#{SymbMer2Cfg.list}"/>
-                <p:menuitem value="Kontrahenci" action="#{KontrahenciCfg.list}"/>
+                <p:menuitem value="Grupy rodzajów" action="#{RodzajeGrupyCfg.list}" ajax="false"/>
+                <p:menuitem value="Rodzaje" action="#{RodzajeCfg.list}" ajax="false"/>
+                <p:menuitem value="Teczki" action="#{TeczkiCfg.list}" ajax="false"/>
+                <p:menuitem value="Żródła" action="#{ZrodlaCfg.list}" ajax="false"/>
+                <p:menuitem value="Kat. arch. w kom. merytorycznej" action="#{SymbMer1Cfg.list}" ajax="false"/>
+                <p:menuitem value="Kat. arch. w innych komórkach" action="#{SymbMer2Cfg.list}" ajax="false"/>
+                <p:menuitem value="Kontrahenci" action="#{KontrahenciCfg.list}" ajax="false"/>
             </p:submenu>    
             <p:submenu label="rejestracja" rendered="#{login.dcRej}">
-                <p:menuitem value="Emaile" action="#{RejEmaile.list}"/>
-                <p:menuitem value="Poczekalnia" action="#{RejImpPlik.list}"/>
-                <p:menuitem value="Rejestracja" action="#{RejestracjaRej.list}"/>
-                <p:menuitem value="Lista kontrahentów" action="#{RejestracjaRej.kontrahentList}"/>
-                <p:menuitem value="Raport pocztowy" action="#{RaportyRej.raportPocz}"/>
-                <p:menuitem value="Wyszukaj" action="#{WyszukajRej.form}"/>
-                <p:menuitem value="Do brakowania" action="#{BrakowanieRej.list}"/>
+                <p:menuitem value="Emaile" action="#{RejEmaile.list}" ajax="false"/>
+                <p:menuitem value="Poczekalnia" action="#{RejImpPlik.list}" ajax="false"/>
+                <p:menuitem value="Rejestracja" action="#{RejestracjaRej.list}" ajax="false"/>
+                <p:menuitem value="Lista kontrahentów" action="#{RejestracjaRej.kontrahentList}" ajax="false"/>
+                <p:menuitem value="Raport pocztowy" action="#{RaportyRej.raportPocz}" ajax="false"/>
+                <p:menuitem value="Wyszukaj" action="#{WyszukajRej.form}" ajax="false"/>
+                <p:menuitem value="Do brakowania" action="#{BrakowanieRej.list}" ajax="false"/>
             </p:submenu>
             <p:submenu label="odbiór" rendered="#{login.dcOdb}">
-                <p:menuitem value="Do akceptacji" action="#{AkceptOdb.list}"/>
-                <p:menuitem value="Historia akceptacji" action="#{HistOdb.list}"/>
-                <p:menuitem value="Do wiadomości" action="#{DoWiadOdb.list}"/>
+                <p:menuitem value="Do akceptacji" action="#{AkceptOdb.list}" ajax="false"/>
+                <p:menuitem value="Historia akceptacji" action="#{HistOdb.list}" ajax="false"/>
+                <p:menuitem value="Do wiadomości" action="#{DoWiadOdb.list}" ajax="false"/>
             </p:submenu>
         </p:submenu>
 
         <p:submenu style="width: 145px" label="Archiwum">
             <p:submenu label="Dokumenty - archiwum" rendered="#{login.dcArc}">
-                <p:menuitem value="Do archiwum" action="#{PrzeniesArch.list}"/>
-                <p:menuitem value="Poczekalnia" action="#{PoczekalniaArch.list}"/>
-                <p:menuitem value="Archiwum" action="#{WArchiwumArch.list}"/>
-                <p:menuitem value="Dokumenty" action="#{DokumentyArch.list}"/>
-                <p:menuitem value="Wyszukaj w archiwum" action="#{WyszukajArch.form}"/>
+                <p:menuitem value="Do archiwum" action="#{PrzeniesArch.list}" ajax="false"/>
+                <p:menuitem value="Poczekalnia" action="#{PoczekalniaArch.list}" ajax="false"/>
+                <p:menuitem value="Archiwum" action="#{WArchiwumArch.list}" ajax="false"/>
+                <p:menuitem value="Dokumenty" action="#{DokumentyArch.list}" ajax="false"/>
+                <p:menuitem value="Wyszukaj w archiwum" action="#{WyszukajArch.form}" ajax="false"/>
             </p:submenu>
             <p:submenu label="Archiwum - raporty" rendered="#{login.dcArc}">
-                <p:menuitem value="Do brakowania" action="#{BrakowanieArch.list}"/>
-                <p:menuitem value="Zajętość Archiwów" action="#{ZajetoscArch.list}"/>
-                <p:menuitem value="Niezwrócone" action="#{RaportyArch.nieZwrocone}"/>
-                <p:menuitem value="Wydane wg osoby" action="#{RaportyArch.wydWgOsoby}"/>
+                <p:menuitem value="Do brakowania" action="#{BrakowanieArch.list}" ajax="false"/>
+                <p:menuitem value="Zajętość Archiwów" action="#{ZajetoscArch.list}" ajax="false"/>
+                <p:menuitem value="Niezwrócone" action="#{RaportyArch.nieZwrocone}" ajax="false"/>
+                <p:menuitem value="Wydane wg osoby" action="#{RaportyArch.wydWgOsoby}" ajax="false"/>
             </p:submenu>
         </p:submenu>
 
         <p:submenu style="width: 145px" label="Rezerwacje" expanded="#{login.menuRezerExp}">
-            <p:menuitem value="dodawanie, modyfikacja, podgląd" action="#{RezerwacjeMg.list}"/>
-            <p:menuitem value="mój kalendarz" action="#{RezerMojKalMg.list}"/>
+            <p:menuitem value="dodawanie, modyfikacja, podgląd" action="#{RezerwacjeMg.list}" ajax="false"/>
+            <p:menuitem value="mój kalendarz" action="#{RezerMojKalMg.list}" ajax="false"/>
         </p:submenu>
 
         <p:submenu style="width: 145px" label="Zasoby Materiałowe">
-            <p:menuitem value="Lista zasobów" action="#{UrzadzeniaMg.list}"/>
-            <p:menuitem value="Lista dokumentów" action="#{URejDokMg.list}"/>
-            <p:menuitem value="Raport stanów" action="#{UGrupaMg.raport1}"/>
+            <p:menuitem value="Lista zasobów" action="#{UrzadzeniaMg.list}" ajax="false"/>
+            <p:menuitem value="Lista dokumentów" action="#{URejDokMg.list}" ajax="false"/>
+            <p:menuitem value="Raport stanów" action="#{UGrupaMg.raport1}" ajax="false"/>
 
             <p:submenu label="Konfiguracja" rendered="#{login.umCfg}">
-                <p:menuitem value="Master Grupy" action="#{UMasterMg.list}"/>
-                <p:menuitem value="Grupy" action="#{UGrupaMg.list}"/>
-                <p:menuitem value="Drzewo" action="#{UStruktMg.list}"/>
+                <p:menuitem value="Master Grupy" action="#{UMasterMg.list}" ajax="false"/>
+                <p:menuitem value="Grupy" action="#{UGrupaMg.list}" ajax="false"/>
+                <p:menuitem value="Drzewo" action="#{UStruktMg.list}" ajax="false"/>
             </p:submenu>
         </p:submenu>
 
         <p:submenu style="width: 145px" label="Struktura Org." rendered="#{login.struktura}">
-            <p:menuitem value="Nowy pracownik" action="#{UsersM.nowy}"/>
+            <p:menuitem value="Nowy pracownik" action="#{UsersM.nowy}" ajax="false"/>
             <p:menuitem value="Lista pracowników" action="#{UsersM.lista}" ajax="false"/>
-            <p:menuitem value="Struktura osobowa" action="#{StruktOsM.lista}"/>
-            <p:menuitem value="Struktura działów" action="#{StruktDzialM.lista}"/>
+            <p:menuitem value="Struktura osobowa" action="#{StruktOsM.lista}" ajax="false"/>
+            <p:menuitem value="Struktura działów" action="#{StruktDzialM.lista}" ajax="false"/>
         </p:submenu>
 
         <p:submenu style="width: 145px" label="Obsługa urlopów" rendered="#{login.urlop}">
-            <p:menuitem value="Twoje wnioski" action="#{UrlopM.list}"/>
-            <p:menuitem value="Wnioski do akceptacji" action="#{UrlopM.listPodwl}" rendered="#{login.zalogowany.stKier or fn:length(login.zalogowany.userId.strukturaSec)>0}"/>
-            <p:menuitem value="Historia wniosków" action="#{UrlopM.listPodwlHist}" rendered="#{login.zalogowany.stKier}"/>
-            <p:menuitem value="Obce wnioski" action="#{UrlopObceM.list}" rendered="#{login.zalogowany.przyjmowanieWnioskow}"/>
-            <p:menuitem value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin}"/>
+            <p:menuitem value="Twoje wnioski" action="#{UrlopM.list}" ajax="false"/>
+            <p:menuitem value="Wnioski do akceptacji" action="#{UrlopM.listPodwl}" rendered="#{login.zalogowany.stKier or fn:length(login.zalogowany.userId.strukturaSec)>0}" ajax="false"/>
+            <p:menuitem value="Historia wniosków" action="#{UrlopM.listPodwlHist}" rendered="#{login.zalogowany.stKier}" ajax="false"/>
+            <p:menuitem value="Obce wnioski" action="#{UrlopObceM.list}" rendered="#{login.zalogowany.przyjmowanieWnioskow}" ajax="false"/>
+            <p:menuitem value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin}" ajax="false"/>
         </p:submenu>
 
         <p:submenu label="Inne">
-            <p:menuitem value="Repozytorium dokumentów" action="#{RepozytMg.list}"/>
-            <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}"/>
+            <p:menuitem value="Repozytorium dokumentów" action="#{RepozytMg.list}" ajax="false"/>
+            <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}" ajax="false"/>
             <p:menuitem value="Zmiana hasła" action="#{login.htmlZmianaHasla}" 
-                        rendered="#{(login.zalogowany.userId.extId=='' or fn:contains(login.zalogowany.userId.extId, '@') or fn:contains(login.zalogowany.userId.extId, 'FN')) and login.zalogowany!=null}"/>
-            <p:menuitem value="Zarządzanie spółkami" action="#{SpolkiMg.list}" rendered="#{login.admin}"/>
-            <p:menuitem value="Ustaw swojego zastępcę" action="#{UsersM.ustawZastepce}"  rendered="#{login.kierownik}"/>
+                        rendered="#{(login.zalogowany.userId.extId=='' or fn:contains(login.zalogowany.userId.extId, '@') or fn:contains(login.zalogowany.userId.extId, 'FN')) and login.zalogowany!=null}" ajax="false"/>
+            <p:menuitem value="Zarządzanie spółkami" action="#{SpolkiMg.list}" rendered="#{login.admin}" ajax="false"/>
+            <p:menuitem value="Ustaw swojego zastępcę" action="#{UsersM.ustawZastepce}"  rendered="#{login.kierownik}" ajax="false"/>
             <p:menuitem rendered="#{fn:length(login.zalogowany.userId.wnLimity.ulimit)!=0}">
                 Dostępny urlop:<br/>
                 <strong>#{login.zalogowany.userId.wnLimity.ulimit}</strong>
             </p:menuitem>
         </p:submenu>
 
-        <p:menuitem style="background-color: #C1DFFF" value="Wyjście" url="../logowanie/logout.jsp"/>
+        <p:menuitem style="background-color: #C1DFFF" value="Wyjście" url="../logowanie/logout.jsp" ajax="false"/>
         <p:menuitem style="font-size: smaller; font-weight: bolder">
             Zalogowany jako: #{login.zalogowany.userId.fullname}, spółka: #{login.zalogowany.userId.spolkaId.nazwa}
         </p:menuitem>
