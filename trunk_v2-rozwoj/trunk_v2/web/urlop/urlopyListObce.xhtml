@@ -23,8 +23,8 @@
             </a4j:jsFunction>
 
             <h:form>
-                <a4j:outputPanel id="formWprow" layout="block">
-                    <h:panelGrid columns="3" id="form">
+                <a4j:outputPanel id="formWprow" layout="block" style="margin: auto; width: 800px;">
+                    <h:panelGrid columns="3" id="form" width="auto">
                         <h:outputLabel for="name" value="Imię i nazwisko: "/>
                         <h:selectOneMenu id="name" value="#{UrlopObceM.urlop.uzytkownik}" converter="#{UzytkownikConv}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>

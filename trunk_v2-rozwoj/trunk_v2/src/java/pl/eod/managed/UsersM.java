@@ -35,10 +35,6 @@ import pl.eod.encje.Uzytkownik;
 import pl.eod.encje.UzytkownikJpaController;
 import pl.eod.encje.exceptions.NonexistentEntityException;
 
-/**
- *
- * @author 103039
- */
 @ManagedBean(name = "UsersM")
 @SessionScoped
 public class UsersM implements Serializable {
@@ -65,6 +61,7 @@ public class UsersM implements Serializable {
     private Map<String, String> filterValues = Maps.newHashMap();
     private Map<String, SortOrder> sortOrders = Maps.newHashMapWithExpectedSize(1);
     private StrukturaDataModel dataModel;
+    List<Struktura> dataModelPF = new ArrayList<>();
     private KomKolejkaJpaController KomKolC;
     String error;
 
@@ -76,6 +73,7 @@ public class UsersM implements Serializable {
         urC = new UserRolesJpaController();
         login.refresh();
         dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
+        dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturaList();
         users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
         sortOrders.put("userId.fullname", SortOrder.descending);
         KomKolC = new KomKolejkaJpaController();
@@ -359,7 +357,6 @@ public class UsersM implements Serializable {
     }
 
     public Object getDataModel() {
-        //return new StrukturaDataModel();
         return dataModel;
     }
 
@@ -378,4 +375,13 @@ public class UsersM implements Serializable {
     public void setSortOrders(Map<String, SortOrder> sortOrders) {
         this.sortOrders = sortOrders;
     }
+
+    public List<Struktura> getDataModelPF() {
+        return dataModelPF;
+    }
+
+    public void setDataModelPF(List<Struktura> dataModelPF) {
+        this.dataModelPF = dataModelPF;
+    }
+    
 }

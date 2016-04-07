@@ -37,7 +37,7 @@ public class SpolkiJpaController implements Serializable {
 
     public String create(Spolki spolki) {
         if (spolki.getUserList() == null) {
-            spolki.setUserList(new ArrayList<Uzytkownik>());
+            spolki.setUserList(new ArrayList<>());
         }
         Struktura generyk = new StrukturaJpaController().findGeneryczny();
         EntityManager em = null;

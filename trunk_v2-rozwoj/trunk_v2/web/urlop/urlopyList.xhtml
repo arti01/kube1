@@ -16,7 +16,7 @@
             <h2>Twoje wnioski</h2>
             <h:form id="form1">
                 <a4j:outputPanel id="formWprow" layout="block">
-                    <h:panelGrid columns="3" id="form" style="width: auto">
+                    <h:panelGrid columns="3" id="form" style="margin: auto; width: 800px;">
                         <h:outputLabel for="name" value="Imię i nazwisko: "/>
                         <h:inputText id="name" value="#{UrlopM.urlop.uzytkownik.fullname}"  size="50" readonly="true"/>
                         <rich:message for="name" styleClass="error" />
