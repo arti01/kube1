@@ -73,7 +73,7 @@ public class UsersM implements Serializable {
         urC = new UserRolesJpaController();
         login.refresh();
         dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
-        dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturaList();
+        dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
         users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
         sortOrders.put("userId.fullname", SortOrder.descending);
         KomKolC = new KomKolejkaJpaController();
@@ -92,6 +92,7 @@ public class UsersM implements Serializable {
         dzialyAll = dzialC.findDzialEntities(login.zalogowany.getUserId().getSpolkaId());
         kierownicyAll = struktC.getFindKierownicy(login.zalogowany.getUserId().getSpolkaId());
         users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
+        dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
         //System.out.println(struktury.getRowCount()+"initUser");
     }
 

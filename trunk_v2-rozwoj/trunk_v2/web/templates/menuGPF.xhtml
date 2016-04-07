@@ -10,7 +10,7 @@
         <p:menuitem style="background-color: #C1DFFF" value="Start" action="#{login.stronaIndex}" icon="ui-icon-refresh"/>
 
         <p:submenu style="width: 149px" label="Dokumenty">
-            <p:submenu label="konfiguracja" rendered="#{login.dcCfg}">
+            <p:submenu label="Konfiguracja" rendered="#{login.dcCfg}">
                 <p:menuitem value="Grupy rodzajów" action="#{RodzajeGrupyCfg.list}" ajax="false"/>
                 <p:menuitem value="Rodzaje" action="#{RodzajeCfg.list}" ajax="false"/>
                 <p:menuitem value="Teczki" action="#{TeczkiCfg.list}" ajax="false"/>
@@ -19,7 +19,7 @@
                 <p:menuitem value="Kat. arch. w innych komórkach" action="#{SymbMer2Cfg.list}" ajax="false"/>
                 <p:menuitem value="Kontrahenci" action="#{KontrahenciCfg.list}" ajax="false"/>
             </p:submenu>    
-            <p:submenu label="rejestracja" rendered="#{login.dcRej}">
+            <p:submenu label="Rejestracja" rendered="#{login.dcRej}">
                 <p:menuitem value="Emaile" action="#{RejEmaile.list}" ajax="false"/>
                 <p:menuitem value="Poczekalnia" action="#{RejImpPlik.list}" ajax="false"/>
                 <p:menuitem value="Rejestracja" action="#{RejestracjaRej.list}" ajax="false"/>
@@ -28,7 +28,7 @@
                 <p:menuitem value="Wyszukaj" action="#{WyszukajRej.form}" ajax="false"/>
                 <p:menuitem value="Do brakowania" action="#{BrakowanieRej.list}" ajax="false"/>
             </p:submenu>
-            <p:submenu label="odbiór" rendered="#{login.dcOdb}">
+            <p:submenu label="Odbiór" rendered="#{login.dcOdb}">
                 <p:menuitem value="Do akceptacji" action="#{AkceptOdb.list}" ajax="false"/>
                 <p:menuitem value="Historia akceptacji" action="#{HistOdb.list}" ajax="false"/>
                 <p:menuitem value="Do wiadomości" action="#{DoWiadOdb.list}" ajax="false"/>
@@ -52,8 +52,8 @@
         </p:submenu>
 
         <p:submenu style="width: 149px" label="Rezerwacje" expanded="#{login.menuRezerExp}">
-            <p:menuitem value="dodawanie, modyfikacja, podgląd" action="#{RezerwacjeMg.list}" ajax="false"/>
-            <p:menuitem value="mój kalendarz" action="#{RezerMojKalMg.list}" ajax="false"/>
+            <p:menuitem value="Dodawanie, modyfikacja, podgląd" action="#{RezerwacjeMg.list}" ajax="false"/>
+            <p:menuitem value="Mój kalendarz" action="#{RezerMojKalMg.list}" ajax="false"/>
         </p:submenu>
 
         <p:submenu style="width: 149px" label="Zasoby Materiałowe">
@@ -97,7 +97,7 @@
         </p:submenu>
 
         <p:menuitem style="background-color: #C1DFFF" value="Wyjście" url="../logowanie/logout.jsp" ajax="false"/>
-        <p:menuitem style="font-size: smaller; font-weight: bolder">
+        <p:menuitem style="font-size: smaller; font-weight: bolder; margin-left: 50px;">
             Zalogowany jako: #{login.zalogowany.userId.fullname}, spółka: #{login.zalogowany.userId.spolkaId.nazwa}
         </p:menuitem>
 

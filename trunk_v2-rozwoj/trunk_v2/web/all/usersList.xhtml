@@ -18,13 +18,39 @@
                 <p:dataTable value="#{UsersM.dataModelPF}" var="strukt" id="table" editable="true" emptyMessage="brak rekordów">
                     <ui:param name="property" value="fullname" />
                     <ui:param name="propSort" value="userId.fullname" />
-                    <p:column headerText="Imię i nazwisko" style="width:60%" >
+                    <p:column headerText="Imię i nazwisko, email" style="width:60%" sortBy="#{strukt.userId.fullname}" 
+                              filterBy="#{strukt.userId.fullname} #{strukt.userId.adrEmail}" filterMatchMode="contains">
+                        <h:outputText id="nameE" value="#{strukt.userId.fullname} (#{strukt.userId.adrEmail})"/>
+                    </p:column>
+                    <ui:param name="property" value="nazwa" />
+                    <p:column headerText="Dział (symbol)" id="colKier" style="width:30%; text-align: center" sortBy="#{strukt.dzialId.nazwa}"
+                              filterBy="#{strukt.dzialId.symbol} #{strukt.dzialId.nazwa}" filterMatchMode="contains">
+                        <h:outputText id="dzialE" value="#{strukt.dzialId.nazwa}"/>
+                        <br/>
+                        <h:outputText id="dzialES" value="(#{strukt.dzialId.symbol})"/>
+                    </p:column>
+                    <p:column style="width: 45px" headerText="więcej">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:column headerText="akcje" style="width: 95px">
+                        <p:commandButton id="zapisz" title="Edytuj"  action="#{UsersM.edycja}" icon="ui-icon-pencil" style="font-weight: lighter; font-size: smaller;">
+                            <f:setPropertyActionListener target="#{UsersM.strukt}" value="#{strukt}"/>
+                        </p:commandButton>
+                        <p:commandButton title="posiada podwładnych - nie można usunąć" icon="ui-icon-circle-minus"
+                                         rendered="#{fn:length(strukt.bezpPod)>0}" style="font-weight: lighter; font-size: smaller;"/>
+                        <p:commandButton id="usun" title="Usuń" action="#{UsersM.usun}" update="table" style="font-weight: lighter; font-size: smaller;" icon="ui-icon-trash"
+                                         rendered="#{fn:length(strukt.bezpPod)==0}" process="@this">
+                            <f:setPropertyActionListener target="#{UsersM.strukt}" value="#{strukt}"/>
+                            <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                        </p:commandButton>
 
-                        <h:outputText id="nameE" value="#{strukt.userId.fullname}"/>
-                        <h:panelGrid columns="2" style="width:100%;border-spacing:0px;">
-                            <h:outputLabel for="email" value="eMail: "/>
-                            <h:outputText id="email" value="#{strukt.userId.adrEmail}"/>
-
+                        <p:commandButton id="kalendarz" title="Kalendarz" action="#{RezerMojKalMg.listObcy}" immediate="true" icon="ui-icon-calendar" 
+                                         style="font-weight: lighter; font-size: smaller;">
+                            <f:setPropertyActionListener target="#{RezerMojKalMg.uzyt}" value="#{strukt.userId}"/>
+                        </p:commandButton>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:panelGrid columns="2" style="width:100%;border-spacing:0px;" columnClasses="column1, column2">
                             <h:outputLabel for="kierownik" value="Czy kierownik?: "/>
                             <h:selectBooleanCheckbox id="kierownik" value="#{strukt.stKier}" readonly="true"/>
 
@@ -61,29 +87,16 @@
                             <ui:repeat id="roles" value="#{strukt.userId.role}" var="rola">
                                 #{rola.opis},
                             </ui:repeat>
-                        </h:panelGrid>
-                        <h:panelGrid columns="1" rendered="#{fn:length(strukt.bezpPodWidoczni)>0}">
-                            <br/>
-                            Bezpośredni podwładni:
-                            <ul>
-                                <ui:repeat value="#{strukt.bezpPodWidoczni}" var="podwl">
-                                    <li>#{podwl.userId.fullname}</li>
-                                </ui:repeat>
-                            </ul>
-                        </h:panelGrid>
-                    </p:column>
-                    <ui:param name="property" value="nazwa" />
-                    <p:column headerText="Dział (symbol)" id="colKier" style="width:30%; text-align: center" >
-                        <h:outputText id="dzialE" value="#{strukt.dzialId.nazwa}"/>
-                        <br/>
-                        <h:outputText id="dzialES" value="(#{strukt.dzialId.symbol})"/>
-                    </p:column>
 
-                    <p:column headerText="akcje" style="width:13%">
-                        <h:commandLink id="kalendarz" value="[Rezerwacje]"  action="#{RezerMojKalMg.listObcy()}" immediate="true">
-                            <f:setPropertyActionListener target="#{RezerMojKalMg.uzyt}" value="#{strukt.userId}"/>
-                        </h:commandLink>
-                    </p:column>
+                            <h:outputText value="bezpośredni podwładni" rendered="#{fn:length(strukt.bezpPodWidoczni)>0}"/>
+                            <h:panelGroup rendered="#{fn:length(strukt.bezpPodWidoczni)>0}">
+                                <ui:repeat value="#{strukt.bezpPodWidoczni}" var="podwl">
+                                    #{podwl.userId.fullname},
+                                </ui:repeat>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </p:rowExpansion>
+
                 </p:dataTable>
             </p:outputPanel>
         </h:form>

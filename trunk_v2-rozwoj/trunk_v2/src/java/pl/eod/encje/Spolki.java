@@ -5,6 +5,7 @@
 package pl.eod.encje;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -19,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -38,6 +40,7 @@ import pl.eod2.encje.UmMasterGrupa;
     @NamedQuery(name = "Spolki.findByNazwa", query = "SELECT s FROM Spolki s WHERE s.nazwa = :nazwa"),
     @NamedQuery(name = "Spolki.findByOpis", query = "SELECT s FROM Spolki s WHERE s.opis = :opis")})
 public class Spolki implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -66,6 +69,8 @@ public class Spolki implements Serializable {
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "spolkaId", orphanRemoval = false)
     @OrderBy(value = "nazwa ASC")
     private List<UmMasterGrupa> umMasterGrupaList;
+    @Transient
+    private List<Struktura> strukturalist;
 
     public Spolki() {
     }
@@ -151,5 +156,15 @@ public class Spolki implements Serializable {
     public String toString() {
         return "pl.eod.encje.Spolki[ id=" + id + " ]";
     }
-    
+
+    public List<Struktura> getStrukturalist() {
+        strukturalist = new ArrayList<>();
+        for (Uzytkownik u : this.getUserList()) {
+            if (!u.getStruktura().isUsuniety()) {
+                strukturalist.add(u.getStruktura());
+            }
+        }
+        return strukturalist;
+    }
+
 }
