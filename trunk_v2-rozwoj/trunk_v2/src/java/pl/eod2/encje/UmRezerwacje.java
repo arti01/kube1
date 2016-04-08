@@ -28,12 +28,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import pl.eod.abstr.AbstEncja;
 import pl.eod.encje.Uzytkownik;
-import pl.eod2.managedUm.UrzadzeniaMg;
 
-/**
- *
- * @author arti01
- */
 @Entity
 @Table(name = "UM_REZERWACJE")
 @NamedQueries({

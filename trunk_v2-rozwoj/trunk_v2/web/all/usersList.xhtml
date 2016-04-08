@@ -12,19 +12,18 @@
 
     <ui:define name="content">
         <h:form id="center">
+            <p:remoteCommand name="onload" oncomplete="PF('userTable').filter()" autoRun="true" />
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
             <p:outputPanel id="listPanel">
-                <p:dataTable value="#{UsersM.dataModelPF}" var="strukt" id="table" editable="true" emptyMessage="brak rekordów">
-                    <ui:param name="property" value="fullname" />
-                    <ui:param name="propSort" value="userId.fullname" />
-                    <p:column headerText="Imię i nazwisko, email" style="width:60%" sortBy="#{strukt.userId.fullname}" 
-                              filterBy="#{strukt.userId.fullname} #{strukt.userId.adrEmail}" filterMatchMode="contains">
+                <p:dataTable value="#{UsersM.dataModelPF}" var="strukt" id="table" editable="true" emptyMessage="brak rekordów"
+                             paginator="true" rows="10" rowsPerPageTemplate="10,20,50" widgetVar="userTable">
+                    <p:column headerText="Imię i nazwisko, email" sortBy="#{strukt.userId.fullname}" 
+                              filterBy="#{strukt.userId.fullname} #{strukt.userId.adrEmail}" filterMatchMode="contains" filterValue="#{UsersM.filterValues['fullname']}">
                         <h:outputText id="nameE" value="#{strukt.userId.fullname} (#{strukt.userId.adrEmail})"/>
                     </p:column>
-                    <ui:param name="property" value="nazwa" />
-                    <p:column headerText="Dział (symbol)" id="colKier" style="width:30%; text-align: center" sortBy="#{strukt.dzialId.nazwa}"
-                              filterBy="#{strukt.dzialId.symbol} #{strukt.dzialId.nazwa}" filterMatchMode="contains">
+                    <p:column headerText="Dział (symbol)" id="colKier" style="text-align: center" sortBy="#{strukt.dzialId.nazwa}"
+                              filterBy="#{strukt.dzialId.symbol} #{strukt.dzialId.nazwa}" filterMatchMode="contains" filterValue="#{UsersM.filterValues['nazwa']}">
                         <h:outputText id="dzialE" value="#{strukt.dzialId.nazwa}"/>
                         <br/>
                         <h:outputText id="dzialES" value="(#{strukt.dzialId.symbol})"/>

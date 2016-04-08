@@ -29,6 +29,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import pl.eod2.encje.Ogloszenia;
+import pl.eod2.encje.Repozytoria;
 
 /**
  *
@@ -82,6 +83,8 @@ public class Struktura implements Serializable {
     private Integer musZast;
     @ManyToMany(mappedBy = "adresaciList", fetch = FetchType.LAZY)
     private List<Ogloszenia> ogloszeniaList;
+    @ManyToMany(mappedBy = "uczestnikList", fetch = FetchType.LAZY)
+    private List<Repozytoria> repozytoriaList;
     @Transient
     List<Struktura> bezpPodzPodwlad;
     @Transient
@@ -330,11 +333,7 @@ public class Struktura implements Serializable {
 
     public boolean isMusZast() {
         boolean wynik;
-        if (this.musZast==null||this.musZast != 0) {
-            wynik = false;
-        } else {
-            wynik = true;
-        }
+        wynik = !(this.musZast==null||this.musZast != 0);
         return wynik;
     }
 
@@ -352,6 +351,14 @@ public class Struktura implements Serializable {
 
     public void setOgloszeniaList(List<Ogloszenia> ogloszeniaList) {
         this.ogloszeniaList = ogloszeniaList;
+    }
+
+    public List<Repozytoria> getRepozytoriaList() {
+        return repozytoriaList;
+    }
+
+    public void setRepozytoriaList(List<Repozytoria> repozytoriaList) {
+        this.repozytoriaList = repozytoriaList;
     }
 
     @Override

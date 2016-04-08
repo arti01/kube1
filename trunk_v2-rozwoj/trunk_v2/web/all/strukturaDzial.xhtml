@@ -28,7 +28,7 @@
                                 <h:outputText value=" (#{strukt.dzialId.symbol})"/>
                                 <h:commandLink action="#{UsersM.listaFiltr}" value="(edytuj)">
                                     <f:setPropertyActionListener target="#{UsersM.filterValues['fullname']}" value="#{null}"/>
-                                    <f:setPropertyActionListener target="#{UsersM.filterValues['nazwa']}" value="#{strukt.dzialId}"/>
+                                    <f:setPropertyActionListener target="#{UsersM.filterValues['nazwa']}" value="#{strukt.dzialId.nazwa}"/>
                                 </h:commandLink>
                             </rich:treeNode>
                         </rich:treeModelAdaptor>

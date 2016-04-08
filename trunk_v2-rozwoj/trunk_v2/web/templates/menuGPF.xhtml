@@ -84,7 +84,9 @@
         </p:submenu>
 
         <p:submenu label="Inne">
-            <p:menuitem value="Repozytorium dokumentów" action="#{RepozytMg.list}" ajax="false"/>
+            <p:submenu label="Repozytorium dokumentów">
+                <p:menuitem value="Wspólne" action="#{RepozytMg.list}" ajax="false"/>
+            </p:submenu>
             <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}" ajax="false"/>
             <p:menuitem value="Zmiana hasła" action="#{login.htmlZmianaHasla}" 
                         rendered="#{(login.zalogowany.userId.extId=='' or fn:contains(login.zalogowany.userId.extId, '@') or fn:contains(login.zalogowany.userId.extId, 'FN')) and login.zalogowany!=null}" ajax="false"/>
