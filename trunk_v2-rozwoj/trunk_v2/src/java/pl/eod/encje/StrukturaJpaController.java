@@ -301,13 +301,9 @@ public class StrukturaJpaController implements Serializable {
                     }
                 }
             }
-            
             em.getTransaction().begin();
-            System.err.println(struktura.getDzialId().getNazwa());
             em.merge(struktura);
-            /*if (struktura.isStKier() == true && oldStruktura.isStKier() == false) {
-             em.merge(struktura.getDzialId());   
-             }*/
+            
             em.getTransaction().commit();
 
             if (struktura.getSzefId() != null) {

@@ -8,8 +8,10 @@ package pl.eod2.encje;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,7 +48,7 @@ public class Repozytoria extends AbstEncja implements Serializable {
     @Column(name = "sciezka", nullable = false, length = 256, unique = true)
     private String sciezka;
     
-    @ManyToMany()
+    @ManyToMany(mappedBy = "repozytoriaList", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Struktura> strukturaList;
     
     @Override

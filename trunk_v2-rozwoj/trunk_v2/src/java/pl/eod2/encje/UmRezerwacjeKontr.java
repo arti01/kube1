@@ -8,10 +8,8 @@ package pl.eod2.encje;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import pl.eod.abstr.AbstKontroler;
-import pl.eod.encje.WnUrlop;
 
 public class UmRezerwacjeKontr extends AbstKontroler<UmRezerwacje> {
 

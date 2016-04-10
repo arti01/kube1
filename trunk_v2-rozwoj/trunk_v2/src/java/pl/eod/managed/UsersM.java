@@ -22,6 +22,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import org.richfaces.component.SortOrder;
+import org.richfaces.fragment.select.Select;
 import pl.eod.encje.Dzial;
 import pl.eod.encje.DzialJpaController;
 import pl.eod.encje.KomKolejka;
@@ -66,7 +67,7 @@ public class UsersM implements Serializable {
     String error;
 
     @PostConstruct
-    public void init()  {
+    public void init() {
         userC = new UzytkownikJpaController();
         struktC = new StrukturaJpaController();
         dzialC = new DzialJpaController();
@@ -124,10 +125,10 @@ public class UsersM implements Serializable {
     }
 
     public String ustawZastepceZapisz() throws NonexistentEntityException, Exception {
-        boolean czyWyslac=strukt.getSecUserId() != null;
-        String adresMail="";
-        if(czyWyslac) {
-            adresMail=strukt.getSecUserId().getAdrEmail();
+        boolean czyWyslac = strukt.getSecUserId() != null;
+        String adresMail = "";
+        if (czyWyslac) {
+            adresMail = strukt.getSecUserId().getAdrEmail();
         }
         zapisz();
         if (error == null) {
@@ -187,12 +188,6 @@ public class UsersM implements Serializable {
     }
 
     public String zapisz() throws NonexistentEntityException, Exception {
-        //pozostają role nieedytowalne
-       /* System.err.println(rolesKlon);
-         System.err.println(strukt.getUserId().getRole());
-         System.err.println(roleAll);*/
-
-
         //obsluga dla readonly roli w formularzu
         if (!strukt.getUserId().getRole().equals(rolesKlon) && rolesKlon != null) {
             rolesKlon.removeAll(roleAll);
@@ -202,7 +197,6 @@ public class UsersM implements Serializable {
         error = struktC.editArti(strukt);
         if (error == null) {
             initUser();
-            //error = "Zmiana wykonana";
             return "/all/usersList?faces-redirect=true";
         }
         FacesMessage message = new FacesMessage(error);
@@ -265,6 +259,21 @@ public class UsersM implements Serializable {
                 strukt.getDzialId().setSymbol("");
             }
         }
+    }
+
+    public List<Uzytkownik> uzytkownicyAucoComp(String query) {
+        query = query.toLowerCase();
+        List<Uzytkownik> wynik = new ArrayList<>();
+        for (Uzytkownik u : users) {
+            if (u.getAdrEmail().toLowerCase().contains(query) || u.getFullname().toLowerCase().contains(query)) {
+                wynik.add(u);
+            }
+        }
+        System.err.println(user);
+        System.err.println(wynik);
+        wynik.remove(strukt.getUserId());
+        System.err.println(wynik);
+        return wynik;
     }
 
     public List<Uzytkownik> getUsers() {
@@ -384,5 +393,5 @@ public class UsersM implements Serializable {
     public void setDataModelPF(List<Struktura> dataModelPF) {
         this.dataModelPF = dataModelPF;
     }
-    
+
 }

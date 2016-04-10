@@ -83,16 +83,18 @@
                             <h:outputText id="extraemail" value="#{strukt.extraemail}"/>
 
                             <h:outputLabel for="roles" value="uprawnienia:"/>
-                            <ui:repeat id="roles" value="#{strukt.userId.role}" var="rola">
-                                #{rola.opis},
-                            </ui:repeat>
+                            <p:panelGrid columns="4">
+                                <ui:repeat id="roles" value="#{strukt.userId.role}" var="rola">
+                                    #{rola.opis},
+                                </ui:repeat>
+                            </p:panelGrid>
 
                             <h:outputText value="bezpośredni podwładni" rendered="#{fn:length(strukt.bezpPodWidoczni)>0}"/>
-                            <h:panelGroup rendered="#{fn:length(strukt.bezpPodWidoczni)>0}">
+                            <p:panelGrid columns="4" rendered="#{fn:length(strukt.bezpPodWidoczni)>0}">
                                 <ui:repeat value="#{strukt.bezpPodWidoczni}" var="podwl">
                                     #{podwl.userId.fullname},
                                 </ui:repeat>
-                            </h:panelGroup>
+                            </p:panelGrid>
                         </p:panelGrid>
                     </p:rowExpansion>
 

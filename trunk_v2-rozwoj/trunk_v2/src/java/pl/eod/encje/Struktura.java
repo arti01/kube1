@@ -83,7 +83,7 @@ public class Struktura implements Serializable {
     private Integer musZast;
     @ManyToMany(mappedBy = "adresaciList", fetch = FetchType.LAZY)
     private List<Ogloszenia> ogloszeniaList;
-    @ManyToMany(mappedBy = "strukturaList", fetch = FetchType.LAZY)
+    @ManyToMany()
     private List<Repozytoria> repozytoriaList;
     @Transient
     List<Struktura> bezpPodzPodwlad;
