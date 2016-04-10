@@ -94,7 +94,7 @@
         <display-name>Eod</display-name>
         <web-resource-collection>
             <web-resource-name>eod</web-resource-name>
-            <url-pattern>*.xhtml</url-pattern>
+            <url-pattern>/logowanie/*</url-pattern>
             <http-method>DELETE</http-method>
             <http-method>GET</http-method>
             <http-method>POST</http-method>

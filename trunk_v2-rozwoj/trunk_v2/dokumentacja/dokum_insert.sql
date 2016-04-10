@@ -14,6 +14,7 @@ INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (8, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (9, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (10, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (11, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (12, 3);
 
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (5, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (6, 2);
@@ -22,6 +23,7 @@ INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (8, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (9, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (10, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (11, 2);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (12, 2);
 
 INSERT INTO dc_typ_flow (id, nazwa, opis ) VALUES (1, 'akceptacje', 'dokument podlegający procesowi akceptacji');
 INSERT INTO dc_typ_flow (id, nazwa, opis ) VALUES (2, 'informacje', 'dokument do zapoznania się i ewentualnie potwierdzenia');

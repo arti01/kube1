@@ -53,7 +53,7 @@
 
         <p:submenu style="width: 149px" label="Rezerwacje" expanded="#{login.menuRezerExp}">
             <p:menuitem value="Dodawanie, modyfikacja, podgląd" action="#{RezerwacjeMg.list}" ajax="false"/>
-            <p:menuitem value="Mój kalendarz" action="#{RezerMojKalMg.list}" ajax="false"/>
+            <p:menuitem value="Kalendarze użytkowików" action="#{RezerMojKalMg.list}" ajax="false"/>
         </p:submenu>
 
         <p:submenu style="width: 149px" label="Zasoby Materiałowe">
@@ -83,9 +83,10 @@
             <p:menuitem value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin}" ajax="false"/>
         </p:submenu>
 
-        <p:submenu label="Inne">
-            <p:submenu label="Repozytorium dokumentów">
+        <p:submenu label="Inne funkcje">
+            <p:submenu label="Repozytoria dokumentów">
                 <p:menuitem value="Wspólne" action="#{RepozytMg.list}" ajax="false"/>
+                <p:menuitem value="Dedykowane" action="#{RepozytMg.inne}" ajax="false"/>
             </p:submenu>
             <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}" ajax="false"/>
             <p:menuitem value="Zmiana hasła" action="#{login.htmlZmianaHasla}" 
@@ -99,9 +100,6 @@
         </p:submenu>
 
         <p:menuitem style="background-color: #C1DFFF" value="Wyjście" url="../logowanie/logout.jsp" ajax="false"/>
-        <p:menuitem style="font-size: smaller; font-weight: bolder; margin-left: 50px;">
-            Zalogowany jako: #{login.zalogowany.userId.fullname}, spółka: #{login.zalogowany.userId.spolkaId.nazwa}
-        </p:menuitem>
 
     </p:menubar>
     <h:panelGroup rendered="#{fn:length(login.menuLinki)>0}">

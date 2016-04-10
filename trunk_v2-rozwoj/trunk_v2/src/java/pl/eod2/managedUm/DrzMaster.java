@@ -19,7 +19,7 @@ import pl.eod2.encje.UmMasterGrupa;
 public class DrzMaster extends NamedNode<UmMasterGrupa> implements TreeNode {
 
     private static final long serialVersionUID = 1L;
-    private List<DrzGrupa> drzGrupa = new ArrayList<DrzGrupa>();
+    private List<DrzGrupa> drzGrupa = new ArrayList<>();
 
     public DrzMaster(UmMasterGrupa obiektDb) {
         super(obiektDb);

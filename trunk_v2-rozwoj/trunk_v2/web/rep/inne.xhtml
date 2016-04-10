@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="tytul">
+        <h3>Dedykowane repozytoria</h3>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="center">
+            <p:dataGrid var="inneRoot" value="#{RepozytMg.inneRoot}" columns="3" layout="grid">
+
+                <p:tree value="#{inneRoot}" var="node" dynamic="true" style="width: 97%; background-color: white;" selectionMode="single">
+                    <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                        <h:outputText value="#{node.shortName}" />
+                    </p:treeNode>
+                    <p:treeNode type="file" icon="ui-icon-document">
+                        <p:commandLink ajax="false">
+                            <f:setPropertyActionListener target="#{fileUploadBean.plikDownl}" value="#{node.fullPath}" />
+                            <f:setPropertyActionListener target="#{fileUploadBean.plikDownlName}" value="#{node.shortName}" />
+                            <h:outputText value="#{node.shortName}" />
+                            <p:fileDownload value="#{fileUploadBean.file}"/>
+                        </p:commandLink>
+                    </p:treeNode>
+                </p:tree>
+                
+            </p:dataGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

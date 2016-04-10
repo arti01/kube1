@@ -1,6 +1,5 @@
 package pl.eod2.plikiUpload;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import org.richfaces.event.FileUploadEvent;
@@ -10,15 +9,11 @@ import javax.faces.bean.SessionScoped;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -27,7 +22,6 @@ import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 import pl.eod2.managedRej.ImpPlik;
 import pl.eod2.managedRej.Rejestracja;
-import pl.eod2.managedRep.RepozytMg;
 
 /**
  * @author Ilya Shaikovsky

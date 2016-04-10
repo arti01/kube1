@@ -3,7 +3,8 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns="http://www.w3.org/1999/xhtml"
-                template="../templates/template_login.xhtml">
+                template="../templates/template_login.xhtml"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
         <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
@@ -24,6 +25,12 @@
                             <td colspan="2"><input type="submit" value="Zaloguj" class="przycisk" /></td>
                         </tr>
                     </table>
+                </form>
+                <br/>
+                <form method="POST" name="" action="#{RepozytMg.listBezLogin()}">
+                    <p:panel>
+                        <input type="submit" value="wspólne repozytorium plików"/>
+                    </p:panel>
                 </form>
             </center>
         </div>
