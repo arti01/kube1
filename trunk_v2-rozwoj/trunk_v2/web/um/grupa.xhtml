@@ -29,6 +29,13 @@
                     <p:inputTextarea id="opisD" value="#{UGrupaMg.obiekt.opis}" cols="90"/>
                     <p:message for="opisD" />
 
+                    <p:outputLabel for="rezerD" value="czy obsługuje rezerwacje: "/>
+                    <p:selectOneButton id="rezerD" value="#{UGrupaMg.obiekt.rezerwacje}">
+                        <f:selectItem itemLabel="TAK" itemValue="#{true}" />
+                        <f:selectItem itemLabel="NIE" itemValue="#{false}" />
+                    </p:selectOneButton>
+                    <p:message for="rezerD" />
+
                     <p:commandButton id="dodaj" value="Dodaj" action="#{UGrupaMg.dodaj}" process=":center:dodPanel" update=":center:listPanel, :center:dodPanel, :infoForm:messages"/>
                     <p:commandButton value="Reset" actionListener="#{UGrupaMg.refresh}" immediate="true" ajax="false" style="margin-right:20px;">
                         <p:resetInput target="dodPanel" />
@@ -58,16 +65,30 @@
                     </p:column>
                     <p:column headerText="master grupa" sortBy="#{item.masterGrp.nazwa}" filterBy="#{item.masterGrp.nazwa}">
                         <p:cellEditor>
-                        <f:facet name="output"><p:outputLabel value="#{item.masterGrp.nazwa}"/></f:facet>
-                        <f:facet name="input">
-                            <p:selectOneMenu value="#{item.masterGrp}" converter="#{UmMasterGrpConv}">
-                                <f:selectItems value="#{UMasterMg.lista}" var="mast" itemLabel="#{mast.nazwa}" itemValue="#{mast}"/>
-                            </p:selectOneMenu>
-                            <p:message for="modelInput"/>
-                        </f:facet>
+                            <f:facet name="output"><p:outputLabel value="#{item.masterGrp.nazwa}"/></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{item.masterGrp}" converter="#{UmMasterGrpConv}">
+                                    <f:selectItems value="#{UMasterMg.lista}" var="mast" itemLabel="#{mast.nazwa}" itemValue="#{mast}"/>
+                                </p:selectOneMenu>
+                                <p:message for="modelInput"/>
+                            </f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column headerText="zasoby">
+                    <p:column headerText="rezerwacje Tak/Nie">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <p:outputLabel value="TAK" rendered="#{item.rezerwacje}"/>
+                                <p:outputLabel value="NIE" rendered="#{!item.rezerwacje}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneButton value="#{item.rezerwacje}">
+                                    <f:selectItem itemLabel="TAK" itemValue="#{true}" />
+                                    <f:selectItem itemLabel="NIE" itemValue="#{false}" />
+                                </p:selectOneButton>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="zasoby" style="width: 30px">
                         <p:rowToggler/>
                     </p:column>
                     <p:rowExpansion>

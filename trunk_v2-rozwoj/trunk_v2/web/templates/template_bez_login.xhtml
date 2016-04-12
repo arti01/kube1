@@ -67,6 +67,9 @@
                     <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">
                         <p:button outcome="../logowanie/index.xhtml" value="Wyjdź" icon="ui-icon-extlink"/>
                     </p:dialog>
+                    <p:menubar>
+                        <p:menuitem style="background-color: #C1DFFF" value="Wyjście" url="../logowanie/logout.jsp" ajax="false"/>
+                    </p:menubar>
                 </h:form>
                 <ui:insert name="tytul"/>
                 <ui:insert name="content">Put default content here, if any.</ui:insert>
