@@ -45,7 +45,7 @@
             </p:fieldset>
 
             <p:outputPanel id="listPanel">
-                <p:dataTable value="#{UGrupaMg.lista}" var="item" id="tableRodzaj" editable="true" emptyMessage="brak rekordów">
+                <p:dataTable value="#{UGrupaMg.lista}" var="item" id="tableRodzaj" editable="true" emptyMessage="brak rekordów" widgetVar="tableRodzaj">
                     <p:ajax event="rowEdit" listener="#{UGrupaMg.editList}" update=":infoForm:messages" process="tableRodzaj"/>
                     <p:column headerText="nazwa" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}" filterMatchMode="contains">
                         <p:cellEditor id="celEdit">
@@ -74,7 +74,15 @@
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column headerText="rezerwacje Tak/Nie">
+                    <p:column headerText="rezerwacje Tak/Nie" filterBy="#{item.rezerwacje}" filterMatchMode="equals" style="width: 200px;text-align:center !important;">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('tableRodzaj').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="wszystko" itemValue="" />
+                                <f:selectItem itemLabel="tak" itemValue="true" />
+                                <f:selectItem itemLabel="nie" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
                         <p:cellEditor>
                             <f:facet name="output">
                                 <p:outputLabel value="TAK" rendered="#{item.rezerwacje}"/>
@@ -92,12 +100,12 @@
                         <p:rowToggler/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:dataList value="#{item.urzadzenieList}" var="urz" type="ordered" emptyMessage="brak grup">
+                        <p:dataList value="#{item.urzadzenieList}" var="urz" type="ordered" emptyMessage="brak zasobów">
                             #{urz.nazwa}
                         </p:dataList>
                     </p:rowExpansion>
 
-                    <p:column style="width: 30px">
+                    <p:column style="width: 30px" headerText="edycja">
                         <p:rowEditor editTitle="edytuj"/>
                     </p:column>
                     <p:column style="width: 30px">

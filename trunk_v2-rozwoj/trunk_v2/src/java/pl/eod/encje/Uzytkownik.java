@@ -34,7 +34,6 @@ import pl.eod2.encje.DcAkceptKroki;
 import pl.eod2.encje.DcDokDoWiadCel;
 import pl.eod2.encje.DcDokDoWiadomosci;
 import pl.eod2.encje.DcDokument;
-import pl.eod2.encje.DcDokumentArchDod;
 import pl.eod2.encje.DcDokumentKrokUzytkownik;
 import pl.eod2.encje.Ogloszenia;
 import pl.eod2.encje.UmRezerwacje;
@@ -137,7 +136,11 @@ public class Uzytkownik implements Serializable {
     private List<UmRezerwacje> rezerwacjeList;
     @ManyToMany(mappedBy = "uczestnikList", fetch = FetchType.LAZY)
     private List<UmRezerwacje> rezUczestnikList;
-    
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "tworca", orphanRemoval = false, fetch = FetchType.LAZY)
+    @OrderBy(value = "dataOd DESC")
+    private List<UmRezerwacje> kalendarzList;
+    @ManyToMany(mappedBy = "uczestnikList", fetch = FetchType.LAZY)
+    private List<UmRezerwacje> kalendUczestnikList;
     
     //@OneToMany(cascade = CascadeType.MERGE, mappedBy = "wydal", orphanRemoval = false, fetch = FetchType.LAZY)
     //@OrderBy(value = "id DESC")
@@ -420,15 +423,22 @@ public class Uzytkownik implements Serializable {
         this.rezUczestnikList = rezUczestnikList;
     }
 
-    /*
-    public List<DcDokumentArchDod> getDokArchDodList() {
-        return dokArchDodList;
+    public List<UmRezerwacje> getKalendarzList() {
+        return kalendarzList;
     }
 
-    public void setDokArchDodList(List<DcDokumentArchDod> dokArchDodList) {
-        this.dokArchDodList = dokArchDodList;
+    public void setKalendarzList(List<UmRezerwacje> kalendarzList) {
+        this.kalendarzList = kalendarzList;
     }
-*/
+
+    public List<UmRezerwacje> getKalendUczestnikList() {
+        return kalendUczestnikList;
+    }
+
+    public void setKalendUczestnikList(List<UmRezerwacje> kalendUczestnikList) {
+        this.kalendUczestnikList = kalendUczestnikList;
+    }
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
