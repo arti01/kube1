@@ -35,6 +35,7 @@ import pl.eod2.encje.DcDokDoWiadCel;
 import pl.eod2.encje.DcDokDoWiadomosci;
 import pl.eod2.encje.DcDokument;
 import pl.eod2.encje.DcDokumentKrokUzytkownik;
+import pl.eod2.encje.Kalendarz;
 import pl.eod2.encje.Ogloszenia;
 import pl.eod2.encje.UmRezerwacje;
 import pl.eod2.encje.UmUrzadzenie;
@@ -138,9 +139,9 @@ public class Uzytkownik implements Serializable {
     private List<UmRezerwacje> rezUczestnikList;
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "tworca", orphanRemoval = false, fetch = FetchType.LAZY)
     @OrderBy(value = "dataOd DESC")
-    private List<UmRezerwacje> kalendarzList;
+    private List<Kalendarz> kalendarzList;
     @ManyToMany(mappedBy = "uczestnikList", fetch = FetchType.LAZY)
-    private List<UmRezerwacje> kalendUczestnikList;
+    private List<Kalendarz> kalendUczestnikList;
     
     //@OneToMany(cascade = CascadeType.MERGE, mappedBy = "wydal", orphanRemoval = false, fetch = FetchType.LAZY)
     //@OrderBy(value = "id DESC")
@@ -423,19 +424,19 @@ public class Uzytkownik implements Serializable {
         this.rezUczestnikList = rezUczestnikList;
     }
 
-    public List<UmRezerwacje> getKalendarzList() {
+    public List<Kalendarz> getKalendarzList() {
         return kalendarzList;
     }
 
-    public void setKalendarzList(List<UmRezerwacje> kalendarzList) {
+    public void setKalendarzList(List<Kalendarz> kalendarzList) {
         this.kalendarzList = kalendarzList;
     }
 
-    public List<UmRezerwacje> getKalendUczestnikList() {
+    public List<Kalendarz> getKalendUczestnikList() {
         return kalendUczestnikList;
     }
 
-    public void setKalendUczestnikList(List<UmRezerwacje> kalendUczestnikList) {
+    public void setKalendUczestnikList(List<Kalendarz> kalendUczestnikList) {
         this.kalendUczestnikList = kalendUczestnikList;
     }
 

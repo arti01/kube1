@@ -8,7 +8,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="tytul">
-        <h3>Rezerwacje - pokaż dla osób</h3>
+        <h3>Rezerwacje i kalendarze - pokaż dla osób</h3>
     </ui:define>
 
     <ui:define name="content" id="content">
@@ -53,11 +53,15 @@
                 <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="#{6-RezerMojKalMg.number2}" view="#{RezerwacjeMg.viewKal}"
                             locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true" rightHeaderTemplate="">
                     <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog" oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="dateSelect" listener="#{RezerMojKalMg.onDateSelect}" update=":infoForm:messages, :center:dialog" oncomplete="PF('eventDialog').show();"/>
                 </p:schedule>
             </p:panel>
 
-            <p:dialog widgetVar="eventDialog" header="Szczegóły rezerwacji dla #{RezerMojKalMg.obiekt.urzadzenie.nazwa}" showEffect="clip" id="dialog" closable="true">
-                <p:panelGrid id="eventDetails" columns="2">
+            <p:dialog widgetVar="eventDialog" showEffect="clip" id="dialog" closable="true">
+                <p:panelGrid id="eventDetails" columns="2" rendered="#{RezerMojKalMg.typObiekt=='rezer'}">
+                    <p:outputLabel value="Zasób:"/>
+                    <h:outputText value="#{RezerMojKalMg.obiekt.urzadzenie.nazwa}" escape="false"/>
+                    
                     <p:outputLabel value="Nazwa:"/>
                     <h:outputText value="#{RezerMojKalMg.obiekt.nazwa}" escape="false"/>
 
@@ -70,11 +74,59 @@
                     <p:outputLabel value="Twórca:" />
                     <h:outputText value="#{RezerMojKalMg.obiekt.tworca.fullname} #{RezerMojKalMg.obiekt.tworca.adrEmail}"/>
 
-                    <p:outputLabel value="uczestnicy rezerwacji:"/>
+                    <p:outputLabel value="Uczestnicy rezerwacji:"/>
                     <p:dataList value="#{RezerMojKalMg.obiekt.uczestnikList}" var="user" type="ordered" rendered="#{!RezerMojKalMg.event.editable}" emptyMessage="brak" >
                         <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
                     </p:dataList>
                 </p:panelGrid>
+                
+                <p:panelGrid id="eventKal" columns="3" rendered="#{RezerMojKalMg.typObiekt=='calMoj'}">                    
+                    <p:outputLabel for="titleK" value="Nazwa:"/>
+                    <p:inputText id="titleK" value="#{RezerMojKalMg.obiektKal.nazwa}" size='100' rendered="#{RezerMojKalMg.event.editable}"/>
+                    <h:outputText value="#{RezerMojKalMg.obiektKal.nazwa}" rendered="#{!RezerMojKalMg.event.editable}"/>
+                    <p:message for="titleK"/>
+
+                    <p:outputLabel for="fromK" value="Od:" />
+                    <p:calendar id="fromK" value="#{RezerMojKalMg.obiektKal.dataOd}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerMojKalMg.event.editable}"/>
+                    <h:outputText value="#{RezerMojKalMg.obiektKal.dataOd}" rendered="#{!RezerMojKalMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
+                    <p:message for="fromK"/>
+
+                    <p:outputLabel for="toK" value="Do:" />
+                    <p:calendar id="toK" value="#{RezerMojKalMg.obiektKal.dataDo}" pattern="dd/MM/yyyy HH:mm" locale="pl" rendered="#{RezerMojKalMg.event.editable}"/>
+                    <h:outputText value="#{RezerMojKalMg.obiektKal.dataDo}" rendered="#{!RezerMojKalMg.event.editable}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pl"/></h:outputText>
+                    <p:message for="toK"/>
+
+                    <p:outputLabel value="Twórca:" />
+                    <h:outputText value="#{RezerMojKalMg.obiektKal.tworca.fullname} #{RezerMojKalMg.obiekt.tworca.adrEmail}"/>
+                    <p:message for="fromK"/>
+
+                    <p:outputLabel value="uczestnicy rezerwacji:" for="osobyK"/>
+                    <p:autoComplete id="osobyK" multiple="true" value="#{RezerMojKalMg.obiektKal.uczestnikList}" completeMethod="#{RezerMojKalMg.dostepniList}"
+                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}"
+                                    rendered="#{RezerMojKalMg.event.editable}">
+                        <p:ajax event="itemSelect" listener="#{RezerMojKalMg.onAddUsers}"/>
+                        <p:ajax event="itemUnselect" listener="#{RezerMojKalMg.onDelUsers}"/>
+                        <p:column>
+                            <h:outputText value="#{user.fullname}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{user.adrEmail}" />
+                        </p:column>
+                    </p:autoComplete>
+                    <p:dataList value="#{RezerMojKalMg.obiektKal.uczestnikList}" var="user" type="ordered" rendered="#{!RezerMojKalMg.event.editable}" emptyMessage="brak" >
+                        <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
+                    </p:dataList>
+                    <p:message for="osobyK"/>
+
+                    <p:commandButton id="addButtonK" value="Zapisz" action="#{RezerMojKalMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
+                                     update="schedule, :infoForm:messages, :center:eventDetails" rendered="#{RezerMojKalMg.event.editable}" process=":center:dialog"/>
+                    <p:message for="addButtonK"/>
+                    <p:commandButton value="Reset/Wyjdź" immediate="true" actionListener="#{RezerMojKalMg.newObiektKal}" rendered="#{RezerMojKalMg.event.editable}" oncomplete="PF('eventDialog').hide()"
+                                     styleClass="ui-state-disabled">
+                        <p:resetInput target="eventDetails"/>
+                    </p:commandButton>
+                </p:panelGrid>
+                
             </p:dialog> 
         </h:form>
     </ui:define>
