@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -13,12 +12,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.SlideEndEvent;
-import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
@@ -80,9 +76,8 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     @Override
     public void refresh() throws InstantiationException, IllegalAccessException {
         super.refresh();
-        obiektKal=new Kalendarz();
         login.refresh();
-        uzyt=login.getZalogowany().getUserId();
+        System.err.println(eventModel.getEventCount()+"ffffffffffffff");
         ustawSched();
     }
 
@@ -93,6 +88,8 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     }
 
     public String listObcy() throws InstantiationException, IllegalAccessException {
+        System.err.println(uzyt.getAdrEmail());
+        System.err.println(eventModel.getEventCount());
         return super.list();
     }
 
@@ -119,10 +116,10 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
 
     public void addEventObj() throws InstantiationException, IllegalAccessException, NonexistentEntityException, Exception {
         if (event.getId() == null) {
-            obiektKal.setTworca(login.getZalogowany().getUserId());
             DefaultScheduleEvent newEvent = new DefaultScheduleEvent(obiektKal.getNazwa(), obiektKal.getDataOd(), obiektKal.getDataDo(), obiektKal);
+            newEvent.setStyleClass("calMoj");
             eventModel.addEvent(newEvent);
-            if (!dodaj().isEmpty()) {
+            if (!dcCKal.create(obiektKal).isEmpty()) {
                 eventModel.deleteEvent(newEvent);
                 return;
             }
@@ -130,7 +127,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             Date stOd = obiektKal.getDataOd();
             Date stDo = obiektKal.getDataDo();
             String tyt = obiektKal.getNazwa();
-            if (!edytuj().isEmpty()) {
+            if (!dcCKal.edit(obiektKal).isEmpty()) {
                 return;
             }
             event.setTitle(tyt);
@@ -144,7 +141,6 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     public void delEvent(ActionEvent actionEvent) throws IllegalOrphanException, NonexistentEntityException, InstantiationException, IllegalAccessException {
         obiektKal = (Kalendarz) event.getData();
         dcCKal.destroy(obiektKal);
-        refresh();
         eventModel.deleteEvent(event);
     }
 
@@ -152,13 +148,13 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         event = (DefaultScheduleEvent) selectEvent.getObject();
         if (event.getData().getClass().getName().equals(UmRezerwacje.class.getName())) {
             typObiekt = "rezer";
-            obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
+        obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
         } else if (event.getData().getClass().getName().equals(Kalendarz.class.getName())) {
             if (event.isEditable()) {
                 typObiekt = "calMoj";
             } else {
                 typObiekt = "calUczestnik";
-            }
+    }
             obiektKal = dcCKal.findObiekt(((Kalendarz) event.getData()).getId());
         }
     }
@@ -182,32 +178,8 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         usersListSelect.addAll(usersList);
     }
 
-    public void onAddUsers(SelectEvent event) {
-        Uzytkownik u = (Uzytkownik) event.getObject();
-        usersListSelect.remove(u);
-    }
-
-    public void onDelUsers(UnselectEvent event) {
-        Uzytkownik u = (Uzytkownik) event.getObject();
-        usersListSelect.add(u);
-    }
-
     public void onSlideEnd(SlideEndEvent event) {
         number2 = event.getValue();
-    }
-
-    public List<Uzytkownik> dostepniList(String cos) {
-        List<Uzytkownik> wynik = new ArrayList<>();
-        if (obiektKal.getUczestnikList() == null) {
-            obiektKal.setUczestnikList(new ArrayList<>());
-        }
-        for (Uzytkownik u : usersListSelect) {
-            if (u.getAdrEmail().toLowerCase().contains(cos.toLowerCase()) || u.getFullname().toLowerCase().contains(cos.toLowerCase())) {
-                wynik.add(u);
-            }
-        }
-        wynik.remove(login.getZalogowany().getUserId());
-        return wynik;
     }
 
     public Login getLogin() {
@@ -219,6 +191,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     }
 
     public ScheduleModel getEventModel() {
+        System.err.println(eventModel.getEventCount()+"============");
         return eventModel;
     }
 
@@ -280,67 +253,6 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
 
     public void setUsersListSelect(List<Uzytkownik> usersListSelect) {
         this.usersListSelect = usersListSelect;
-    }
-
-    @Override
-    public Map<String, String> edytuj() throws IllegalOrphanException, NonexistentEntityException, Exception {
-        @SuppressWarnings("unchecked")
-        Map<String, String> errorMap = dcCKal.edit(obiektKal);
-        if (!errorMap.isEmpty()) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            //przycisk zapisz/dodaj
-            UIComponent zapisz = UIComponent.getCurrentComponent(context);
-            for (Map.Entry<String, String> entry : errorMap.entrySet()) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, entry.getValue(), entry.getValue());
-                UIComponent input = zapisz.getParent().findComponent(entry.getKey());
-                try {
-                    context.addMessage(input.getClientId(context), message);
-                } catch (NullPointerException e) {
-                    context.addMessage(null, message);
-                    context.addMessage(zapisz.getClientId(context), message);
-                    System.err.println("po migracji na PF wywalic");
-                }
-                lista.setWrappedData(dcCKal.findEntities());
-            }
-        } else {
-            super.refresh();
-            login.refresh();
-            uzyt = login.getZalogowany().getUserId();
-            ustawSched();
-        }
-        return errorMap;
-    }
-
-    @Override
-    public Map<String, String> dodaj() throws InstantiationException, IllegalAccessException {
-        @SuppressWarnings("unchecked")
-        Map<String, String> errorMap = dcCKal.create(obiektKal);
-        if (!errorMap.isEmpty()) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            //przycisk zapisz/dodaj
-            UIComponent zapisz = UIComponent.getCurrentComponent(context);
-            for (Map.Entry<String, String> entry : errorMap.entrySet()) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, entry.getValue(), entry.getValue());
-                UIComponent input = zapisz.getParent().findComponent(entry.getKey());
-                try {
-                    context.addMessage(input.getClientId(context), message);
-                } catch (NullPointerException e) {
-                    context.addMessage(null, message);
-                    System.err.println("po migracji na PF wywalic");
-                }
-            }
-        } else {
-            super.refresh();
-            login.refresh();
-            uzyt = login.getZalogowany().getUserId();
-            ustawSched();
-        }
-        return errorMap;
-    }
-
-    @Override
-    public void newObiekt() {
-        this.obiektKal = new Kalendarz();
     }
 
 }

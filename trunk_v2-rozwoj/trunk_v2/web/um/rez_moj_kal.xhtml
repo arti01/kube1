@@ -61,7 +61,7 @@
                     <p:menuitem value="Edycja"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{RezerMojKalMg.event.editable}"/>
                     <p:menuitem value="Podgląd"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{!RezerMojKalMg.event.editable}"/>
                     <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerMojKalMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();"
-                                rendered="#{RezerMojKalMg.event.editable}" process="@this">
+                                rendered="#{RezerMojKalMg.event.editable}" process="contekstmenu">
                         <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
                     </p:menuitem>
                 </p:menu>
