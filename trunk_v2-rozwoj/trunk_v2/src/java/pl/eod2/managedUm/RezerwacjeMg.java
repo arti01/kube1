@@ -139,11 +139,13 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
             obiekt = new UmRezerwacje();
             obiekt.setNazwa("nowa rezerwacja");
-            obiekt.setDataOd(event.getStartDate());
-            initDate = event.getStartDate();
             Calendar cal = Calendar.getInstance();
+            cal.setTime(event.getStartDate());
+            cal.add(Calendar.HOUR, 6);
+            obiekt.setDataOd(cal.getTime());
+            initDate = event.getStartDate();
             cal.setTime(event.getEndDate());
-            cal.add(Calendar.HOUR, 1);
+            cal.add(Calendar.HOUR, 7);
             obiekt.setDataDo(cal.getTime());
             usersListSelect.clear();
             usersListSelect.addAll(usersList);

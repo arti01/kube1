@@ -52,16 +52,26 @@
             <p:panel id="schedulePanel">
                 <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="#{6-RezerMojKalMg.number2}" view="#{RezerwacjeMg.viewKal}"
                             locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true" rightHeaderTemplate="">
-                    <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog" oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
                     <p:ajax event="dateSelect" listener="#{RezerMojKalMg.onDateSelect}" update=":infoForm:messages, :center:dialog" oncomplete="PF('eventDialog').show();"/>
                 </p:schedule>
             </p:panel>
+            <p:dialog id="contekst" header="wybierz" widgetVar="contekst" resizable="false" styleClass="disable-scroll">
+                <p:menu id="contekstmenu">
+                    <p:menuitem value="Edycja"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{RezerMojKalMg.event.editable}"/>
+                    <p:menuitem value="Podgląd"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{!RezerMojKalMg.event.editable}"/>
+                    <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerMojKalMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();"
+                                rendered="#{RezerMojKalMg.event.editable}" process="@this">
+                        <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                    </p:menuitem>
+                </p:menu>
+            </p:dialog>
 
             <p:dialog widgetVar="eventDialog" showEffect="clip" id="dialog" closable="true">
                 <p:panelGrid id="eventDetails" columns="2" rendered="#{RezerMojKalMg.typObiekt=='rezer'}">
                     <p:outputLabel value="Zasób:"/>
                     <h:outputText value="#{RezerMojKalMg.obiekt.urzadzenie.nazwa}" escape="false"/>
-                    
+
                     <p:outputLabel value="Nazwa:"/>
                     <h:outputText value="#{RezerMojKalMg.obiekt.nazwa}" escape="false"/>
 
@@ -79,7 +89,7 @@
                         <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
                     </p:dataList>
                 </p:panelGrid>
-                
+
                 <p:panelGrid id="eventKal" columns="3" rendered="#{RezerMojKalMg.typObiekt=='calMoj'}">                    
                     <p:outputLabel for="titleK" value="Nazwa:"/>
                     <p:inputText id="titleK" value="#{RezerMojKalMg.obiektKal.nazwa}" size='100' rendered="#{RezerMojKalMg.event.editable}"/>
@@ -100,7 +110,7 @@
                     <h:outputText value="#{RezerMojKalMg.obiektKal.tworca.fullname} #{RezerMojKalMg.obiekt.tworca.adrEmail}"/>
                     <p:message for="fromK"/>
 
-                    <p:outputLabel value="uczestnicy rezerwacji:" for="osobyK"/>
+                    <p:outputLabel value="Uczestnicy terminu:" for="osobyK"/>
                     <p:autoComplete id="osobyK" multiple="true" value="#{RezerMojKalMg.obiektKal.uczestnikList}" completeMethod="#{RezerMojKalMg.dostepniList}"
                                     var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}"
                                     rendered="#{RezerMojKalMg.event.editable}">
@@ -126,7 +136,7 @@
                         <p:resetInput target="eventDetails"/>
                     </p:commandButton>
                 </p:panelGrid>
-                
+
             </p:dialog> 
         </h:form>
     </ui:define>
