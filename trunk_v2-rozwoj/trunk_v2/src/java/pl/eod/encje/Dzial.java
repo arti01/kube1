@@ -84,7 +84,6 @@ public class Dzial implements Serializable {
     }
 
     public void setSymbol(String symbol) {
-        System.err.println(symbol+"setter");
         this.symbol = symbol;
     }
 

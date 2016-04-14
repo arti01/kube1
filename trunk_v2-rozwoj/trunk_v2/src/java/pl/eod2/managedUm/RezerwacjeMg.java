@@ -112,7 +112,8 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             //Może edytować osoba z prawami rezerwacji, tworca lub zastępca            
             ev.setEditable(rez.getTworca().equals(login.isUmRez()) || rez.getTworca().equals(login.getZalogowany().getUserId())
-                    || rez.getTworca().equals(login.getZalogowany().getSecUserId()));
+                    || rez.getTworca().equals(login.getZalogowany().getSecUserId())
+            );
             if(!ev.isEditable()){
                 ev.setStyleClass("rezUczestnik");
             }

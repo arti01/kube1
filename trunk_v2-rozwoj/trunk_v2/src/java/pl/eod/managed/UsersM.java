@@ -269,10 +269,7 @@ public class UsersM implements Serializable {
                 wynik.add(u);
             }
         }
-        System.err.println(user);
-        System.err.println(wynik);
         wynik.remove(strukt.getUserId());
-        System.err.println(wynik);
         return wynik;
     }
 
