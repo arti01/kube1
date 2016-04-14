@@ -62,7 +62,7 @@ public class Kalendarz extends AbstEncja implements Serializable {
     @JoinColumn(nullable = false)
     private Uzytkownik tworca;
     
-    @ManyToMany()
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Uzytkownik> uczestnikList;
 
     @Override

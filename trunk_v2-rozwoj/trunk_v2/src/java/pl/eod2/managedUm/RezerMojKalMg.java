@@ -15,17 +15,18 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.SlideEndEvent;
+import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
 import pl.eod.abstr.AbstMg;
 import pl.eod.encje.Uzytkownik;
+import pl.eod.encje.UzytkownikJpaController;
 import pl.eod.managed.Login;
 import pl.eod2.encje.Kalendarz;
 import pl.eod2.encje.KalendarzKontr;
 import pl.eod2.encje.UmRezerwacje;
 import pl.eod2.encje.UmRezerwacjeKontr;
-import pl.eod2.encje.UmUrzadzenie;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 
@@ -48,6 +49,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     private List<Uzytkownik> usersList;
     private List<Uzytkownik> usersListSelect;
     private final KalendarzKontr dcCKal = new KalendarzKontr();
+    private final UzytkownikJpaController userC = new UzytkownikJpaController();
 
     public RezerMojKalMg() throws InstantiationException, IllegalAccessException {
         super("/um/rez_moj_kal", new UmRezerwacjeKontr(), new UmRezerwacje());
@@ -77,7 +79,6 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     public void refresh() throws InstantiationException, IllegalAccessException {
         super.refresh();
         login.refresh();
-        System.err.println(eventModel.getEventCount()+"ffffffffffffff");
         ustawSched();
     }
 
@@ -88,12 +89,14 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     }
 
     public String listObcy() throws InstantiationException, IllegalAccessException {
-        System.err.println(uzyt.getAdrEmail());
-        System.err.println(eventModel.getEventCount());
+        ustawSched();
         return super.list();
     }
 
     public void ustawSched() {
+        if (!uzyt.equals(login.getZalogowany().getUserId())) {
+            userC.refresh(uzyt);
+        }
         eventModel.clear();
         for (UmRezerwacje rez : uzyt.getRezUczestnikList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa() + "\ndla: " + rez.getUrzadzenie().getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
@@ -139,7 +142,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     }
 
     public void delEvent(ActionEvent actionEvent) throws IllegalOrphanException, NonexistentEntityException, InstantiationException, IllegalAccessException {
-        obiektKal = (Kalendarz) event.getData();
+        //obiektKal = (Kalendarz) event.getData();
         dcCKal.destroy(obiektKal);
         eventModel.deleteEvent(event);
     }
@@ -148,14 +151,17 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         event = (DefaultScheduleEvent) selectEvent.getObject();
         if (event.getData().getClass().getName().equals(UmRezerwacje.class.getName())) {
             typObiekt = "rezer";
-        obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
+            obiekt = dcC.findObiekt(((UmRezerwacje) event.getData()).getId());
         } else if (event.getData().getClass().getName().equals(Kalendarz.class.getName())) {
             if (event.isEditable()) {
                 typObiekt = "calMoj";
             } else {
                 typObiekt = "calUczestnik";
-    }
+            }
             obiektKal = dcCKal.findObiekt(((Kalendarz) event.getData()).getId());
+            usersListSelect.clear();
+            usersListSelect.addAll(usersList);
+            usersListSelect.removeAll(obiektKal.getUczestnikList());
         }
     }
 
@@ -178,8 +184,31 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         usersListSelect.addAll(usersList);
     }
 
+    public void onAddUsers(SelectEvent event) {
+        Uzytkownik u = (Uzytkownik) event.getObject();
+        usersListSelect.remove(u);
+    }
+
+    public void onDelUsers(UnselectEvent event) {
+        Uzytkownik u = (Uzytkownik) event.getObject();
+        usersListSelect.add(u);
+    }
+
     public void onSlideEnd(SlideEndEvent event) {
         number2 = event.getValue();
+    }
+
+    public List<Uzytkownik> dostepniList(String cos) {
+        List<Uzytkownik> wynik = new ArrayList<>();
+        if (obiektKal.getUczestnikList() == null) {
+            obiektKal.setUczestnikList(new ArrayList<>());
+        }
+        for (Uzytkownik u : usersListSelect) {
+            if (u.getAdrEmail().toLowerCase().contains(cos.toLowerCase()) || u.getFullname().toLowerCase().contains(cos.toLowerCase())) {
+                wynik.add(u);
+            }
+        }
+        return wynik;
     }
 
     public Login getLogin() {
@@ -191,7 +220,6 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     }
 
     public ScheduleModel getEventModel() {
-        System.err.println(eventModel.getEventCount()+"============");
         return eventModel;
     }
 

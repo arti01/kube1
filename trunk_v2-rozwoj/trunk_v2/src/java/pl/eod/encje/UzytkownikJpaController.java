@@ -6,6 +6,8 @@ package pl.eod.encje;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -18,12 +20,10 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import pl.eod.encje.exceptions.NonexistentEntityException;
 
-/**
- *
- * @author arti01
- */
 public class UzytkownikJpaController implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(UzytkownikJpaController.class.getName());
 
     public UzytkownikJpaController() {
         if (this.emf == null) {
@@ -36,21 +36,24 @@ public class UzytkownikJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public WnLimity findLimit(Uzytkownik user){
+    public WnLimity findLimit(Uzytkownik user) {
         EntityManager em = getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Object> cq = cb.createQuery();
-            Root<WnLimity> limity = cq.from(WnLimity.class);
-            cq.select(limity);
-            Predicate username = cb.equal(limity.get(WnLimity_.username), user);
-            cq.where(username);
-             Query q = em.createQuery(cq).setMaxResults(1);
+        CriteriaQuery<Object> cq = cb.createQuery();
+        Root<WnLimity> limity = cq.from(WnLimity.class);
+        cq.select(limity);
+        Predicate username = cb.equal(limity.get(WnLimity_.username), user);
+        cq.where(username);
+        Query q = em.createQuery(cq).setMaxResults(1);
         @SuppressWarnings("unchecked")
-             List<WnLimity>wynik=(List<WnLimity>)q.getResultList();
-             if(wynik==null||wynik.isEmpty())return null;
-             else return wynik.get(0);
+        List<WnLimity> wynik = (List<WnLimity>) q.getResultList();
+        if (wynik == null || wynik.isEmpty()) {
+            return null;
+        } else {
+            return wynik.get(0);
+        }
     }
-    
+
     public Uzytkownik create(Uzytkownik uzytkownik) {
         EntityManager em = null;
         try {
@@ -119,7 +122,7 @@ public class UzytkownikJpaController implements Serializable {
     public List<Uzytkownik> findUzytkownikEntities() {
         return findUzytkownikEntities(true, -1, -1);
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<Uzytkownik> findUzytkownikEntities(Spolki spolka, boolean emaile) {
         EntityManager em = getEntityManager();
@@ -129,15 +132,14 @@ public class UzytkownikJpaController implements Serializable {
             Root<Uzytkownik> user = cq.from(Uzytkownik.class);
             cq.select(user);
             Predicate nadrz = cb.and(cb.equal(user.get(Uzytkownik_.spolkaId), spolka), cb.isNotNull(user.get(Uzytkownik_.spolkaId)));
-            Predicate emaileP=null;
-             if (emaile) {
-                emaileP = cb.and(cb.isNotNull(user.get(Uzytkownik_.adrEmail)), cb. notEqual(user.get(Uzytkownik_.adrEmail), ""));
+            Predicate emaileP = null;
+            if (emaile) {
+                emaileP = cb.and(cb.isNotNull(user.get(Uzytkownik_.adrEmail)), cb.notEqual(user.get(Uzytkownik_.adrEmail), ""));
                 nadrz = cb.and(nadrz, emaileP);
             }
             if (spolka != null) {
                 cq.where(nadrz);
-            }
-            else if(emaile){
+            } else if (emaile) {
                 cq.where(emaileP);
             }
             Query q = em.createQuery(cq);
@@ -197,7 +199,7 @@ public class UzytkownikJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Uzytkownik findUzytkownikByEmailFullname(String email, String fullname) {
         EntityManager em = getEntityManager();
         try {
@@ -268,7 +270,7 @@ public class UzytkownikJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int iluZprawami() {
         EntityManager em = getEntityManager();
         try {
@@ -279,6 +281,17 @@ public class UzytkownikJpaController implements Serializable {
         } catch (NoResultException ex) {
             //ex.printStackTrace();
             return 0;
+        } finally {
+            em.close();
+        }
+    }
+
+    public void refresh(Uzytkownik u) {
+        EntityManager em = getEntityManager();
+        try {
+            em.refresh(em.merge(u));
+        } catch (NoResultException ex) {
+            LOG.log(Level.SEVERE, "blad", ex);
         } finally {
             em.close();
         }
