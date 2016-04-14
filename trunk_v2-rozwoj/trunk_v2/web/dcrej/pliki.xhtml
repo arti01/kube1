@@ -1,38 +1,69 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:rich="http://richfaces.org/rich"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/templateRF2PF.xhtml"
-                xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+                template="/templates/templateGPF.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="content">
-        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
+    <ui:define name="tytul">
         <h3>Pliki po imporcie</h3>
         <h4>Uwaga! przewijanie likwiduje zaznaczenie</h4>
-        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
-        <h:form>
-            <ui:param name="przyciski" value="./plikiPrzyciski.xhtml"/>
-            <ui:include src="./plikiList.xhtml"/>
-            <a4j:jsFunction name="remove" action="#{KontrahenciCfg.usun}" render="table" execute="@this"
-                            oncomplete="#{rich:component('confirmPane')}.hide();" />
-            <rich:popupPanel id="confirmPane" autosized="true">
-                Na pewno chcesz skasować?
-                <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPane')}.hide();
-                        return false;" />
-                <a4j:commandButton value="Tak" onclick="remove();
-                        return false;" />
-            </rich:popupPanel>
+    </ui:define>
 
-            <rich:popupPanel id="statPane" autosized="true">
-                <h:graphicImage value="/images/ai.gif" alt="ai" />
-                Proszę czekać
-            </rich:popupPanel>
-            <hr/>
+    <ui:define name="content">
+        <h:form id="center">
+            <p:panel id="listPanel">
 
+                <p:commandButton value="zaznacz wszystkie" action="#{RejImpPlik.zaznaczWszystkie}" render="table"/>
+                <h:commandButton value="stwórz dokument dla wybranych plików" action="#{RejestracjaRej.importWielu}" id="dodWiele"/>
+                <p:message for="dodWiele" styleClass="error" />
+                <hr/>
+                <p:outputPanel id="tablepliki">
+                    <p:dataTable value="#{RejImpPlik.lista}" var="item" iterationStatusVar="it" id="table" rows="#{RejImpPlik.paginator}" style="width: 100%">
+                        <f:facet name="header">
+                            <p:dataScroller for="table" fastControls="hide" maxPages="5"/>
+                            <h:outputLabel value=" pozycji na stronie:"/>
+                            <h:selectOneMenu value="#{RejImpPlik.paginator}">
+                                <f:selectItem itemValue="10" itemLabel="10"/>
+                                <f:selectItem itemValue="20" itemLabel="20"/>
+                                <f:selectItem itemValue="30" itemLabel="30"/>
+                                <f:selectItem itemValue="50" itemLabel="50"/>
+                                <f:selectItem itemValue="100" itemLabel="100"/>
+                                <f:selectItem itemValue="500" itemLabel="500"/>
+                                <f:selectItem itemValue="1000" itemLabel="1000"/>
+                                <p:ajax event="change" render="tablepliki"/>
+                            </h:selectOneMenu>
+                        </f:facet>
+                        <f:facet name="footer"><p:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                        <p:column >
+                            <f:facet name="header">wybierz</f:facet>
+                            <h:selectBooleanCheckbox value="#{item.wybrany}" id="chkRememberMe" />
+                        </p:column>
+                        <p:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nazwa, KontrahenciCfg.filtrNazwa) or KontrahenciCfg.filtrNazwa==''}">
+                            <f:facet name="header">
+                                nazwa (do filtrowania użyj TAB)<br/>
+                                <h:inputText value="#{KontrahenciCfg.filtrNazwa}" size="15">
+                                    <p:ajax event="blur" render="table" execute="@this" />
+                                </h:inputText>
+                            </f:facet>
+                            #{item.nazwa}
+                        </p:column>
+
+                        <p:column sortBy="#{item.id}" sortOrder="descending"
+                                     filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.dataDodania,RejestracjaRej.filtrdataWprow)}">
+                            <f:facet name="header">data rejestracji<br/>
+                                <h:inputText value="#{RejestracjaRej.filtrdataWprow}" size="9">
+                                    <p:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                            </f:facet>
+                            <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                        </p:column>
+                        <p:column style="width: 45px">
+                            <ui:include src="#{przyciski}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:panel>
         </h:form>
     </ui:define>
 
