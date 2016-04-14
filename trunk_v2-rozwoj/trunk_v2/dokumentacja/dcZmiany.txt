@@ -1,3 +1,22 @@
+2016-04-15
+w repozytorium bez logowania dodałem powrót
+w konfiguracji grup zasobów materiałych dodałem przełącznik "czy obsługuje rezerwacje" przy edycji/dodawaniu i bajerancki filtr
+=========================
+dodałem kalendarz osobisty - można dodawać terminy a do każdego terminu dodawać dodatkowo użtkowników
+Na tej formatce są razem i terminy (zarowno te ktore stworzyła jak i te których jest uczestnikiem) i rezerwacje dla danej osoby (tylko te których jest uczestnikiem)
+kolory są rozne dla:
+1. jest uczestnikiem rezerwacji
+2. jest uczestnikiem rezerwacji i jednoczesnie jego tworca
+3. jest tworca terminu
+4. jest uczestnikiem czyjegoś terminu
+Edytować można na tej formatce tylko własne terminy (nie rezerwacje, bo te się edytuje w formatce do rezerwacji)
+
+dodałem kolory w formatce rezerwacji:
+1. jestes twórcą (możesz edytować)
+2. wszystkie inne ;)
+
+
+
 2016-04-09
 dedykowane repozytoria
 
