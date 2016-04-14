@@ -113,6 +113,9 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             //Może edytować osoba z prawami rezerwacji, tworca lub zastępca            
             ev.setEditable(rez.getTworca().equals(login.isUmRez()) || rez.getTworca().equals(login.getZalogowany().getUserId())
                     || rez.getTworca().equals(login.getZalogowany().getSecUserId()));
+            if(!ev.isEditable()){
+                ev.setStyleClass("rezUczestnik");
+            }
             eventModel.addEvent(ev);
         }
     }

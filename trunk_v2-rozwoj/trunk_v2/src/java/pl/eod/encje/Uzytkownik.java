@@ -143,10 +143,6 @@ public class Uzytkownik implements Serializable {
     @ManyToMany(mappedBy = "uczestnikList", fetch = FetchType.LAZY)
     private List<Kalendarz> kalendUczestnikList;
     
-    //@OneToMany(cascade = CascadeType.MERGE, mappedBy = "wydal", orphanRemoval = false, fetch = FetchType.LAZY)
-    //@OrderBy(value = "id DESC")
-    //private List<DcDokumentArchDod> dokArchDodList;
-    
     @Transient
     private List<UmUrzadzenie> urzadzenieAletrPrzeglList;
     @Transient

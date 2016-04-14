@@ -54,6 +54,8 @@
                             locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true" rightHeaderTemplate="">
                     <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
                     <p:ajax event="dateSelect" listener="#{RezerMojKalMg.onDateSelect}" update=":infoForm:messages, :center:dialog" oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventMove" listener="#{RezerMojKalMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
+                    <p:ajax event="eventResize" listener="#{RezerMojKalMg.onEventResize}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
                 </p:schedule>
             </p:panel>
             <p:dialog id="contekst" header="wybierz" widgetVar="contekst" resizable="false" styleClass="disable-scroll">

@@ -13,6 +13,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
+import org.primefaces.event.ScheduleEntryMoveEvent;
+import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.SlideEndEvent;
 import org.primefaces.event.UnselectEvent;
@@ -101,12 +103,20 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         for (UmRezerwacje rez : uzyt.getRezUczestnikList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa() + "\ndla: " + rez.getUrzadzenie().getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             ev.setEditable(false);
+            if (!rez.getTworca().equals(login.getZalogowany().getUserId())) {
+                ev.setStyleClass("rezUczestnik");
+            }
             eventModel.addEvent(ev);
         }
         for (Kalendarz kal : uzyt.getKalendarzList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(kal.getNazwa(), kal.getDataOd(), kal.getDataDo(), kal);
-            ev.setEditable(true);
-            ev.setStyleClass("calMoj");
+            if(uzyt.equals(login.getZalogowany().getUserId())){
+                ev.setEditable(true);
+                ev.setStyleClass("calMoj");
+            }else{
+                ev.setEditable(false);
+                ev.setStyleClass("calUczestnik");
+            }
             eventModel.addEvent(ev);
         }
         for (Kalendarz kal : uzyt.getKalendUczestnikList()) {
@@ -147,6 +157,28 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         eventModel.deleteEvent(event);
     }
 
+    public void onEventMove(ScheduleEntryMoveEvent selectEvent) throws NonexistentEntityException, Exception {
+        DefaultScheduleEvent oldEvent = (DefaultScheduleEvent) selectEvent.getScheduleEvent();
+        ruchEvent(oldEvent);
+    }
+    
+    public void onEventResize(ScheduleEntryResizeEvent selectEvent) throws NonexistentEntityException, Exception {
+        DefaultScheduleEvent oldEvent = (DefaultScheduleEvent) selectEvent.getScheduleEvent();
+        ruchEvent(oldEvent);
+    }
+    
+    private void ruchEvent(DefaultScheduleEvent oldEvent) throws NonexistentEntityException, Exception {
+        obiektKal = dcCKal.findObiekt(((Kalendarz) oldEvent.getData()).getId());
+        Date stOd = obiektKal.getDataOd();
+        Date stDo = obiektKal.getDataDo();
+        obiektKal.setDataOd(oldEvent.getStartDate());
+        obiektKal.setDataDo(oldEvent.getEndDate());
+        if (!dcCKal.edit(obiektKal).isEmpty()) {
+            oldEvent.setStartDate(stOd);
+            oldEvent.setEndDate(stDo);
+        }
+    }
+    
     public void onEventSelect(SelectEvent selectEvent) {
         event = (DefaultScheduleEvent) selectEvent.getObject();
         if (event.getData().getClass().getName().equals(UmRezerwacje.class.getName())) {
@@ -208,6 +240,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
                 wynik.add(u);
             }
         }
+        wynik.remove(login.getZalogowany().getUserId());
         return wynik;
     }
 
