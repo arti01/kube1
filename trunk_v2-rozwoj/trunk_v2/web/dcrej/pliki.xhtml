@@ -15,51 +15,30 @@
         <h:form id="center">
             <p:panel id="listPanel">
 
-                <p:commandButton value="zaznacz wszystkie" action="#{RejImpPlik.zaznaczWszystkie}" render="table"/>
-                <h:commandButton value="stwórz dokument dla wybranych plików" action="#{RejestracjaRej.importWielu}" id="dodWiele"/>
+                <p:commandButton value="zaznacz wszystkie" action="#{RejImpPlik.zaznaczWszystkie}" update="table"/>
+                <p:commandButton value="stwórz dokument dla wybranych plików" action="#{RejestracjaRej.importWielu}" id="dodWiele" ajax="false"/>
                 <p:message for="dodWiele" styleClass="error" />
                 <hr/>
                 <p:outputPanel id="tablepliki">
-                    <p:dataTable value="#{RejImpPlik.lista}" var="item" iterationStatusVar="it" id="table" rows="#{RejImpPlik.paginator}" style="width: 100%">
-                        <f:facet name="header">
-                            <p:dataScroller for="table" fastControls="hide" maxPages="5"/>
-                            <h:outputLabel value=" pozycji na stronie:"/>
-                            <h:selectOneMenu value="#{RejImpPlik.paginator}">
-                                <f:selectItem itemValue="10" itemLabel="10"/>
-                                <f:selectItem itemValue="20" itemLabel="20"/>
-                                <f:selectItem itemValue="30" itemLabel="30"/>
-                                <f:selectItem itemValue="50" itemLabel="50"/>
-                                <f:selectItem itemValue="100" itemLabel="100"/>
-                                <f:selectItem itemValue="500" itemLabel="500"/>
-                                <f:selectItem itemValue="1000" itemLabel="1000"/>
-                                <p:ajax event="change" render="tablepliki"/>
-                            </h:selectOneMenu>
-                        </f:facet>
-                        <f:facet name="footer"><p:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
-                        <p:column >
+                    <p:dataTable value="#{RejImpPlik.lista}" var="item" id="table" paginator="true" rows="20" rowsPerPageTemplate="10,20,50,100,500,1000"
+                                 emptyMessage="brak rekordów" style="width: 100%">
+                        <p:column style="width: 35px;">
                             <f:facet name="header">wybierz</f:facet>
-                            <h:selectBooleanCheckbox value="#{item.wybrany}" id="chkRememberMe" />
+                            <p:selectBooleanCheckbox value="#{item.wybrany}" id="chkRememberMe" />
                         </p:column>
-                        <p:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nazwa, KontrahenciCfg.filtrNazwa) or KontrahenciCfg.filtrNazwa==''}">
-                            <f:facet name="header">
-                                nazwa (do filtrowania użyj TAB)<br/>
-                                <h:inputText value="#{KontrahenciCfg.filtrNazwa}" size="15">
-                                    <p:ajax event="blur" render="table" execute="@this" />
-                                </h:inputText>
-                            </f:facet>
+                        <p:column headerText="nazwa" filterBy="#{item.nazwa}" filterMatchMode="contains">
                             #{item.nazwa}
                         </p:column>
-
-                        <p:column sortBy="#{item.id}" sortOrder="descending"
-                                     filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.dataDodania,RejestracjaRej.filtrdataWprow)}">
-                            <f:facet name="header">data rejestracji<br/>
-                                <h:inputText value="#{RejestracjaRej.filtrdataWprow}" size="9">
-                                    <p:ajax event="blur" render="table" execute="@this" /></h:inputText>
-                            </f:facet>
+                        <p:column headerText="data wczytania" sortBy="#{item.id}" style="width: 145px;">
                             <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                         </p:column>
-                        <p:column style="width: 45px">
-                            <ui:include src="#{przyciski}"/>
+                        <p:column style="width: 65px;">
+                            <p:commandButton id="imgEd" action="#{RejestracjaRej.list}" icon="ui-icon-plus" title="zarejestruj dokument dla tego pliku" ajax="false">
+                                <f:setPropertyActionListener target="#{RejestracjaRej.plikImport}" value="#{item}" />
+                            </p:commandButton>
+                            <p:commandButton id="imgDt" action="#{fileUploadBean.downloadImport}" icon="ui-icon-circle-zoomin" title="pobierz" ajax="false">
+                                <f:setPropertyActionListener target="#{RejImpPlik.plkImp}" value="#{item}" />
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>

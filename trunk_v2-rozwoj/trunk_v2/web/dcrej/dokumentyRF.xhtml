@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/templates/templateRF2PF.xhtml">
+    <ui:define name="content">
+    <h3>Dokumenty</h3>
+        <ui:include src="/dcrej/dokumentList.xhtml">
+            <ui:param name="managedBean" value="#{RejestracjaRej}"/> 
+            <ui:param name="widok" value="#{false}"/>
+        </ui:include>
+    </ui:define>
+</ui:composition>
+

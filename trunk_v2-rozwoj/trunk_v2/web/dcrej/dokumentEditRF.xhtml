@@ -1,13 +1,15 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+<?xml version='1.0' encoding='UTF-8' ?>
+<html  
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j">
 
     <h:panelGrid columns="6" id="dodajGrid">
         <h:outputLabel for="nameD" value="Nazwa: "/>
-        <h:inputText id="nameD" value="#{RejestracjaRej.obiekt.nazwa}" size="100"/>
-        <p:message for="nameD" styleClass="error" />
+        <h:inputText id="nameD" value="#{RejestracjaRej.obiekt.nazwa}"  size="100" ><rich:validator/></h:inputText>
+        <rich:message for="nameD" styleClass="error" />
 
         <h:outputLabel for="symbolD" value="Symbol: " rendered="#{RejestracjaRej.obiekt.id ne null}"/>
         <h:inputText id="symbolD" value="#{RejestracjaRej.obiekt.symbolDok}" size="25" readonly="true" rendered="#{RejestracjaRej.obiekt.id ne null}"></h:inputText>
@@ -16,82 +18,101 @@
 
     <h:panelGrid columns="9" id="dodajGrid6">
         <h:outputLabel for="dataD" value="Data dokumentu:"/>
-        <p:calendar id="dataD" value="#{RejestracjaRej.obiekt.dataDok}" pattern="dd/MM/yyyy" locale="pl"/>
-        <p:message for="dataD" styleClass="error" />
-        
-        <p:message for="dataD" styleClass="error" />
+        <rich:calendar value="#{RejestracjaRej.obiekt.dataDok}" id="dataD" locale="#{RejestracjaRej.locale}"
+                       popup="true" datePattern="yyyy-MM-dd"
+                       showApplyButton="#{calendarBean.showApply}" style="width:200px">
+            <rich:validator /></rich:calendar>
+        <rich:message for="dataD" styleClass="error" />
 
         <h:outputLabel for="rodzajD" value="Rodzaj: "/>
-        <p:selectOneMenu id="rodzajD" value="#{RejestracjaRej.obiekt.rodzajId}"
-                         converter="#{DcRodzajConv}" valueChangeListener="#{RejestracjaRej.listenerOpis}">
+        <rich:select id="rodzajD" value="#{RejestracjaRej.obiekt.rodzajId}" converter="#{DcRodzajConv}" valueChangeListener="#{RejestracjaRej.listenerOpis}">
             <f:selectItems value="#{managedBean.rodzajLista}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.nazwa}"/>
-            <p:ajax event="change" update=":center:opisDlugiD, :center:opisDlugiDD, :center:pgArchDodEdRen, :center:polaDod"/>
-        </p:selectOneMenu>
-        <p:message for="rodzajD" styleClass="error" />
+            <a4j:ajax event="selectitem" render="opisDlugiD, opisDlugiDD, test, pgArchDodEdRen, polaDod"/>
+        </rich:select>
+        <rich:message for="rodzajD" styleClass="error" />
 
         <h:outputLabel for="zrodloD" value="Źródło: "/>
         <h:selectOneMenu id="zrodloD" value="#{RejestracjaRej.obiekt.zrodloId}" converter="#{DcZrodloConv}" >
             <f:selectItems value="#{ZrodlaCfg.lista}" var="zrodlo" itemValue="#{zrodlo}" itemLabel="#{zrodlo.nazwa}"/>
         </h:selectOneMenu>
-        <p:message for="zrodloD" styleClass="error" />
+        <rich:message for="zrodloD" styleClass="error" />
 
         <h:outputLabel for="teczkaD" value="Teczka: "/>
         <h:selectOneMenu id="teczkaD" value="#{RejestracjaRej.obiekt.teczkaId}" converter="#{DcTeczkaConv}" >
             <f:selectItems value="#{TeczkiCfg.lista}" var="teczka" itemValue="#{teczka}" itemLabel="#{teczka.nazwa}"/>
         </h:selectOneMenu>
-        <p:message for="teczkaD" styleClass="error" />
+        <rich:message for="teczkaD" styleClass="error" />
 
         <h:outputLabel for="kontrahentD" value="podaj kontrahenta &lt;br/&gt;(wprowadz min. 3 znaki)" escape="false"/>
-
-        <p:message for="kontrahentD" styleClass="error" />
+        <rich:autocomplete id="kontrahentD" value="#{RejestracjaRej.obiekt.kontrahentId}" mode="lazyClient"
+                           minChars="3" fetchValue="#{kontrahent.nazwa}" converter="#{DcKontrahenciConv}"
+                           var="kontrahent" autocompleteList="#{KontrahenciCfg.lista.wrappedData}">
+            #{kontrahent.nazwa}
+            #{kontrahent.adres}
+        </rich:autocomplete>
+        <rich:message for="kontrahentD" styleClass="error" />
     </h:panelGrid>
 
-    <p:panel id="polaDod">
-        <p:dataTable value="#{RejestracjaRej.obiekt.dcDokPolaDodList}" var="poleDod">
-            <p:column>
+    <rich:panel id="polaDod">
+        <rich:dataTable value="#{RejestracjaRej.obiekt.dcDokPolaDodList}" var="poleDod">
+            <rich:column>
                 #{poleDod.nazwa}
-            </p:column>
-            <p:column>
+            </rich:column>
+            <rich:column>
                 <h:inputText id="poleDodWarL" value="#{poleDod.wartosc}"  size="#{poleDod.dlugosc}" validatorMessage="musi być liczbą" 
                              maxlength="#{poleDod.dlugosc}" rendered="#{poleDod.typ=='liczba'}">
                     <f:validateRegex pattern="^(\d|,)*\.?\d*$" />
                 </h:inputText>
-                <p:message for="poleDodWarL" styleClass="error" />
+                <rich:message for="poleDodWarL" styleClass="error" />
                 <h:inputText id="poleDodWarT" value="#{poleDod.wartosc}"  size="#{poleDod.dlugosc}" validatorMessage="#{poleDod.nazwa} maksymalnie #{poleDod.dlugosc} znaków" 
                              maxlength="#{poleDod.dlugosc}" rendered="#{poleDod.typ=='tekst'}">
                 </h:inputText>
-                <p:calendar value="#{poleDod.wartosc}" id="dataDPD" pattern="dd/MM/yyyy" locale="pl" rendered="#{poleDod.typ=='data'}"/>
-            </p:column>
-        </p:dataTable>
-    </p:panel>
+                <rich:calendar value="#{poleDod.wartosc}" id="dataDPD" locale="#{RejestracjaRej.locale}"
+                               popup="true" datePattern="yyyy-MM-dd"
+                               showApplyButton="#{calendarBean.showApply}" style="width:200px" rendered="#{poleDod.typ=='data'}">
+                    <f:convertDateTime pattern="yyyy-MM-dd"  type="date" />
+                </rich:calendar>
+            </rich:column>
+        </rich:dataTable>
+    </rich:panel>
 
     <h:panelGroup id="pgArchDodEdRen">
-        <p:panel id="pgArchDodEd" rendered="#{RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.archiw}">
+        <rich:panel id="pgArchDodEd" rendered="#{RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.archiw}">
             <f:facet name="header">
                 Informacje dodatkowe
             </f:facet>
             <h:panelGrid columns="6">
                 <h:outputLabel value="nazwisko i imię osoby wypożyczającej"/>
                 <h:inputText id="nazwImieEd" value="#{RejestracjaRej.obiekt.dokArchDod.imieNazwisko}"/>
-                <p:message for="nazwImieEd" styleClass="error" />
+                <rich:message for="nazwImieEd" styleClass="error" />
 
                 <h:outputLabel value="planowana data zwrotu dokumentu:"/>
-                <p:calendar id="plDaZwEd" value="#{RejestracjaRej.obiekt.dokArchDod.dataPlanZwrot}" pattern="dd/MM/yyyy" locale="pl"/>
-                <p:message for="plDaZwEd" styleClass="error" />
+                <rich:calendar id="plDaZwEd" value="#{RejestracjaRej.obiekt.dokArchDod.dataPlanZwrot}" locale="#{RejestracjaRej.locale}"
+                               popup="true" datePattern="yyyy-MM-dd"
+                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                    <rich:validator /></rich:calendar>
+                <rich:message for="plDaZwEd" styleClass="error" />
 
                 <h:outputLabel value="rzeczywista data zwrotu dokumentu:"/>
-                <p:calendar id="realDaZwEd" value="#{RejestracjaRej.obiekt.dokArchDod.dataRzeczZwrot}" pattern="dd/MM/yyyy" locale="pl"/>
-                <p:message for="realDaZwEd" styleClass="error" />
+                <rich:calendar id="realDaZwEd" value="#{RejestracjaRej.obiekt.dokArchDod.dataRzeczZwrot}" locale="#{RejestracjaRej.locale}"
+                               popup="true" datePattern="yyyy-MM-dd"
+                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                    <rich:validator /></rich:calendar>
+                <rich:message for="realDaZwEd" styleClass="error" />
 
                 <h:outputLabel value="wydał (podaj email, wprowadz min. 3 znaki):"/>
+                <rich:autocomplete value="#{RejestracjaRej.obiekt.dokArchDod.wydal}"  minChars="3" mode="lazyClient" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}" autofill="true">
+                    #{user.adrEmail}
+                    #{user.fullname}
+                </rich:autocomplete>
             </h:panelGrid>
-        </p:panel>
+        </rich:panel>
     </h:panelGroup>
 
     <h:panelGrid columns="3" id="dodajOpis">
         <h:outputLabel for="opisD" value="Opis: " escape="false"/>
-        <h:inputTextarea id="opisD" value="#{RejestracjaRej.obiekt.opis}" cols="150" rows="3"/>
-        <p:message for="opisD" styleClass="error" />
+        <h:inputTextarea id="opisD" value="#{RejestracjaRej.obiekt.opis}" cols="150" rows="3"><rich:validator/></h:inputTextarea>
+        <rich:message for="opisD" styleClass="error" />
     </h:panelGrid>
 
     <hr style="width: 30%;"/>
@@ -109,4 +130,5 @@
     <rich:message for="zapisz" styleClass="error" />
     <rich:message for="dodaj" styleClass="error" />
     <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
+    <hr/>
 </html>

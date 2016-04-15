@@ -97,24 +97,12 @@ public class Rejestracja {
         userDoWiad = new Uzytkownik();
         doWiad = new DcDokDoWiadomosci();
         plikImpC = new DcPlikImportJpaController();
-        //refreshObiekt(); - uwaga - zmiana do testow
     }
 
     public void refreshObiekt() {
         lista.setWrappedData(dcC.findDcDokumentEntities());
         rodzajLista.setWrappedData(dcRodzC.findDcRodzajEntities());
         obiekt = new DcDokument();
-        /*if (obiekt.getDcDokPolaDodList()==null && obiekt.getRodzajId().getDcRodzajPolaDodList()!=null) {
-
-         for (DcRodzajPolaDod poleRodzaj : obiekt.getRodzajId().getDcRodzajPolaDodList()) {
-         DcDokPolaDod poleDodDok = new DcDokPolaDod();
-         poleDodDok.setNazwa(poleRodzaj.getNazwa());
-         poleDodDok.setDlugosc(poleRodzaj.getDlugosc());
-         poleDodDok.setTyp(poleRodzaj.getIdRodzTypyPol().getNazwa());
-         poleDodDok.setWartosc("");
-         obiekt.getDcDokPolaDodList().add(poleDodDok);
-         }
-         }*/
         error = null;
     }
 
