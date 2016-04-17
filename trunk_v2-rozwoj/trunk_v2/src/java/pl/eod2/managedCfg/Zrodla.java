@@ -1,5 +1,7 @@
 package pl.eod2.managedCfg;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +20,7 @@ import pl.eod2.encje.exceptions.NonexistentEntityException;
 public class Zrodla {
 
     private DataModel<DcZrodlo> lista = new ListDataModel<DcZrodlo>();
+    private List<DcZrodlo> listaPF = new ArrayList<>();
     private DcZrodloJpaController dcC;
     private DcZrodlo obiekt;
     private String error;
@@ -30,6 +33,7 @@ public class Zrodla {
 
     void refresh() {
         lista.setWrappedData(dcC.findDcZrodloEntities());
+        listaPF=(dcC.findDcZrodloEntities());
         obiekt = new DcZrodlo();
         error = null;
     }
@@ -54,6 +58,7 @@ public class Zrodla {
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
             lista.setWrappedData(dcC.findDcZrodloEntities());
+            listaPF=(dcC.findDcZrodloEntities());
         } else {
             refresh();
         }
@@ -96,6 +101,15 @@ public class Zrodla {
 
     public void setError(String error) {
         this.error = error;
-    }    
+    }
+
+    public List<DcZrodlo> getListaPF() {
+        return listaPF;
+    }
+
+    public void setListaPF(List<DcZrodlo> listaPF) {
+        this.listaPF = listaPF;
+    }
+    
 }
 

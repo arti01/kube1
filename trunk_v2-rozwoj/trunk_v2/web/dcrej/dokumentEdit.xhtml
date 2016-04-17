@@ -1,112 +1,111 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
+    <p:panel id="panelGrp">
+        <p:fieldset legend="Pola podstawowe" toggleable="true" toggleSpeed="250">
+            <p:outputLabel for="symbolD" value="Symbol: " rendered="#{RejestracjaRej.obiekt.id ne null}"/>
+            <p:inputText id="symbolD" value="#{RejestracjaRej.obiekt.symbolDok}" size="25" readonly="true" rendered="#{RejestracjaRej.obiekt.id ne null}"></p:inputText>
+            <p:panelGrid columns="2" id="dodajGrid">
+                <p:outputLabel for="nameD" value="Nazwa: "/>
+                <h:panelGroup>
+                    <p:inputText id="nameD" value="#{RejestracjaRej.obiekt.nazwa}" size="150"/>
+                    <p:message for="nameD" styleClass="error" />
+                </h:panelGroup>
+                <p:outputLabel for="opisD" value="Opis: " escape="false"/>
+                <p:inputTextarea id="opisD" value="#{RejestracjaRej.obiekt.opis}" cols="150" rows="3" autoResize="true"/>
+            </p:panelGrid>
 
-    <h:panelGrid columns="6" id="dodajGrid">
-        <h:outputLabel for="nameD" value="Nazwa: "/>
-        <h:inputText id="nameD" value="#{RejestracjaRej.obiekt.nazwa}" size="100"/>
-        <p:message for="nameD" styleClass="error" />
+            <p:panelGrid columns="10" id="dodajGrid6">
+                <p:outputLabel for="dataD" value="Data dokumentu:"/>
+                <p:calendar id="dataD" value="#{RejestracjaRej.obiekt.dataDok}" pattern="dd/MM/yyyy" locale="pl"/>
 
-        <h:outputLabel for="symbolD" value="Symbol: " rendered="#{RejestracjaRej.obiekt.id ne null}"/>
-        <h:inputText id="symbolD" value="#{RejestracjaRej.obiekt.symbolDok}" size="25" readonly="true" rendered="#{RejestracjaRej.obiekt.id ne null}"></h:inputText>
-        <h:outputLabel for="symbolD" value="" rendered="#{RejestracjaRej.obiekt.id ne null}"/>
-    </h:panelGrid>
 
-    <h:panelGrid columns="9" id="dodajGrid6">
-        <h:outputLabel for="dataD" value="Data dokumentu:"/>
-        <p:calendar id="dataD" value="#{RejestracjaRej.obiekt.dataDok}" pattern="dd/MM/yyyy" locale="pl"/>
-        <p:message for="dataD" styleClass="error" />
-        
-        <p:message for="dataD" styleClass="error" />
+                <p:outputLabel for="rodzajD" value="Rodzaj: "/>
+                <p:selectOneMenu id="rodzajD" value="#{RejestracjaRej.obiekt.rodzajId}"
+                                 converter="#{DcRodzajConv}" valueChangeListener="#{RejestracjaRej.listenerOpis}" filter="true" filterMatchMode="startsWith">
+                    <f:selectItems value="#{managedBean.rodzajListaPF}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.nazwa}"/>
+                    <p:ajax event="change" update=":center:innePola"/>
+                </p:selectOneMenu>
 
-        <h:outputLabel for="rodzajD" value="Rodzaj: "/>
-        <p:selectOneMenu id="rodzajD" value="#{RejestracjaRej.obiekt.rodzajId}"
-                         converter="#{DcRodzajConv}" valueChangeListener="#{RejestracjaRej.listenerOpis}">
-            <f:selectItems value="#{managedBean.rodzajLista}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.nazwa}"/>
-            <p:ajax event="change" update=":center:opisDlugiD, :center:opisDlugiDD, :center:pgArchDodEdRen, :center:polaDod"/>
-        </p:selectOneMenu>
-        <p:message for="rodzajD" styleClass="error" />
+                <p:outputLabel for="zrodloD" value="Źródło: "/>
+                <p:selectOneMenu id="zrodloD" value="#{RejestracjaRej.obiekt.zrodloId}" converter="#{DcZrodloConv}" filter="true" filterMatchMode="startsWith">
+                    <f:selectItems value="#{ZrodlaCfg.listaPF}" var="zrodlo" itemValue="#{zrodlo}" itemLabel="#{zrodlo.nazwa}"/>
+                </p:selectOneMenu>
 
-        <h:outputLabel for="zrodloD" value="Źródło: "/>
-        <h:selectOneMenu id="zrodloD" value="#{RejestracjaRej.obiekt.zrodloId}" converter="#{DcZrodloConv}" >
-            <f:selectItems value="#{ZrodlaCfg.lista}" var="zrodlo" itemValue="#{zrodlo}" itemLabel="#{zrodlo.nazwa}"/>
-        </h:selectOneMenu>
-        <p:message for="zrodloD" styleClass="error" />
+                <p:outputLabel for="teczkaD" value="Teczka: "/>
+                <p:selectOneMenu id="teczkaD" value="#{RejestracjaRej.obiekt.teczkaId}" converter="#{DcTeczkaConv}" filter="true" filterMatchMode="startsWith">
+                    <f:selectItems value="#{TeczkiCfg.listaPF}" var="teczka" itemValue="#{teczka}" itemLabel="#{teczka.nazwa}"/>
+                </p:selectOneMenu>
 
-        <h:outputLabel for="teczkaD" value="Teczka: "/>
-        <h:selectOneMenu id="teczkaD" value="#{RejestracjaRej.obiekt.teczkaId}" converter="#{DcTeczkaConv}" >
-            <f:selectItems value="#{TeczkiCfg.lista}" var="teczka" itemValue="#{teczka}" itemLabel="#{teczka.nazwa}"/>
-        </h:selectOneMenu>
-        <p:message for="teczkaD" styleClass="error" />
+                <p:outputLabel for="kontrahentD" value="podaj kontrahenta" escape="false"/>
 
-        <h:outputLabel for="kontrahentD" value="podaj kontrahenta &lt;br/&gt;(wprowadz min. 3 znaki)" escape="false"/>
+                <p:autoComplete id="kontrahentD" multiple="false" value="#{RejestracjaRej.obiekt.kontrahentId}" completeMethod="#{KontrahenciCfg.autoCompKontrah}"
+                                var="kontrahent" itemLabel="#{kontrahent.nazwa}" itemValue="#{kontrahent}" forceSelection="true" converter="#{DcKontrahenciConv}">
+                    <p:column>
+                        <h:outputText value="#{kontrahent.nazwa}" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{kontrahent.adres}" />
+                    </p:column>
+                </p:autoComplete>
+            </p:panelGrid>
+        </p:fieldset>
+        <h:panelGroup id="innePola">
+            <p:fieldset id="polaDod" legend="pola dodatkowe" toggleable="true" toggleSpeed="250" collapsed="#{RejestracjaRej.obiekt.dcDokPolaDodList.size()==0 or RejestracjaRej.obiekt.dcDokPolaDodList==null}">
+                <p:dataTable value="#{RejestracjaRej.obiekt.dcDokPolaDodList}" var="poleDod" emptyMessage="brak">
+                    <p:column styleClass="column1">
+                        #{poleDod.nazwa}
+                    </p:column>
+                    <p:column styleClass="column2">
+                        <p:inputText id="poleDodWarL" value="#{poleDod.wartosc}" size="#{poleDod.dlugosc}" validatorMessage="musi być liczbą" 
+                                     maxlength="#{poleDod.dlugosc}" rendered="#{poleDod.typ=='liczba'}">
+                            <f:validateRegex pattern="^(\d|,)*\.?\d*$" />
+                        </p:inputText>
+                        <p:message for="poleDodWarL" styleClass="error" />
+                        <p:inputText id="poleDodWarT" value="#{poleDod.wartosc}"  size="#{poleDod.dlugosc}" validatorMessage="#{poleDod.nazwa} maksymalnie #{poleDod.dlugosc} znaków" 
+                                     maxlength="#{poleDod.dlugosc}" rendered="#{poleDod.typ=='tekst'}"/>
+                        <p:calendar value="#{poleDod.wartosc}" id="dataDPD" pattern="yyyy-MM-dd" locale="pl" rendered="#{poleDod.typ=='data'}">
+                            <f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
+                        </p:calendar>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
 
-        <p:message for="kontrahentD" styleClass="error" />
-    </h:panelGrid>
+            <p:fieldset id="pgArchDodEd" legend="Informacje dodatkowe" toggleable="true" rendered="#{RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.archiw}">
+                <p:panelGrid columns="4">
+                    <p:outputLabel value="nazwisko i imię osoby wypożyczającej"/>
+                    <p:inputText id="nazwImieEd" value="#{RejestracjaRej.obiekt.dokArchDod.imieNazwisko}"/>
 
-    <p:panel id="polaDod">
-        <p:dataTable value="#{RejestracjaRej.obiekt.dcDokPolaDodList}" var="poleDod">
-            <p:column>
-                #{poleDod.nazwa}
-            </p:column>
-            <p:column>
-                <h:inputText id="poleDodWarL" value="#{poleDod.wartosc}"  size="#{poleDod.dlugosc}" validatorMessage="musi być liczbą" 
-                             maxlength="#{poleDod.dlugosc}" rendered="#{poleDod.typ=='liczba'}">
-                    <f:validateRegex pattern="^(\d|,)*\.?\d*$" />
-                </h:inputText>
-                <p:message for="poleDodWarL" styleClass="error" />
-                <h:inputText id="poleDodWarT" value="#{poleDod.wartosc}"  size="#{poleDod.dlugosc}" validatorMessage="#{poleDod.nazwa} maksymalnie #{poleDod.dlugosc} znaków" 
-                             maxlength="#{poleDod.dlugosc}" rendered="#{poleDod.typ=='tekst'}">
-                </h:inputText>
-                <p:calendar value="#{poleDod.wartosc}" id="dataDPD" pattern="dd/MM/yyyy" locale="pl" rendered="#{poleDod.typ=='data'}"/>
-            </p:column>
-        </p:dataTable>
+                    <p:outputLabel value="planowana data zwrotu dokumentu:"/>
+                    <p:calendar id="plDaZwEd" value="#{RejestracjaRej.obiekt.dokArchDod.dataPlanZwrot}" pattern="dd/MM/yyyy" locale="pl"/>
+
+                    <p:outputLabel value="wydał:"/>
+                    <p:autoComplete multiple="false" value="#{RejestracjaRej.obiekt.dokArchDod.wydal}" completeMethod="#{RodzajeCfg.autoCompUser}"
+                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConvEmail}">
+                        <p:column>
+                            <h:outputText value="#{user.fullname}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{user.adrEmail}" />
+                        </p:column>
+                    </p:autoComplete>
+
+                    <p:outputLabel value="rzeczywista data zwrotu dokumentu:"/>
+                    <p:calendar id="realDaZwEd" value="#{RejestracjaRej.obiekt.dokArchDod.dataRzeczZwrot}" pattern="dd/MM/yyyy" locale="pl"/>
+                </p:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="dodatkowy opis  (po modyfikacji naciśnij przycisk ZAPISZ dole strony) (najpierw wybierz rodzaj dokumentu - zmiana rodzaju dokumentu na taki, który posiada szablon wyczyści to pole)"
+                        toggleable="true" toggleSpeed="230" collapsed="#{!(RejestracjaRej.obiekt.opisDlugi.length()>1)}" rendered="#{!detal}">
+                <p:editor  id="opisDlugiD" value="#{RejestracjaRej.obiekt.opisDlugi}" style="margin-bottom: 1em" height="300" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1 or RejestracjaRej.obiekt.dokStatusId.id==null}"/>
+                <h:outputText value="#{RejestracjaRej.obiekt.opisDlugi}" escape="false" rendered="#{RejestracjaRej.obiekt.dokStatusId.id!=1 and RejestracjaRej.obiekt.dokStatusId.id!=null}"/>
+            </p:fieldset>
+            <p:fieldset legend="dodatkowy opis  (po modyfikacji naciśnij przycisk ZAPISZ na górze lub dole strony) (najpierw wybierz rodzaj dokumentu - zmiana rodzaju dokumentu na taki, który posiada szablon wyczyści to pole)"
+                        toggleable="true" toggleSpeed="230" collapsed="true" rendered="#{detal}">
+                <p:editor id="opisDlugiDD" value="#{RejestracjaRej.obiekt.opisDlugi}" style="margin-bottom: 1em" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1 or RejestracjaRej.obiekt.dokStatusId.id==null}" />
+                <h:outputText value="#{RejestracjaRej.obiekt.opisDlugi}" escape="false" rendered="#{RejestracjaRej.obiekt.dokStatusId.id!=1 and RejestracjaRej.obiekt.dokStatusId.id!=null}"/>
+            </p:fieldset>
+        </h:panelGroup>
     </p:panel>
-
-    <h:panelGroup id="pgArchDodEdRen">
-        <p:panel id="pgArchDodEd" rendered="#{RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.archiw}">
-            <f:facet name="header">
-                Informacje dodatkowe
-            </f:facet>
-            <h:panelGrid columns="6">
-                <h:outputLabel value="nazwisko i imię osoby wypożyczającej"/>
-                <h:inputText id="nazwImieEd" value="#{RejestracjaRej.obiekt.dokArchDod.imieNazwisko}"/>
-                <p:message for="nazwImieEd" styleClass="error" />
-
-                <h:outputLabel value="planowana data zwrotu dokumentu:"/>
-                <p:calendar id="plDaZwEd" value="#{RejestracjaRej.obiekt.dokArchDod.dataPlanZwrot}" pattern="dd/MM/yyyy" locale="pl"/>
-                <p:message for="plDaZwEd" styleClass="error" />
-
-                <h:outputLabel value="rzeczywista data zwrotu dokumentu:"/>
-                <p:calendar id="realDaZwEd" value="#{RejestracjaRej.obiekt.dokArchDod.dataRzeczZwrot}" pattern="dd/MM/yyyy" locale="pl"/>
-                <p:message for="realDaZwEd" styleClass="error" />
-
-                <h:outputLabel value="wydał (podaj email, wprowadz min. 3 znaki):"/>
-            </h:panelGrid>
-        </p:panel>
-    </h:panelGroup>
-
-    <h:panelGrid columns="3" id="dodajOpis">
-        <h:outputLabel for="opisD" value="Opis: " escape="false"/>
-        <h:inputTextarea id="opisD" value="#{RejestracjaRej.obiekt.opis}" cols="150" rows="3"/>
-        <p:message for="opisD" styleClass="error" />
-    </h:panelGrid>
-
-    <hr style="width: 30%;"/>
-    <rich:collapsiblePanel header="dodatkowy opis  (po modyfikacji naciśnij przycisk ZAPISZ dole strony) (najpierw wybierz rodzaj dokumentu - zmiana rodzaju dokumentu na taki, który posiada szablon wyczyści to pole)" expanded="false" rendered="#{!detal}" switchType="client" onswitch="#{rich:component('dodajPane')}.hide();#{rich:component('dodajPane')}.show();">
-        <rich:editor  id="opisDlugiD" toolbar="full" value="#{RejestracjaRej.obiekt.opisDlugi}" style="margin-bottom: 1em" height="300px" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1 or RejestracjaRej.obiekt.dokStatusId.id==null}" />
-        <h:outputText value="#{RejestracjaRej.obiekt.opisDlugi}" escape="false" rendered="#{RejestracjaRej.obiekt.dokStatusId.id!=1}"/>
-    </rich:collapsiblePanel>
-
-    <rich:collapsiblePanel header="dodatkowy opis  (po modyfikacji naciśnij przycisk ZAPISZ na górze lub dole strony) (najpierw wybierz rodzaj dokumentu - zmiana rodzaju dokumentu na taki, który posiada szablon wyczyści to pole)" expanded="false" rendered="#{detal}" switchType="client" >
-        <rich:editor id="opisDlugiDD" toolbar="full" value="#{RejestracjaRej.obiekt.opisDlugi}" style="margin-bottom: 1em" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1 or RejestracjaRej.obiekt.dokStatusId.id==null}" />
-        <h:outputText value="#{RejestracjaRej.obiekt.opisDlugi}" escape="false" rendered="#{RejestracjaRej.obiekt.dokStatusId.id!=1}"/>
-    </rich:collapsiblePanel>
-
-    <rich:message for="opisDlugiD" styleClass="error" />
-    <rich:message for="zapisz" styleClass="error" />
-    <rich:message for="dodaj" styleClass="error" />
-    <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
 </html>

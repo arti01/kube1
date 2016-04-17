@@ -1,5 +1,7 @@
 package pl.eod.abstr;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -15,6 +17,7 @@ import pl.eod2.managedRej.Rejestracja;
 public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
 
     public DataModel<X> lista;
+    public List<X> listaPF=new ArrayList<>();
     public final Y dcC;
     public X obiekt;
     public String error;
@@ -29,6 +32,7 @@ public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
         this.dcC = (Y) ak.getClass().newInstance();
         this.obiekt = obiekt;
         lista.setWrappedData(dcC.findEntities());
+        listaPF=dcC.findEntities();
         rejestracja = new Rejestracja();
     }
 
@@ -40,6 +44,7 @@ public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
     @SuppressWarnings("unchecked")
     public void refresh() throws InstantiationException, IllegalAccessException {
         lista.setWrappedData(dcC.findEntities());
+        listaPF=dcC.findEntities();
         obiekt = (X) obiekt.getClass().newInstance();
         error = null;
         rejestracja.czyscFiltry();
@@ -111,6 +116,14 @@ public abstract class AbstMg<X extends AbstEncja, Y extends AbstKontroler<X>> {
 
     public void setLista(DataModel<X> lista) {
         this.lista = lista;
+    }
+
+    public List<X> getListaPF() {
+        return listaPF;
+    }
+
+    public void setListaPF(List<X> listaPF) {
+        this.listaPF = listaPF;
     }
 
     public X getObiekt() {

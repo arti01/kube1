@@ -24,6 +24,7 @@ import pl.eod.managed.Login;
 import pl.eod2.encje.DcAkceptKroki;
 import pl.eod2.encje.DcAkceptTypKroku;
 import pl.eod2.encje.DcAkceptTypKrokuJpaController;
+import pl.eod2.encje.DcKontrahenci;
 import pl.eod2.encje.DcRodzaj;
 import pl.eod2.encje.DcRodzajJpaController;
 import pl.eod2.encje.DcRodzajPolaDod;
@@ -81,7 +82,7 @@ public class Rodzaje {
     }
 
     public void dodaj() {
-if(!urzadzeniaPoleDod.equals("")){
+        if (!urzadzeniaPoleDod.equals("")) {
             if (obiekt.getDcRodzajPolaDodList() == null) {
                 obiekt.setDcRodzajPolaDodList(new ArrayList<DcRodzajPolaDod>());
             }
@@ -125,7 +126,7 @@ if(!urzadzeniaPoleDod.equals("")){
     }
 
     public void edytuj() {
-        if(!urzadzeniaPoleDod.equals("")){
+        if (!urzadzeniaPoleDod.equals("")) {
             if (obiekt.getDcRodzajPolaDodList() == null) {
                 obiekt.setDcRodzajPolaDodList(new ArrayList<DcRodzajPolaDod>());
             }
@@ -184,6 +185,17 @@ if(!urzadzeniaPoleDod.equals("")){
         dcC.destroy(obiekt.getId());
         refresh();
         rodzajeGrupy.refresh();
+    }
+
+    public List<Uzytkownik> autoCompUser(String query) {
+        query = query.toLowerCase();
+        List<Uzytkownik> wynik = new ArrayList<>();
+        for (Uzytkownik u : usersLista) {
+            if (u.getFullname().toLowerCase().contains(query) || u.getAdrEmail().toLowerCase().contains(query)) {
+                wynik.add(u);
+            }
+        }
+        return wynik;
     }
 
     public void dodajKrok() throws IllegalOrphanException, NonexistentEntityException {

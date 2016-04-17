@@ -48,6 +48,7 @@ public class Rejestracja {
 
     DataModel<DcDokument> lista = new ListDataModel<>();
     private DataModel<DcRodzaj> rodzajLista = new ListDataModel<>();
+    private List<DcRodzaj> rodzajListaPF = new ArrayList<>();
     public DcDokumentJpaController dcC;
     public DcPlikJpaController dcPlikC;
     private DcRodzajJpaController dcRodzC;
@@ -102,9 +103,11 @@ public class Rejestracja {
     public void refreshObiekt() {
         lista.setWrappedData(dcC.findDcDokumentEntities());
         rodzajLista.setWrappedData(dcRodzC.findDcRodzajEntities());
+        rodzajListaPF=dcRodzC.findDcRodzajEntities();
         obiekt = new DcDokument();
         error = null;
     }
+    
 
     void refreshBezObiekt() {
         lista.setWrappedData(dcC.findDcDokumentEntities());
@@ -343,6 +346,7 @@ public class Rejestracja {
             dcPlik.setDataDodania(new Date());
             obiekt.setDcPlikList(new ArrayList<>());
             obiekt.getDcPlikList().add(dcPlik);
+            plikImport=null;
         }
         return "/dcrej/dokumenty";
     }
@@ -658,6 +662,14 @@ public class Rejestracja {
 
     public void setRodzajLista(DataModel<DcRodzaj> rodzajLista) {
         this.rodzajLista = rodzajLista;
+    }
+
+    public List<DcRodzaj> getRodzajListaPF() {
+        return rodzajListaPF;
+    }
+
+    public void setRodzajListaPF(List<DcRodzaj> rodzajListaPF) {
+        this.rodzajListaPF = rodzajListaPF;
     }
 
     public String getFiltrDaneDod() {
