@@ -1,21 +1,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <h3>#{RejestracjaRej.obiekt.nazwa}</h3>
-
     <p:tabView id="tabPanel">
-        <p:tab id="infPodst" ariaLabel="ssssssss" title="ttttttttttttt">
+        <p:tab id="infPodst" title="Informacje podstawowe">
             <ui:include src="./dokumentEdit.xhtml"/>
+            
+            zrobic zapis i podglad zalączników
+        </p:tab>
+        <p:tab id="tabPliki" title="Załączniki">
+
+            tu uploader
+            <hr/>
+            <p:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="table"  style="width: 100%">
+                <p:column sortBy="#{item.id}" headerText="nazwa">
+                    #{item.nazwa}
+                </p:column>
+                <p:column headerText="data dodania">
+                    <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
+                </p:column>
+                <p:column style="width: 60px">
+                    <p:commandButton id="imgDt" title="pobierz" action="#{fileUploadBean.download}" icon="ui-icon-circle-zoomin" ajax="false">
+                        <f:setPropertyActionListener target="#{RejestracjaRej.plik}" value="#{item}" />
+                    </p:commandButton>
+                    <p:commandButton title="usuń" id="imgDe" process="@this" update="table" action="#{RejestracjaRej.usunPlik}" icon="ui-icon-trash" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+                        <f:setPropertyActionListener target="#{RejestracjaRej.plik}" value="#{item}" />
+                        <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
         </p:tab>
 
     </p:tabView>
 
 
-    <p:panel id="wyslij">
+    <p:panel id="wyslij" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
         <p:commandButton value="wyślij do akceptacji" action="#{RejestracjaRej.wyslijDoAkceptacji}" icon="ui-icon-play"
-                         update="tabPanel, wyslij" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}" process="@this">
+                         update="tabPanel, wyslij" process="@this">
             <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{RejestracjaRej.obiekt}"/>
         </p:commandButton>
     </p:panel>

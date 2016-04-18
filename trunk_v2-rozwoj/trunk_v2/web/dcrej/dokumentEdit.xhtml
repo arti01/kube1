@@ -25,7 +25,7 @@
                 <p:selectOneMenu id="rodzajD" value="#{RejestracjaRej.obiekt.rodzajId}"
                                  converter="#{DcRodzajConv}" valueChangeListener="#{RejestracjaRej.listenerOpis}" filter="true" filterMatchMode="startsWith">
                     <f:selectItems value="#{managedBean.rodzajListaPF}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.nazwa}"/>
-                    <p:ajax event="change" update=":center:innePola"/>
+                    <p:ajax event="change" update=":#{p:component('innePola')}"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel for="zrodloD" value="Źródło: "/>
