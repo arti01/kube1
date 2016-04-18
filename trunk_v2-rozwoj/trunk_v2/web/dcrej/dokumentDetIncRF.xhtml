@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h3>Detale dokumentu: #{RejestracjaRej.obiekt.nazwa}</h3>
+    <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+    <h:form id="form">
+        <rich:tabPanel id="tabPanel" switchType="client">
+            <rich:tab header="Informacje podstawowe" id="infPodst">
+                <ui:include src="./dokumentEdit.xhtml"/>
+                <h:panelGrid id="infoDod" columns="3">
+                    <h:outputLabel for="status" value="aktualny status: "/>
+                    <h:outputText id="status" value="#{RejestracjaRej.obiekt.dokStatusId.nazwa}" style="font-weight: bold"/>
+                    <rich:tooltip target="status">
+                        #{RejestracjaRej.obiekt.dokStatusId.opis}
+                    </rich:tooltip>
+                    <h:outputLabel for="rodzDyst" value="rodzaj dystrybucji: "/>
+                    <h:outputText id="rodzDyst" value="#{RejestracjaRej.obiekt.rodzajId.idTypFlow.nazwa}"  style="font-weight: bold"/>
+                    <rich:tooltip target="rodzDyst">
+                        #{RejestracjaRej.obiekt.rodzajId.idTypFlow.opis}
+                    </rich:tooltip>
+                </h:panelGrid>
+                <hr/>
+                <a4j:commandButton id="zapiszD" value="Zapisz" action="#{RejestracjaRej.edytujZdetale}" execute="@form" render="infoDod"  rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}"/>
+
+                <h:panelGroup  id="podglad">
+                    <a4j:repeat value="#{RejestracjaRej.obiekt.dcPlikList}" var="plik">
+                        <rich:collapsiblePanel rendered="#{fn:endsWith(plik.nazwa,'.pdf')}" expanded="false" header="podgląd #{plik.nazwa}">
+                            <a4j:mediaOutput element="object" createContent="#{WyswietlPdf.paintFota}" value="#{plik.id}" cacheable="false"
+                                             style="width:100%; height: 600px" mimeType="application/pdf"/>
+                        </rich:collapsiblePanel>
+                        <rich:collapsiblePanel rendered="#{fn:endsWith(plik.nazwa,'.jpg')||fn:endsWith(plik.nazwa,'.png')}" expanded="false" header="podgląd #{plik.nazwa}">
+                            <a4j:mediaOutput element="img" createContent="#{WyswietlPdf.paintFota}" value="#{plik.id}" cacheable="false"
+                                             style="width:100%;"/>
+                        </rich:collapsiblePanel>
+                    </a4j:repeat>
+                </h:panelGroup>
+
+            </rich:tab>
+
+            <rich:tab header="Załączniki" id="tabPliki">
+                <rich:fileUpload fileUploadListener="#{fileUploadBean.listener}" id="upload" maxFilesQuantity="1" immediateUpload="true" 
+                                 addLabel="dodaj plik" listHeight="40px"  rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+                    <a4j:ajax event="uploadcomplete" execute="@none" render="table, upload, podglad" />
+                </rich:fileUpload>
+                <hr/>
+                <rich:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" iterationStatusVar="it" rows="10" id="table"  style="width: 100%">
+                    <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <rich:column sortBy="#{item.id}" sortOrder="descending">
+                        <f:facet name="header">nazwa</f:facet>
+                            #{item.nazwa}
+                    </rich:column>
+                    <rich:column >
+                        <f:facet name="header">data dodania</f:facet>
+                        <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    <rich:column style="width: 50px">
+                        <rich:tooltip target="imgDe" value="usuń" layout="block"/>
+                        <rich:tooltip target="imgDt" value="pobierz" layout="block"/>
+                        <a4j:commandButton id="imgDe" execute="@this" render="@none" image="/images/delete.png"
+                                           oncomplete="#{rich:component('confirmPane')}.show()"  rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+                            <f:setPropertyActionListener target="#{RejestracjaRej.plik}" value="#{item}" />
+                        </a4j:commandButton>
+                        <h:commandButton id="imgDt" action="#{fileUploadBean.download}" image="/images/detail.png">
+                            <f:setPropertyActionListener target="#{RejestracjaRej.plik}" value="#{item}" />
+                        </h:commandButton>
+                    </rich:column>
+                </rich:dataTable>
+
+            </rich:tab>
+
+            <rich:tab header="Proces akceptacji">
+                <rich:dataTable id="dok_kroki" value="#{RejestracjaRej.obiekt.dcDokKrok}" var="krok">
+                    <rich:column sortBy="#{krok.lp}" sortOrder="ascending">
+                        <f:facet name="header">lp</f:facet>
+                            #{krok.lp}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">typ kroku</f:facet>
+                            #{krok.dcAckeptTypKroku.nazwa}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">status akceptacji</f:facet>
+                            #{krok.akcept.nazwa}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">Proces akceptacji</f:facet>
+                        <rich:dataTable value="#{krok.dcKrokUzytkownikaList}" var="krokUser">
+                            <rich:column style="width: 60%">
+                                #{krokUser.idUser.fullname}    
+                            </rich:column>
+                            <rich:column style="width: 20%">
+                                #{krokUser.akcept.nazwa}
+                            </rich:column>
+                            <rich:column style="width: 20%">
+                                <h:outputText value="#{krokUser.dataAkcept}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                            </rich:column>
+                            <rich:column >
+                                #{krokUser.informacja}
+                            </rich:column>
+                        </rich:dataTable>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:tab>
+
+            <rich:tab header="Do wiadomości" id="doWiad">
+                <a4j:commandLink  execute="@this" oncomplete="#{rich:component('dodajPaneWiad')}.show()">
+                    <h4>[dodaj do wiadomości]</h4>
+                </a4j:commandLink>
+
+                <rich:dataTable id="doWiadList" value="#{RejestracjaRej.obiekt.dcDokDoWiadList}" var="doWiad">
+                    <f:facet name="header">
+                        <rich:columnGroup>
+                            <rich:column>wprowadził</rich:column>
+                            <rich:column>data wysłania</rich:column>
+                            <rich:column>wysłane do</rich:column>
+                            <rich:column>informacja</rich:column>
+                        </rich:columnGroup>
+                    </f:facet>
+                    <rich:column  sortBy="#{doWiad.id}" sortOrder="descending">
+                        #{doWiad.wprowadzil.fullname}
+                    </rich:column>
+                    <rich:column>
+                        <h:outputText value="#{doWiad.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    <rich:column>
+                        <rich:list value="#{doWiad.dcDokDoWiadCelList}" var="cel">
+                            #{cel.userid.fullname}
+                        </rich:list>
+                    </rich:column>
+                    <rich:column>
+                        #{doWiad.tresc}
+                    </rich:column>
+                </rich:dataTable>
+                <rich:popupPanel header="Wprowadź dane" id="dodajPaneWiad"  autosized="true" domElementAttachment="parent">
+                    <h:outputLabel value="wprowadz krótką notatkę: "/>
+                    <h:inputText value="#{RejestracjaRej.doWiad.tresc}" size="90"/>
+                    <h:panelGrid id="doWiadForm" columns="2">
+                        <rich:panel id="doWiadFormLista">
+                            <f:facet name="header">lista odbiorców</f:facet>
+                            <rich:list id="user_list" value="#{RejestracjaRej.doWiad.dcDokDoWiadCelList}" var="cel">
+                                #{cel.userid.fullname} #{cel.userid.adrEmail}
+                                <a4j:commandButton id="usunUser" action="#{RejestracjaRej.usunDoWiadUser}" render="doWiadFormLista" execute="user_list" image="/images/delete.png">
+                                    <f:setPropertyActionListener target="#{RejestracjaRej.doWiadCel}" value="#{cel}" />
+                                </a4j:commandButton>
+                            </rich:list>
+                        </rich:panel>
+                        <rich:panel id="doWiadFormForm">
+                            <f:facet name="header"></f:facet>
+                            <h:panelGrid id="doWiadForm2" columns="3">
+
+                                <h:outputLabel for="cel" value="podaj email (wprowadz min. 3 znaki)"/>
+                                <rich:autocomplete id="cel" value="#{RejestracjaRej.userDoWiad}"  minChars="3" mode="lazyClient" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}" autofill="true">
+                                    #{user.adrEmail}
+                                    #{user.fullname}
+                                </rich:autocomplete>
+                                <rich:message for="user_id" styleClass="error" />
+                                <a4j:commandButton value="dodaj" execute="doWiadForm2" action="#{RejestracjaRej.dodajDoWiadUser}" render="doWiadForm, wyslijDoPrzyciski" oncomplete="#{rich:component('dodajPaneWiad')}.hide();#{rich:component('dodajPaneWiad')}.show()"/>
+                            </h:panelGrid>
+                        </rich:panel>
+                    </h:panelGrid>
+                    <rich:panel id="wyslijDoPrzyciski">
+                        <a4j:commandButton id="wyslijDoWiad" action="#{RejestracjaRej.dodajDoWiad}" value="Wyślij" render="dodajPaneWiad, doWiadList" execute="dodajPaneWiad"
+                                           oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPaneWiad')}.hide();} else {#{rich:component('dodajPaneWiad')}.show();}" 
+                                           rendered="#{fn:length(RejestracjaRej.doWiad.dcDokDoWiadCelList)>0}"/>
+                        <a4j:commandButton value="Wyjdź" onclick="#{rich:component('dodajPaneWiad')}.hide();
+                                return false;" />
+                    </rich:panel>
+                </rich:popupPanel>
+
+                <rich:dataTable id="doWiadTab" value="#{RejestracjaRej.obiekt.dcDokDoWiadList}" var="doWiad">
+                    #{doWiad.dataWprow}
+                </rich:dataTable>
+            </rich:tab>
+
+            <rich:tab header="Baza Zasobów Materiałowych">
+                <h:outputStylesheet>
+                    .columna1 {
+                    width: 50%;
+                    text-align: left;
+                    }
+                    .columna2 {
+                    width: 50%;
+                    text-align: left;
+                    }
+                    .rf-ind-drag.default{
+                    background-position: 3px;
+                    background-repeat: no-repeat;
+                    border:1px solid grey
+                    }
+
+                    .rf-ind-drag.accept{
+                    background-position: 5px;
+                    background-repeat: no-repeat;
+                    border:2px solid green
+                    }
+
+                    .rf-ind-drag.reject{
+                    background-position: 5px;
+                    background-repeat: no-repeat;
+                    border:2px solid red
+                    }
+                </h:outputStylesheet>
+                <rich:dragIndicator id="ind" acceptClass="accept" rejectClass="reject" draggingClass="default">
+                    Przenieś...
+                </rich:dragIndicator>
+
+                <h:panelGrid id="pgSrc" columns="2" columnClasses="columna1, columna2" style="width: 100%">
+                    <rich:panel rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+                        <f:facet name="header">
+                            Dostępne zasoby materiałowe
+                        </f:facet>
+                        <rich:tree id="listPanel" nodeType="#{node.type}" var="node" value="#{URejDokMg.rootNodesDetDok}" toggleType="ajax" rowKeyVar="row" keepSaved="true">
+                            <rich:treeNode type="master" iconCollapsed="/images/folders-stack.png" iconExpanded="/images/folders-stack.png" iconLeaf="/images/folders-stack.png">
+                                <a4j:outputPanel layout="block">
+                                    <h:outputText id="MasTx" value="#{node.name}"/>
+                                    <rich:tooltip target="MasTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
+                                    <rich:dragSource dragValue="#{node}" type="master" dragIndicator="ind"/>
+                                </a4j:outputPanel>
+                            </rich:treeNode>
+
+                            <rich:treeNode id="treeNode" type="grupa" iconCollapsed="/images/folders.png" iconExpanded="/images/folders.png" iconLeaf="/images/folders.png">
+                                <a4j:outputPanel layout="block">
+                                    <h:outputText id="GrTx" value="#{node.name}"/>
+                                    <rich:tooltip target="GrTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
+                                    <rich:dragSource dragValue="#{node}" type="grupa" dragIndicator="ind"/>
+                                </a4j:outputPanel>
+                            </rich:treeNode>
+
+                            <rich:treeNode type="urzadz" iconLeaf="/images/pipette.png">
+                                <a4j:outputPanel id="panelUr_#{row}" layout="block">
+                                    <h:outputText id="UrTx" value="#{node.name}"/>
+                                    <rich:tooltip target="UrTx" value="#{node.opis}" layout="block" rendered="#{fn:length(node.opis)>0}"/>
+                                    <rich:dragSource dragValue="#{node}" type="urzadz" dragIndicator="ind"/>
+                                </a4j:outputPanel>
+                            </rich:treeNode>
+                        </rich:tree>
+
+                    </rich:panel>
+
+                    <rich:panel id="pgTrg">
+                        <f:facet name="header">
+                            Dokument dotyczy zasobów materiałowych
+                        </f:facet>
+                        <rich:dropTarget acceptedTypes="urzadz, grupa, master"  dropListener="#{URejDokMg.drop}"
+                                         render="pgSrc, pgTrg" dropValue="#{RejestracjaRej.obiekt}"/>
+                        <rich:dataTable value="#{RejestracjaRej.obiekt.urzadzeniaList}" var="urzadz" style="width: 100%; border: white thick">
+                            <rich:column sortBy="#{urzadz.nazwa}" sortOrder="ascending">
+                                #{urzadz.nazwa}
+                                (#{urzadz.nrInw}-
+                                #{urzadz.nrSer})
+                                <rich:tooltip target="imgDelOdb" value="usuń zasób" layout="block"/>
+                                <a4j:commandButton id="imgDelOdb" action="#{URejDokMg.usunUrzad}" execute="imgDelOdb" render="pgSrc, pgTrg"  image="/images/delete.png" style="width: 16px; height: 16px" 
+                                                   rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+                                    <f:setPropertyActionListener target="#{URejDokMg.urzad}" value="#{urzadz}" />
+                                </a4j:commandButton>
+                            </rich:column>
+                        </rich:dataTable>
+                    </rich:panel>
+
+                </h:panelGrid>
+
+            </rich:tab>
+
+            <rich:tab header="Archiwum - dokumenty powiązane">
+                <rich:panel id="pgArchDod" rendered="#{RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.archiw}">
+                    <f:facet name="header">
+                        Informacje dodatkowe
+                    </f:facet>
+                    <h:panelGrid columns="6">
+                        <h:outputLabel value="nazwisko i imię osoby wypożyczającej"/>
+                        <h:inputText id="nazwImie" value="#{RejestracjaRej.obiekt.dokArchDod.imieNazwisko}"/>
+                        <rich:message for="nazwImie" styleClass="error" />
+
+                        <h:outputLabel value="planowana data zwrotu dokumentu:"/>
+                        <rich:calendar id="plDaZw" value="#{RejestracjaRej.obiekt.dokArchDod.dataPlanZwrot}" locale="#{RejestracjaRej.locale}"
+                                       popup="true" datePattern="yyyy-MM-dd"
+                                       showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                            <rich:validator /></rich:calendar>
+                        <rich:message for="plDaZw" styleClass="error" />
+
+                        <h:outputLabel value="rzeczywista data zwrotu dokumentu:"/>
+                        <rich:calendar id="realDaZw" value="#{RejestracjaRej.obiekt.dokArchDod.dataRzeczZwrot}" locale="#{RejestracjaRej.locale}"
+                                       popup="true" datePattern="yyyy-MM-dd"
+                                       showApplyButton="#{calendarBean.showApply}" style="width:200px">
+                            <rich:validator /></rich:calendar>
+                        <rich:message for="realDaZw" styleClass="error" />
+
+                        <h:outputLabel value="wydał (podaj email, wprowadz min. 3 znaki):"/>
+                        <rich:autocomplete value="#{RejestracjaRej.obiekt.dokArchDod.wydal}"  minChars="3" mode="lazyClient" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}" autofill="true">
+                            #{user.adrEmail}
+                            #{user.fullname}
+                        </rich:autocomplete>
+                    </h:panelGrid>
+                    <a4j:commandButton action="#{RejestracjaRej.edytuj}" value="zapisz" execute="pgArchDod"/>
+                </rich:panel>
+
+                <rich:panel id="pgArch">
+                    <f:facet name="header">
+                        Dokument powiązany z dokumentami w archiwum
+                    </f:facet>
+
+                    <rich:dataTable value="#{RejestracjaRej.obiekt.dcArchList}" var="arch" style="width: 100%; border: white thick">
+                        <rich:column sortBy="#{arch.symbolDok}" sortOrder="ascending">
+                            #{arch.nazwa}
+                            (#{arch.symbolDok})
+                        </rich:column>
+                    </rich:dataTable>
+                </rich:panel>
+
+            </rich:tab>
+
+            <a4j:jsFunction name="remove" action="#{RejestracjaRej.usunPlik}" render="tabPliki" execute="@this"
+                            oncomplete="#{rich:component('confirmPane')}.hide();" />
+            <rich:popupPanel id="confirmPane" autosized="true">
+                Na pewno chcesz skasować?
+                <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPane')}.hide();
+                                return false;" />
+                <a4j:commandButton value="Tak" onclick="remove();
+                        return false;" />
+            </rich:popupPanel>
+        </rich:tabPanel>
+
+
+        <rich:panel id="wyslij">
+            <a4j:commandButton value="wyślij do akceptacji" action="#{RejestracjaRej.wyslijDoAkceptacji}" render="tabPanel, wyslij" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}" execute="@this">
+                <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{RejestracjaRej.obiekt}" />
+            </a4j:commandButton>
+        </rich:panel>
+        <rich:popupPanel id="statPane" autosized="true">
+            <h:graphicImage value="/images/ai.gif" alt="ai" />
+            Proszę czekać...
+        </rich:popupPanel>
+    </h:form>
+    <hr/>
+
+</ui:composition>

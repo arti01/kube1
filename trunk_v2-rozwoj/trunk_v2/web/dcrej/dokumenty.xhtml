@@ -4,10 +4,12 @@
                 template="/templates/templateGPF.xhtml"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="tytul">
-        <h3>Dokumenty</h3>
+        <h3 align="center">Dokumenty</h3>
     </ui:define>
     <ui:define name="content" id="content">
         <h:form id="center">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
             <ui:include src="/dcrej/dokumentList.xhtml">
                 <ui:param name="managedBean" value="#{RejestracjaRej}"/> 
                 <ui:param name="widok" value="#{false}"/>

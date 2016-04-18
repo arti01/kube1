@@ -109,10 +109,10 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         }
         for (Kalendarz kal : uzyt.getKalendarzList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(kal.getNazwa(), kal.getDataOd(), kal.getDataDo(), kal);
-            if(uzyt.equals(login.getZalogowany().getUserId())){
+            if (uzyt.equals(login.getZalogowany().getUserId())) {
                 ev.setEditable(true);
                 ev.setStyleClass("calMoj");
-            }else{
+            } else {
                 ev.setEditable(false);
                 ev.setStyleClass("calUczestnik");
             }
@@ -160,12 +160,12 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         DefaultScheduleEvent oldEvent = (DefaultScheduleEvent) selectEvent.getScheduleEvent();
         ruchEvent(oldEvent);
     }
-    
+
     public void onEventResize(ScheduleEntryResizeEvent selectEvent) throws NonexistentEntityException, Exception {
         DefaultScheduleEvent oldEvent = (DefaultScheduleEvent) selectEvent.getScheduleEvent();
         ruchEvent(oldEvent);
     }
-    
+
     private void ruchEvent(DefaultScheduleEvent oldEvent) throws NonexistentEntityException, Exception {
         obiektKal = dcCKal.findObiekt(((Kalendarz) oldEvent.getData()).getId());
         Date stOd = obiektKal.getDataOd();
@@ -177,7 +177,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             oldEvent.setEndDate(stDo);
         }
     }
-    
+
     public void onEventSelect(SelectEvent selectEvent) {
         event = (DefaultScheduleEvent) selectEvent.getObject();
         if (event.getData().getClass().getName().equals(UmRezerwacje.class.getName())) {
@@ -241,6 +241,10 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         }
         wynik.remove(login.getZalogowany().getUserId());
         return wynik;
+    }
+
+    public void newObiektKal() {
+        obiektKal = new Kalendarz();
     }
 
     public Login getLogin() {

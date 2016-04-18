@@ -8,7 +8,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="tytul">
-        <h3>Rezerwacje i kalendarze - pokaż dla osób</h3>
+        <h3 align="center">Rezerwacje i kalendarze - pokaż dla osób</h3>
     </ui:define>
 
     <ui:define name="content" id="content">
@@ -110,7 +110,7 @@
                         <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
                     </p:dataList>
                 </p:panelGrid>
-                
+
                 <p:panelGrid id="eventKal" columns="3" rendered="#{RezerMojKalMg.typObiekt=='calMoj'}">
                     <p:outputLabel for="titleK" value="Nazwa:"/>
                     <p:inputText id="titleK" value="#{RezerMojKalMg.obiektKal.nazwa}" size='100' rendered="#{RezerMojKalMg.event.editable}"/>
@@ -133,8 +133,8 @@
 
                     <p:outputLabel value="Uczestnicy terminu:" for="osobyK"/>
                     <p:autoComplete id="osobyK" multiple="true" value="#{RezerMojKalMg.obiektKal.uczestnikList}" completeMethod="#{RezerMojKalMg.dostepniList}"
-                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}"
-                                    rendered="#{RezerMojKalMg.event.editable}">
+                                    var="user" itemLabel="#{user.fullname}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}"
+                                    rendered="#{RezerMojKalMg.event.editable}" >
                         <p:ajax event="itemSelect" listener="#{RezerMojKalMg.onAddUsers}"/>
                         <p:ajax event="itemUnselect" listener="#{RezerMojKalMg.onDelUsers}"/>
                         <p:column>
@@ -150,14 +150,16 @@
                     <p:message for="osobyK"/>
 
                     <p:commandButton id="addButtonK" value="Zapisz" action="#{RezerMojKalMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
-                                     update="schedule, :infoForm:messages, :center:eventDetails" rendered="#{RezerMojKalMg.event.editable}" process=":center:dialog"/>
+                                     update="schedule, :infoForm:messages, :center:eventKal, :center:valid" rendered="#{RezerMojKalMg.event.editable}" process=":center:dialog"/>
                     <p:message for="addButtonK"/>
-                    <p:commandButton value="Reset/Wyjdź" immediate="true" actionListener="#{RezerMojKalMg.newObiektKal}" rendered="#{RezerMojKalMg.event.editable}" oncomplete="PF('eventDialog').hide()"
-                                     styleClass="ui-state-disabled">
-                        <p:resetInput target="eventDetails"/>
+                    <p:commandButton value="Reset/Wyjdź" immediate="true" actionListener="#{RezerMojKalMg.newObiektKal}" rendered="#{RezerMojKalMg.event.editable}" 
+                                     oncomplete="PF('eventDialog').hide()" styleClass="ui-state-disabled">
+                        <p:resetInput target="dialog"/>
                     </p:commandButton>
                 </p:panelGrid>
-
+                <h:panelGroup id="valid">
+                    <p:remoteCommand oncomplete="PF('eventDialog').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
+                </h:panelGroup>
             </p:dialog> 
         </h:form>
     </ui:define>

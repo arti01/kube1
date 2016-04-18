@@ -47,6 +47,7 @@ import pl.eod2.managedCfg.Kontrahenci;
 public class Rejestracja {
 
     DataModel<DcDokument> lista = new ListDataModel<>();
+    List<DcDokument> listaPF = new ArrayList<>();
     private DataModel<DcRodzaj> rodzajLista = new ListDataModel<>();
     private List<DcRodzaj> rodzajListaPF = new ArrayList<>();
     public DcDokumentJpaController dcC;
@@ -102,15 +103,20 @@ public class Rejestracja {
 
     public void refreshObiekt() {
         lista.setWrappedData(dcC.findDcDokumentEntities());
+        listaPF = dcC.findDcDokumentEntities();
         rodzajLista.setWrappedData(dcRodzC.findDcRodzajEntities());
-        rodzajListaPF=dcRodzC.findDcRodzajEntities();
+        rodzajListaPF = dcRodzC.findDcRodzajEntities();
         obiekt = new DcDokument();
         error = null;
     }
-    
+
+    public void newObiekt() {
+        obiekt = new DcDokument();
+    }
 
     void refreshBezObiekt() {
         lista.setWrappedData(dcC.findDcDokumentEntities());
+        listaPF = dcC.findDcDokumentEntities();
         error = null;
     }
 
@@ -148,10 +154,7 @@ public class Rejestracja {
             }
             return false;
         } else {
-            //System.err.println(obiekt.getDcPlikList());
             if (!obiekt.getDcPlikList().isEmpty()) {
-                //System.err.println("usuwanie plikow");
-                //System.err.println(plikImport.getId());
                 if (plikImport != null) {
                     plikImpC.destroy(plikImport.getId());
                     plikImport = null;
@@ -176,7 +179,6 @@ public class Rejestracja {
     }
 
     public void edytuj() throws ParseException {
-        //System.err.println(obiekt.getDokArchDod());
         if (edytujAbst()) {
             refreshObiekt();
         }
@@ -213,13 +215,13 @@ public class Rejestracja {
         } catch (Exception ex) {
             Logger.getLogger(Rejestracja.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //System.err.println(error);
         if (error != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error);
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
             lista.setWrappedData(dcC.findDcDokumentEntities());
+            listaPF = dcC.findDcDokumentEntities();
             return false;
         } else {
             return true;
@@ -252,7 +254,6 @@ public class Rejestracja {
         } catch (Exception ex) {
             Logger.getLogger(Rejestracja.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //System.err.println(error);
         if (error != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error);
             FacesContext context = FacesContext.getCurrentInstance();
@@ -285,13 +286,13 @@ public class Rejestracja {
         } catch (Exception ex) {
             Logger.getLogger(Rejestracja.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //System.err.println(error);
         if (error != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error);
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
             lista.setWrappedData(dcC.findDcDokumentEntities());
+            listaPF = dcC.findDcDokumentEntities();
         } else {
             refreshObiekt();
         }
@@ -346,7 +347,7 @@ public class Rejestracja {
             dcPlik.setDataDodania(new Date());
             obiekt.setDcPlikList(new ArrayList<>());
             obiekt.getDcPlikList().add(dcPlik);
-            plikImport=null;
+            plikImport = null;
         }
         return "/dcrej/dokumenty";
     }
@@ -407,7 +408,6 @@ public class Rejestracja {
     }
 
     public String detale() {
-        //System.err.println(obiekt.getDokArchDod());
         return "/dcrej/dokumentDetale?faces-redirect=true";
     }
 
@@ -422,7 +422,6 @@ public class Rejestracja {
         doWiad.getDcDokDoWiadCelList().add(cel);
         //usersLista.remove(user);
         userDoWiad = new Uzytkownik();
-        //System.err.println(cel.getId() + "-" + cel.getIdDokDoWiad() + "-" + cel.getUserid());
     }
 
     public void usunDoWiadUser() {
@@ -438,7 +437,6 @@ public class Rejestracja {
         doWiad.setDataWprow(new Date());
         doWiad.setDokid(obiekt);
         error = dcC.editDoWiad(obiekt, doWiad);
-        //System.out.println(obiekt.getDcDokDoWiadList());
 
         if (error != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error, error);
@@ -473,6 +471,14 @@ public class Rejestracja {
 
     public void setLista(DataModel<DcDokument> lista) {
         this.lista = lista;
+    }
+
+    public List<DcDokument> getListaPF() {
+        return listaPF;
+    }
+
+    public void setListaPF(List<DcDokument> listaPF) {
+        this.listaPF = listaPF;
     }
 
     public DcDokument getObiekt() {

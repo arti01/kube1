@@ -8,7 +8,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="tytul">
-        <h3>Rezerwacje</h3>
+        <h3 align="center">Rezerwacje</h3>
     </ui:define>
     <ui:define name="content" id="content">
         <h:form id="center">
@@ -105,8 +105,8 @@
 
                     <p:outputLabel value="uczestnicy rezerwacji:" for="osoby"/>
                     <p:autoComplete id="osoby" multiple="true" value="#{RezerwacjeMg.obiekt.uczestnikList}" completeMethod="#{RezerwacjeMg.dostepniList}"
-                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}"
-                                    rendered="#{RezerwacjeMg.event.editable}">
+                                    var="user" itemLabel="#{user.fullname}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConv}"
+                                    rendered="#{RezerwacjeMg.event.editable}" size="100">
                         <p:ajax event="itemSelect" listener="#{RezerwacjeMg.onAddUsers}"/>
                         <p:ajax event="itemUnselect" listener="#{RezerwacjeMg.onDelUsers}"/>
                         <p:column>

@@ -5,33 +5,20 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <p:remoteCommand oncomplete="PF('dodajPane').show();" autoRun="true" rendered="#{fn:length(RejestracjaRej.obiekt.dcPlikList)>0 or RejestracjaRej.obiekt.dcPlikList!=null}"/>
-    <p:dialog header="Wprowadź podstawowe informacje" id="dodajPaneId" widgetVar="dodajPane" position="top" closable="false">
-        <ui:include src="./dokumentEdit.xhtml">
-            <ui:param name="detal" value="#{false}"/>
-        </ui:include>
-        <p:commandButton id="dodaj" value="Dodaj" action="#{managedBean.dodaj}" oncomplete="PF('dodajPane').hide();"
-                         update=":center:listPanel,:center:panelGrp,:center:valid,:infoForm:messages" rendered="#{RejestracjaRej.obiekt.id==null}" process="dodajPaneId"/>
+    <p:remoteCommand oncomplete="PF('dodajPane').show();" autoRun="true" rendered="#{fn:length(RejestracjaRej.obiekt.dcPlikList)>0 and RejestracjaRej.obiekt.dcPlikList!=null}"/>
+    <p:remoteCommand oncomplete="PF('dodajPane').show();" autoRun="true" rendered="#{RejestracjaRej.obiekt.kontrahentId.id!='' and RejestracjaRej.obiekt.kontrahentId.id!=null}"/>
+    <p:remoteCommand oncomplete="PF('dodajPane').show();" autoRun="true" rendered="#{fn:length(RejestracjaRej.obiekt.opis)>0}"/>
 
-        <p:commandButton id="zapisz" value="Zapisz" action="#{managedBean.edytuj}" update=":center:listPanel, dodajPaneId" process="dodajPaneId" rendered="#{RejestracjaRej.obiekt.id!=null}"/>
-
-        <p:commandButton value="Reset/Wyjdź" immediate="true" actionListener="#{RejestracjaRej.refreshObiekt}" oncomplete="PF('dodajPane').hide();"
-                         styleClass="ui-state-disabled" update=":center:panelGrp">
-            <p:resetInput target="dodajPaneId"/>
-        </p:commandButton>
-        <p:message for="opisDlugiD" styleClass="error" />
-        <p:message for="zapisz" styleClass="error" />
-        <p:message for="dodaj" styleClass="error" />
-    </p:dialog>
     <h:panelGroup id="valid">
         <p:remoteCommand oncomplete="PF('dodajPane').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
     </h:panelGroup>
 
     <p:panel id="listPanel">
-        <p:commandButton value="dodaj dokument" process="@this" oncomplete="PF('dodajPane').show();" 
-                         action="#{RejestracjaRej.refreshObiekt}" rendered="#{!brakDodaj}"/>
+        <p:commandButton id="newDok" value="dodaj dokument" process="@this" oncomplete="PF('dodajPane').show();" 
+                         action="#{RejestracjaRej.newObiekt}" rendered="#{!brakDodaj}"/>
         <hr/>
-        <p:dataTable value="#{managedBean.lista}" var="item" id="table" paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+
+        <p:dataTable value="#{managedBean.listaPF}" var="item" id="table" paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
                      emptyMessage="brak rekordów" style="width: 100%" sortOrder="descending" sortBy="#{item.dataWprow}">
             <p:column headerText="znaleziono w" rendered="#{infoWyszuk}">
                 uzupelnic
@@ -78,14 +65,14 @@
             </p:column>
 
             <p:column style="background-color: #{item.dokStatusId.kolor}; text-align: center;" headerText="status" filterMatchMode="contains" filterBy="#{item.dokStatusId.nazwa}">    
-                    <p:outputLabel for="procentWykonania" value="proces akceptacji: "/>
-                    <h:outputText id="procentWykonania" value="#{item.procentWykonania}"/>
+                <p:outputLabel for="procentWykonania" value="proces akceptacji: "/>
+                <h:outputText id="procentWykonania" value="#{item.procentWykonania}"/>
                 <br/>
-                    <h:outputText id="statusList" value="#{item.dokStatusId.nazwa} "/>
-                    <p:commandButton style="font-size: 80%;" title="wyślij do akceptacji" action="#{RejestracjaRej.wyslijDoAkceptacji}" icon="ui-icon-play"
-                                     update=":center:listPanel" rendered="#{item.dokStatusId.id==1}" process="@this">
-                        <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
-                    </p:commandButton>
+                <h:outputText id="statusList" value="#{item.dokStatusId.nazwa} "/>
+                <p:commandButton style="font-size: 80%;" title="wyślij do akceptacji" action="#{RejestracjaRej.wyslijDoAkceptacji}" icon="ui-icon-play"
+                                 update=":center:listPanel" rendered="#{item.dokStatusId.id==1}" process="@this">
+                    <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
+                </p:commandButton>
                 <p:tooltip for="statusList">
                     #{item.dokStatusId.opis}
                 </p:tooltip>
@@ -102,7 +89,45 @@
                 </p:tooltip>
             </p:column>
 
+            <p:column style="width: 90px" headerText="akcje">
+                <p:commandButton id="imgEd" title="edytuj podstawowe dane" update=":center:panelGrp" process="@this" oncomplete="PF('dodajPane').show();"
+                                 rendered="#{item.dokStatusId.id==1}" icon="ui-icon-pencil">
+                    <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}"/>
+                </p:commandButton>
+                <p:commandButton id="imgDt" title="detale dokumentu" process="@this" action="#{managedBean.detale}" icon="ui-icon-circle-zoomin">
+                    <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
+                </p:commandButton>
+                <p:commandButton id="imgAn" title="anuluj dokument" process="@this" update=":center:table" action="#{RejestracjaRej.anuluj}" 
+                                 rendered="#{item.dokStatusId.id==2}" icon="ui-icon-circle-minus">
+                    <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
+                    <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:commandButton title="usuń dokument" id="imgDe" action="#{managedBean.usun}" process="@this" update=":center:table" 
+                                 rendered="#{item.dokStatusId.id==1}" icon="ui-icon-trash">
+                    <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}"/>
+                    <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                </p:commandButton>
+            </p:column>
         </p:dataTable>
+
+        <p:dialog header="Wprowadź podstawowe informacje" id="dodajPaneId" widgetVar="dodajPane" position="top" closable="false">
+            <ui:include src="./dokumentEdit.xhtml">
+                <ui:param name="detal" value="#{false}"/>
+            </ui:include>
+            <p:commandButton id="dodaj" value="Dodaj" action="#{managedBean.dodaj}" oncomplete="PF('dodajPane').hide();"
+                             update=":center:listPanel,:center:panelGrp,:center:valid,:infoForm:messages" rendered="#{RejestracjaRej.obiekt.id==null}" process="dodajPaneId"/>
+
+            <p:commandButton id="zapisz" value="Zapisz" action="#{managedBean.edytuj}" update=":center:listPanel, dodajPaneId" process="dodajPaneId" rendered="#{RejestracjaRej.obiekt.id!=null}"/>
+
+            <p:commandButton value="Reset/Wyjdź" immediate="true" actionListener="#{RejestracjaRej.newObiekt}" oncomplete="PF('dodajPane').hide();"
+                             styleClass="ui-state-disabled" update=":center:panelGrp">
+                <p:resetInput target="dodajPaneId"/>
+            </p:commandButton>
+            <p:message for="opisDlugiD" styleClass="error" />
+            <p:message for="zapisz" styleClass="error" />
+            <p:message for="dodaj" styleClass="error" />
+        </p:dialog>
+
     </p:panel>
 </html>
 

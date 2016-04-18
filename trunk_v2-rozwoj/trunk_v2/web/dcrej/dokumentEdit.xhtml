@@ -5,7 +5,7 @@
     <p:panel id="panelGrp">
         <p:fieldset legend="Pola podstawowe" toggleable="true" toggleSpeed="250">
             <p:outputLabel for="symbolD" value="Symbol: " rendered="#{RejestracjaRej.obiekt.id ne null}"/>
-            <p:inputText id="symbolD" value="#{RejestracjaRej.obiekt.symbolDok}" size="25" readonly="true" rendered="#{RejestracjaRej.obiekt.id ne null}"></p:inputText>
+            <h:outputText id="symbolD" value="#{RejestracjaRej.obiekt.symbolDok}" rendered="#{RejestracjaRej.obiekt.id ne null}"></h:outputText>
             <p:panelGrid columns="2" id="dodajGrid">
                 <p:outputLabel for="nameD" value="Nazwa: "/>
                 <h:panelGroup>
@@ -82,7 +82,7 @@
 
                     <p:outputLabel value="wydał:"/>
                     <p:autoComplete multiple="false" value="#{RejestracjaRej.obiekt.dokArchDod.wydal}" completeMethod="#{RodzajeCfg.autoCompUser}"
-                                    var="user" itemLabel="#{user.adrEmail}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConvEmail}">
+                                    var="user" itemLabel="#{user.fullname}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConvEmail}">
                         <p:column>
                             <h:outputText value="#{user.fullname}" />
                         </p:column>
