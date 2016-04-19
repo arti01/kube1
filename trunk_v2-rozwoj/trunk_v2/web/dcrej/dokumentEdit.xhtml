@@ -16,7 +16,7 @@
                 <p:inputTextarea id="opisD" value="#{RejestracjaRej.obiekt.opis}" cols="150" rows="3" autoResize="true"/>
             </p:panelGrid>
 
-            <p:panelGrid columns="10" id="dodajGrid6">
+            <p:panelGrid columns="6" id="dodajGrid6" columnClasses="column1p,column2p,column1p,column2p,column1p,column2p,">
                 <p:outputLabel for="dataD" value="Data dokumentu:"/>
                 <p:calendar id="dataD" value="#{RejestracjaRej.obiekt.dataDok}" pattern="dd/MM/yyyy" locale="pl"/>
 
@@ -96,12 +96,12 @@
                 </p:panelGrid>
             </p:fieldset>
 
-            <p:fieldset legend="dodatkowy opis  (po modyfikacji naciśnij przycisk ZAPISZ dole strony) (najpierw wybierz rodzaj dokumentu - zmiana rodzaju dokumentu na taki, który posiada szablon wyczyści to pole)"
+            <p:fieldset legend="dodatkowy opis (najpierw wybierz rodzaj dokumentu)"
                         toggleable="true" toggleSpeed="230" collapsed="#{!(RejestracjaRej.obiekt.opisDlugi.length()>1)}" rendered="#{!detal}">
                 <p:editor  id="opisDlugiD" value="#{RejestracjaRej.obiekt.opisDlugi}" style="margin-bottom: 1em" height="300" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1 or RejestracjaRej.obiekt.dokStatusId.id==null}"/>
                 <h:outputText value="#{RejestracjaRej.obiekt.opisDlugi}" escape="false" rendered="#{RejestracjaRej.obiekt.dokStatusId.id!=1 and RejestracjaRej.obiekt.dokStatusId.id!=null}"/>
             </p:fieldset>
-            <p:fieldset legend="dodatkowy opis  (po modyfikacji naciśnij przycisk ZAPISZ na górze lub dole strony) (najpierw wybierz rodzaj dokumentu - zmiana rodzaju dokumentu na taki, który posiada szablon wyczyści to pole)"
+            <p:fieldset legend="dodatkowy opis (najpierw wybierz rodzaj dokumentu)"
                         toggleable="true" toggleSpeed="230" collapsed="true" rendered="#{detal}">
                 <p:editor id="opisDlugiDD" value="#{RejestracjaRej.obiekt.opisDlugi}" style="margin-bottom: 1em" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1 or RejestracjaRej.obiekt.dokStatusId.id==null}" />
                 <h:outputText value="#{RejestracjaRej.obiekt.opisDlugi}" escape="false" rendered="#{RejestracjaRej.obiekt.dokStatusId.id!=1 and RejestracjaRej.obiekt.dokStatusId.id!=null}"/>

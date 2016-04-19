@@ -24,8 +24,10 @@
                 uzupelnic
             </p:column>
 
-            <p:column headerText="data rejestracji" sortBy="#{item.dataWprow}">
-                <h:outputText value="#{item.dataWprow}" style="font-size: 90%;"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+            <p:column headerText="data rejestracji" sortBy="#{item.dataWprow}" style="width: 10em;">
+                <h:outputText value="#{item.dataWprow}" style="font-size: 90%;"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                <br/>
+                <h:outputText value="#{item.dataWprow}" style="font-size: 90%;"><f:convertDateTime type="date" pattern="HH:mm:ss" timeZone="CET"/></h:outputText>
                 <br/>
                 <h:outputText value="przeterminowany" style="background-color: red" rendered="#{item.alertAkceptacja}"/>
             </p:column>
@@ -40,7 +42,7 @@
                 </p:tooltip>
             </p:column>
 
-            <p:column headerText="data dokumentu" filterBy="#{item.dataDokStr}" filterMatchMode="contains">
+            <p:column headerText="data dokumentu" filterBy="#{item.dataDokStr}"  style="width: 10em;" filterMatchMode="contains">
                 <h:outputText value="#{item.dataDokStr}"/>
                 <br/>
                 <h:outputText value="do brakowania" style="background-color: red" rendered="#{item.alertBrakowanie}"/><br/>
