@@ -1,3 +1,6 @@
+2016-04-19
+Dodałem pole opis do kalendarza i rezerwacji oraz tooltip do zdarzenia
+
 2016-04-15
 w repozytorium bez logowania dodałem powrót
 w konfiguracji grup zasobów materiałych dodałem przełącznik "czy obsługuje rezerwacje" przy edycji/dodawaniu i bajerancki filtr

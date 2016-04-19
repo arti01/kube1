@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -58,6 +59,10 @@ public class Kalendarz extends AbstEncja implements Serializable {
     @Column(nullable = false)
     private Date dataDo;
         
+    @Size(max = 10485760)
+    @Lob
+    private String opis;
+    
     @ManyToOne(optional = false, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(nullable = false)
     private Uzytkownik tworca;
@@ -75,7 +80,6 @@ public class Kalendarz extends AbstEncja implements Serializable {
         this.id = id;
     }
 
-    
     @Override
     public String getNazwa() {
         return nazwa;
@@ -118,6 +122,14 @@ public class Kalendarz extends AbstEncja implements Serializable {
         this.uczestnikList = uczestnikList;
     }
 
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;

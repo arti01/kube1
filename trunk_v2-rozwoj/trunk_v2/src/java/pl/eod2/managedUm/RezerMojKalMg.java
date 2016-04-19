@@ -101,6 +101,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         eventModel.clear();
         for (UmRezerwacje rez : uzyt.getRezUczestnikList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa() + "\ndla: " + rez.getUrzadzenie().getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
+            ev.setDescription(rez.getOpis());
             ev.setEditable(false);
             if (!rez.getTworca().equals(login.getZalogowany().getUserId())) {
                 ev.setStyleClass("rezUczestnik");
@@ -109,6 +110,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         }
         for (Kalendarz kal : uzyt.getKalendarzList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(kal.getNazwa(), kal.getDataOd(), kal.getDataDo(), kal);
+            ev.setDescription(kal.getOpis());
             if (uzyt.equals(login.getZalogowany().getUserId())) {
                 ev.setEditable(true);
                 ev.setStyleClass("calMoj");
@@ -120,6 +122,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         }
         for (Kalendarz kal : uzyt.getKalendUczestnikList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(kal.getNazwa(), kal.getDataOd(), kal.getDataDo(), kal);
+            ev.setDescription(kal.getOpis());
             ev.setEditable(false);
             ev.setStyleClass("calUczestnik");
             eventModel.addEvent(ev);
@@ -130,6 +133,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         if (event.getId() == null) {
             DefaultScheduleEvent newEvent = new DefaultScheduleEvent(obiektKal.getNazwa(), obiektKal.getDataOd(), obiektKal.getDataDo(), obiektKal);
             newEvent.setStyleClass("calMoj");
+            newEvent.setDescription(obiektKal.getOpis());
             eventModel.addEvent(newEvent);
             if (!dcCKal.create(obiektKal).isEmpty()) {
                 eventModel.deleteEvent(newEvent);
@@ -139,12 +143,14 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             Date stOd = obiektKal.getDataOd();
             Date stDo = obiektKal.getDataDo();
             String tyt = obiektKal.getNazwa();
+            String desc=obiektKal.getOpis();
             if (!dcCKal.edit(obiektKal).isEmpty()) {
                 return;
             }
             event.setTitle(tyt);
             event.setStartDate(stOd);
             event.setEndDate(stDo);
+            event.setDescription(desc);
             eventModel.updateEvent(event);
         }
         event = new DefaultScheduleEvent();

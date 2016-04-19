@@ -51,7 +51,7 @@
 
             <p:panel id="schedulePanel">
                 <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="#{6-RezerMojKalMg.number2}" view="#{RezerwacjeMg.viewKal}"
-                            locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true" rightHeaderTemplate="">
+                            locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true" rightHeaderTemplate="" tooltip="true">
                     <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
                     <p:ajax event="dateSelect" listener="#{RezerMojKalMg.onDateSelect}" update=":infoForm:messages, :center:dialog" oncomplete="PF('eventDialog').show();"/>
                     <p:ajax event="eventMove" listener="#{RezerMojKalMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();"/>
@@ -90,6 +90,8 @@
                     <p:dataList value="#{RezerMojKalMg.obiekt.uczestnikList}" var="user" type="ordered" emptyMessage="brak" >
                         <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
                     </p:dataList>
+                    <p:outputLabel value="opis"/>
+                    <p:inputTextarea value="#{RezerMojKalMg.obiekt.opis}" autoResize="true" rows="5" cols="100" readonly="true"/>
                 </p:panelGrid>
 
                 <p:panelGrid id="eventKalUcz" columns="2" rendered="#{RezerMojKalMg.typObiekt=='calUczestnik'}">
@@ -109,6 +111,9 @@
                     <p:dataList value="#{RezerMojKalMg.obiektKal.uczestnikList}" var="user" type="ordered" emptyMessage="brak" >
                         <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
                     </p:dataList>
+
+                    <p:outputLabel value="opis"/>
+                    <p:inputTextarea value="#{RezerMojKalMg.obiektKal.opis}" autoResize="true" rows="5" cols="100" readonly="true"/>
                 </p:panelGrid>
 
                 <p:panelGrid id="eventKal" columns="3" rendered="#{RezerMojKalMg.typObiekt=='calMoj'}">
@@ -144,13 +149,16 @@
                             <h:outputText value="#{user.adrEmail}" />
                         </p:column>
                     </p:autoComplete>
-                    <p:dataList value="#{RezerMojKalMg.obiektKal.uczestnikList}" var="user" type="ordered" rendered="#{!RezerMojKalMg.event.editable}" emptyMessage="brak" >
+                    <p:dataList value="#{RezerMojKalMg.obiektKal.uczestnikList}" var="user" type="ordered" emptyMessage="brak" rendered="#{!RezerMojKalMg.event.editable}">
                         <h:outputText value="#{user.fullname}, #{user.adrEmail}" />
                     </p:dataList>
                     <p:message for="osobyK"/>
-
+                    <p:outputLabel for="opis" value="opis"/>
+                    <p:inputTextarea id="opis" value="#{RezerMojKalMg.obiektKal.opis}" autoResize="true" rows="5" cols="100" readonly="#{!RezerMojKalMg.event.editable}"/>
+                    <p:message for="opis"/>
+                    
                     <p:commandButton id="addButtonK" value="Zapisz" action="#{RezerMojKalMg.addEventObj}" oncomplete="PF('eventDialog').hide()"
-                                     update="schedule, :infoForm:messages, :center:eventKal, :center:valid" rendered="#{RezerMojKalMg.event.editable}" process=":center:dialog"/>
+                                     update="schedule, :infoForm:messages, :center:eventKal, :center:valid" process=":center:dialog"/>
                     <p:message for="addButtonK"/>
                     <p:commandButton value="Reset/Wyjdź" immediate="true" actionListener="#{RezerMojKalMg.newObiektKal}" rendered="#{RezerMojKalMg.event.editable}" 
                                      oncomplete="PF('eventDialog').hide()" styleClass="ui-state-disabled">

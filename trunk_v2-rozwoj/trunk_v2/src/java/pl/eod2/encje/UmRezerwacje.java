@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -58,6 +59,10 @@ public class UmRezerwacje extends AbstEncja implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date dataDo;
+    
+    @Size(max = 10485760)
+    @Lob
+    private String opis;
     
     @ManyToOne(optional = false, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(nullable = false)
@@ -129,6 +134,14 @@ public class UmRezerwacje extends AbstEncja implements Serializable {
 
     public void setUczestnikList(List<Uzytkownik> uczestnikList) {
         this.uczestnikList = uczestnikList;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
     @Override

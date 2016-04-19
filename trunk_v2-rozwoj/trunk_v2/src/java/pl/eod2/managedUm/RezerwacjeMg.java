@@ -114,7 +114,8 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             ev.setEditable(rez.getTworca().equals(login.isUmRez()) || rez.getTworca().equals(login.getZalogowany().getUserId())
                     || rez.getTworca().equals(login.getZalogowany().getSecUserId())
             );
-            if(!ev.isEditable()){
+            ev.setDescription(rez.getOpis());
+            if (!ev.isEditable()) {
                 ev.setStyleClass("rezUczestnik");
             }
             eventModel.addEvent(ev);
@@ -195,6 +196,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             /*Date stOd = obiekt.getDataOd();
             Date stDo = obiekt.getDataDo();*/
             DefaultScheduleEvent newEvent = new DefaultScheduleEvent(obiekt.getNazwa(), obiekt.getDataOd(), obiekt.getDataDo(), obiekt);
+            newEvent.setDescription(obiekt.getOpis());
             eventModel.addEvent(newEvent);
             if (!dodaj().isEmpty()) {
                 eventModel.deleteEvent(newEvent);
@@ -204,12 +206,14 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
             Date stOd = obiekt.getDataOd();
             Date stDo = obiekt.getDataDo();
             String tyt = obiekt.getNazwa();
+            String desc = obiekt.getOpis();
             if (!edytuj().isEmpty()) {
                 return;
             }
             event.setTitle(tyt);
             event.setStartDate(stOd);
             event.setEndDate(stDo);
+            event.setDescription(desc);
             eventModel.updateEvent(event);
         }
         event = new DefaultScheduleEvent();
