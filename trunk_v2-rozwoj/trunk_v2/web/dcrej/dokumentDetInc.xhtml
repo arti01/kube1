@@ -6,14 +6,7 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
     <h3>#{RejestracjaRej.obiekt.nazwa}</h3>
-    <p:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="tabletmp"  style="width: 100%" sortOrder="descending" sortBy="#{item.nazwa}">
-        <p:column sortBy="#{item.nazwa}" headerText="nazwa" filterBy="#{item.nazwa}" filterMatchMode="contains">
-                    #{item.nazwa}
-                </p:column>
-                <p:column headerText="data dodania" style="width: 12em;" sortBy="#{item.dataDodania}">
-                    <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
-                </p:column>
-            </p:dataTable>
+
     <p:tabView id="tabPanel">
         <p:tab id="infPodst" title="Informacje podstawowe">
             <p:panelGrid columns="2" columnClasses="column1, column2">
@@ -50,7 +43,7 @@
 
             tu uploader
             <hr/>
-            <p:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="table"  style="width: 100%">
+            <p:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="table" style="width: 100%" lazy="false">
                 <p:column sortBy="#{item.nazwa}" headerText="nazwa">
                     #{item.nazwa}
                 </p:column>

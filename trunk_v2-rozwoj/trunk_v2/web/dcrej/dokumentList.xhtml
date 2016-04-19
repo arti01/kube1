@@ -12,12 +12,16 @@
     <h:panelGroup id="valid">
         <p:remoteCommand oncomplete="PF('dodajPane').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
     </h:panelGroup>
-
+#{fn:length(RejestracjaRej.obiekt.dcPlikList)>0 and RejestracjaRej.obiekt.dcPlikList!=null}
+#{RejestracjaRej.obiekt.kontrahentId.id!='' and RejestracjaRej.obiekt.kontrahentId.id!=null}
+#{fn:length(RejestracjaRej.obiekt.opis)>0}
+#{facesContext.maximumSeverity!=null}
+#{facesContext.messageList}
     <p:panel id="listPanel">
         <p:commandButton id="newDok" value="dodaj dokument" process="@this" oncomplete="PF('dodajPane').show();" 
                          action="#{RejestracjaRej.newObiekt}" rendered="#{!brakDodaj}"/>
         <hr/>
-
+        
         <p:dataTable value="#{managedBean.listaPF}" var="item" id="table" paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
                      emptyMessage="brak rekordów" style="width: 100%" sortOrder="descending" sortBy="#{item.dataWprow}">
             <p:column headerText="znaleziono w" rendered="#{infoWyszuk}">
@@ -96,7 +100,7 @@
                                  rendered="#{item.dokStatusId.id==1}" icon="ui-icon-pencil">
                     <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}"/>
                 </p:commandButton>
-                <p:commandButton id="imgDt" title="detale dokumentu" process="@this" action="#{managedBean.detale}" icon="ui-icon-circle-zoomin">
+                <p:commandButton id="imgDt" title="detale dokumentu" process="@none" action="#{managedBean.detale}" icon="ui-icon-circle-zoomin" ajax="false" immediate="true">
                     <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}" />
                 </p:commandButton>
                 <p:commandButton id="imgAn" title="anuluj dokument" process="@this" update=":center:table" action="#{RejestracjaRej.anuluj}" 
