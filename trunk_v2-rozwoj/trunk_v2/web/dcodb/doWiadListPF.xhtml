@@ -1,0 +1,68 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="tytul">
+        <h3 align="center">Dokumenty</h3>
+    </ui:define>
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+            <p:panel id="listPanel">
+                <p:dataTable value="#{DoWiadOdb.login.zalogowany.userId.dcDoWiadCelListFiltr}" var="cel" id="table" style="width: 100%">
+                    <ui:param name="itemDoWiad" value="#{cel.idDokDoWiad.dokid}"/>            
+                    <p:column headerText="data rejestracji" sortBy="#{itemDoWiad.id}">
+                        <h:outputText value="#{itemDoWiad.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="nazwa">
+                        <h:outputText id="nazwaList" value="#{itemDoWiad.nazwa}"/>
+                        <p:tooltip for="nazwaList">
+                            #{itemDoWiad.opis}
+                        </p:tooltip>
+                    </p:column>
+                    <p:column headerText="data dokumentu">
+                        <h:outputText value="#{itemDoWiad.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="źródło">
+                            #{itemDoWiad.zrodloId.nazwa}
+                    </p:column>
+                    <p:column headerText="kontrahent">
+                        <h:outputText id="kontrahentList" value="#{itemDoWiad.kontrahentId.nazwa}"/>
+                        <p:tooltip for="kontrahentList">
+                            #{itemDoWiad.kontrahentId.adres} #{itemDoWiad.kontrahentId.adres} #{itemDoWiad.kontrahentId.nipRegon}
+                        </p:tooltip>
+                    </p:column>
+                    <p:column headerText="status">
+                        <h:outputText id="statusList" value="#{itemDoWiad.dokStatusId.nazwa}"/>
+                        <br/>
+                        <p:tooltip for="statusList">
+                            #{itemDoWiad.dokStatusId.opis}
+                        </p:tooltip>
+                    </p:column>
+                    <p:column headerText="wprowadził">
+                            #{itemDoWiad.userId.fullname}
+                    </p:column>
+                    <p:column headerText="rodzaj">
+                        <f:facet name="header"></f:facet>
+                        <h:outputText id="rodzajList" value="#{itemDoWiad.rodzajId.nazwa}"/>
+                        <p:tooltip for="rodzajList">
+                            #{itemDoWiad.rodzajId.opis} z grupy:#{itemDoWiad.rodzajId.idRodzajGrupa.nazwa}
+                        </p:tooltip>
+                    </p:column>
+
+                    <p:column style="width: 70px">
+                        <p:tooltip for="imgDt" value="detale"/>
+                        <p:commandButton id="imgDt" process="@this" action="#{DoWiadOdb.detale}" icon="ui-icon-circle-zoomin">
+                            <f:setPropertyActionListener target="#{DoWiadOdb.obiekt}" value="#{itemDoWiad}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

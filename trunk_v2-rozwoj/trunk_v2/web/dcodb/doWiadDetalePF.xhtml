@@ -1,0 +1,19 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/templates/templateGPF.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="tytul">
+        <h3 align="center">Detale dokumentu</h3>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="center">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+            <ui:include src="/dcodb/dokumentDetale.xhtml">
+                <ui:param name="managedBean" value="#{DoWiadOdb}"/> 
+            </ui:include>
+        </h:form>
+    </ui:define>
+</ui:composition>
+
