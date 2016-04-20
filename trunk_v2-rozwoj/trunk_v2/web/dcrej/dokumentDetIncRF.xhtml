@@ -157,7 +157,7 @@
                             <h:panelGrid id="doWiadForm2" columns="3">
 
                                 <h:outputLabel for="cel" value="podaj email (wprowadz min. 3 znaki)"/>
-                                <rich:autocomplete id="cel" value="#{RejestracjaRej.userDoWiad}"  minChars="3" mode="lazyClient" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}" autofill="true">
+                                <rich:autocomplete id="cel" value="#{RejestracjaRej.userDoWiad}"  minChars="3" mode="client" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}" autofill="true">
                                     #{user.adrEmail}
                                     #{user.fullname}
                                 </rich:autocomplete>
@@ -294,7 +294,7 @@
                         <rich:message for="realDaZw" styleClass="error" />
 
                         <h:outputLabel value="wydał (podaj email, wprowadz min. 3 znaki):"/>
-                        <rich:autocomplete value="#{RejestracjaRej.obiekt.dokArchDod.wydal}"  minChars="3" mode="lazyClient" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}" autofill="true">
+                        <rich:autocomplete value="#{RejestracjaRej.obiekt.dokArchDod.wydal}"  minChars="3" mode="client" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}" autofill="true">
                             #{user.adrEmail}
                             #{user.fullname}
                         </rich:autocomplete>

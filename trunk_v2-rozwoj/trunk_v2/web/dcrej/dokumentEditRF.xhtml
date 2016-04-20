@@ -44,7 +44,7 @@
         <rich:message for="teczkaD" styleClass="error" />
 
         <h:outputLabel for="kontrahentD" value="podaj kontrahenta &lt;br/&gt;(wprowadz min. 3 znaki)" escape="false"/>
-        <rich:autocomplete id="kontrahentD" value="#{RejestracjaRej.obiekt.kontrahentId}" mode="lazyClient"
+        <rich:autocomplete id="kontrahentD" value="#{RejestracjaRej.obiekt.kontrahentId}" mode="client"
                            minChars="3" fetchValue="#{kontrahent.nazwa}" converter="#{DcKontrahenciConv}"
                            var="kontrahent" autocompleteList="#{KontrahenciCfg.lista.wrappedData}">
             #{kontrahent.nazwa}
@@ -101,7 +101,7 @@
                 <rich:message for="realDaZwEd" styleClass="error" />
 
                 <h:outputLabel value="wydał (podaj email, wprowadz min. 3 znaki):"/>
-                <rich:autocomplete value="#{RejestracjaRej.obiekt.dokArchDod.wydal}"  minChars="3" mode="lazyClient" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}" autofill="true">
+                <rich:autocomplete value="#{RejestracjaRej.obiekt.dokArchDod.wydal}"  minChars="3" mode="client" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}" autofill="true">
                     #{user.adrEmail}
                     #{user.fullname}
                 </rich:autocomplete>

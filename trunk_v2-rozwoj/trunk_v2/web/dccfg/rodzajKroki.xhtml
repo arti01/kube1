@@ -31,7 +31,7 @@
                         <f:facet name="header">członkowie kroku</f:facet>
                         <h:panelGrid columns="3" id="dodajGridCzlon">
                             <h:outputLabel for="user_id" value="podaj email (wprowadz min. 3 znaki)"/>
-                            <rich:autocomplete id="user_id" value="#{RodzajeCfg.user}"  minChars="3" mode="lazyClient" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}">
+                            <rich:autocomplete id="user_id" value="#{RodzajeCfg.user}"  minChars="3" mode="client" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}">
                                 #{user.adrEmail}
                                 #{user.fullname}
                             </rich:autocomplete>
