@@ -7,8 +7,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <p:menubar toggleEvent="click">
-        <p:menuitem style="background-color: #C1DFFF" value="Start" action="#{login.stronaIndex}" icon="ui-icon-refresh"/>
-
+        <p:menuitem style="background-color: #C1DFFF" value="Start" outcome="/logowanie/index.xhtml" icon="ui-icon-refresh"/>
         <p:submenu style="width: 149px" label="Dokumenty">
             <p:submenu label="Konfiguracja" rendered="#{login.dcCfg}">
                 <p:menuitem value="Grupy rodzajów" action="#{RodzajeGrupyCfg.list}" ajax="false"/>

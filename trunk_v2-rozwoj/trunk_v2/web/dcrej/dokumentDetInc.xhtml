@@ -9,7 +9,7 @@
 
     <p:tabView id="tabPanel">
         <p:tab id="infPodst" title="Informacje podstawowe">
-            <p:panelGrid columns="2" columnClasses="column1, column2">
+            <p:panelGrid columns="2" columnClasses="column1, column2"  style="width: 100%;">
                 <p:panel>
                     <ui:include src="./dokumentEdit.xhtml"/>
                     <p:commandButton id="zapiszD" value="Zapisz" action="#{RejestracjaRej.edytujZdetale}" process="infPodst" update="infPodst"  rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}"/>
@@ -40,14 +40,14 @@
             </p:panelGrid>
         </p:tab>
         <p:tab id="tabPliki" title="Załączniki">
-
-            tu uploader
+            <p:fileUpload fileUploadListener="#{fileUploadBean.listener}" mode="advanced" update="table" sizeLimit="10000000" style="width: 200px;"
+                          rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}" invalidSizeMessage="zbyt duży plik" label="wybierz plik" auto="true"/>
             <hr/>
             <p:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="table" style="width: 100%" lazy="false">
-                <p:column sortBy="#{item.nazwa}" headerText="nazwa">
+                <p:column filterBy="#{item.nazwa}" headerText="nazwa" filterMatchMode="contains">
                     #{item.nazwa}
                 </p:column>
-                <p:column headerText="data dodania" style="width: 12em;" sortBy="#{item.dataDodania}">
+                <p:column headerText="data dodania" style="width: 12em;">
                     <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
                 </p:column>
                 <p:column style="width: 60px">

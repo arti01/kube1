@@ -2,7 +2,6 @@
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
-        <Node id="test.html" x="1650" y="1050" zoom="true"/>
         <Node id="dcodb/dokumentDetale.xhtml" x="1150" y="900" zoom="true"/>
         <Node id="logowanie/loginerr.xhtml" x="2650" y="150" zoom="true"/>
         <Node id="dcrej/emailList.xhtml" x="1900" y="1050" zoom="true"/>
@@ -23,15 +22,12 @@
         <Node id="um/dokHist.xhtml" x="1650" y="1200" zoom="true"/>
         <Node id="templates/menuL.xhtml" x="2650" y="300" zoom="true"/>
         <Node id="dcarch/listW.xhtml" x="2150" y="900" zoom="true"/>
-        <Node id="um/masterEdit.xhtml" x="650" y="150" zoom="true"/>
         <Node id="index.html" x="2400" y="450" zoom="true"/>
-        <Node id="dcrej/plikiPrzyciski.xhtml" x="1150" y="1500" zoom="true"/>
         <Node id="dcodb/akcList.xhtml" x="1900" y="750" zoom="true"/>
         <Node id="dcrej/dokumenty.xhtml" x="2150" y="300" zoom="true"/>
         <Node id="urlop/urlopyList.xhtml" x="650" y="300" zoom="true"/>
         <Node id="um/dokumentDetale.xhtml" x="1900" y="150" zoom="true"/>
         <Node id="ogloszenia/ogloszeniaOdbior.xhtml" x="2650" y="450" zoom="true"/>
-        <Node id="templates/templatePF.xhtml" x="400" y="1050" zoom="true"/>
         <Node id="dccfg/symbMer2Edit.xhtml" x="150" y="1800" zoom="true"/>
         <Node id="dccfg/rodzajKroki.xhtml" x="150" y="1650" zoom="true"/>
         <Node id="dccfg/symbMer1Edit.xhtml" x="1400" y="1050" zoom="true"/>
@@ -40,8 +36,8 @@
         <Node id="dcarch/listPoczekalnia.xhtml" x="1150" y="150" zoom="true"/>
         <Node id="ogloszenia/ogloszeniaList.xhtml" x="1150" y="450" zoom="true"/>
         <Node id="logowanie/login.xhtml" x="150" y="450" zoom="true"/>
-        <Node id="dcarch/zajetoscArchEdit.xhtml" x="1150" y="1200" zoom="true"/>
         <Node id="um/dokumenty.xhtml" x="1650" y="300" zoom="true"/>
+        <Node id="dcarch/zajetoscArchEdit.xhtml" x="1150" y="1200" zoom="true"/>
         <Node id="admin/spolki.xhtml" x="400" y="1650" zoom="true"/>
         <Node id="dccfg/kontrahenciEdit.xhtml" x="150" y="300" zoom="true"/>
         <Node id="dcarch/rapWydInc.xhtml" x="2150" y="150" zoom="true"/>
@@ -55,53 +51,48 @@
         <Node id="dcrej/emaile.xhtml" x="1400" y="750" zoom="true"/>
         <Node id="dccfg/rodzajPolaDod.xhtml" x="400" y="1350" zoom="true"/>
         <Node id="dcrej/dokumentList.xhtml" x="3650" y="150" zoom="true"/>
-        <Node id="dcarch/dokumentDetale.xhtml" x="400" y="900" zoom="true"/>
         <Node id="dcrej/kontrahenci.xhtml" x="2400" y="600" zoom="true"/>
+        <Node id="dcarch/dokumentDetale.xhtml" x="400" y="900" zoom="true"/>
         <Node id="dcarch/dokumenty.xhtml" x="1650" y="750" zoom="true"/>
         <Node id="dccfg/kontrahenciList.xhtml" x="1150" y="1350" zoom="true"/>
         <Node id="urlop/urlopyListObce.xhtml" x="1150" y="300" zoom="true"/>
         <Node id="um/urzadzenieEdit.xhtml" x="400" y="1950" zoom="true"/>
         <Node id="dcrej/pliki.xhtml" x="2400" y="300" zoom="true"/>
         <Node id="all/usersEdit.xhtml" x="150" y="900" zoom="true"/>
-        <Node id="dcarch/listDo.xhtml" x="3150" y="150" zoom="true"/>
         <Node id="all/strukturaDzial.xhtml" x="150" y="1200" zoom="true"/>
+        <Node id="dcarch/listDo.xhtml" x="3150" y="150" zoom="true"/>
         <Node id="urlop/urlopyListWszystko.xhtml" x="650" y="750" zoom="true"/>
         <Node id="dcrej/kontrahenciPrzyciski.xhtml" x="150" y="1950" zoom="true"/>
-        <Node id="dccfg/rodzaje.xhtml" x="1150" y="750" zoom="true"/>
         <Node id="ogloszenia/ogloszenia.xhtml" x="400" y="450" zoom="true"/>
-        <Node id="dcrej/wyszukList.xhtml" x="3400" y="300" zoom="true"/>
+        <Node id="dccfg/rodzaje.xhtml" x="1150" y="750" zoom="true"/>
         <Node id="all/usersList.xhtml" x="1900" y="450" zoom="true"/>
-        <Node id="um/grupaEdit.xhtml" x="1650" y="450" zoom="true"/>
+        <Node id="dcrej/wyszukList.xhtml" x="3400" y="300" zoom="true"/>
         <Node id="dcarch/listZajetoscArch.xhtml" x="650" y="1050" zoom="true"/>
         <Node id="dcrej/kontrahenciList.xhtml" x="650" y="1200" zoom="true"/>
         <Node id="dcrej/rapPocztowy.xhtml" x="150" y="600" zoom="true"/>
-        <Node id="rep/listaRF.xhtml" x="650" y="450" zoom="true"/>
-        <Node id="templates/menuLPF.xhtml" x="150" y="150" zoom="true"/>
-        <Node id="urlop/urlopyListPodwl.xhtml" x="150" y="1050" zoom="true"/>
         <Node id="dcrej/dokumentEdit.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="urlop/urlopyListPodwl.xhtml" x="150" y="1050" zoom="true"/>
         <Node id="error/500.xhtml" x="1650" y="900" zoom="true"/>
         <Node id="dcodb/doWiadDetale.xhtml" x="650" y="1500" zoom="true"/>
         <Node id="dcodb/histDetale.xhtml" x="1400" y="450" zoom="true"/>
-        <Node id="dcarch/rapWydWgOs.xhtml" x="1650" y="150" zoom="true"/>
         <Node id="dccfg/symbMer1.xhtml" x="150" y="2100" zoom="true"/>
+        <Node id="dcarch/rapWydWgOs.xhtml" x="1650" y="150" zoom="true"/>
         <Node id="dcarch/listWInc.xhtml" x="400" y="750" zoom="true"/>
         <Node id="um/master.xhtml" x="2150" y="750" zoom="true"/>
-        <Node id="rep/lista.xhtml" x="1400" y="1200" zoom="true"/>
         <Node id="dcodb/akcDetale.xhtml" x="900" y="1200" zoom="true"/>
         <Node id="dcodb/doWiadList.xhtml" x="1400" y="900" zoom="true"/>
         <Node id="all/usersAdd.xhtml" x="1650" y="600" zoom="true"/>
         <Node id="dcarch/daneArchiw.xhtml" x="650" y="600" zoom="true"/>
         <Node id="test/testWyd.xhtml" x="400" y="300" zoom="true"/>
-        <Node id="dcarch/wyszukForm.xhtml" x="1150" y="1050" zoom="true"/>
         <Node id="urlop/urlopyListAkceptHist.xhtml" x="1900" y="900" zoom="true"/>
+        <Node id="dcarch/wyszukForm.xhtml" x="1150" y="1050" zoom="true"/>
         <Node id="dccfg/teczkiEdit.xhtml" x="400" y="150" zoom="true"/>
         <Node id="dcrej/dokumentDetInc.xhtml" x="900" y="450" zoom="true"/>
         <Node id="dcrej/wyszukForm.xhtml" x="2650" y="600" zoom="true"/>
         <Node id="dcarch/listZajetoscArchInc.xhtml" x="150" y="1350" zoom="true"/>
         <Node id="all/strukturaOs.xhtml" x="900" y="600" zoom="true"/>
-        <Node id="dcrej/plikiList.xhtml" x="150" y="1500" zoom="true"/>
-        <Node id="um/rezerwacje.xhtml" x="650" y="1650" zoom="true"/>
         <Node id="logowanie/index.xhtml" x="1900" y="300" zoom="true"/>
+        <Node id="um/rezerwacje.xhtml" x="650" y="1650" zoom="true"/>
         <Node id="logowanie/brakLicencji.html" x="650" y="1350" zoom="true"/>
         <Node id="dcarch/listWbrakowanie.xhtml" x="900" y="150" zoom="true"/>
         <Node id="error/403.xhtml" x="400" y="1500" zoom="true"/>

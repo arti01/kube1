@@ -2,8 +2,8 @@ package pl.eod2.plikiUpload;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import org.richfaces.event.FileUploadEvent;
-import org.richfaces.model.UploadedFile;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
@@ -27,47 +28,32 @@ import pl.eod2.managedRej.Rejestracja;
  * @author Ilya Shaikovsky
  *
  */
-@ManagedBean
+@ManagedBean(name = "fileUploadBean")
 @SessionScoped
 public class FileUploadBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    //private ArrayList<UploadedImage> files = new ArrayList<UploadedImage>();
-    //private int uploadsAvailable = 100;
-    //private boolean autoUpload = false;
-    //private boolean useFlash = false;
     @ManagedProperty(value = "#{RejestracjaRej}")
     private Rejestracja rejRej;
     @ManagedProperty(value = "#{RejImpPlik}")
     private ImpPlik impPlik;
-    //@ManagedProperty(value = "#{RepozytMg}")
-    //private RepozytMg repoz;
     private StreamedContent file;
-
     private String plikDownl;
     private String plikDownlName;
-    
-    /*public int getSize() {
-     if (getFiles().size() > 0) {
-     return getFiles().size();
-     } else {
-     return 0;
-     }
-     }
-
-     public void paint(OutputStream stream, Object object) throws IOException {
-     stream.write(getFiles().get((Integer) object).getData());
-     }*/
+    UploadedFile upFile;
 
     public void listener(FileUploadEvent event) {
-        UploadedFile item = event.getUploadedFile();
+        System.err.println(event);
+        System.err.println("uppppppppppppppppppppppppppppppaaaaaaaaaaaaaaassssssssssssssssss");
+        UploadedFile item = event.getFile();
         DcPlik dcPlik = new DcPlik();
         //file.setLength(item.getData().length);
-        dcPlik.setNazwa(item.getName());
-        dcPlik.setPlik(item.getData());
+        dcPlik.setNazwa(item.getFileName());
+        dcPlik.setPlik(item.getContents());
         dcPlik.setIdDok(rejRej.getObiekt());
         dcPlik.setDataDodania(new Date());
         rejRej.getDcPlikC().create(dcPlik);
+        System.err.println(rejRej.getObiekt().getDcPlikList());
         rejRej.getObiekt().getDcPlikList().add(dcPlik);
         String error = null;
         try {
@@ -79,10 +65,40 @@ public class FileUploadBean implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //files.add(file);
-        //uploadsAvailable--;
+        System.err.println(rejRej.getObiekt().getDcPlikList());
     }
 
+    public void upF() {
+        System.err.println("uppppppppppppppppppppppppppppppaaaaaaaaaaaaaaassssssssssssssssss");
+        DcPlik dcPlik = new DcPlik();
+        //file.setLength(item.getData().length);
+        dcPlik.setNazwa(upFile.getFileName());
+        dcPlik.setPlik(upFile.getContents());
+        dcPlik.setIdDok(rejRej.getObiekt());
+        dcPlik.setDataDodania(new Date());
+        rejRej.getDcPlikC().create(dcPlik);
+        System.err.println(rejRej.getObiekt().getDcPlikList());
+        rejRej.getObiekt().getDcPlikList().add(dcPlik);
+        String error = null;
+        try {
+            error = rejRej.getDcC().editZmiana(rejRej.getObiekt());
+        } catch (IllegalOrphanException ex) {
+            Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.err.println(rejRej.getObiekt().getDcPlikList());
+    }
+
+    
+    public void handleFileUpload(FileUploadEvent event) {
+        FacesMessage message;
+        message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
     public void download() {
         final HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         response.setHeader("Content-Disposition", "attachment;filename=\"" + rejRej.getPlik().getNazwa() + "\""); // or whatever type you're sending back
@@ -215,6 +231,14 @@ public class FileUploadBean implements Serializable {
             Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return file;
+    }
+
+    public UploadedFile getUpFile() {
+        return upFile;
+    }
+
+    public void setUpFile(UploadedFile upFile) {
+        this.upFile = upFile;
     }
 
 }

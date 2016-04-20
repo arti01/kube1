@@ -1,3 +1,8 @@
+2016-04-20
+UWAGA - zmiana faces z 2.1 na 2.2 (nowy lib i wpis w faces.xml),
+może być róznie, bo to podstawowa biblioteka od jsf.
+Zmiana zrobiona aby działał fileupload.
+
 2016-04-19
 Dodałem pole opis do kalendarza i rezerwacji oraz tooltip do zdarzenia
 

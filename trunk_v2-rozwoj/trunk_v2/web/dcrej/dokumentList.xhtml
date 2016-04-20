@@ -12,16 +12,12 @@
     <h:panelGroup id="valid">
         <p:remoteCommand oncomplete="PF('dodajPane').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
     </h:panelGroup>
-#{fn:length(RejestracjaRej.obiekt.dcPlikList)>0 and RejestracjaRej.obiekt.dcPlikList!=null}
-#{RejestracjaRej.obiekt.kontrahentId.id!='' and RejestracjaRej.obiekt.kontrahentId.id!=null}
-#{fn:length(RejestracjaRej.obiekt.opis)>0}
-#{facesContext.maximumSeverity!=null}
-#{facesContext.messageList}
+
     <p:panel id="listPanel">
         <p:commandButton id="newDok" value="dodaj dokument" process="@this" oncomplete="PF('dodajPane').show();" 
                          action="#{RejestracjaRej.newObiekt}" rendered="#{!brakDodaj}"/>
         <hr/>
-        
+
         <p:dataTable value="#{managedBean.listaPF}" var="item" id="table" paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
                      emptyMessage="brak rekordów" style="width: 100%" sortOrder="descending" sortBy="#{item.dataWprow}">
             <p:column headerText="znaleziono w" rendered="#{infoWyszuk}">

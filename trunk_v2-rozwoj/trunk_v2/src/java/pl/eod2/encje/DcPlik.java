@@ -26,10 +26,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import pl.eod.abstr.AbstPlik;
 
-/**
- *
- * @author arti01
- */
 @Entity
 @Table(name = "dc_plik")
 @NamedQueries({
