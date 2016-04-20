@@ -40,8 +40,8 @@
             </p:panelGrid>
         </p:tab>
         <p:tab id="tabPliki" title="Załączniki">
-            <p:fileUpload fileUploadListener="#{fileUploadBean.listener}" mode="advanced" update="table" sizeLimit="10000000" style="width: 200px;"
-                          rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}" invalidSizeMessage="zbyt duży plik" label="wybierz plik" auto="true"/>
+            <p:fileUpload fileUploadListener="#{fileUploadBean.listener}" mode="advanced" update="table" sizeLimit="10000000" style="width: 500px;"
+                          rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}" invalidSizeMessage="zbyt duży plik" label="dodaj załącznik" auto="true"/>
             <hr/>
             <p:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="table" style="width: 100%" lazy="false">
                 <p:column filterBy="#{item.nazwa}" headerText="nazwa" filterMatchMode="contains">
@@ -61,7 +61,35 @@
                 </p:column>
             </p:dataTable>
         </p:tab>
-
+        <p:tab title="Proces akceptacji">
+            <p:dataTable id="dok_kroki" value="#{RejestracjaRej.obiekt.dcDokKrok}" var="krok" sortBy="#{krok.lp}" sortOrder="ascending">
+                <p:column headerText="lp" width="20">
+                    #{krok.lp}
+                </p:column>
+                <p:column headerText="typ kroku">
+                    #{krok.dcAckeptTypKroku.nazwa}
+                </p:column>
+                <p:column headerText="status akceptacji">
+                    #{krok.akcept.nazwa}
+                </p:column>
+                <p:column headerText="Proces akceptacji">
+                    <p:dataTable value="#{krok.dcKrokUzytkownikaList}" var="krokUser">
+                        <p:column style="width: 60%">
+                            #{krokUser.idUser.fullname}    
+                        </p:column>
+                        <p:column style="width: 20%">
+                            #{krokUser.akcept.nazwa}
+                        </p:column>
+                        <p:column style="width: 20%">
+                            <h:outputText value="#{krokUser.dataAkcept}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                        </p:column>
+                        <p:column >
+                            #{krokUser.informacja}
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
+            </p:dataTable>
+        </p:tab>
     </p:tabView>
 
 

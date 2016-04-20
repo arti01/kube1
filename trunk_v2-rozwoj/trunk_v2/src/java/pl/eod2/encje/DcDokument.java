@@ -25,6 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -101,12 +102,14 @@ public class DcDokument extends AbstEncja implements Serializable {
     @JoinColumn(name = "teczka_id", referencedColumnName = "id", nullable = true)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private DcTeczka teczkaId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDok", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDok", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy(value = "nazwa")
     private List<DcPlik> dcPlikList;
     @JoinColumn(name = "dokstatusid_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private DcDokumentStatus dokStatusId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDok", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy(value = "lp")
     private List<DcDokumentKrok> dcDokKrok;
     @JoinColumn(name = "kontrahent_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

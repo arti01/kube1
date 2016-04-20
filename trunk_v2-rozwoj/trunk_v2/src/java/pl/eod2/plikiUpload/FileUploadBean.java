@@ -24,10 +24,6 @@ import pl.eod2.encje.exceptions.NonexistentEntityException;
 import pl.eod2.managedRej.ImpPlik;
 import pl.eod2.managedRej.Rejestracja;
 
-/**
- * @author Ilya Shaikovsky
- *
- */
 @ManagedBean(name = "fileUploadBean")
 @SessionScoped
 public class FileUploadBean implements Serializable {
@@ -43,8 +39,6 @@ public class FileUploadBean implements Serializable {
     UploadedFile upFile;
 
     public void listener(FileUploadEvent event) {
-        System.err.println(event);
-        System.err.println("uppppppppppppppppppppppppppppppaaaaaaaaaaaaaaassssssssssssssssss");
         UploadedFile item = event.getFile();
         DcPlik dcPlik = new DcPlik();
         //file.setLength(item.getData().length);
@@ -53,7 +47,6 @@ public class FileUploadBean implements Serializable {
         dcPlik.setIdDok(rejRej.getObiekt());
         dcPlik.setDataDodania(new Date());
         rejRej.getDcPlikC().create(dcPlik);
-        System.err.println(rejRej.getObiekt().getDcPlikList());
         rejRej.getObiekt().getDcPlikList().add(dcPlik);
         String error = null;
         try {
@@ -65,38 +58,6 @@ public class FileUploadBean implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.err.println(rejRej.getObiekt().getDcPlikList());
-    }
-
-    public void upF() {
-        System.err.println("uppppppppppppppppppppppppppppppaaaaaaaaaaaaaaassssssssssssssssss");
-        DcPlik dcPlik = new DcPlik();
-        //file.setLength(item.getData().length);
-        dcPlik.setNazwa(upFile.getFileName());
-        dcPlik.setPlik(upFile.getContents());
-        dcPlik.setIdDok(rejRej.getObiekt());
-        dcPlik.setDataDodania(new Date());
-        rejRej.getDcPlikC().create(dcPlik);
-        System.err.println(rejRej.getObiekt().getDcPlikList());
-        rejRej.getObiekt().getDcPlikList().add(dcPlik);
-        String error = null;
-        try {
-            error = rejRej.getDcC().editZmiana(rejRej.getObiekt());
-        } catch (IllegalOrphanException ex) {
-            Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(FileUploadBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.err.println(rejRej.getObiekt().getDcPlikList());
-    }
-
-    
-    public void handleFileUpload(FileUploadEvent event) {
-        FacesMessage message;
-        message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
     public void download() {
