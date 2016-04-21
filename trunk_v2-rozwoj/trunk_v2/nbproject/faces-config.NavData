@@ -65,8 +65,8 @@
         <Node id="dcrej/kontrahenciPrzyciski.xhtml" x="150" y="1950" zoom="true"/>
         <Node id="ogloszenia/ogloszenia.xhtml" x="400" y="450" zoom="true"/>
         <Node id="dccfg/rodzaje.xhtml" x="1150" y="750" zoom="true"/>
-        <Node id="all/usersList.xhtml" x="1900" y="450" zoom="true"/>
         <Node id="dcrej/wyszukList.xhtml" x="3400" y="300" zoom="true"/>
+        <Node id="all/usersList.xhtml" x="1900" y="450" zoom="true"/>
         <Node id="dcarch/listZajetoscArch.xhtml" x="650" y="1050" zoom="true"/>
         <Node id="dcrej/kontrahenciList.xhtml" x="650" y="1200" zoom="true"/>
         <Node id="dcrej/rapPocztowy.xhtml" x="150" y="600" zoom="true"/>
@@ -91,6 +91,7 @@
         <Node id="dcrej/wyszukForm.xhtml" x="2650" y="600" zoom="true"/>
         <Node id="dcarch/listZajetoscArchInc.xhtml" x="150" y="1350" zoom="true"/>
         <Node id="all/strukturaOs.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="um/rezerwacje.xhtml" x="650" y="1650" zoom="true"/>
         <Node id="logowanie/index.xhtml" x="1900" y="300" zoom="true"/>
         <Node id="um/rezerwacje.xhtml" x="650" y="1650" zoom="true"/>
         <Node id="logowanie/brakLicencji.html" x="650" y="1350" zoom="true"/>
