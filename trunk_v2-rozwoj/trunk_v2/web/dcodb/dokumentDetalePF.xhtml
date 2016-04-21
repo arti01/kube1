@@ -1,0 +1,253 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:tabView>
+        <p:tab title="Informacje podstawowe">
+            <h:panelGrid columns="2" id="dodajGrid">
+                <h:outputLabel for="nameD" value="nazwa: "/>
+                <h:outputText id="nameD" value="#{managedBean.obiekt.nazwa}" />
+
+                <h:outputLabel for="symbolD" value="symbol: "/>
+                <h:outputText id="symbolD" value="#{managedBean.obiekt.symbolDok}" />
+
+                <h:outputLabel for="opisD" value="opis: "/>
+                <h:outputText id="opisD" value="#{managedBean.obiekt.opis}"  />
+
+                <h:outputLabel for="dataD" value="Data dokumentu:"/>
+                <h:outputText id="dataD" value="#{managedBean.obiekt.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+
+                <h:outputLabel for="rodzajD" value="rodzaj: "/>
+                <h:outputText id="rodzajD" value="#{managedBean.obiekt.rodzajId.nazwa}"/>
+
+                <h:outputLabel for="zrodloD" value="źródło: "/>
+                <h:outputText id="zrodloD" value="#{managedBean.obiekt.zrodloId.nazwa}" />
+
+                <h:outputLabel for="teczkaD" value="teczka: "/>
+                <h:outputText id="teczkaD" value="#{managedBean.obiekt.teczkaId.nazwa}"/>
+
+                <h:outputLabel for="kontrahentD" value="kontrahent: "/>
+                <p:fieldset id="kontrahentD" legend="#{managedBean.obiekt.kontrahentId.nazwa}" collapsed="true">
+                    <h:panelGrid columns="2" style="border-spacing:0px;">
+                        <h:outputLabel for="nipRegon" value="osoba nip/regon: "/>
+                        <h:outputText id="nipRegon" value="#{managedBean.obiekt.kontrahentId.nipRegon}"/>
+
+                        <h:outputLabel for="adres" value="osoba adres: "/>
+                        <h:outputText id="adres" value="#{managedBean.obiekt.kontrahentId.adres}"/>
+
+                        <h:outputLabel for="infoDodK" value="Dane dodatkowe: "/>
+                        <h:outputText id="infoDodK" value="#{managedBean.obiekt.kontrahentId.infoDod}"/>
+
+                        <h:outputLabel for="osKon" value="osoba kontaktowa: "/>
+                        <h:outputText id="osKon" value="#{managedBean.obiekt.kontrahentId.osobaKontak}"/>
+
+                        <h:outputLabel for="tel" value="tel.: "/>
+                        <h:outputText id="tel" value="#{managedBean.obiekt.kontrahentId.tel}"/>
+
+                        <h:outputLabel for="email" value="e-mail: "/>
+                        <h:outputText id="email" value="#{managedBean.obiekt.kontrahentId.email}"/>
+
+                        <h:outputLabel for="www" value="www: "/>
+                        <h:outputText id="www" value="#{managedBean.obiekt.kontrahentId.www}"/>
+                    </h:panelGrid>
+                </p:fieldset>
+
+                <p:panel id="polaDod" header="pola dodatkowe">
+                    <p:dataTable value="#{managedBean.obiekt.dcDokPolaDodList}" var="poleDod">
+                        <p:column>
+                            #{poleDod.nazwa}
+                        </p:column>
+                        <p:column>
+                            #{poleDod.wartosc}
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+
+                <h:outputLabel for="opisDlugiD" value=" "/>
+                <p:fieldset legend="dodatkowy opis" collapsed="true" rendered="#{managedBean.obiekt.opisDlugi!=''}">
+                    <h:outputText id="opisDlugiD" value="#{managedBean.obiekt.opisDlugi}" escape="false"/>
+                </p:fieldset>
+
+            </h:panelGrid>                    
+
+            <h:panelGrid id="infoDod" columns="3">
+                <h:outputLabel for="status" value="aktualny status: "/>
+                <h:outputText id="status" value="#{managedBean.obiekt.dokStatusId.nazwa}" style="font-weight: bold"/>
+                <p:tooltip for="status">
+                    #{managedBean.obiekt.dokStatusId.opis}
+                </p:tooltip>
+                <h:outputLabel for="rodzDyst" value="rodzaj dystrybucji: "/>
+                <h:outputText id="rodzDyst" value="#{managedBean.obiekt.rodzajId.idTypFlow.nazwa}"  style="font-weight: bold"/>
+                <p:tooltip for="rodzDyst">
+                    #{managedBean.obiekt.rodzajId.idTypFlow.opis}
+                </p:tooltip>
+            </h:panelGrid>
+
+            ZROBIC PODGLAD PLIKÓW
+        </p:tab>
+
+        <p:tab title="Załączniki" id="tabPliki">
+            zrobić tu upload
+            <hr/>
+            <p:dataTable value="#{managedBean.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="table"  style="width: 100%">
+                <p:column headerText="nazwa" sortBy="#{item.id}">
+                    #{item.nazwa}
+                </p:column>
+                <p:column headerText="data dodania">
+                    <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
+                </p:column>
+                <p:column style="width: 50px">
+                    <p:tooltip for="imgDt" value="pobierz"/>
+                    <p:commandButton id="imgDt" title="pobierz" action="#{fileUploadBean.download}" icon="ui-icon-circle-zoomin" ajax="false">
+                        <f:setPropertyActionListener target="#{RejestracjaRej.plik}" value="#{item}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+        </p:tab>
+        <p:tab title="Proces akceptacji">
+            <h:panelGroup id="druk">
+                <h:commandButton value="wydrukuj" action="#{HistOdb.druk}">
+                    <f:setPropertyActionListener target="#{HistOdb.obiekt}" value="#{managedBean.obiekt}" />
+                </h:commandButton>
+            </h:panelGroup>
+            <p:dataTable id="dok_kroki" value="#{managedBean.obiekt.dcDokKrok}" var="krok">
+                <p:column headerText="lp" sortBy="#{krok.lp}">
+                    #{krok.lp}
+                </p:column>
+                <p:column headerText="typ kroku">
+                    #{krok.dcAckeptTypKroku.nazwa}
+                </p:column>
+                <p:column headerText="status akceptacji">
+                    #{krok.akcept.nazwa}
+                </p:column>
+                <p:column headerText="Proces akceptacji">
+                    <p:dataTable value="#{krok.dcKrokUzytkownikaList}" var="krokUser">
+                        <p:column style="width: 60%">
+                            #{krokUser.idUser.fullname}    
+                        </p:column>
+                        <p:column style="width: 20%">
+                            #{krokUser.akcept.nazwa}
+                        </p:column>
+                        <p:column style="width: 20%">
+                            <h:outputText value="#{krokUser.dataAkcept}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                        </p:column>
+                        <p:column >
+                            #{krokUser.informacja}
+                        </p:column>
+                    </p:dataTable>
+                </p:column>
+            </p:dataTable>
+        </p:tab>
+        <p:tab title="Do wiadomości" id="doWiad">
+            <p:commandButton value="dodaj do wiadomości" process="@this" rendered="#{managedBean!=WArchiwumArch}"/>
+            <p:dataTable id="doWiadList" value="#{managedBean.obiekt.dcDokDoWiadList}" var="doWiad" >
+                <f:facet name="header">
+                    <p:columnGroup>
+                        <p:column>wprowadził</p:column>
+                        <p:column>data wysłania</p:column>
+                        <p:column>wysłane do</p:column>
+                        <p:column>informacja</p:column>
+                    </p:columnGroup>
+                </f:facet>
+                <p:column  sortBy="#{doWiad.id}">
+                    #{doWiad.wprowadzil.fullname}
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{doWiad.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
+                </p:column>
+                <p:column>
+                    <p:dataList value="#{doWiad.dcDokDoWiadCelList}" var="cel">
+                        #{cel.userid.fullname}
+                    </p:dataList>
+                </p:column>
+                <p:column>
+                    #{doWiad.tresc}
+                </p:column>
+            </p:dataTable>
+
+            <p:fieldset legend="Wprowadź dane" id="dodajPaneWiad"  rendered="#{managedBean!=WArchiwumArch}">
+                <h:panelGrid id="doWiadForm" columns="2">
+                    <p:panel id="doWiadFormLista">
+                        <f:facet name="header">lista odbiorców</f:facet>
+                        <p:dataList  id="user_list" value="#{DoWiadOdb.doWiad.dcDokDoWiadCelList}" var="cel">
+                            #{cel.userid.fullname} #{cel.userid.adrEmail}
+                            <p:commandButton id="usunUser" action="#{DoWiadOdb.usunDoWiadUser}" update="doWiadFormLista" process="user_list" image="/images/delete.png">
+                                <f:setPropertyActionListener target="#{DoWiadOdb.doWiadCel}" value="#{cel}" />
+                            </p:commandButton>
+                        </p:dataList>
+                    </p:panel>
+                    <p:panel id="doWiadFormForm">
+                        <f:facet name="header"></f:facet>
+                        <h:panelGrid id="doWiadForm2" columns="3">
+                            <p:outputLabel for="cel" value="podaj email:"/>
+                            <p:autoComplete id="cel" multiple="false" value="#{DoWiadOdb.userDoWiad}" completeMethod="#{RodzajeCfg.autoCompUser}"
+                                            var="user" itemLabel="#{user.fullname}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConvEmail}">
+                                <p:column>
+                                    <h:outputText value="#{user.fullname}" />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{user.adrEmail}" />
+                                </p:column>
+                            </p:autoComplete>
+                            <p:commandButton value="dodaj" process="doWiadForm2" action="#{DoWiadOdb.dodajDoWiadUser}" update="doWiadForm, wyslijDoPrzyciski"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:panelGrid>
+
+                <p:panel id="wyslijDoPrzyciski">
+                    <p:commandButton id="wyslijDoWiad" action="#{DoWiadOdb.dodajDoWiad}" value="Wyślij" update="dodajPaneWiad, doWiadList" process="dodajPaneWiad"
+                                     rendered="#{fn:length(DoWiadOdb.doWiad.dcDokDoWiadCelList)>0}"/>
+                </p:panel>
+
+                <p:dataTable id="doWiadTab" value="#{managedBean.obiekt.dcDokDoWiadList}" var="doWiad">
+                    #{doWiad.dataWprow}
+                </p:dataTable>
+            </p:fieldset>
+        </p:tab>
+
+
+        <p:tab title="Baza Zasobów Materiałowych">
+            <h:panelGrid id="pgSrc" columns="2" columnClasses="columna1, columna2" style="width: 100%">
+                <p:panel id="pgTrg">
+                    <f:facet name="header">
+                        Dokument dotyczy zasobów materiałowych
+                    </f:facet>
+
+                    <p:dataTable value="#{managedBean.obiekt.urzadzeniaList}" var="urzadz" style="width: 100%; border: white thick">
+                        <p:column sortBy="#{urzadz.nazwa}">
+                            #{urzadz.nazwa}
+                            (#{urzadz.nrInw}-
+                            #{urzadz.nrSer})
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:panelGrid>
+        </p:tab>
+
+        <p:tab title="Archiwum - dokumenty powiązane">
+            <p:panel id="pgArch">
+                <f:facet name="header">
+                    Dokument powiązany z dokumentami w archiwum
+                </f:facet>
+                <p:dataTable value="#{managedBean.obiekt.dcArchList}" var="arch" style="width: 100%; border: white thick">
+                    <p:column sortBy="#{arch.symbolDok}">
+                        #{arch.nazwa}
+                        (#{arch.symbolDok})
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </p:tab>
+
+    </p:tabView>
+    <h:panelGrid id="wyslij" columns="2" rendered="#{managedBean==AkceptOdb}">
+        <h:outputLabel for="akceptOpis" value="uwagi do akceptu:"/>
+        <h:inputTextarea id="akceptOpis" value="#{AkceptOdb.akceptOpis}"/>
+        <h:commandButton value="zaakceptuj" action="#{managedBean.akceptuj}"/>
+        <h:commandButton value="odrzuć" action="#{managedBean.odrzuc}"/>
+    </h:panelGrid>
+</html>
+

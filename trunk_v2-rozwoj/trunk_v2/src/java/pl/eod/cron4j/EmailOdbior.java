@@ -30,7 +30,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.apache.commons.io.IOUtils;
-import pl.eod.encje.Config;
 import pl.eod.encje.ConfigJpaController;
 
 @ManagedBean(name = "EmailOdbior")

@@ -54,7 +54,7 @@
                     <h:outputText value=""/>
 
                     <h:outputLabel for="sec_user_id" value="Zastępuje go (podaj email)"/>
-                    <rich:autocomplete id="sec_user_id" value="#{UsersM.strukt.secUserId}" mode="lazyClient" autocompleteList="#{UsersM.users}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}">
+                    <rich:autocomplete id="sec_user_id" value="#{UsersM.strukt.secUserId}" mode="client" autocompleteList="#{UsersM.users}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}">
                         #{user.adrEmail}
                         #{user.fullname}
                     </rich:autocomplete>
