@@ -9,6 +9,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.swing.tree.TreeNode;
+import org.primefaces.event.DragDropEvent;
 import org.richfaces.event.DropEvent;
 import pl.eod.managed.Login;
 import pl.eod2.encje.DcDokument;
@@ -115,7 +116,13 @@ public class RejDok {
             }
         }
         rejestracja.edytujAbst();
-
+    }
+    
+    public void onCarDrop(DragDropEvent ddEvent) {
+        System.err.println(ddEvent.getDragId());
+        System.err.println(ddEvent.getDropId());
+        System.err.println(ddEvent.getData());
+        System.err.println("sssssssssssssssssssssssssssssssss");
     }
 
     public void usunUrzad() {

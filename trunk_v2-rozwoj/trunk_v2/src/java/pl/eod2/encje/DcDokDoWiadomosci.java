@@ -50,7 +50,7 @@ public class DcDokDoWiadomosci implements Serializable {
     @NotNull
     @Column(nullable = false)
     private Integer id;
-    @Size(max = 255)
+    @Size(max = 255, min = 1)
     @Column(name = "tresc", length = 255)
     private String tresc;
     @Basic(optional = false)
