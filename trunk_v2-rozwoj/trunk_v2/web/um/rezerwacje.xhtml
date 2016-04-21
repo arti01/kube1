@@ -13,7 +13,7 @@
     <ui:define name="content" id="content">
         <h:form id="center">
             <p:panelGrid  columns="4" style="width: 100%">
-                <p:panel header="Wybierz zasób z listy" id="drzewoPanel">
+                <p:panel header="Wybierz zasób z listy" id="drzewoPanel" toggleable="true">
                     <p:tree value="#{RezerwacjeMg.root}" var="node" dynamic="true" style=" background-color: white;" selectionMode="single" selection="#{RezerwacjeMg.urzadzenie}" id="drzewo">
                         <p:ajax event="select" update=":center:schedulePanel" listener="#{RezerwacjeMg.ustawSched}" process="@this"/>
                         <p:treeNode type="grupa" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">

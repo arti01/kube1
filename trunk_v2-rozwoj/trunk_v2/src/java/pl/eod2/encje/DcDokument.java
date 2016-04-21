@@ -115,6 +115,7 @@ public class DcDokument extends AbstEncja implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private DcKontrahenci kontrahentId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dokid", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy(value = "id DESC")
     private List<DcDokDoWiadomosci> dcDokDoWiadList;
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = true)
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH})

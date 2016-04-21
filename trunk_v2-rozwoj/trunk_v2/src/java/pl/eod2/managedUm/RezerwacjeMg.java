@@ -63,7 +63,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         eventModel = new DefaultScheduleModel();
         usersList = new ArrayList<>();
         usersListSelect = new ArrayList<>();
-        zrobDrzewo();
+        zrobDrzewo(false);
         for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
             if (!u.getStruktura().isUsuniety()) {
                 usersList.add(u);
@@ -76,20 +76,20 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     public void refresh() throws InstantiationException, IllegalAccessException {
         super.refresh();
         login.refresh();
-        zrobDrzewo();
+        zrobDrzewo(false);
     }
 
-    public void zrobDrzewo() {
+    public void zrobDrzewo(boolean all) {
         urzAll = new ArrayList<>();
         root = new DefaultTreeNode("urządzenia", null);
         List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
         for (UmMasterGrupa mg : masterList) {
-            if (!mg.isGrZrezerwacja()) {
+            if (!mg.isGrZrezerwacja()&&!all) {
                 continue;
             }
             TreeNode mtr = new DefaultTreeNode("grupa", mg, root);
             for (UmGrupa gr : mg.getGrupaList()) {
-                if (!gr.isRezerwacje()) {
+                if (!gr.isRezerwacje()&&!all) {
                     continue;
                 }
                 TreeNode gtr = new DefaultTreeNode("grupa", gr, mtr);

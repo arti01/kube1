@@ -33,6 +33,8 @@ public class RejDok {
     private Rejestracja rejestracja;
     @ManagedProperty(value = "#{UrzadzeniaMg}")
     private UrzadzeniaMg urzadzeniaMg;
+    @ManagedProperty(value = "#{RezerwacjeMg}")
+    private RezerwacjeMg rezMg;
     private DcRodzajJpaController dcR;
     private List<TreeNode> rootNodesDetDok = new ArrayList<>();
     private UmUrzadzenie urzad;
@@ -51,6 +53,7 @@ public class RejDok {
         }
         lista.setWrappedData(listD);
         rejestracja.setObiekt(null);
+        rezMg.zrobDrzewo(true);
     }
 
     public String list() {
@@ -192,6 +195,15 @@ public class RejDok {
 
     public void setRootNodesDetDok(List<TreeNode> rootNodesDetDok) {
         this.rootNodesDetDok = rootNodesDetDok;
+    }
+
+    public RezerwacjeMg getRezMg() {
+        rezMg.zrobDrzewo(true);
+        return rezMg;
+    }
+
+    public void setRezMg(RezerwacjeMg rezMg) {
+        this.rezMg = rezMg;
     }
 
 }

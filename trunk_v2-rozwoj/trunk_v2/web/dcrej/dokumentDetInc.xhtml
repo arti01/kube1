@@ -6,6 +6,9 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
     <h3>#{RejestracjaRej.obiekt.nazwa}</h3>
+    <h:panelGroup id="valid">
+        <p:remoteCommand oncomplete="PF('dodajPaneWiad').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
+    </h:panelGroup>
 
     <p:tabView id="tabPanel">
         <p:tab id="infPodst" title="Informacje podstawowe">
@@ -74,13 +77,13 @@
                 </p:column>
                 <p:column headerText="Proces akceptacji">
                     <p:dataTable value="#{krok.dcKrokUzytkownikaList}" var="krokUser">
-                        <p:column style="width: 60%">
+                        <p:column style="width: 50%">
                             #{krokUser.idUser.fullname}    
                         </p:column>
                         <p:column style="width: 20%">
                             #{krokUser.akcept.nazwa}
                         </p:column>
-                        <p:column style="width: 20%">
+                        <p:column style="width: 30%">
                             <h:outputText value="#{krokUser.dataAkcept}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                         </p:column>
                         <p:column >
@@ -89,6 +92,77 @@
                     </p:dataTable>
                 </p:column>
             </p:dataTable>
+        </p:tab>
+        <p:tab title="Do wiadomości" id="doWiad">
+            <p:commandButton value="dodaj do wiadomości"  process="@this" oncomplete="PF('dodajPaneWiad').show();"/>
+
+            <p:dataTable id="doWiadList" value="#{RejestracjaRej.obiekt.dcDokDoWiadList}" var="doWiad" emptyMessage="brak">
+                <p:column headerText="wprowadził">
+                    #{doWiad.wprowadzil.fullname}
+                </p:column>
+                <p:column headerText="data wysłania" style="width: 10em">
+                    <h:outputText value="#{doWiad.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
+                </p:column>
+                <p:column headerText="wysłane do">
+                    <p:dataList value="#{doWiad.dcDokDoWiadCelList}" var="cel">
+                        #{cel.userid.fullname}
+                    </p:dataList>
+                </p:column>
+                <p:column headerText="informacja">
+                    #{doWiad.tresc}
+                </p:column>
+            </p:dataTable>
+
+            <p:dialog header="Wprowadź dane" id="dodajPaneWiadId" widgetVar="dodajPaneWiad">
+                <h:outputLabel value="wprowadz krótką notatkę: "/>
+                <h:inputText id="notTresc" value="#{RejestracjaRej.doWiad.tresc}" size="90"><f:validateLength minimum="1"/></h:inputText>
+                <p:message for="notTresc" display="icon"/>
+                <h:panelGrid id="doWiadForm" columns="2">
+                    <p:panel id="doWiadFormLista">
+                        <f:facet name="header">lista odbiorców</f:facet>
+                        <p:dataList id="user_list" value="#{RejestracjaRej.doWiad.dcDokDoWiadCelList}" var="cel" emptyMessage="brak">
+                            #{cel.userid.fullname} #{cel.userid.adrEmail} 
+                            <p:commandButton id="usunUser" action="#{RejestracjaRej.usunDoWiadUser}" update="@parent:@parent" process="user_list" icon="ui-icon-trash">
+                                <f:setPropertyActionListener target="#{RejestracjaRej.doWiadCel}" value="#{cel}" />
+                            </p:commandButton>
+                        </p:dataList>
+                    </p:panel>
+                    <p:panel id="doWiadFormForm">
+                        <f:facet name="header"></f:facet>
+                        <h:panelGrid id="doWiadForm2" columns="3">
+                            <p:outputLabel for="cel" value="podaj email:"/>
+                            <p:autoComplete id="cel" multiple="false" value="#{RejestracjaRej.userDoWiad}" completeMethod="#{RodzajeCfg.autoCompUser}"
+                                            var="user" itemLabel="#{user.fullname}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConvEmail}">
+                                <p:column>
+                                    <h:outputText value="#{user.fullname}" />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{user.adrEmail}" />
+                                </p:column>
+                            </p:autoComplete>
+                            <p:commandButton value="dodaj" process="doWiadForm2" action="#{RejestracjaRej.dodajDoWiadUser}" update="doWiadForm, wyslijDoPrzyciski"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:panelGrid>
+                <p:panel id="wyslijDoPrzyciski">
+                    <p:commandButton id="wyslijDoWiad" action="#{RejestracjaRej.dodajDoWiad}" value="Wyślij" update="dodajPaneWiadId, doWiadList, :center:valid" process="dodajPaneWiadId"
+                                     oncomplete="PF('dodajPaneWiad')hide();" 
+                                     rendered="#{fn:length(RejestracjaRej.doWiad.dcDokDoWiadCelList)>0}"/>
+                    <p:commandButton value="Wyjdź" onclick="PF('dodajPaneWiad').hide();" />
+                </p:panel>
+            </p:dialog>
+        </p:tab>
+        <p:tab title="Baza Zasobów Materiałowych">
+            <p:panel header="Wybierz zasób z listy" id="drzewoPanel">
+                <p:tree value="#{URejDokMg.rezMg.root}" var="node" dynamic="true" style=" background-color: white;" selectionMode="single" id="drzewo">
+                    <p:treeNode type="grupa" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                        <h:outputText value="#{node.nazwa}" />
+                    </p:treeNode>
+                    <p:treeNode type="urzadzenie" icon="ui-icon-script">
+                        <h:outputText value="#{node.nazwa}"/>
+                    </p:treeNode>
+                </p:tree>
+            </p:panel>
         </p:tab>
     </p:tabView>
 
