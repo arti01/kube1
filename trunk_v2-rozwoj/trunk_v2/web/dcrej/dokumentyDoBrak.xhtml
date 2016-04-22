@@ -9,7 +9,7 @@
         <h:form>
             <h:commandButton value="wydrukuj" action="#{BrakowanieRej.druk}"/>
         </h:form>
-        <ui:include src="/dcrej/dokumentList.xhtml">
+        <ui:include src="/dcrej/dokumentListRF.xhtml">
             <ui:param name="managedBean" value="#{BrakowanieRej}"/> 
             <ui:param name="widok" value="#{false}"/>
         </ui:include>

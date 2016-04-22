@@ -114,8 +114,8 @@
             </p:dataTable>
 
             <p:dialog header="Wprowadź dane" id="dodajPaneWiadId" widgetVar="dodajPaneWiad">
-                <h:outputLabel value="wprowadz krótką notatkę: "/>
-                <h:inputText id="notTresc" value="#{RejestracjaRej.doWiad.tresc}" size="90"/>
+                <p:outputLabel value="wprowadz krótką notatkę: "/>
+                <p:inputText id="notTresc" value="#{RejestracjaRej.doWiad.tresc}" size="90"/>
                 <p:message for="notTresc"/>
                 <h:panelGrid id="doWiadForm" columns="2">
                     <p:panel id="doWiadFormLista">
@@ -169,12 +169,12 @@
                 <p:panel header="Dokument dotyczy zasobów materiałowych" id="pgTrg">
                     <p:dataTable value="#{RejestracjaRej.obiekt.urzadzeniaList}" var="urzadz" style="width: 100%; border: white thick" id="tabZas"
                                  emptyMessage="brak danych">
-                        <p:column sortBy="#{urzadz.nazwa}">
-                                #{urzadz.nazwa}
-                                (#{urzadz.nrInw}-
-                                #{urzadz.nrSer})
+                        <p:column>
+                            #{urzadz.nazwa}
+                            (#{urzadz.nrInw}-
+                            #{urzadz.nrSer})
                             <p:tooltip for="imgDelOdb" value="usuń zasób"/>
-                            <p:commandButton id="imgDelOdb" action="#{URejDokMg.usunUrzad}" process="imgDelOdb" update=":center:tabPanel:pgAll" icon="ui-icon-trash" 
+                            <p:commandButton id="imgDelOdb" action="#{URejDokMg.usunUrzad}" process="imgDelOdb" update=":center:tabPanel:pgTrg" icon="ui-icon-trash" 
                                              rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
                                 <f:setPropertyActionListener target="#{URejDokMg.urzad}" value="#{urzadz}" />
                                 <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
@@ -183,6 +183,55 @@
                     </p:dataTable>
                 </p:panel>
             </p:panelGrid>
+        </p:tab>
+        <p:tab title="Archiwum - dokumenty powiązane">
+            <p:panel id="pgArchDod" header="Informacje dodatkowe" rendered="#{RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.archiw}">
+                <h:panelGrid columns="6">
+                    <p:outputLabel value="nazwisko i imię osoby wypożyczającej"/>
+                    <p:inputText id="nazwImie" value="#{RejestracjaRej.obiekt.dokArchDod.imieNazwisko}">
+                        <p:ajax event="change" listener="#{RejestracjaRej.edytujAbst}"/>
+                    </p:inputText>
+                    <p:message for="nazwImie" styleClass="error" />
+
+                    <p:outputLabel value="planowana data zwrotu dokumentu:"/>
+                    <p:calendar id="plDaZw" value="#{RejestracjaRej.obiekt.dokArchDod.dataPlanZwrot}" pattern="yyyy-MM-dd" locale="pl">
+                        <p:ajax event="dateSelect" listener="#{RejestracjaRej.edytujAbst}" update="pgArchDod" process="@this"/>
+                    </p:calendar>
+                    <p:message for="plDaZw" styleClass="error" />
+
+                    <p:outputLabel value="rzeczywista data zwrotu dokumentu:"/>
+                    <p:calendar id="realDaZw" value="#{RejestracjaRej.obiekt.dokArchDod.dataRzeczZwrot}" pattern="yyyy-MM-dd" locale="pl">
+                        <p:ajax event="dateSelect" listener="#{RejestracjaRej.edytujAbst}" update="pgArchDod" process="@this"/>
+                    </p:calendar>
+                    <p:message for="realDaZw" styleClass="error" />
+
+                    <p:outputLabel value="wydał:"/>
+                    <p:autoComplete value="#{RejestracjaRej.obiekt.dokArchDod.wydal}" multiple="false" itemLabel="#{user.fullname}" itemValue="#{user}" completeMethod="#{RodzajeCfg.autoCompUser}" 
+                                    var="user" converter="#{UzytkownikConvEmail}">
+                        <p:column>
+                            #{user.adrEmail}
+                        </p:column>
+                        <p:column>
+                            #{user.fullname}
+                        </p:column>
+                    </p:autoComplete>
+                </h:panelGrid>
+                <p:commandButton action="#{RejestracjaRej.edytujAbst}" value="zapisz" process="pgArchDod"/>
+            </p:panel>
+
+            <p:panel id="pgArch">
+                <f:facet name="header">
+                    Dokument powiązany z dokumentami w archiwum
+                </f:facet>
+
+                <p:dataTable value="#{RejestracjaRej.obiekt.dcArchList}" var="arch" style="width: 100%; border: white thick" emptyMessage="brak dokumentów">
+                    <p:column>
+                        #{arch.nazwa}
+                        (#{arch.symbolDok})
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
         </p:tab>
     </p:tabView>
 

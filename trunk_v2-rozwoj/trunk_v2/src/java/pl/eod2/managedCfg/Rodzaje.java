@@ -191,7 +191,8 @@ public class Rodzaje {
         query = query.toLowerCase();
         List<Uzytkownik> wynik = new ArrayList<>();
         for (Uzytkownik u : usersLista) {
-            if (u.getFullname().toLowerCase().contains(query) || u.getAdrEmail().toLowerCase().contains(query)) {
+            if ((u.getFullname().toLowerCase().contains(query) || u.getAdrEmail().toLowerCase().contains(query))
+                    && !u.getStruktura().isUsuniety()) {
                 wynik.add(u);
             }
         }

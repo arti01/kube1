@@ -96,8 +96,6 @@ public class RejDok {
     }
 
     public void addUrzDok(){
-        System.err.println(node);
-        System.err.println(node.getData().getClass());
         if (node.getData() instanceof pl.eod2.encje.UmUrzadzenie) {
             //DrzUrzad drU = (DrzUrzad) node.getData();
             UmUrzadzenie uz = (UmUrzadzenie) node.getData();
