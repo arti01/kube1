@@ -9,7 +9,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.swing.tree.TreeNode;
-import org.primefaces.event.DragDropEvent;
+import org.primefaces.model.DefaultTreeNode;
 import org.richfaces.event.DropEvent;
 import pl.eod.managed.Login;
 import pl.eod2.encje.DcDokument;
@@ -39,6 +39,7 @@ public class RejDok {
     private DcRodzajJpaController dcR;
     private List<TreeNode> rootNodesDetDok = new ArrayList<>();
     private UmUrzadzenie urzad;
+    DefaultTreeNode node;
 
     @PostConstruct
     void init() {
@@ -94,6 +95,27 @@ public class RejDok {
         rodzajLista.setWrappedData(urzad.getGrupa().getMasterGrp().getRodzajeDokList());
     }
 
+    public void addUrzDok(){
+        System.err.println(node);
+        System.err.println(node.getData().getClass());
+        if (node.getData() instanceof pl.eod2.encje.UmUrzadzenie) {
+            //DrzUrzad drU = (DrzUrzad) node.getData();
+            UmUrzadzenie uz = (UmUrzadzenie) node.getData();
+            rejestracja.getObiekt().getUrzadzeniaList().add(uz);
+        }
+        if (node.getData() instanceof pl.eod2.encje.UmGrupa) {
+            UmGrupa uGr = (UmGrupa) node.getData();
+            rejestracja.getObiekt().getUrzadzeniaList().addAll(uGr.getUrzadzenieList());
+        }
+        if (node.getData() instanceof pl.eod2.encje.UmMasterGrupa) {
+            UmMasterGrupa drM = (UmMasterGrupa) node.getData();
+            for (UmGrupa uGr : drM.getGrupaList()) {
+                rejestracja.getObiekt().getUrzadzeniaList().addAll(uGr.getUrzadzenieList());
+            }
+        }
+        rejestracja.edytujAbst();
+    }
+    
     public void drop(DropEvent event) {
 
         //przypisanie urzadzenia do dokumenty
@@ -116,13 +138,7 @@ public class RejDok {
             }
         }
         rejestracja.edytujAbst();
-    }
-    
-    public void onCarDrop(DragDropEvent ddEvent) {
-        System.err.println(ddEvent.getDragId());
-        System.err.println(ddEvent.getDropId());
-        System.err.println(ddEvent.getData());
-        System.err.println("sssssssssssssssssssssssssssssssss");
+
     }
 
     public void usunUrzad() {
@@ -211,6 +227,14 @@ public class RejDok {
 
     public void setRezMg(RezerwacjeMg rezMg) {
         this.rezMg = rezMg;
+    }
+
+    public DefaultTreeNode getNode() {
+        return node;
+    }
+
+    public void setNode(DefaultTreeNode node) {
+        this.node = node;
     }
 
 }

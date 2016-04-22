@@ -152,22 +152,12 @@
                 </p:panel>
             </p:dialog>
         </p:tab>
-        <p:tab title="Baza Zasobów Materiałowych">
-
-
-            <p:panel id="zone">
-                ssssssss sssssssssssssssssssssss
-
-            </p:panel>
-            <p:droppable for="zone" datasource="tabZas">
-                <p:ajax listener="#{URejDokMg.onCarDrop}"/>
-            </p:droppable>
-
-
+        <p:tab title="Baza Zasobów Materiałowych">            
             <p:panelGrid id="pgAll" columns="2" style="width: 100%">
-                <p:panel header="Wybierz zasób z listy" id="drzewoPanel">
-                    <p:tree value="#{URejDokMg.rezMg.root}" var="node" dynamic="true" style=" background-color: white;" selectionMode="single" id="drzewo" draggable="true">
-                        <p:ajax event="dragdrop" listener="#{URejDokMg.onCarDrop}"/>
+                <p:panel header="Wybierz zasób z listy" id="drzewoPanel" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+                    <p:tree value="#{URejDokMg.rezMg.root}" var="node" dynamic="true" style=" background-color: white;" 
+                            selectionMode="single" id="drzewo" selection="#{URejDokMg.node}">
+                        <p:ajax event="select" update=":center:tabPanel:pgTrg" listener="#{URejDokMg.addUrzDok}" process="@this"/>
                         <p:treeNode type="grupa" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                             <h:outputText value="#{node.nazwa}" />
                         </p:treeNode>
@@ -177,17 +167,13 @@
                     </p:tree>
                 </p:panel>
                 <p:panel header="Dokument dotyczy zasobów materiałowych" id="pgTrg">
-                    <p:dataTable value="#{RejestracjaRej.obiekt.urzadzeniaList}" var="urzadz" style="width: 100%; border: white thick" id="tabZas">
+                    <p:dataTable value="#{RejestracjaRej.obiekt.urzadzeniaList}" var="urzadz" style="width: 100%; border: white thick" id="tabZas"
+                                 emptyMessage="brak danych">
                         <p:column sortBy="#{urzadz.nazwa}">
-                            <p:outputPanel id="out">
                                 #{urzadz.nazwa}
                                 (#{urzadz.nrInw}-
                                 #{urzadz.nrSer})
-                                <p:draggable revert="true" helper="clone"/>
-                            </p:outputPanel>
-
                             <p:tooltip for="imgDelOdb" value="usuń zasób"/>
-
                             <p:commandButton id="imgDelOdb" action="#{URejDokMg.usunUrzad}" process="imgDelOdb" update=":center:tabPanel:pgAll" icon="ui-icon-trash" 
                                              rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
                                 <f:setPropertyActionListener target="#{URejDokMg.urzad}" value="#{urzadz}" />
