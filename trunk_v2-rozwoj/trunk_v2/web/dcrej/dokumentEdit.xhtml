@@ -9,11 +9,11 @@
             <p:panelGrid columns="2" id="dodajGrid">
                 <p:outputLabel for="nameD" value="Nazwa: "/>
                 <h:panelGroup>
-                    <p:inputText id="nameD" value="#{RejestracjaRej.obiekt.nazwa}" size="150"/>
+                    <p:inputText id="nameD" value="#{RejestracjaRej.obiekt.nazwa}" size="100"/>
                     <p:message for="nameD" styleClass="error" />
                 </h:panelGroup>
                 <p:outputLabel for="opisD" value="Opis: " escape="false"/>
-                <p:inputTextarea id="opisD" value="#{RejestracjaRej.obiekt.opis}" cols="150" rows="3" autoResize="true"/>
+                <p:inputTextarea id="opisD" value="#{RejestracjaRej.obiekt.opis}" cols="100" rows="3" autoResize="true"/>
             </p:panelGrid>
 
             <p:panelGrid columns="6" id="dodajGrid6" columnClasses="column1p,column2p,column1p,column2p,column1p,column2p,">

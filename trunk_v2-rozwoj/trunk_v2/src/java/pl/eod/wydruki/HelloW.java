@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * This class demonstrates the conversion of an FO file to PDF using FOP.
  */
 public class HelloW {
-
+/*
     public static void main(String args[]) {
         System.out.println("Hi Testing");
         ArrayList employeeList = new ArrayList();
@@ -43,5 +43,5 @@ public class HelloW {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
+    }*/
 }

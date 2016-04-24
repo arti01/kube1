@@ -41,6 +41,7 @@ public class PDFHandlerTest {
     public static final String EXTENSION = ".pdf";
     public String PRESCRIPTION_URL = "template.xsl";
 
+    /*
     public String createPDFFile(ByteArrayOutputStream xmlSource, String templateFilePath) throws IOException, SAXException, ConfigurationException {
         //File file = File.createTempFile("" + System.currentTimeMillis(), EXTENSION);
         File file = new File("D:\\tmp\\1\\cos"+EXTENSION);
@@ -105,7 +106,7 @@ fopFactory.setUserConfig(cfg);
         }
         return file.getPath();
     }
-
+*/
     //public ByteArrayOutputStream getXMLSource(EmployeeData data) throws Exception {
     public ByteArrayOutputStream getXMLSource(EmployeeData data) throws Exception {
         JAXBContext context;

@@ -4,20 +4,18 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html">
-
-    <h3>#{RejestracjaRej.obiekt.nazwa}</h3>
     <h:panelGroup id="valid">
         <p:remoteCommand oncomplete="PF('dodajPaneWiad').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
     </h:panelGroup>
 
     <p:tabView id="tabPanel">
         <p:tab id="infPodst" title="Informacje podstawowe">
-            <p:panelGrid columns="2" columnClasses="column1, column2"  style="width: 100%;">
+            <p:panelGrid columns="2" columnClasses="column1_50, column2_50" style="width: 100%;">
                 <p:panel>
                     <ui:include src="./dokumentEdit.xhtml"/>
-                    <p:commandButton id="zapiszD" value="Zapisz" action="#{RejestracjaRej.edytujZdetale}" process="infPodst" update="infPodst"  rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}"/>
+                    <p:commandButton id="zapiszD" value="Zapisz" action="#{RejestracjaRej.edytujZdetale}" process="infPodst" update="panelGrp" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}"/>
                 </p:panel>
-                <p:panel>
+                <p:panel id="plikiGr">
                     <p:fieldset legend="pliki graficzne" collapsed="true" toggleable="true" toggleSpeed="250">
                         <p:commandButton type="button" onclick="PF('switcher').previous();"
                                          icon="ui-icon-circle-triangle-w" id="prev"/>
@@ -43,10 +41,10 @@
             </p:panelGrid>
         </p:tab>
         <p:tab id="tabPliki" title="Załączniki">
-            <p:fileUpload fileUploadListener="#{fileUploadBean.listener}" mode="advanced" update="table" sizeLimit="10000000" style="width: 500px;"
+            <p:fileUpload fileUploadListener="#{fileUploadBean.listener}" mode="advanced" update="@parent:plikiGr, table" sizeLimit="10000000" style="width: 500px;"
                           rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}" invalidSizeMessage="zbyt duży plik" label="dodaj załącznik" auto="true"/>
             <hr/>
-            <p:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="table" style="width: 100%" lazy="false">
+            <p:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="table" style="width: 100%" lazy="false" emptyMessage="brak załączników">
                 <p:column filterBy="#{item.nazwa}" headerText="nazwa" filterMatchMode="contains">
                     #{item.nazwa}
                 </p:column>
@@ -57,7 +55,7 @@
                     <p:commandButton id="imgDt" title="pobierz" action="#{fileUploadBean.download}" icon="ui-icon-circle-zoomin" ajax="false" immediate="true" process=":@parent">
                         <f:setPropertyActionListener target="#{RejestracjaRej.plik}" value="#{item}" />
                     </p:commandButton>
-                    <p:commandButton title="usuń" id="imgDe" process="@this" update="table" action="#{RejestracjaRej.usunPlik}" icon="ui-icon-trash" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+                    <p:commandButton title="usuń" id="imgDe" process="@this" update=":center:tabPanel:plikiGr, table" action="#{RejestracjaRej.usunPlik}" icon="ui-icon-trash" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
                         <f:setPropertyActionListener target="#{RejestracjaRej.plik}" value="#{item}" />
                         <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
                     </p:commandButton>
@@ -234,9 +232,9 @@
 
         </p:tab>
     </p:tabView>
-
-
+    
     <p:panel id="wyslij" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+        <p:commandButton value="powrót do listy dokumentów" action="#{RejestracjaRej.list}" ajax="false" immediate="true"/>
         <p:commandButton value="wyślij do akceptacji" action="#{RejestracjaRej.wyslijDoAkceptacji}" icon="ui-icon-play"
                          update="tabPanel, wyslij" process="@this">
             <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{RejestracjaRej.obiekt}"/>

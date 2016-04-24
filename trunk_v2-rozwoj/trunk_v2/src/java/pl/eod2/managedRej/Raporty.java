@@ -15,6 +15,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import pl.eod.wydruki.DcDokPocztaList;
 import pl.eod.wydruki.PDFHandler;
@@ -42,8 +43,10 @@ public class Raporty {
         dcC = new DcDokumentJpaController();
         String absolutePath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
         absolutePath = absolutePath.substring(0, absolutePath.lastIndexOf("/"));
-        templateFilePath = absolutePath + "/../../../../../resources/wydruki/";
-        fopConf = absolutePath + "/../../../fop-xconf.xml";
+        System.err.println(absolutePath);
+        templateFilePath = absolutePath + "/../../resources/wydruki/";
+        //templateFilePath = absolutePath + "/../../../../../resources/wydruki/";
+        fopConf = absolutePath + "/fop-xconf.xml";
     }
 
     public String raportPocz() {

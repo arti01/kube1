@@ -22,15 +22,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.xml.sax.SAXException;
+
 
 public class PDFHandler {
 
@@ -46,12 +45,12 @@ public class PDFHandler {
         // creation of transform source
         StreamSource transformSource = new StreamSource(url.openStream());
         // create an instance of fop factory
-        FopFactory fopFactory = FopFactory.newInstance();
+        FopFactory fopFactory = FopFactory.newInstance(new File(cfgFop));
         // a user agent is needed for transformation
 
-        DefaultConfigurationBuilder cfgBuilder = new DefaultConfigurationBuilder();
-        Configuration cfg = cfgBuilder.buildFromFile(new File(cfgFop));
-        fopFactory.setUserConfig(cfg);
+        //DefaultConfigurationBuilder cfgBuilder = new DefaultConfigurationBuilder();
+        //Configuration cfg = cfgBuilder.buildFromFile(new File(cfgFop));
+        //fopFactory.setUserConfig(cfg);
 
         FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
         // to store output
@@ -106,12 +105,12 @@ public class PDFHandler {
         // creation of transform source
         StreamSource transformSource = new StreamSource(url.openStream());
         // create an instance of fop factory
-        FopFactory fopFactory = FopFactory.newInstance();
+        FopFactory fopFactory = FopFactory.newInstance(new File(cfgFop));
         // a user agent is needed for transformation
 
-        DefaultConfigurationBuilder cfgBuilder = new DefaultConfigurationBuilder();
-        Configuration cfg = cfgBuilder.buildFromFile(new File(cfgFop));
-        fopFactory.setUserConfig(cfg);
+        //DefaultConfigurationBuilder cfgBuilder = new DefaultConfigurationBuilder();
+        //Configuration cfg = cfgBuilder.buildFromFile(new File(cfgFop));
+        //fopFactory.setUserConfig(cfg);
 
         FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
         // to store output
