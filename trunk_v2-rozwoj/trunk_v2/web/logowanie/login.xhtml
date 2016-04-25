@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+﻿<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
@@ -9,7 +9,7 @@
     <ui:define name="content">
         <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
 
-        <div id="login" style="background-color: #C1DFFF;">
+        <div id="login" style="background-color: #f8f8ff;">
             <center>
                 <form method="POST" name="loginform" action="j_security_check">
                     <table style="width:300px;vertical-align: middle; background-color: #c8cccd; margin: 10px,10px,10px,10px; border: 1px solid gray;"  cellpadding="5" cellspacing="5" border="0">
@@ -29,7 +29,7 @@
                 <br/>
                 <form method="POST" name="" action="#{RepozytMg.listBezLogin()}">
                     <p:panel>
-                        <input type="submit" value="wspólne repozytorium dokumentów/plików"/>
+                        <input type="submit" value="Wspólne repozytorium dokumentów" class="przycisk" style="width: 200px;"/>
                     </p:panel>
                 </form>
             </center>
