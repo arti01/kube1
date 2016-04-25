@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/eodt_j8">
-  <Realm className="org.apache.catalina.realm.JDBCRealm" connectionURL="jdbc:derby://10.151.80.152:1527/eod_v2" debug="99" digest="md5" driverName="org.apache.derby.jdbc.ClientDriver" password="eod" resourceName="eod" roleNameCol="role_name" userCredCol="password" userNameCol="username" userRoleTable="eod.user_roles_view" userTable="eod.userpass" username="eod"/>
+  <Realm className="org.apache.catalina.realm.JDBCRealm" connectionURL="jdbc:postgresql://192.168.1.13:5432/eod_ocr?user=eod&amp;password=eod" debug="99" digest="md5" driverName="org.postgresql.Driver" password="eod" resourceName="eod" roleNameCol="role_name" userCredCol="password" userNameCol="username" userRoleTable="user_roles_view" userTable="userpass" username="eod"/>
   <!--<Realm className="org.apache.catalina.realm.DataSourceRealm" debug="99" 
            dataSourceName="jdbc/eod" localDataSource="true" 
            userTable="dbo.userPass" userNameCol="username" userCredCol="password" 
@@ -12,5 +12,5 @@
            url="jdbc:derby://10.151.64.147:1527/eod_v2"
            org.apache.derby.jdbc.ClientDriver
     -->
-  <Resource auth="Container" driverClassName="org.apache.derby.jdbc.ClientDriver" maxTotal="10" maxIdle="3" maxWaitMillis="20000" name="jdbc/eod_v2" password="eod" removeAbandoned="true" removeAbandonedTimeout="100" type="javax.sql.DataSource" url="jdbc:derby://10.151.80.152:1527/eod_v2" username="eod"/>
+  <Resource auth="Container" driverClassName="org.postgresql.Driver" maxTotal="10" maxIdle="3" maxWaitMillis="20000" name="jdbc/eod_v2" password="eod" type="javax.sql.DataSource" url="jdbc:postgresql://192.168.1.13:5432/eod_ocr" username="eod"/>
 </Context>

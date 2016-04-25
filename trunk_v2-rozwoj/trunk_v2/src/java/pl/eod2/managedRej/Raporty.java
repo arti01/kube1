@@ -73,18 +73,21 @@ public class Raporty {
     }
 
     public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+        Document doc=(Document) document;
+        doc.setPageSize(PageSize.A4.rotate());
     }
     
     public void postProcessPDF(Object document) throws IOException, DocumentException{
         System.err.println(document);
-        Document doc=(Document) document;
+        /*Document doc=(Document) document;
         OutputStream out=new ObjectOutputStream(new ByteArrayOutputStream());
+       
         PdfWriter writer = PdfWriter.getInstance(doc, out);
-        doc.open();
+         doc.open();
         PdfContentByte pcb= writer.getDirectContent();
          BaseFont bf = BaseFont.createFont();
         pcb.setFontAndSize(bf, 5);
-        doc.close();
+        //doc.close();*/
     }
 
     @SuppressWarnings("unchecked")

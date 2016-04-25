@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
-<fop version="1.0">
+<fop version="2.1">
                     
-<font-base>file:\\\D:\\tmp\\1\\fonts</font-base>
+<font-base>/home/arti01/Pobrane/fonts</font-base>
 
   <renderers>
   
@@ -28,19 +28,6 @@
         <font embed-url="arialbi.ttf">
           <font-triplet name="Arial" style="italic" weight="bold"/>
           <font-triplet name="ArialMT" style="italic" weight="bold"/>
-        </font>
-
-        <font embed-url="Times.ttf">
-          <font-triplet name="Times" style="normal" weight="normal"/>
-        </font>
-        <font embed-url="Timesbd.ttf">
-          <font-triplet name="Times" style="normal" weight="bold"/>
-        </font>
-        <font embed-url="Timesi.ttf">
-          <font-triplet name="Times" style="italic" weight="normal"/>
-        </font>
-        <font embed-url="Timesbi.ttf">
-          <font-triplet name="Times" style="italic" weight="bold"/>
         </font>
         <font embed-url="verdana.ttf">
           <font-triplet name="Verdana" style="normal" weight="normal"/>
