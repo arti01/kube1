@@ -3,15 +3,12 @@ package pl.eod2.managedOdb;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 import pl.eod.wydruki.DcDokPoczta;
-import pl.eod.wydruki.DcDokPocztaList;
 import pl.eod.wydruki.PDFHandler;
-import pl.eod2.encje.DcDokument;
 
 @ManagedBean(name = "HistOdb")
 @SessionScoped

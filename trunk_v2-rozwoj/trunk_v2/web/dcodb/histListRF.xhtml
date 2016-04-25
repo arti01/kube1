@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateRF2PF.xhtml"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="../resources/css/default.css"/>
+        <h3>Dokumenty w których byłeś akceptantem</h3>
+        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+        
+        <ui:param name="managedBean" value="#{HistOdb}"/>
+        
+        <h:form>
+            <rich:panel id="listPanel">
+                <rich:dataTable value="#{managedBean.login.zalogowany.userId.dcDokumentListHist}" var="itemHist" iterationStatusVar="it" rows="10" id="table" style="width: 100%">
+                    <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    
+                    <rich:column sortBy="#{itemHist.id}" sortOrder="descending" filterType="custom" filterExpression="#{fn:containsIgnoreCase(itemHist.dataWprowStr,RejestracjaRej.filtrdataWprow)}">    
+                        <f:facet name="header">data rejestracji
+                            <h:inputText value="#{RejestracjaRej.filtrdataWprow}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        <h:outputText value="#{itemHist.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(itemHist.nazwa,RejestracjaRej.filtrNazwa)}">    
+                        <f:facet name="header">nazwa
+                            <h:inputText value="#{RejestracjaRej.filtrNazwa}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        <h:outputText id="nazwaList" value="#{itemHist.nazwa}"/>
+                        <rich:tooltip target="nazwaList">
+                            #{itemHist.opis}
+                        </rich:tooltip>
+                    </rich:column>
+                    
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(itemHist.dataDokStr,RejestracjaRej.filtrdataDok)}">    
+                        <f:facet name="header">data dokumentu
+                            <h:inputText value="#{RejestracjaRej.filtrdataDok}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        <h:outputText value="#{itemHist.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(itemHist.zrodloId.nazwa,RejestracjaRej.filtrZrodlo)}">    
+                        <f:facet name="header">żródło
+                            <h:inputText value="#{RejestracjaRej.filtrZrodlo}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                            #{itemHist.zrodloId.nazwa}
+                    </rich:column>
+                    
+                     <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(itemHist.teczkaId.nazwa,RejestracjaRej.filtrTeczka)}">    
+                        <f:facet name="header">teczka
+                            <h:inputText value="#{RejestracjaRej.filtrTeczka}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        <h:outputText id="teczka" value="#{itemHist.teczkaId.nazwa}"/>
+                        <rich:tooltip target="teczka">
+                            #{itemHist.teczkaId.opis}
+                        </rich:tooltip>
+                    </rich:column>
+                    
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(itemHist.kontrahentId.nazwa,RejestracjaRej.filtrKontrahent)}">    
+                        <f:facet name="header">kontrahent
+                            <h:inputText value="#{RejestracjaRej.filtrKontrahent}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        <h:outputText id="kontrahentList" value="#{itemHist.kontrahentId.nazwa}"/>
+                        <rich:tooltip target="kontrahentList">
+                            #{itemHist.kontrahentId.adres} #{itemHist.kontrahentId.adres} #{itemHist.kontrahentId.nipRegon}
+                        </rich:tooltip>
+                    </rich:column>
+                    
+                    <rich:column  style="background-color: #{itemHist.dokStatusId.kolor} ; text-align: center"
+                        filterType="custom" filterExpression="#{fn:containsIgnoreCase(itemHist.dokStatusId.nazwa,RejestracjaRej.filtrStatus)}">    
+                        <f:facet name="header">status
+                            <h:inputText value="#{RejestracjaRej.filtrStatus}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        <h:outputText id="statusList" value="#{itemHist.dokStatusId.nazwa}"/>
+                        <br/>
+                        <rich:tooltip target="statusList">
+                            #{itemHist.dokStatusId.opis}
+                        </rich:tooltip>
+                    </rich:column>
+                    
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(itemHist.userId.fullname,RejestracjaRej.filtrWprowadzil)}">    
+                        <f:facet name="header">wprowadził
+                            <h:inputText value="#{RejestracjaRej.filtrWprowadzil}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                            #{itemHist.userId.fullname}
+                    </rich:column>
+                    
+                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(itemHist.rodzajId.nazwa,RejestracjaRej.filtrRodzaj)}">    
+                        <f:facet name="header">rodzaj
+                            <h:inputText value="#{RejestracjaRej.filtrRodzaj}" size="9">
+                                <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
+                        </f:facet>
+                        <h:outputText id="rodzajList" value="#{itemHist.rodzajId.nazwa}"/>
+                        <rich:tooltip target="rodzajList">
+                            #{itemHist.rodzajId.opis} z grupy:#{itemHist.rodzajId.idRodzajGrupa.nazwa}
+                        </rich:tooltip>
+                    </rich:column>
+
+                    <rich:column style="width: 70px">
+                        <rich:tooltip target="imgDt" value="detale" layout="block"/>
+                        <a4j:commandButton id="imgDt" execute="@this" action="#{managedBean.detale}" image="/images/detail.png">
+                            <f:setPropertyActionListener target="#{managedBean.obiekt}" value="#{itemHist}" />
+                        </a4j:commandButton>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:panel>
+            <rich:popupPanel id="statPane" autosized="true">
+                <h:graphicImage value="/images/ai.gif" alt="ai" />
+                Proszę czekać
+            </rich:popupPanel>
+        </h:form>
+        <hr/>
+
+    </ui:define>
+
+</ui:composition>
+
