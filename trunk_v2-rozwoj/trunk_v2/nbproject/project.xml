@@ -16,11 +16,11 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${libs.FOP1.0.classpath}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
+                    <file>${file.reference.commons-codec-1.9.jar}</file>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.commons-codec-1.9.jar}</file>
+                    <file>${libs.fop2.1.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.commons-codec-1.9.jar-1}</file>

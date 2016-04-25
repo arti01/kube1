@@ -1,110 +1,84 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:rich="http://richfaces.org/rich"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/templateRF2PF.xhtml"
-                xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="tytul">
+        <h3 align="center">Raport pocztowy - tylko dla dokumentów o statusie Zamknięty</h3>
+    </ui:define>
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+            <p:panelGrid columnClasses="column1p,column2p,column1p,column2p" columns="4">
+                <p:outputLabel for="grupaD" value="grupa: "/>
+                <p:selectOneMenu id="grupaD" value="#{RaportyRej.filtrRodzGrupa}" converter="#{DcRodzajGrupaConv}" >
+                    <f:selectItems value="#{RodzajeGrupyCfg.listaPF}" var="grupa" itemValue="#{grupa}" itemLabel="#{grupa.nazwa}"/>
+                </p:selectOneMenu>
 
-    <ui:define name="content">
-        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
-        <h3>Raport pocztowy - tylko dla dokumentów o statusie Zamknięty</h3>
-        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
-        <h:form>
-            <h:outputLabel for="grupaD" value="grupa: "/>
-            <h:selectOneMenu id="grupaD" value="#{RaportyRej.filtrRodzGrupa}" converter="#{DcRodzajGrupaConv}" >
-                <f:selectItems value="#{RodzajeGrupyCfg.lista}" var="grupa" itemValue="#{grupa}" itemLabel="#{grupa.nazwa}"/>
-            </h:selectOneMenu>
-            <rich:message for="grupaD" styleClass="error" />
+                <p:outputLabel for="dataD" value="Data rejestracji od:"/>
+                <p:calendar id="dataD" value="#{RaportyRej.filtrDataRejOd}" pattern="yyyy-MM-dd" locale="pl"/>
 
-            <h:outputLabel for="dataD" value="Data rejestracji od:"/>
-            <rich:calendar value="#{RaportyRej.filtrDataRejOd}" id="dataD" locale="#{RejestracjaRej.locale}"
-                           popup="true" datePattern="yyyy-MM-dd"
-                           showApplyButton="#{calendarBean.showApply}" style="width:200px">
-                <rich:validator /></rich:calendar>
-            <rich:message for="dataD" styleClass="error" />
+                <h:outputLabel for="dataDd" value="Data rejestracji do:"/>
+                <p:calendar id="dataDd" value="#{RaportyRej.filtrDataRejDo}" pattern="yyyy-MM-dd" locale="pl"/>
 
-            <h:outputLabel for="dataDd" value="Data rejestracji do:"/>
-            <rich:calendar value="#{RaportyRej.filtrDataRejDo}" id="dataDd" locale="#{RejestracjaRej.locale}"
-                           popup="true" datePattern="yyyy-MM-dd"
-                           showApplyButton="#{calendarBean.showApply}" style="width:200px">
-                <rich:validator /></rich:calendar>
-            <rich:message for="dataDd" styleClass="error" />
-
-            <h:outputLabel for="zrodloD" value="źródło: "/>
-            <h:selectOneMenu id="zrodloD" value="#{RaportyRej.filtrZrodlo}" converter="#{DcZrodloConv}" >
-                <f:selectItem value="#{null}" itemLabel="wszystkie"/>
-                <f:selectItems value="#{ZrodlaCfg.lista}" var="zrodlo" itemValue="#{zrodlo}" itemLabel="#{zrodlo.nazwa}"/>
-            </h:selectOneMenu>
-            <rich:message for="zrodloD" styleClass="error" />
-            <hr/>
-            <a4j:commandButton value="wyszukaj" action="#{RaportyRej.pokazRap}" render="table, druk"/>
+                <p:outputLabel for="zrodloD" value="źródło: "/>
+                <p:selectOneMenu id="zrodloD" value="#{RaportyRej.filtrZrodlo}" converter="#{DcZrodloConv}" >
+                    <f:selectItem value="#{null}" itemLabel="wszystkie"/>
+                    <f:selectItems value="#{ZrodlaCfg.listaPF}" var="zrodlo" itemValue="#{zrodlo}" itemLabel="#{zrodlo.nazwa}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:commandButton value="wyszukaj" action="#{RaportyRej.pokazRap}" update="table, druk"/>
             <h:panelGroup id="druk">
-                <h:commandButton value="wydrukuj" action="#{RaportyRej.druk}" rendered="#{RaportyRej.pokazDruk}"/>
+                <p:commandButton value="raport sformatowany" action="#{RaportyRej.druk}" rendered="#{RaportyRej.pokazDruk}" ajax="false"/>
+                <p:commandButton value="raport wprost" rendered="#{RaportyRej.pokazDruk}" ajax="false">
+                    <p:dataExporter type="pdf" target="table" fileName="raport" encoding="ISO-8859-2" preProcessor="#{RaportyRej.preProcessPDF}" postProcessor="#{RaportyRej.postProcessPDF}"/>
+                </p:commandButton>
             </h:panelGroup>
 
-            <rich:panel>
-                <rich:dataTable value="#{RaportyRej.lista}" var="item" iterationStatusVar="it" id="table" style="width: 100%">
-
-                    <rich:column sortBy="#{item.id}" sortOrder="descending">
-                        <f:facet name="header">data wprowadzenia</f:facet>
+            <p:panel>
+                <p:dataTable value="#{RaportyRej.lista}" var="item" id="table" style="width: 100%" emptyMessage="brak danych">
+                    <p:column headerText="data wprowadzenia" sortBy="#{item.id}">
                         <h:outputText value="#{item.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
-                    </rich:column>
+                    </p:column>
 
-                    <rich:column>
-                        <f:facet name="header">nazwa dokumentu</f:facet>
+                    <p:column headerText="nazwa dokumentu">
                         <h:outputText id="nazwaList" value="#{item.nazwa}"/>
-                        <rich:tooltip target="nazwaList">
+                        <p:tooltip for="nazwaList">
                             #{item.opis}
-                        </rich:tooltip>
-                    </rich:column>
+                        </p:tooltip>
+                    </p:column>
 
-                    <rich:column>    
-                        <f:facet name="header">kontrahent</f:facet>
-                        <h:outputText id="kontrahentList" value="#{item.kontrahentId.nazwa}"/>
-                        <hr width="70%"/>
+                    <p:column headerText="kontrahent">    
+                        <h:outputText id="kontrahentList" value="#{item.kontrahentId.nazwa} "/>
                         <h:outputText id="kontrahentAdres" value="#{item.kontrahentId.adres}"/>
-                    </rich:column>
+                    </p:column>
 
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.zrodloId.nazwa,RejestracjaRej.filtrZrodlo)}">    
-                        <f:facet name="header">żródło</f:facet>
-                            #{item.zrodloId.nazwa}
-                    </rich:column>
+                    <p:column headerText="źródło">    
+                        <h:outputText value="#{item.zrodloId.nazwa}"/>
+                    </p:column>
 
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.dokStatusId.nazwa,RejestracjaRej.filtrStatus)}">    
-                        <f:facet name="header">status</f:facet>
+                    <p:column headerText="status">    
                         <h:outputText id="statusList" value="#{item.dokStatusId.nazwa}"/>
-                        <rich:tooltip target="statusList">
+                        <p:tooltip for="statusList">
                             #{item.dokStatusId.opis}
-                        </rich:tooltip>
-                    </rich:column>
+                        </p:tooltip>
+                    </p:column>
 
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.userId.fullname,RejestracjaRej.filtrWprowadzil)}">    
-                        <f:facet name="header">wprowadził</f:facet>
-                            #{item.userId.fullname}
-                    </rich:column>
+                    <p:column headerText="wprowadził">    
+                        <h:outputText value="#{item.userId.fullname}"/>
+                    </p:column>
 
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.rodzajId.nazwa,RejestracjaRej.filtrRodzaj)}">    
-                        <f:facet name="header">rodzaj</f:facet>
+                    <p:column headerText="rodzaj">    
                         <h:outputText id="rodzajList" value="#{item.rodzajId.nazwa}"/>
-                        <rich:tooltip target="rodzajList">
+                        <p:tooltip for="rodzajList">
                             #{item.rodzajId.opis} z grupy:#{item.rodzajId.idRodzajGrupa.nazwa}
-                        </rich:tooltip>
-                    </rich:column>
-                </rich:dataTable>
-            </rich:panel>
-
-            <rich:popupPanel id="statPane" autosized="true">
-                <h:graphicImage value="/images/ai.gif" alt="ai" />
-                Proszę czekać
-            </rich:popupPanel>
+                        </p:tooltip>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </h:form>
-        <hr/>
-
     </ui:define>
-
 </ui:composition>
 

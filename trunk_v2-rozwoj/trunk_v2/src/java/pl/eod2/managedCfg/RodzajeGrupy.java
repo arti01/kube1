@@ -1,5 +1,7 @@
 package pl.eod2.managedCfg;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,7 +19,8 @@ import pl.eod2.encje.exceptions.NonexistentEntityException;
 @SessionScoped
 public class RodzajeGrupy {
 
-    private DataModel<DcRodzajGrupa> lista = new ListDataModel<DcRodzajGrupa>();
+    private DataModel<DcRodzajGrupa> lista = new ListDataModel<>();
+    private List<DcRodzajGrupa> listaPF = new ArrayList<>();
     private DcRodzajGrupaJpaController dcRodzajGrupaC;
     private DcRodzajGrupa rodzajGrupa;
     private String error;
@@ -30,6 +33,7 @@ public class RodzajeGrupy {
 
     public void refresh() {
         lista.setWrappedData(dcRodzajGrupaC.findDcRodzajGrupaEntities());
+        listaPF=dcRodzajGrupaC.findDcRodzajGrupaEntities();
         rodzajGrupa = new DcRodzajGrupa();
         error = null;
     }
@@ -54,6 +58,7 @@ public class RodzajeGrupy {
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
             lista.setWrappedData(dcRodzajGrupaC .findDcRodzajGrupaEntities());
+            listaPF=dcRodzajGrupaC.findDcRodzajGrupaEntities();
         } else {
             refresh();
         }
@@ -97,4 +102,13 @@ public class RodzajeGrupy {
     public void setError(String error) {
         this.error = error;
     }    
+
+    public List<DcRodzajGrupa> getListaPF() {
+        return listaPF;
+    }
+
+    public void setListaPF(List<DcRodzajGrupa> listaPF) {
+        this.listaPF = listaPF;
+    }
+
 }
