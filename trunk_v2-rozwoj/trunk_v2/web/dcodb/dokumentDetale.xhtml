@@ -191,11 +191,11 @@
                 <h:panelGrid id="doWiadForm" columns="2">
                     <p:panel id="doWiadFormLista">
                         <f:facet name="header">lista odbiorców</f:facet>
-                        <p:dataList id="user_list" value="#{DoWiadOdb.doWiad.dcDokDoWiadCelList}" var="cel" emptyMessage="brak">
+                        <p:dataList id="user_list" value="#{managedBean.doWiad.dcDokDoWiadCelList}" var="cel" emptyMessage="brak">
                             #{cel.userid.fullname} #{cel.userid.adrEmail} 
-                            <p:commandButton id="usunUser" action="#{DoWiadOdb.usunDoWiadUser}" update=":@parent, :center:tabPanel:wyslijDoPrzyciski
+                            <p:commandButton id="usunUser" action="#{managedBean.usunDoWiadUser}" update=":@parent, :center:tabPanel:wyslijDoPrzyciski
                                              " process="user_list" icon="ui-icon-trash">
-                                <f:setPropertyActionListener target="#{DoWiadOdb.doWiadCel}" value="#{cel}" />
+                                <f:setPropertyActionListener target="#{managedBean.doWiadCel}" value="#{cel}" />
                             </p:commandButton>
                         </p:dataList>
                     </p:panel>
@@ -203,7 +203,7 @@
                         <f:facet name="header"></f:facet>
                         <h:panelGrid id="doWiadForm2" columns="3">
                             <p:outputLabel for="cel" value="podaj email:"/>
-                            <p:autoComplete id="cel" multiple="false" value="#{DoWiadOdb.userDoWiad}" completeMethod="#{RodzajeCfg.autoCompUser}"
+                            <p:autoComplete id="cel" multiple="false" value="#{managedBean.userDoWiad}" completeMethod="#{RodzajeCfg.autoCompUser}"
                                             var="user" itemLabel="#{user.fullname}" itemValue="#{user}" forceSelection="true" converter="#{UzytkownikConvEmail}">
                                 <p:column>
                                     <h:outputText value="#{user.fullname}" />
@@ -213,14 +213,14 @@
                                 </p:column>
                                 <p:ajax event="itemSelect" update="usdodod"/>
                             </p:autoComplete>
-                            <p:commandButton id="usdodod" value="dodaj" process="doWiadForm2" action="#{DoWiadOdb.dodajDoWiadUser}" update="doWiadForm, wyslijDoPrzyciski" disabled="#{DoWiadOdb.userDoWiad==null}"/>
+                            <p:commandButton id="usdodod" value="dodaj" process="doWiadForm2" action="#{managedBean.dodajDoWiadUser}" update="doWiadForm, wyslijDoPrzyciski" disabled="#{managedBean.userDoWiad==null}"/>
                         </h:panelGrid>
                     </p:panel>
                 </h:panelGrid>
                 <p:panel id="wyslijDoPrzyciski">
-                    <p:commandButton id="wyslijDoWiad" action="#{DoWiadOdb.dodajDoWiad}" value="Wyślij" update="dodajPaneWiadId, doWiadList, :center:valid" process="dodajPaneWiadId"
+                    <p:commandButton id="wyslijDoWiad" action="#{managedBean.dodajDoWiad}" value="Wyślij" update="dodajPaneWiadId, doWiadList, :center:valid" process="dodajPaneWiadId"
                                      oncomplete="PF('dodajPaneWiad')hide();" 
-                                     rendered="#{fn:length(DoWiadOdb.doWiad.dcDokDoWiadCelList)>0}"/>
+                                     rendered="#{fn:length(managedBean.doWiad.dcDokDoWiadCelList)>0}"/>
                     <p:commandButton value="Wyjdź" onclick="PF('dodajPaneWiad').hide();" />
                 </p:panel>
             </p:dialog>

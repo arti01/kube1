@@ -139,7 +139,7 @@
                                 </p:column>
                                 <p:ajax event="itemSelect" update="usdodod"/>
                             </p:autoComplete>
-                            <p:commandButton id="usdodod" value="dodaj" process="doWiadForm2" action="#{RejestracjaRej.dodajDoWiadUser}" update="doWiadForm, wyslijDoPrzyciski" disabled="#{DoWiadOdb.userDoWiad==null}"/>
+                            <p:commandButton id="usdodod" value="dodaj" process="doWiadForm2" action="#{RejestracjaRej.dodajDoWiadUser}" update="doWiadForm, wyslijDoPrzyciski" disabled="#{RejestracjaRej.userDoWiad==null}"/>
                         </h:panelGrid>
                     </p:panel>
                 </h:panelGrid>

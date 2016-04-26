@@ -354,7 +354,7 @@ public class Uzytkownik implements Serializable {
     }
 
     public List<DcDokument> getDcDokumentListHist() {
-        List<DcDokument> wynik = new ArrayList<DcDokument>();
+        List<DcDokument> wynik = new ArrayList<>();
         for (DcDokumentKrokUzytkownik dku : getDcDokumentKrokUzytkownikList()) {
             //krok danego użytkownika musi być bez akceptu
             //krok dokumentu musi być do akceptu lub częsciowa akceptacja
