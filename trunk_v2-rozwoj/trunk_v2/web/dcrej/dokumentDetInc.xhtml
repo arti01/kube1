@@ -120,7 +120,7 @@
                         <f:facet name="header">lista odbiorców</f:facet>
                         <p:dataList id="user_list" value="#{RejestracjaRej.doWiad.dcDokDoWiadCelList}" var="cel" emptyMessage="brak">
                             #{cel.userid.fullname} #{cel.userid.adrEmail} 
-                            <p:commandButton id="usunUser" action="#{RejestracjaRej.usunDoWiadUser}" update="@parent:@parent" process="user_list" icon="ui-icon-trash">
+                            <p:commandButton id="usunUser" action="#{RejestracjaRej.usunDoWiadUser}" update=":@parent, :center:tabPanel:wyslijDoPrzyciski" process="user_list" icon="ui-icon-trash">
                                 <f:setPropertyActionListener target="#{RejestracjaRej.doWiadCel}" value="#{cel}" />
                             </p:commandButton>
                         </p:dataList>
@@ -137,8 +137,9 @@
                                 <p:column>
                                     <h:outputText value="#{user.adrEmail}" />
                                 </p:column>
+                                <p:ajax event="itemSelect" update="usdodod"/>
                             </p:autoComplete>
-                            <p:commandButton value="dodaj" process="doWiadForm2" action="#{RejestracjaRej.dodajDoWiadUser}" update="doWiadForm, wyslijDoPrzyciski"/>
+                            <p:commandButton id="usdodod" value="dodaj" process="doWiadForm2" action="#{RejestracjaRej.dodajDoWiadUser}" update="doWiadForm, wyslijDoPrzyciski" disabled="#{DoWiadOdb.userDoWiad==null}"/>
                         </h:panelGrid>
                     </p:panel>
                 </h:panelGrid>

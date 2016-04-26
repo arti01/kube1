@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <h:outputStylesheet library="css" name="../resources/css/default.css"/>
+    <h3>Detale dokumentu #{managedBean.obiekt.nazwa}</h3>
+    <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
+    <h:form>
+        <rich:tabPanel >
+            <rich:tab header="Informacje podstawowe">
+
+                <h:panelGrid columns="2" id="dodajGrid">
+                    <h:outputLabel for="nameD" value="nazwa: "/>
+                    <h:outputText id="nameD" value="#{managedBean.obiekt.nazwa}" />
+
+                    <h:outputLabel for="symbolD" value="symbol: "/>
+                    <h:outputText id="symbolD" value="#{managedBean.obiekt.symbolDok}" />
+
+                    <h:outputLabel for="opisD" value="opis: "/>
+                    <h:outputText id="opisD" value="#{managedBean.obiekt.opis}"  />
+
+                    <h:outputLabel for="dataD" value="Data dokumentu:"/>
+                    <h:outputText id="dataD" value="#{managedBean.obiekt.dataDok}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+
+                    <h:outputLabel for="rodzajD" value="rodzaj: "/>
+                    <h:outputText id="rodzajD" value="#{managedBean.obiekt.rodzajId.nazwa}"/>
+
+                    <h:outputLabel for="zrodloD" value="źródło: "/>
+                    <h:outputText id="zrodloD" value="#{managedBean.obiekt.zrodloId.nazwa}" />
+
+                    <h:outputLabel for="teczkaD" value="teczka: "/>
+                    <h:outputText id="teczkaD" value="#{managedBean.obiekt.teczkaId.nazwa}"/>
+
+                    <h:outputLabel for="kontrahentD" value="kontrahent: "/>
+                    <rich:collapsiblePanel id="kontrahentD" header="#{managedBean.obiekt.kontrahentId.nazwa}" expanded="false" switchType="client">
+                        <h:panelGrid columns="2" style="border-spacing:0px;">
+                            <h:outputLabel for="nipRegon" value="osoba nip/regon: "/>
+                            <h:outputText id="nipRegon" value="#{managedBean.obiekt.kontrahentId.nipRegon}"/>
+
+                            <h:outputLabel for="adres" value="osoba adres: "/>
+                            <h:outputText id="adres" value="#{managedBean.obiekt.kontrahentId.adres}"/>
+
+                            <h:outputLabel for="infoDodK" value="Dane dodatkowe: "/>
+                            <h:outputText id="infoDodK" value="#{managedBean.obiekt.kontrahentId.infoDod}"/>
+
+                            <h:outputLabel for="osKon" value="osoba kontaktowa: "/>
+                            <h:outputText id="osKon" value="#{managedBean.obiekt.kontrahentId.osobaKontak}"/>
+
+                            <h:outputLabel for="tel" value="tel.: "/>
+                            <h:outputText id="tel" value="#{managedBean.obiekt.kontrahentId.tel}"/>
+
+                            <h:outputLabel for="email" value="e-mail: "/>
+                            <h:outputText id="email" value="#{managedBean.obiekt.kontrahentId.email}"/>
+
+                            <h:outputLabel for="www" value="www: "/>
+                            <h:outputText id="www" value="#{managedBean.obiekt.kontrahentId.www}"/>
+                        </h:panelGrid>
+                    </rich:collapsiblePanel>
+
+                    <rich:panel id="polaDod" header="pola dodatkowe">
+                        <rich:dataTable value="#{managedBean.obiekt.dcDokPolaDodList}" var="poleDod">
+                            <rich:column>
+                                #{poleDod.nazwa}
+                            </rich:column>
+                            <rich:column>
+                                #{poleDod.wartosc}
+                            </rich:column>
+                        </rich:dataTable>
+                    </rich:panel>
+
+                    <h:outputLabel for="opisDlugiD" value=" "/>
+                    <rich:collapsiblePanel header="dodatkowy opis" expanded="false" switchType="client" rendered="#{managedBean.obiekt.opisDlugi!=''}">
+                        <h:outputText id="opisDlugiD" value="#{managedBean.obiekt.opisDlugi}" escape="false"/>
+                    </rich:collapsiblePanel>
+
+                </h:panelGrid>                    
+
+                <h:panelGrid id="infoDod" columns="3">
+                    <h:outputLabel for="status" value="aktualny status: "/>
+                    <h:outputText id="status" value="#{managedBean.obiekt.dokStatusId.nazwa}" style="font-weight: bold"/>
+                    <rich:tooltip target="status">
+                        #{managedBean.obiekt.dokStatusId.opis}
+                    </rich:tooltip>
+                    <h:outputLabel for="rodzDyst" value="rodzaj dystrybucji: "/>
+                    <h:outputText id="rodzDyst" value="#{managedBean.obiekt.rodzajId.idTypFlow.nazwa}"  style="font-weight: bold"/>
+                    <rich:tooltip target="rodzDyst">
+                        #{managedBean.obiekt.rodzajId.idTypFlow.opis}
+                    </rich:tooltip>
+                </h:panelGrid>
+
+                <a4j:repeat value="#{managedBean.obiekt.dcPlikList}" var="plik">
+                    <rich:collapsiblePanel rendered="#{fn:endsWith(plik.nazwa,'.pdf')}" expanded="false" header="podgląd #{plik.nazwa}">
+                        <a4j:mediaOutput element="object" createContent="#{WyswietlPdf.paintFota}" value="#{plik.id}" cacheable="false"
+                                         style="width:100%; height: 600px" mimeType="application/pdf"/>
+                    </rich:collapsiblePanel>
+                    <rich:collapsiblePanel rendered="#{fn:endsWith(plik.nazwa,'.jpg')||fn:endsWith(plik.nazwa,'.png')}" expanded="false" header="podgląd #{plik.nazwa}">
+                        <a4j:mediaOutput element="img" createContent="#{WyswietlPdf.paintFota}" value="#{plik.id}" cacheable="false"
+                                         style="width:100%;"/>
+                    </rich:collapsiblePanel>
+                </a4j:repeat>
+            </rich:tab>
+
+            <rich:tab header="Załączniki" id="tabPliki">
+                <rich:fileUpload fileUploadListener="#{fileUploadBean.listener}" id="upload" maxFilesQuantity="1" immediateUpload="true" 
+                                 addLabel="dodaj plik" listHeight="40px"  rendered="#{managedBean.obiekt.dokStatusId.id==1}">
+                    <a4j:ajax event="uploadcomplete" execute="@none" render="tabPliki" />
+                </rich:fileUpload>
+                <hr/>
+                <rich:dataTable value="#{managedBean.obiekt.dcPlikList}" var="item" iterationStatusVar="it" rows="10" id="table"  style="width: 100%">
+                    <f:facet name="header"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <f:facet name="footer"><rich:dataScroller for="table" fastControls="hide" maxPages="5"/></f:facet>
+                    <rich:column sortBy="#{item.id}" sortOrder="descending">
+                        <f:facet name="header">nazwa</f:facet>
+                            #{item.nazwa}
+                    </rich:column>
+                    <rich:column >
+                        <f:facet name="header">data dodania</f:facet>
+                        <h:outputText value="#{item.dataDodania}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    <rich:column style="width: 50px">
+                        <rich:tooltip target="imgDt" value="pobierz" layout="block"/>
+                        <h:commandButton id="imgDt" action="#{fileUploadBean.download}" image="/images/detail.png">
+                            <f:setPropertyActionListener target="#{RejestracjaRej.plik}" value="#{item}" />
+                        </h:commandButton>
+                    </rich:column>
+                </rich:dataTable>
+
+            </rich:tab>
+            <rich:tab header="Proces akceptacji">
+                <h:panelGroup id="druk">
+                    <h:commandButton value="wydrukuj" action="#{HistOdb.druk}">
+                        <f:setPropertyActionListener target="#{HistOdb.obiekt}" value="#{managedBean.obiekt}" />
+                    </h:commandButton>
+                </h:panelGroup>
+                <rich:dataTable id="dok_kroki" value="#{managedBean.obiekt.dcDokKrok}" var="krok">
+                    <rich:column sortBy="#{krok.lp}" sortOrder="ascending">
+                        <f:facet name="header">lp</f:facet>
+                            #{krok.lp}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">typ kroku</f:facet>
+                            #{krok.dcAckeptTypKroku.nazwa}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">status akceptacji</f:facet>
+                            #{krok.akcept.nazwa}
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">Proces akceptacji</f:facet>
+                        <rich:dataTable value="#{krok.dcKrokUzytkownikaList}" var="krokUser">
+                            <rich:column style="width: 60%">
+                                #{krokUser.idUser.fullname}    
+                            </rich:column>
+                            <rich:column style="width: 20%">
+                                #{krokUser.akcept.nazwa}
+                            </rich:column>
+                            <rich:column style="width: 20%">
+                                <h:outputText value="#{krokUser.dataAkcept}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                            </rich:column>
+                            <rich:column >
+                                #{krokUser.informacja}
+                            </rich:column>
+                        </rich:dataTable>
+                    </rich:column>
+                </rich:dataTable>
+            </rich:tab>
+
+            <rich:tab header="Do wiadomości" id="doWiad">
+                <a4j:commandLink  execute="@this" oncomplete="#{rich:component('dodajPaneWiad')}.show()" rendered="#{managedBean!=WArchiwumArch}">
+                    <h4>[dodaj do wiadomości]</h4>
+                </a4j:commandLink>
+
+                <rich:dataTable id="doWiadList" value="#{managedBean.obiekt.dcDokDoWiadList}" var="doWiad" >
+                    <f:facet name="header">
+                        <rich:columnGroup>
+                            <rich:column>wprowadził</rich:column>
+                            <rich:column>data wysłania</rich:column>
+                            <rich:column>wysłane do</rich:column>
+                            <rich:column>informacja</rich:column>
+                        </rich:columnGroup>
+                    </f:facet>
+                    <rich:column  sortBy="#{doWiad.id}" sortOrder="descending">
+                        #{doWiad.wprowadzil.fullname}
+                    </rich:column>
+                    <rich:column>
+                        <h:outputText value="#{doWiad.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd hh:mm:ss" timeZone="CET"/></h:outputText>
+                    </rich:column>
+                    <rich:column>
+                        <rich:list value="#{doWiad.dcDokDoWiadCelList}" var="cel">
+                            #{cel.userid.fullname}
+                        </rich:list>
+                    </rich:column>
+                    <rich:column>
+                        #{doWiad.tresc}
+                    </rich:column>
+                </rich:dataTable>
+                <rich:popupPanel header="Wprowadź dane" id="dodajPaneWiad"  autosized="true" domElementAttachment="parent" rendered="#{managedBean!=WArchiwumArch}">
+                    <h:outputLabel value="wprowadz krótką notatkę: "/>
+                    <h:inputText value="#{managedBean.doWiad.tresc}" size="90"/>
+                    <h:panelGrid id="doWiadForm" columns="2">
+                        <rich:panel id="doWiadFormLista">
+                            <f:facet name="header">lista odbiorców</f:facet>
+                            <rich:list id="user_list" value="#{DoWiadOdb.doWiad.dcDokDoWiadCelList}" var="cel">
+                                #{cel.userid.fullname} #{cel.userid.adrEmail}
+                                <a4j:commandButton id="usunUser" action="#{DoWiadOdb.usunDoWiadUser}" render="doWiadFormLista" execute="user_list" image="/images/delete.png">
+                                    <f:setPropertyActionListener target="#{DoWiadOdb.doWiadCel}" value="#{cel}" />
+                                </a4j:commandButton>
+                            </rich:list>
+                        </rich:panel>
+                        <rich:panel id="doWiadFormForm">
+                            <f:facet name="header"></f:facet>
+                            <h:panelGrid id="doWiadForm2" columns="3">
+                                <h:outputLabel for="cel" value="podaj email (wprowadz min. 3 znaki)"/>
+                                <rich:autocomplete id="cel" value="#{DoWiadOdb.userDoWiad}"  minChars="3" mode="client" autocompleteList="#{RodzajeCfg.usersLista}" var="user" fetchValue="#{user.adrEmail}" converter="#{UzytkownikConvEmail}">
+                                    #{user.adrEmail}
+                                    #{user.fullname}
+                                </rich:autocomplete>
+                                <rich:message for="user_id" styleClass="error" />
+                                <a4j:commandButton value="dodaj" execute="doWiadForm2" action="#{DoWiadOdb.dodajDoWiadUser}" render="doWiadForm, wyslijDoPrzyciski"/>
+                            </h:panelGrid>
+                        </rich:panel>
+                    </h:panelGrid>
+                    <rich:panel id="wyslijDoPrzyciski">
+                        <a4j:commandButton id="wyslijDoWiad" action="#{DoWiadOdb.dodajDoWiad}" value="Wyślij" render="dodajPaneWiad, doWiadList" execute="dodajPaneWiad"
+                                           oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPaneWiad')}.hide();} else {#{rich:component('dodajPaneWiad')}.show();}" 
+                                           rendered="#{fn:length(DoWiadOdb.doWiad.dcDokDoWiadCelList)>0}"/>
+                        <a4j:commandButton value="Wyjdź" onclick="#{rich:component('dodajPaneWiad')}.hide();
+                                return false;" />
+                    </rich:panel>
+                </rich:popupPanel>
+
+                <rich:dataTable id="doWiadTab" value="#{managedBean.obiekt.dcDokDoWiadList}" var="doWiad">
+                    #{doWiad.dataWprow}
+                </rich:dataTable>
+            </rich:tab>
+
+
+            <rich:tab header="Baza Zasobów Materiałowych">
+                <h:panelGrid id="pgSrc" columns="2" columnClasses="columna1, columna2" style="width: 100%">
+                    <rich:panel id="pgTrg">
+                        <f:facet name="header">
+                            Dokument dotyczy zasobów materiałowych
+                        </f:facet>
+
+                        <rich:dataTable value="#{managedBean.obiekt.urzadzeniaList}" var="urzadz" style="width: 100%; border: white thick">
+                            <rich:column sortBy="#{urzadz.nazwa}" sortOrder="ascending">
+                                #{urzadz.nazwa}
+                                (#{urzadz.nrInw}-
+                                #{urzadz.nrSer})
+                            </rich:column>
+                        </rich:dataTable>
+                    </rich:panel>
+                </h:panelGrid>
+            </rich:tab>
+
+            <rich:tab header="Archiwum - dokumenty powiązane">
+                <rich:panel id="pgArch">
+                    <f:facet name="header">
+                        Dokument powiązany z dokumentami w archiwum
+                    </f:facet>
+                    <rich:dataTable value="#{managedBean.obiekt.dcArchList}" var="arch" style="width: 100%; border: white thick">
+                        <rich:column sortBy="#{arch.symbolDok}" sortOrder="ascending">
+                            #{arch.nazwa}
+                            (#{arch.symbolDok})
+                        </rich:column>
+                    </rich:dataTable>
+                </rich:panel>
+            </rich:tab>
+
+            <a4j:jsFunction name="remove" action="#{RejestracjaRej.usunPlik}" render="tabPliki" execute="@this"
+                            oncomplete="#{rich:component('confirmPane')}.hide();" />
+            <rich:popupPanel id="confirmPane" autosized="true">
+                Na pewno chcesz skasować?
+                <a4j:commandButton value="Nie" onclick="#{rich:component('confirmPane')}.hide();
+                                return false;" />
+                <a4j:commandButton value="Tak" onclick="remove();
+                        return false;" />
+            </rich:popupPanel>
+        </rich:tabPanel>
+        <h:panelGrid id="wyslij" columns="2" rendered="#{managedBean==AkceptOdb}">
+            <h:outputLabel for="akceptOpis" value="uwagi do akceptu:"/>
+            <h:inputTextarea id="akceptOpis" value="#{AkceptOdb.akceptOpis}"/>
+            <h:commandButton value="zaakceptuj" action="#{managedBean.akceptuj}"/>
+            <h:commandButton value="odrzuć" action="#{managedBean.odrzuc}"/>
+        </h:panelGrid>
+        <rich:popupPanel id="statPane" autosized="true">
+            <h:graphicImage value="/images/ai.gif" alt="ai" />
+            Proszę czekać...
+        </rich:popupPanel>
+    </h:form>
+    <hr/>
+</ui:composition>
+
