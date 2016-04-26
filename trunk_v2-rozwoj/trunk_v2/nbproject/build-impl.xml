@@ -1035,9 +1035,9 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.primefaces-5.3.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.redmond-1.0.10.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.bean-validator.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${libs.eclipseLink2.5.2.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.commons-codec-1.9.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.fop-2.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${libs.eclipseLink2.5.2.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.eodtl-1.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.cron4j-2.2.5.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.rf4.5.12.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
@@ -1049,9 +1049,9 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.primefaces-5.3.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.redmond-1.0.10.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.bean-validator.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.eclipseLink2.5.2.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.commons-codec-1.9.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.fop-2.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.eclipseLink2.5.2.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.eodtl-1.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.cron4j-2.2.5.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.rf4.5.12.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>

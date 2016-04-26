@@ -7,7 +7,13 @@
     <h:panelGroup id="valid">
         <p:remoteCommand oncomplete="PF('dodajPaneWiad').show();" autoRun="true" rendered="#{facesContext.maximumSeverity!=null}"/>
     </h:panelGroup>
-
+    <p:panel id="wyslij" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+        <p:commandButton value="powrót do listy dokumentów" action="#{RejestracjaRej.list}" ajax="false" immediate="true"/>
+        <p:commandButton value="wyślij do akceptacji" action="#{RejestracjaRej.wyslijDoAkceptacji}" icon="ui-icon-play"
+                         update="tabPanel, wyslij" process="@this">
+            <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{RejestracjaRej.obiekt}"/>
+        </p:commandButton>
+    </p:panel>
     <p:tabView id="tabPanel">
         <p:tab id="infPodst" title="Informacje podstawowe">
             <p:panelGrid columns="2" columnClasses="column1_50, column2_50" style="width: 100%;">
@@ -233,12 +239,6 @@
 
         </p:tab>
     </p:tabView>
-    
-    <p:panel id="wyslij" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
-        <p:commandButton value="powrót do listy dokumentów" action="#{RejestracjaRej.list}" ajax="false" immediate="true"/>
-        <p:commandButton value="wyślij do akceptacji" action="#{RejestracjaRej.wyslijDoAkceptacji}" icon="ui-icon-play"
-                         update="tabPanel, wyslij" process="@this">
-            <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{RejestracjaRej.obiekt}"/>
-        </p:commandButton>
-    </p:panel>
+
+
 </html>
