@@ -16,26 +16,35 @@
     <p:panel id="listPanel">
         <p:commandButton id="newDok" value="dodaj dokument" process="@this" oncomplete="PF('dodajPane').show();" 
                          action="#{RejestracjaRej.newObiekt}" rendered="#{!brakDodaj}"/>
+        <p:commandButton value="raport excel" ajax="false" immediate="true">
+            <p:dataExporter type="xls" target="table" fileName="raport" encoding="ISO-8859-2"/>
+        </p:commandButton>
         <hr/>
 
-        <p:dataTable value="#{managedBean.listaPF}" var="item" id="table" paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+        <p:dataTable value="#{managedBean.listaPF}" var="item" id="table" widgetVar="tableV" paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
                      emptyMessage="brak rekordów" style="width: 100%" sortOrder="descending" sortBy="#{item.dataWprow}">
             <p:column headerText="znaleziono w" rendered="#{infoWyszuk}">
                 uzupelnic
             </p:column>
 
-            <p:column headerText="data rejestracji" sortBy="#{item.dataWprow}" style="width: 10em;">
-                <h:outputText value="#{item.dataWprow}" style="font-size: 90%;"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
-                <br/>
-                <h:outputText value="#{item.dataWprow}" style="font-size: 90%;"><f:convertDateTime type="date" pattern="HH:mm:ss" timeZone="CET"/></h:outputText>
-                <br/>
-                <h:outputText value="przeterminowany" style="background-color: red" rendered="#{item.alertAkceptacja}"/>
+            <p:column headerText="data rejestracji" sortBy="#{item.dataWprow}" style="width: 8em;">
+                <h:outputText value="#{item.dataWprow}" style="font-size: 90%;"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+            </p:column>
+
+            <p:column headerText="alert" filterBy="#{item.alertAkceptacja}" filterMatchMode="equals" style="width: 8em;">
+                <f:facet name="filter">
+                    <p:selectOneMenu onchange="PF('tableV').filter()">
+                        <f:converter converterId="javax.faces.Boolean" />
+                        <f:selectItem itemLabel="wszystko" itemValue="" />
+                        <f:selectItem itemLabel="tak" itemValue="true" />
+                        <f:selectItem itemLabel="nie" itemValue="false" />
+                    </p:selectOneMenu>
+                </f:facet>
+                <h:outputText value="po terminie" style="background-color: red" rendered="#{item.alertAkceptacja}"/>
             </p:column>
 
             <p:column headerText="nazwa i symbol" filterBy="#{item.nazwa} #{item.symbolDok}" filterMatchMode="contains">
-                <h:outputText id="nazwaList" value="#{item.nazwa}" style="font-size: small"/>
-                <br/>
-                <h:outputText id="symbolDok" value="#{item.symbolDok}" style="font-size: small"/>
+                <h:outputText id="nazwaList" value="#{item.nazwa}&lt;br/&gt;#{item.symbolDok}" style="font-size: small" escape="false"/>
 
                 <p:tooltip for="nazwaList">
                     #{item.opis}
@@ -55,8 +64,8 @@
                 </p:tooltip>
             </p:column>
 
-            <p:column headerText="żródło" filterMatchMode="contains" filterBy="#{item.zrodloId.nazwa}">
-                #{item.zrodloId.nazwa}
+            <p:column headerText="źródło" filterMatchMode="contains" filterBy="#{item.zrodloId.nazwa}">
+                <h:outputText value="#{item.zrodloId.nazwa}"/>
             </p:column>
 
             <p:column headerText="teczka" filterMatchMode="contains" filterBy="#{item.teczkaId.nazwa}">    
@@ -81,7 +90,7 @@
             </p:column>
 
             <p:column headerText="wprowadził" filterMatchMode="contains" filterBy="#{item.userId.fullname}">    
-                #{item.userId.fullname}
+                <h:outputText value="#{item.userId.fullname}"/>
             </p:column>
 
             <p:column headerText="rodzaj" filterMatchMode="contains" filterBy="#{item.rodzajId.nazwa}">    
@@ -91,7 +100,7 @@
                 </p:tooltip>
             </p:column>
 
-            <p:column style="width: 90px" headerText="akcje">
+            <p:column style="width: 90px" headerText="akcje" exportable="false">
                 <p:commandButton id="imgEd" title="edytuj podstawowe dane" update=":center:panelGrp" process="@this" oncomplete="PF('dodajPane').show();"
                                  rendered="#{item.dokStatusId.id==1}" icon="ui-icon-pencil">
                     <f:setPropertyActionListener target="#{RejestracjaRej.obiekt}" value="#{item}"/>

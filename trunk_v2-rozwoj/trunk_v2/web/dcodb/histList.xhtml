@@ -14,8 +14,8 @@
             <ui:param name="managedBean" value="#{HistOdb}"/>
 
             <p:panel id="listPanel">
-                <p:dataTable value="#{managedBean.login.zalogowany.userId.dcDokumentListHist}" var="itemHist" paginator="true" rows="10" id="table" style="width: 100%" emptyMessage="brak danych">
-
+                <p:dataTable value="#{managedBean.login.zalogowany.userId.dcDokumentListHist}" var="itemHist" paginator="true" rows="10" id="table" widgetVar="tableV" 
+                             style="width: 100%" emptyMessage="brak danych">
                     <p:column headerText="data rejestracji" sortBy="#{itemHist.id}">
                         <h:outputText value="#{itemHist.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                     </p:column>
