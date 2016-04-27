@@ -68,6 +68,7 @@ INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from conf
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbmaxMail', 'max wiadomosci w skrzynce odbiorczej', '30');
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'emailOdbkrokPobierania', 'ilosc maili pobierana w jednej iteracji crona', '5');
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'dir_repo', 'forder gdzie sa przechowywane dokumenty', 'd:\\tmp');
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'mail_smtp_from', 'adres email FROM', 'arti4077@gmail.com');
 
 INSERT INTO dc_rodzaj_typy_pol VALUES (1, 'liczba');
 INSERT INTO dc_rodzaj_typy_pol VALUES (2, 'tekst');

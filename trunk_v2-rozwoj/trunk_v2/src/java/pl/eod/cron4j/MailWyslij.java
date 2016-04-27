@@ -30,6 +30,7 @@ public class MailWyslij {
         this.mail_smtp_port = confC.findConfigNazwa("mail_smtp_port").getWartosc();
         this.username = confC.findConfigNazwa("username").getWartosc();
         this.password = confC.findConfigNazwa("password").getWartosc();
+        this.password = confC.findConfigNazwa("mail_smtp_from").getWartosc();
         this.link=confC.findConfigNazwa("email_link").getWartosc();
         this.czy_ssl=confC.findConfigNazwa("czy_ssl").getWartosc();
         this.tresc=this.tresc+"\n\r"+this.link;
@@ -40,6 +41,7 @@ public class MailWyslij {
     String mail_smtp_host;
     String mail_smtp_socketFactory_port;
     String mail_smtp_port;
+    String mail_smtp_from;
     String username;
     String password;
     String link;
@@ -73,7 +75,8 @@ public class MailWyslij {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("from@no-spam.com"));
+            //message.setFrom(new InternetAddress("from@no-spam.com"));
+            message.setFrom(new InternetAddress(mail_smtp_from));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adresat));
             message.setSubject(temat);
             message.setText(tresc);
