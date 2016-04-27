@@ -35,6 +35,9 @@
                 <p:commandButton value="raport wprost" rendered="#{RaportyRej.pokazDruk}" ajax="false">
                     <p:dataExporter type="pdf" target="table" fileName="raport" encoding="ISO-8859-2" preProcessor="#{RaportyRej.preProcessPDF}" postProcessor="#{RaportyRej.postProcessPDF}"/>
                 </p:commandButton>
+                <p:commandButton value="raport excel" rendered="#{RaportyRej.pokazDruk}" ajax="false">
+                    <p:dataExporter type="xls" target="table" fileName="raport" encoding="ISO-8859-2"/>
+                </p:commandButton>
             </h:panelGroup>
 
             <p:panel>
