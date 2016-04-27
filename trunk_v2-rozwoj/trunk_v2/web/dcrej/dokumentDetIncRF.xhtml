@@ -13,7 +13,7 @@
     <h:form id="form">
         <rich:tabPanel id="tabPanel" switchType="client">
             <rich:tab header="Informacje podstawowe" id="infPodst">
-                <ui:include src="./dokumentEdit.xhtml"/>
+                <ui:include src="./dokumentEditRF.xhtml"/>
                 <h:panelGrid id="infoDod" columns="3">
                     <h:outputLabel for="status" value="aktualny status: "/>
                     <h:outputText id="status" value="#{RejestracjaRej.obiekt.dokStatusId.nazwa}" style="font-weight: bold"/>
