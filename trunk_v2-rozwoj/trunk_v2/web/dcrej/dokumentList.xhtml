@@ -54,7 +54,7 @@
             <p:column headerText="data dokumentu" filterBy="#{item.dataDokStr}"  style="width: 10em;" filterMatchMode="contains">
                 <h:outputText value="#{item.dataDokStr}"/>
                 <br/>
-                <h:outputText value="do brakowania" style="background-color: red" rendered="#{item.alertBrakowanie}"/><br/>
+                <h:outputText value="do brakowania" style="background-color: red" rendered="#{item.alertBrakowanie}"/>
             </p:column>
 
             <p:column headerText="kontrahent" filterMatchMode="contains" filterBy="#{item.kontrahentId.nazwa}" rendered="#{!widok}">    
@@ -75,7 +75,7 @@
                 </p:tooltip>
             </p:column>
 
-            <p:column style="background-color: #{item.dokStatusId.kolor}; text-align: center;" headerText="status" filterMatchMode="contains" filterBy="#{item.dokStatusId.nazwa}">    
+            <p:column style="background-color: #{item.dokStatusId.kolor}; text-align: center;" headerText="status" filterMatchMode="contains" filterBy="#{item.dokStatusId.nazwa}" exportable="false">    
                 <p:outputLabel for="procentWykonania" value="proces akceptacji: "/>
                 <h:outputText id="procentWykonania" value="#{item.procentWykonania}"/>
                 <br/>

@@ -51,6 +51,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     private List<Uzytkownik> usersListSelect;
     private final KalendarzKontr dcCKal = new KalendarzKontr();
     private final UzytkownikJpaController userC = new UzytkownikJpaController();
+    private List<MojKalTab> kalTabela;
 
     public RezerMojKalMg() throws InstantiationException, IllegalAccessException {
         super("/um/rez_moj_kal", new UmRezerwacjeKontr(), new UmRezerwacje());
@@ -68,6 +69,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         initDate = Calendar.getInstance().getTime();
         usersList = new ArrayList<>();
         usersListSelect = new ArrayList<>();
+        kalTabela=new ArrayList<>();
         for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
             if (!u.getStruktura().isUsuniety()) {
                 usersList.add(u);
@@ -86,7 +88,14 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     @Override
     public String list() throws InstantiationException, IllegalAccessException {
         uzyt = login.getZalogowany().getUserId();
+        ustawSched();
         return super.list();
+    }
+    
+    public String listTab() throws InstantiationException, IllegalAccessException {
+        uzyt = login.getZalogowany().getUserId();
+        ustawSched();
+        return "/um/rez_kal_tab";
     }
 
     public String listObcy() throws InstantiationException, IllegalAccessException {
@@ -99,25 +108,44 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             userC.refresh(uzyt);
         }
         eventModel.clear();
+        kalTabela=new ArrayList<>();
         for (UmRezerwacje rez : uzyt.getRezUczestnikList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa() + "\ndla: " + rez.getUrzadzenie().getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             ev.setDescription(rez.getOpis());
             ev.setEditable(false);
+            MojKalTab mkt=new MojKalTab();
+            mkt.setDataOd(rez.getDataOd());
+            mkt.setDataDo(rez.getDataDo());
+            mkt.setNazwa(rez.getNazwa());
+            mkt.setOpis("urządzenie: "+rez.getUrzadzenie().getNazwa()+" "+rez.getOpis());
+            mkt.setTworca(rez.getTworca());
+            mkt.setTyp("tworca rezerwacji");
             if (!rez.getTworca().equals(login.getZalogowany().getUserId())) {
+                mkt.setTyp("uczestnik rezerwacji");
                 ev.setStyleClass("rezUczestnik");
             }
+            kalTabela.add(mkt);
             eventModel.addEvent(ev);
         }
         for (Kalendarz kal : uzyt.getKalendarzList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(kal.getNazwa(), kal.getDataOd(), kal.getDataDo(), kal);
             ev.setDescription(kal.getOpis());
+            MojKalTab mkt=new MojKalTab();
+            mkt.setDataOd(kal.getDataOd());
+            mkt.setDataDo(kal.getDataDo());
+            mkt.setNazwa(kal.getNazwa());
+            mkt.setOpis(kal.getOpis());
+            mkt.setTworca(kal.getTworca());
             if (uzyt.equals(login.getZalogowany().getUserId())) {
                 ev.setEditable(true);
                 ev.setStyleClass("calMoj");
+                mkt.setTyp("tworca terminu");
             } else {
                 ev.setEditable(false);
                 ev.setStyleClass("calUczestnik");
+                mkt.setTyp("uczestnik terminu");
             }
+            kalTabela.add(mkt);
             eventModel.addEvent(ev);
         }
         for (Kalendarz kal : uzyt.getKalendUczestnikList()) {
@@ -125,6 +153,14 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             ev.setDescription(kal.getOpis());
             ev.setEditable(false);
             ev.setStyleClass("calUczestnik");
+            MojKalTab mkt=new MojKalTab();
+            mkt.setDataOd(kal.getDataOd());
+            mkt.setDataDo(kal.getDataDo());
+            mkt.setNazwa(kal.getNazwa());
+            mkt.setOpis(kal.getOpis());
+            mkt.setTworca(kal.getTworca());
+            mkt.setTyp("uczestnik terminu");
+            kalTabela.add(mkt);
             eventModel.addEvent(ev);
         }
     }
@@ -323,6 +359,14 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
 
     public void setUsersListSelect(List<Uzytkownik> usersListSelect) {
         this.usersListSelect = usersListSelect;
+    }
+
+    public List<MojKalTab> getKalTabela() {
+        return kalTabela;
+    }
+
+    public void setKalTabela(List<MojKalTab> kalTabela) {
+        this.kalTabela = kalTabela;
     }
 
 }

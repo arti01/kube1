@@ -1,0 +1,52 @@
+<ui:composition template="/templates/templateGPF.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="tytul">
+        <h3 align="center">Tabela Kalendarza</h3>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="center">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+            
+            <p:commandButton value="raport excel" ajax="false" immediate="true">
+                <p:dataExporter type="xls" target="table" fileName="raport" encoding="ISO-8859-2"/>
+            </p:commandButton>
+            
+            <p:dataTable value="#{RezerMojKalMg.kalTabela}" var="item" id="table" emptyMessage="brak rekordów" widgetVar="tableV" paginator="true">
+                <p:column headerText="nazwa" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}" filterMatchMode="contains">
+                    <h:outputText value="#{item.nazwa}"/>
+                </p:column>
+                <p:column headerText="opis">
+                    <h:outputText value="#{item.opis}"/>
+                </p:column>
+                <p:column headerText="data od" sortBy="#{item.dataOd}">
+                    <h:outputText value="#{item.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                </p:column>
+                <p:column headerText="data do" sortBy="#{item.dataDo}">
+                    <h:outputText value="#{item.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                </p:column>
+                <p:column headerText="twórca" filterBy="#{item.tworca.fullname}">
+                    <h:outputText value="#{item.tworca.fullname}"/>
+                </p:column>
+                <p:column headerText="typ" filterBy="#{item.typ}" filterMatchMode="contains" style="width: 200px;text-align:center !important;">
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('tableV').filter()">
+                            <f:selectItem itemLabel="wszystko" itemValue="" />
+                            <f:selectItem itemLabel="tworca rezerwacji" itemValue="tworca rezerwacji" />
+                            <f:selectItem itemLabel="uczestnik rezerwacji" itemValue="uczestnik rezerwacji" />
+                            <f:selectItem itemLabel="tworca terminu" itemValue="tworca terminu" />
+                            <f:selectItem itemLabel="uczestnik terminu" itemValue="uczestnik terminu" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{item.typ}"/>
+                </p:column>                
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
