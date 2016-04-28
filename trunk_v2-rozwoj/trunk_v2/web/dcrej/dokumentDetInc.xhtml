@@ -19,7 +19,8 @@
             <p:panelGrid columns="2" columnClasses="column1_50, column2_50" style="width: 100%;">
                 <p:panel>
                     <ui:include src="./dokumentEdit.xhtml"/>
-                    <p:commandButton id="zapiszD" value="Zapisz" action="#{RejestracjaRej.edytujZdetale}" process="infPodst" update="panelGrp" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}"/>
+                    <p:commandButton id="zapiszD" value="Zapisz" action="#{RejestracjaRej.edytujZdetale}" process="infPodst" update="panelGrp, pgAll, pgTrg" 
+                                     rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}"/>
                 </p:panel>
                 <p:panel id="plikiGr">
                     <p:fieldset legend="pliki graficzne" collapsed="true" toggleable="true" toggleSpeed="250">
@@ -159,7 +160,7 @@
         </p:tab>
         <p:tab title="Baza Zasobów Materiałowych">            
             <p:panelGrid id="pgAll" columns="2" style="width: 100%">
-                <p:panel header="Wybierz zasób z listy" id="drzewoPanel" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}">
+                <p:panel header="Wybierz zasób z listy" id="drzewoPanel" rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1 and RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.urzMed}">
                     <p:tree value="#{URejDokMg.rezMg.root}" var="node" dynamic="true" style=" background-color: white;" 
                             selectionMode="single" id="drzewo" selection="#{URejDokMg.node}">
                         <p:ajax event="select" update=":center:tabPanel:pgTrg" listener="#{URejDokMg.addUrzDok}" process="@this"/>
@@ -172,6 +173,10 @@
                     </p:tree>
                 </p:panel>
                 <p:panel header="Dokument dotyczy zasobów materiałowych" id="pgTrg">
+                    <p:panel id="zasInfoPanel" rendered="#{!RejestracjaRej.obiekt.rodzajId.idRodzajGrupa.urzMed}">
+                        Aby móc dodawać Zasoby Materiałowe, Rodzaj Dokumentu musi należeć do Grupy Rodzajów
+                        obsługujących Zasoby Materiałowe. Należy wybrać właściwy rodzaj i zapisać zmianę dokumentu.
+                    </p:panel>
                     <p:dataTable value="#{RejestracjaRej.obiekt.urzadzeniaList}" var="urzadz" style="width: 100%; border: white thick" id="tabZas"
                                  emptyMessage="brak danych">
                         <p:column>

@@ -1,7 +1,10 @@
 2016-04-28
-do PF:
+do PrimeFFaces:
 um/dokumentDetale
 um/dokumenty
+poprawka w detalach dokumentu - dla każdego rodzaju można było dopisywać zasoby materiałowe, a powinny być dostępne
+te UmMasterGrupy ktore są przypisane do danego rodzaju
+
 
 2016-04-27
 historia odbioru po nowemu, raporty excel w rap pocztowy i dokumenty, tabela w kalendarzu

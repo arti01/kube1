@@ -59,7 +59,7 @@ public class RejDok {
         lista.setWrappedData(listD);
         listaPF=listD;
         rejestracja.setObiekt(null);
-        rezMg.zrobDrzewo(true);
+        rezMg.zrobDrzewo(true, null);
     }
 
     public String list() {
@@ -224,7 +224,7 @@ public class RejDok {
     }
 
     public RezerwacjeMg getRezMg() {
-        rezMg.zrobDrzewo(true);
+        rezMg.zrobDrzewo(true, rejestracja.getObiekt().getRodzajId());
         return rezMg;
     }
 

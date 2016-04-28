@@ -114,7 +114,7 @@
                 </rich:column>
 
                 <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.zrodloId.nazwa,RejestracjaRej.filtrZrodlo)}">    
-                    <f:facet name="header">żródło
+                    <f:facet name="header">źródło
                         <h:inputText value="#{RejestracjaRej.filtrZrodlo}" size="9">
                             <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
                     </f:facet>
