@@ -27,6 +27,7 @@ import pl.eod2.managedRej.Rejestracja;
 public class RejDok {
 
     private DataModel<DcDokument> lista = new ListDataModel<>();
+    private List<DcDokument>listaPF=new ArrayList<>();
     private DataModel<DcRodzaj> rodzajLista = new ListDataModel<>();
     @ManagedProperty(value = "#{login}")
     private Login login;
@@ -54,6 +55,7 @@ public class RejDok {
             listD.addAll(rodz.getDcDokumentList());
         }
         lista.setWrappedData(listD);
+        listaPF=listD;
         rejestracja.setObiekt(null);
         rezMg.zrobDrzewo(true);
     }
@@ -233,6 +235,14 @@ public class RejDok {
 
     public void setNode(DefaultTreeNode node) {
         this.node = node;
+    }
+
+    public List<DcDokument> getListaPF() {
+        return listaPF;
+    }
+
+    public void setListaPF(List<DcDokument> listaPF) {
+        this.listaPF = listaPF;
     }
 
 }

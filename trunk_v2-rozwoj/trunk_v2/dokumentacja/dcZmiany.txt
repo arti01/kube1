@@ -1,3 +1,11 @@
+2016-04-28
+do PF:
+um/dokumentDetale
+um/dokumenty
+
+2016-04-27
+historia odbioru po nowemu, raporty excel w rap pocztowy i dokumenty, tabela w kalendarzu
+
 2016-04-22
 Cała formatka detali dokumentu z nowym podgladem
 Uwaga! te pliki są inkludowane w wielu miejscach, dlatego w wielu plikach musiałem podmienić ich nazwy na nazwy *RF.xhtml, czyli na stare wersje plikow
