@@ -1,14 +1,21 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                template="/templates/templateRF2PF.xhtml">
-    <ui:define name="content">
-        <ui:include src="/dcrej/dokumentListRF.xhtml">
-            <ui:param name="managedBean" value="#{WyszukajRej}"/>
-            <ui:param name="widok" value="#{true}"/>
-            <ui:param name="infoWyszuk" value="#{true}"/>
-        </ui:include>
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="tytul">
+        <h3 align="center">Dokumenty</h3>
+    </ui:define>
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+            <ui:include src="/dcrej/dokumentList.xhtml">
+                <ui:param name="managedBean" value="#{WyszukajRej}"/>
+                <ui:param name="widok" value="#{true}"/>
+                <ui:param name="infoWyszuk" value="#{true}"/>
+            </ui:include>
+        </h:form>
     </ui:define>
 </ui:composition>
 

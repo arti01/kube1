@@ -41,6 +41,7 @@ import pl.eod2.managedUm.UStruktMg;
 public class Rodzaje {
 
     private DataModel<DcRodzaj> lista = new ListDataModel<>();
+    private List<DcRodzaj> listaPF = new ArrayList<>();
     private DcRodzajJpaController dcC;
     private DcRodzaj obiekt;
     private String error;
@@ -71,6 +72,7 @@ public class Rodzaje {
 
     void refresh() {
         lista.setWrappedData(dcC.findDcRodzajEntitiesAll());
+        listaPF=dcC.findDcRodzajEntitiesAll();
         typFlowLista = dcTypFlowC.findDcTypFlowEntities();
         typKrokuLista = dcTypKrokuC.findDcAkceptTypKrokuEntities();
         usersLista = login.getZalogowany().getUserId().getSpolkaId().getUserList();
@@ -174,6 +176,7 @@ public class Rodzaje {
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
             lista.setWrappedData(dcC.findDcRodzajEntities());
+            listaPF=dcC.findDcRodzajEntitiesAll();
         } else {
             refresh();
             rodzajeGrupy.refresh();
@@ -297,10 +300,6 @@ public class Rodzaje {
         }
     }
 
-    public void test() {
-        System.err.println("test" + lista.getRowData().getNazwa());
-    }
-
     public String list() {
         refresh();
         return "/dccfg/rodzaje";
@@ -412,6 +411,14 @@ public class Rodzaje {
 
     public void setUrzadzeniaPoleDod(String urzadzeniaPoleDod) {
         this.urzadzeniaPoleDod = urzadzeniaPoleDod;
+    }
+
+    public List<DcRodzaj> getListaPF() {
+        return listaPF;
+    }
+
+    public void setListaPF(List<DcRodzaj> listaPF) {
+        this.listaPF = listaPF;
     }
 
 }
