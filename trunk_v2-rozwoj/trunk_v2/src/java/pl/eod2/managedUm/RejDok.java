@@ -27,7 +27,9 @@ import pl.eod2.managedRej.Rejestracja;
 public class RejDok {
 
     private DataModel<DcDokument> lista = new ListDataModel<>();
+    private List<DcDokument>listaPF=new ArrayList<>();
     private DataModel<DcRodzaj> rodzajLista = new ListDataModel<>();
+    private List<DcRodzaj>rodzajListaPF=new ArrayList<>();
     @ManagedProperty(value = "#{login}")
     private Login login;
     @ManagedProperty(value = "#{RejestracjaRej}")
@@ -49,13 +51,15 @@ public class RejDok {
     void refresh() {
         dcR = new DcRodzajJpaController();
         rodzajLista.setWrappedData(dcR.findDcRodzajUm());
+        rodzajListaPF=dcR.findDcRodzajUm();
         List<DcDokument> listD = new ArrayList<>();
-        for (DcRodzaj rodz : (List<DcRodzaj>) rodzajLista.getWrappedData()) {
+        for (DcRodzaj rodz : rodzajListaPF) {
             listD.addAll(rodz.getDcDokumentList());
         }
         lista.setWrappedData(listD);
+        listaPF=listD;
         rejestracja.setObiekt(null);
-        rezMg.zrobDrzewo(true);
+        rezMg.zrobDrzewo(true, null);
     }
 
     public String list() {
@@ -93,6 +97,7 @@ public class RejDok {
         urzList.add(urzad);
         rejestracja.getObiekt().setUrzadzeniaList(urzList);
         rodzajLista.setWrappedData(urzad.getGrupa().getMasterGrp().getRodzajeDokList());
+        rodzajListaPF=urzad.getGrupa().getMasterGrp().getRodzajeDokList();
     }
 
     public void addUrzDok(){
@@ -219,7 +224,7 @@ public class RejDok {
     }
 
     public RezerwacjeMg getRezMg() {
-        rezMg.zrobDrzewo(true);
+        rezMg.zrobDrzewo(true, rejestracja.getObiekt().getRodzajId());
         return rezMg;
     }
 
@@ -233,6 +238,22 @@ public class RejDok {
 
     public void setNode(DefaultTreeNode node) {
         this.node = node;
+    }
+
+    public List<DcDokument> getListaPF() {
+        return listaPF;
+    }
+
+    public void setListaPF(List<DcDokument> listaPF) {
+        this.listaPF = listaPF;
+    }
+
+    public List<DcRodzaj> getRodzajListaPF() {
+        return rodzajListaPF;
+    }
+
+    public void setRodzajListaPF(List<DcRodzaj> rodzajListaPF) {
+        this.rodzajListaPF = rodzajListaPF;
     }
 
 }

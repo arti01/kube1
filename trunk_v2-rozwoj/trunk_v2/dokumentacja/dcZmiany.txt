@@ -1,3 +1,20 @@
+2016-04-29
+um/wyszukList
+dcarch/wyszukList
+dcrej/dokumentyDoBrakowania
+dcrej/wyszukFrom - nie działa wyszukiwanie?
+
+2016-04-28
+do PrimeFaces:
+um/dokumentDetale
+um/dokumenty
+poprawka w detalach dokumentu - dla każdego rodzaju można było dopisywać zasoby materiałowe, a powinny być dostępne
+te UmMasterGrupy ktore są przypisane do danego rodzaju
+
+
+2016-04-27
+historia odbioru po nowemu, raporty excel w rap pocztowy i dokumenty, tabela w kalendarzu
+
 2016-04-22
 Cała formatka detali dokumentu z nowym podgladem
 Uwaga! te pliki są inkludowane w wielu miejscach, dlatego w wielu plikach musiałem podmienić ich nazwy na nazwy *RF.xhtml, czyli na stare wersje plikow

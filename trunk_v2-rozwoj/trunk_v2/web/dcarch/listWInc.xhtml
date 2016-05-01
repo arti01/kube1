@@ -92,7 +92,7 @@
                 </rich:column>
 
                 <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.teczkaId.nazwa,RejestracjaRej.filtrTeczka)||fn:containsIgnoreCase(item.zrodloId.nazwa,RejestracjaRej.filtrTeczka)}">
-                    <f:facet name="header">żródło<br/>teczka
+                    <f:facet name="header">źródło<br/>teczka
                         <h:inputText value="#{RejestracjaRej.filtrTeczka}" size="7">
                             <a4j:ajax event="blur" render="table" execute="@this" /></h:inputText>
                     </f:facet>

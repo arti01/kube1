@@ -23,6 +23,10 @@ import org.primefaces.model.TreeNode;
 import pl.eod.abstr.AbstMg;
 import pl.eod.encje.Uzytkownik;
 import pl.eod.managed.Login;
+import pl.eod2.encje.DcDokument;
+import pl.eod2.encje.DcRodzaj;
+import pl.eod2.encje.DcRodzajGrupa;
+import pl.eod2.encje.DcRodzajGrupa_;
 import pl.eod2.encje.UmGrupa;
 import pl.eod2.encje.UmMasterGrupa;
 import pl.eod2.encje.UmRezerwacje;
@@ -63,7 +67,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         eventModel = new DefaultScheduleModel();
         usersList = new ArrayList<>();
         usersListSelect = new ArrayList<>();
-        zrobDrzewo(false);
+        zrobDrzewo(false, null);
         for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
             if (!u.getStruktura().isUsuniety()) {
                 usersList.add(u);
@@ -76,15 +80,21 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
     public void refresh() throws InstantiationException, IllegalAccessException {
         super.refresh();
         login.refresh();
-        zrobDrzewo(false);
+        zrobDrzewo(false, null);
     }
 
-    public void zrobDrzewo(boolean all) {
+    public void zrobDrzewo(boolean all, DcRodzaj rodz) {
         urzAll = new ArrayList<>();
         root = new DefaultTreeNode("urządzenia", null);
+        if(rodz!=null&&!rodz.getIdRodzajGrupa().isUrzMed()){
+            return;
+        }
         List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
         for (UmMasterGrupa mg : masterList) {
             if (!mg.isGrZrezerwacja()&&!all) {
+                continue;
+            }
+            if(rodz!=null&&!rodz.getUmMasterGrupaList().contains(mg)){
                 continue;
             }
             TreeNode mtr = new DefaultTreeNode("grupa", mg, root);
