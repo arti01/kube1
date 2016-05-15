@@ -13,7 +13,7 @@
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
 
-            <p:fieldset id="formWprow" collapsed="true" toggleable="true" legend="Dodaj wniosek (zwiń/rozwiń)" widgetVar="formWprowV">
+            <p:fieldset id="formWprow" collapsed="#{UrlopM.urlop.id==null}" toggleable="true" legend="Dodaj wniosek (zwiń/rozwiń)" widgetVar="formWprowV">
                 <p:panelGrid columns="3" id="form" columnClasses="column1, column2">
                     <p:outputLabel for="name" value="Imię i nazwisko: "/>
                     <h:inputText id="name" value="#{UrlopM.urlop.uzytkownik.fullname}"  size="50" readonly="true"/>
@@ -80,7 +80,7 @@
                 </p:panelGrid>
                 <center>
                     <p:message for="dodaj" styleClass="error"/>
-                    <p:commandButton id="dodaj" value="Zapisz wniosek" action="#{UrlopM.dodaj}" update="formTab, formWprow" process="formWprow" oncomplete="PF('tableV').clearFilters()"/>
+                    <p:commandButton id="dodaj" value="Zapisz wniosek" action="#{UrlopM.dodaj}" update=":infoForm:messages, formTab, formWprow" process="formWprow" oncomplete="PF('tableV').clearFilters()"/>
                 </center>
             </p:fieldset>
 
@@ -163,8 +163,8 @@
                             <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
                             <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
                         </p:commandButton>
-                        <p:commandButton id="imgEd" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:form, :infoForm:messages" process="imgEd" icon="ui-icon-pencil" 
-                                         oncomplete="PF('formWprowV').close();PF('formWprowV').show();">
+                        <p:commandButton id="imgEd" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formWprow, :infoForm:messages" process="imgEd" icon="ui-icon-pencil" 
+                                         >
                             <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
                         </p:commandButton>
                         <p:commandButton id="imgWy" action="#{UrlopM.wyslij}" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" 
