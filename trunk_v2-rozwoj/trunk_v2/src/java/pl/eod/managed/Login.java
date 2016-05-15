@@ -198,7 +198,11 @@ public class Login implements Serializable {
         UzytkownikJpaController uzytC = new UzytkownikJpaController();
         //System.out.println(uzytC.iluZprawami() + "prawa");
 
+        try{
         zalogowany = uzytC.findStruktura(request.getUserPrincipal().getName());
+        } catch(NullPointerException np){
+            System.err.println("nie zalogowany");
+        }
 
         //obsluga zewnetrzne id
         if (zalogowany == null) {

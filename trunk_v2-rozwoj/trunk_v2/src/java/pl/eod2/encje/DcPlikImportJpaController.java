@@ -234,7 +234,7 @@ public class DcPlikImportJpaController implements Serializable {
                             //przenoszenie pliku
                             if (!f.renameTo(new File(cfgDirBak.getWartosc() + "/" + new Date().getTime() + "_" + f.getName()))) {
                                 System.err.println("zapewne brakuje katalogu bak");
-                                throw new IOException();
+                                //throw new IOException();
                             }
                             DcPlikImport plik = new DcPlikImport();
                             plik.setDataDodania(new Date());

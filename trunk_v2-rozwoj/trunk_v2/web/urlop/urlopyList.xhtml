@@ -1,240 +1,184 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:rich="http://richfaces.org/rich"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-                template="/templates/templateRF2PF.xhtml">
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:define name="tytul">
+        <h3 align="center">Twoje wnioski urlopowe</h3>
+    </ui:define>
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
 
-    <ui:define name="content">
-        <h:outputStylesheet library="css" name="../resources/css/default.css"/>
-        <div id="tabela">
-            <h2>Twoje wnioski</h2>
-            <h:form id="form1">
-                <a4j:outputPanel id="formWprow" layout="block">
-                    <h:panelGrid columns="3" id="form" style="margin: auto; width: 800px;">
-                        <h:outputLabel for="name" value="Imię i nazwisko: "/>
-                        <h:inputText id="name" value="#{UrlopM.urlop.uzytkownik.fullname}"  size="50" readonly="true"/>
-                        <rich:message for="name" styleClass="error" />
+            <p:fieldset id="formWprow" collapsed="true" toggleable="true" legend="Dodaj wniosek (zwiń/rozwiń)" widgetVar="formWprowV">
+                <p:panelGrid columns="3" id="form" columnClasses="column1, column2">
+                    <p:outputLabel for="name" value="Imię i nazwisko: "/>
+                    <h:inputText id="name" value="#{UrlopM.urlop.uzytkownik.fullname}"  size="50" readonly="true"/>
+                    <p:message for="name" styleClass="error" />
 
-                        <h:outputLabel for="rodzajW" value="Zwracam się z prośbą o udzielenie urlopu (rodzaj):"/>
-                        <h:selectOneMenu id="rodzajW" value="#{UrlopM.urlop.rodzajId}" converter="#{WnRodzajeConv}">
-                            <f:selectItems value="#{UrlopM.rodzajeC.findWnRodzajeEntities}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.opis}"/>
-                            <a4j:ajax render="form" execute="rodzajW"/>
-                        </h:selectOneMenu>
-                        <rich:message for="rodzajW" styleClass="error" />
+                    <p:outputLabel for="rodzajW" value="Zwracam się z prośbą o udzielenie urlopu (rodzaj):"/>
+                    <p:selectOneMenu id="rodzajW" value="#{UrlopM.urlop.rodzajId}" converter="#{WnRodzajeConv}">
+                        <f:selectItems value="#{UrlopM.rodzajeC.findWnRodzajeEntities}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.opis}"/>
+                        <p:ajax update="form" process="rodzajW"/>
+                    </p:selectOneMenu>
+                    <p:message for="rodzajW" styleClass="error" />
 
-                        <h:outputLabel value="cały dzień?"/>
-                        <h:selectBooleanCheckbox value="#{UrlopM.calyDzien}">
-                            <a4j:ajax render="dni"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel/>
+                    <p:outputLabel value="cały dzień?"/>
+                    <p:selectBooleanCheckbox value="#{UrlopM.calyDzien}" id="calyDzien">
+                        <p:ajax event="change" update="form" process="calyDzien"/>
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel/>
 
-                        <h:panelGroup id="dni">
-                            <h:panelGroup rendered="#{UrlopM.calyDzien}">
-                                <h:outputLabel for="data_od" value="Data od:"/>
-                                <rich:calendar value="#{UrlopM.urlop.dataOd}" id="data_od" locale="#{UrlopM.locale}"
-                                               popup="true" datePattern="yyyy-MM-dd"
-                                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
-                                    <rich:validator /></rich:calendar>
-                                <rich:message for="data_od" styleClass="error" />
 
-                                <h:outputLabel for="data_do" value="Data do:"/>
-                                <rich:calendar value="#{UrlopM.urlop.dataDo}" id="data_do" locale="#{UrlopM.locale}"
-                                               popup="true" datePattern="yyyy-MM-dd"
-                                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
-                                    <rich:validator /></rich:calendar>
-                                <rich:message for="data_do" styleClass="error" />
-                            </h:panelGroup>
+                    <p:outputLabel for="data_od" value="Data od:" rendered="#{UrlopM.calyDzien}"/>
+                    <p:calendar id="data_od" value="#{UrlopM.urlop.dataOd}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopM.calyDzien}"/>
+                    <p:message for="data_od" styleClass="error" rendered="#{UrlopM.calyDzien}"/>
 
-                            <h:panelGroup rendered="#{!UrlopM.calyDzien}">
-                                <h:outputLabel for="data_url" value="Dzień urlopu:"/>
-                                <rich:calendar value="#{UrlopM.dataUrlopu}" id="data_url" locale="#{UrlopM.locale}"
-                                               popup="true" datePattern="yyyy-MM-dd"
-                                               showApplyButton="#{calendarBean.showApply}" style="width:200px">
-                                    <rich:validator /></rich:calendar>
-                                <rich:message for="data_url" styleClass="error" />
-                                
-                                <h:outputLabel value="Godzina od:"/>
-                                <h:inputText id="data_od_godz" value="#{UrlopM.godzOd}" validatorMessage="wprowadź poprawną godzinę w formacie HH:MM, np. 08:00">
-                                    <f:validateRegex pattern="(?:2[0-3]|[01][0-9]):[0-5][0-9]"/>
-                                </h:inputText>
-                                <rich:message for="data_od_godz" styleClass="error" />
+                    <p:outputLabel for="data_do" value="Data do:" rendered="#{UrlopM.calyDzien}"/>
+                    <p:calendar id="data_do" value="#{UrlopM.urlop.dataDo}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopM.calyDzien}"/>
+                    <p:message for="data_do" styleClass="error" rendered="#{UrlopM.calyDzien}"/>
 
-                                <h:outputLabel for="data_do_godz" value="Godzina do:"/>
-                                <h:inputText id="data_do_godz" value="#{UrlopM.godzDo}" validatorMessage="wprowadź poprawną godzinę w formacie HH:MM, np. 08:00">
-                                    <f:validateRegex pattern="(?:2[0-3]|[01][0-9]):[0-5][0-9]" />
-                                </h:inputText>
-                                <rich:message for="data_do_godz" styleClass="error"  />
-                            </h:panelGroup>
-                        </h:panelGroup>
-                        <h:outputLabel/>
-                        <h:outputLabel/>
+                    <p:outputLabel for="data_url" value="Dzień urlopu:" rendered="#{!UrlopM.calyDzien}"/>
+                    <p:calendar id="data_url" value="#{UrlopM.dataUrlopu}" pattern="yyyy-MM-dd" locale="pl" rendered="#{!UrlopM.calyDzien}"/>
+                    <p:message for="data_url" styleClass="error" rendered="#{!UrlopM.calyDzien}"/>
 
-                        <h:outputLabel for="extraemail" value="czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
-                        <h:selectBooleanCheckbox value="#{UrlopM.urlop.extraemail}" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
-                        <h:outputText id="extraemail" value="#{UrlopM.urlop.uzytkownik.struktura.extraemail}" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
+                    <p:outputLabel value="Godzina od:" rendered="#{!UrlopM.calyDzien}"/>
+                    <h:inputText id="data_od_godz" value="#{UrlopM.godzOd}" validatorMessage="wprowadź poprawną godzinę w formacie HH:MM, np. 08:00" rendered="#{!UrlopM.calyDzien}">
+                        <f:validateRegex pattern="(?:2[0-3]|[01][0-9]):[0-5][0-9]"/>
+                    </h:inputText>
+                    <p:message for="data_od_godz" styleClass="error"  rendered="#{!UrlopM.calyDzien}"/>
 
-                        <h:outputLabel for="infoDod" value="informacje dodatkowe: "/>
-                        <h:inputTextarea id="infoDod" value="#{UrlopM.urlop.infoDod}" cols="52"/>
-                        <rich:message for="infoDod" styleClass="error" />
+                    <p:outputLabel for="data_do_godz" value="Godzina do:" rendered="#{!UrlopM.calyDzien}"/>
+                    <h:inputText id="data_do_godz" value="#{UrlopM.godzDo}" validatorMessage="wprowadź poprawną godzinę w formacie HH:MM, np. 08:00" rendered="#{!UrlopM.calyDzien}">
+                        <f:validateRegex pattern="(?:2[0-3]|[01][0-9]):[0-5][0-9]" />
+                    </h:inputText>
+                    <p:message for="data_do_godz" styleClass="error"  rendered="#{!UrlopM.calyDzien}"/>
 
-                        <h:outputLabel for="miejsce" value="delegacja - miejsce: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
-                        <h:inputText id="miejsce" value="#{UrlopM.urlop.miejsce}" size="50" rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
-                        <rich:message for="miejsce" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <p:outputLabel for="extraemail" value="czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
+                    <h:selectBooleanCheckbox value="#{UrlopM.urlop.extraemail}" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
+                    <h:outputText id="extraemail" value="#{UrlopM.urlop.uzytkownik.struktura.extraemail}" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
 
-                        <h:outputLabel for="cel" value="delegacja - cel: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
-                        <h:inputText id="cel" value="#{UrlopM.urlop.cel}" size="50" rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
-                        <rich:message for="cel" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <p:outputLabel for="infoDod" value="informacje dodatkowe: "/>
+                    <h:inputTextarea id="infoDod" value="#{UrlopM.urlop.infoDod}" cols="52"/>
+                    <p:message for="infoDod" styleClass="error" />
 
-                        <h:outputLabel for="srodekLok" value="delegacja - srodek lokomocji: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
-                        <h:inputText id="srodekLok" value="#{UrlopM.urlop.srodekLok}" size="50" rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
-                        <rich:message for="srodekLok" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <p:outputLabel for="miejsce" value="delegacja - miejsce: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <h:inputText id="miejsce" value="#{UrlopM.urlop.miejsce}" size="50" rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <p:message for="miejsce" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
 
-                        <rich:message for="dodaj" styleClass="error"/>
+                    <p:outputLabel for="cel" value="delegacja - cel: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <h:inputText id="cel" value="#{UrlopM.urlop.cel}" size="50" rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <p:message for="cel" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+
+                    <p:outputLabel for="srodekLok" value="delegacja - srodek lokomocji: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <h:inputText id="srodekLok" value="#{UrlopM.urlop.srodekLok}" size="50" rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <p:message for="srodekLok" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+
+                </p:panelGrid>
+                <center>
+                    <p:message for="dodaj" styleClass="error"/>
+                    <p:commandButton id="dodaj" value="Zapisz wniosek" action="#{UrlopM.dodaj}" update="formTab, formWprow" process="formWprow" oncomplete="PF('tableV').clearFilters()"/>
+                </center>
+            </p:fieldset>
+
+            <p:outputPanel id="formTab" layout="block">
+                <p:dataTable value="#{UrlopM.urlopyList}" var="urlop" id="table" paginator="true" rows="10" sortBy="#{urlop.id}" sortOrder="descending" widgetVar="tableV" emptyMessage="brak danych">
+                    <p:column headerText="Wniosek złożony przez">
+                        <h:outputText value="#{urlop.przyjmujacy.fullname}" rendered="#{urlop.przyjmujacy!=null}"/>
+                        <h:outputText value="#{urlop.uzytkownik.fullname}" rendered="#{urlop.przyjmujacy==null}"/>
+                    </p:column>
+                    <p:column headerText="Nr wniosku" filterBy="#{urlop.nrWniosku}" filterMatchMode="contains">
+                        <h:outputText value="#{urlop.nrWniosku}"/>
+                        <hr/>
+                        <h:outputText value="#{urlop.infoDod}" rendered="#{fn:length(urlop.infoDod)>0}"/>
+                    </p:column>
+                    <p:column headerText="Rodzaj" filterBy="#{urlop.rodzajId.opis}" filterMatchMode="contains">
+                        <h:outputText value="#{urlop.rodzajId.opis}"/>
+                    </p:column>
+                    <p:column headerText="Wprowadzony" sortBy="#{urlop.dataWprowadzenia}">
+                        <h:outputText value="#{urlop.dataWprowadzenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="Od Do" sortBy="#{urlop.dataOd}">
+                        <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
                         <br/>
-                        <rich:notifyMessages stayTime="3000" nonblocking="true" style="" nonblockingOpacity=".7"/>
+                        <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
+                    </p:column>
+                    <p:column headerText="Status" filterBy="#{urlop.statusId.opis}" filterMatchMode="contains" style="background-color: #{urlop.statusId.kolor} ; text-align: center">
+                        <h:outputText value="#{urlop.statusId.opis}"/>
+                    </p:column>
+                    <p:column headerText="Akceptant" filterBy="#{urlop.akceptant.fullname}" filterMatchMode="contains">
+                        <h:outputText value="#{urlop.akceptant.fullname}"/>
+                    </p:column>
+                    <p:column headerText="Więcej" style="width:36px">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:panel header="historia" rendered="#{fn:length(urlop.wnHistoriaList)>0}">
+                            <p:dataTable id="histTab" value="#{urlop.wnHistoriaList}" var="hist">
+                                <p:column headerText="data zmiany">
+                                    <h:outputText value="#{hist.dataZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                                </p:column>
+                                <p:column headerText="Zmianę wykonał">
+                                    <h:outputText value="#{hist.zmieniajacy.fullname}"/>
+                                </p:column>
+                                <p:column headerText="Status" style="alignment-adjust: central">
+                                    <h:outputText value="#{hist.statusId.opis}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:panel>
+                                        <h:outputText value=" [opis] " id="opis"/>
+                                        <p:tooltip id="tt1">
+                                            <h:outputText value="#{hist.opisZmiany}"/>
+                                        </p:tooltip>
+                                    </p:panel>
+                                </p:column>
+                                <p:column headerText="Akceptant">
+                                    <h:outputText value="#{hist.akceptant.fullname}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                        <p:panel header="informacje dodatkowe" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
+                            <p:panelGrid columns="2" columnClasses="column1p, column2p">
+                                <p:outputLabel for="miejsce" value="miejsce: " />
+                                <h:outputText id="miejsce" value="#{urlop.miejsce}" />
 
-                    </h:panelGrid>
-                    <center>
-                        <a4j:commandButton id="dodaj" value="[ Zapisz wniosek ]" action="#{UrlopM.dodaj}" render="formTab, formWprow" execute="formWprow" style="font-weight: bold; font-size: larger"/>
-                    </center>
-                </a4j:outputPanel>
-                <hr/>
+                                <p:outputLabel for="cel" value="cel: " />
+                                <h:outputText id="cel" value="#{urlop.cel}" />
 
-                <a4j:outputPanel id="formTab" layout="block">
-                    <rich:dataTable value="#{UrlopM.urlopyList}" var="urlop" id="table" rowKeyVar="rowkey">
-                        <rich:column >
-                            <f:facet name="header">
-                                Wniosek złożony przez
-                            </f:facet>
-                            <h:outputText value="#{urlop.przyjmujacy.fullname}" rendered="#{urlop.przyjmujacy!=null}"/>
-                            <h:outputText value="#{urlop.uzytkownik.fullname}" rendered="#{urlop.przyjmujacy==null}"/>
-                        </rich:column>
-                        <rich:column >
-                            <f:facet name="header">
-                                Nr wniosku
-                            </f:facet>
-                            <h:outputText value="#{urlop.nrWniosku}"/>
-                            <hr/>
-                            <h:outputText value="#{urlop.infoDod}" rendered="#{fn:length(urlop.infoDod)>0}"/>
-                            <rich:collapsiblePanel header="Historia" expanded="false" switchType="client" rendered="#{fn:length(urlop.wnHistoriaList)>0}" id="histTab">
-                                <rich:dataTable value="#{urlop.wnHistoriaList}" var="hist">
-                                    <rich:column>
-                                        <f:facet name="header">
-                                            data zmiany
-                                        </f:facet>
-                                        <h:outputText value="#{hist.dataZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
-                                    </rich:column>
-                                    <rich:column>
-                                        <f:facet name="header">
-                                            Zmianę wykonał
-                                        </f:facet>
-                                        <h:outputText value="#{hist.zmieniajacy.fullname}"/>
-                                    </rich:column>
-                                    <rich:column  style="alignment-adjust: central">
-                                        <f:facet name="header">
-                                            Status
-                                        </f:facet>
-                                        <h:outputText value="#{hist.statusId.opis}"/>
-                                    </rich:column>
-                                    <rich:column>
-                                        <rich:panel>
-                                            <h:outputText value=" [opis] " id="opis"/>
-                                            <rich:tooltip id="tt1" layout="block">
-                                                <h:outputText value="#{hist.opisZmiany}"/>
-                                            </rich:tooltip>
-                                        </rich:panel>
-                                    </rich:column>
-                                    <rich:column>
-                                        <f:facet name="header">
-                                            Akceptant
-                                        </f:facet>
-                                        <h:outputText value="#{hist.akceptant.fullname}"/>
-                                    </rich:column>
-                                </rich:dataTable>
-                            </rich:collapsiblePanel>
-                        </rich:column>
-                        <rich:column >
-                            <f:facet name="header">
-                                Rodzaj
-                            </f:facet>
-                            <h:outputText value="#{urlop.rodzajId.opis}"/>
-                            <rich:collapsiblePanel header="szczegóły" expanded="false" switchType="client" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
-                                <h:panelGrid columns="2">
-                                    <h:outputLabel for="miejsce" value="miejsce: " />
-                                    <h:outputText id="miejsce" value="#{urlop.miejsce}" />
-
-                                    <h:outputLabel for="cel" value="cel: " />
-                                    <h:outputText id="cel" value="#{urlop.cel}" />
-
-                                    <h:outputLabel for="srodekLok" value="srodek lokomocji: " />
-                                    <h:outputText id="srodekLok" value="#{urlop.srodekLok}"/>
-                                </h:panelGrid>
-                            </rich:collapsiblePanel>
-                        </rich:column>
-                        <rich:column >
-                            <f:facet name="header">
-                                Wprowadzony
-                            </f:facet>
-                            <h:outputText value="#{urlop.dataWprowadzenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
-                        </rich:column>
-                        <rich:column >
-                            <f:facet name="header">
-                                Od Do
-                            </f:facet>
-                            <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
-                            <br/>
-                            <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
-                        </rich:column>
-                        <rich:column style="background-color: #{urlop.statusId.kolor} ; text-align: center">
-                            <f:facet name="header">
-                                Status
-                            </f:facet>
-                            <h:outputText value="#{urlop.statusId.opis}"/>
-                        </rich:column>
-                        <rich:column >
-                            <f:facet name="header">
-                                Akceptant
-                            </f:facet>
-                            <h:outputText value="#{urlop.akceptant.fullname}"/>
-                        </rich:column>
-                        <rich:column >
-                            <f:facet name="header">
-                                Akcje
-                            </f:facet>
-                            <a4j:commandLink value="usuń" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" render="formTab, formWprow" oncomplete="#{rich:component('confirmPane')}.show()" execute="@this">
-                                <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
-                            </a4j:commandLink>
-                            <hr/>
-                            <a4j:commandLink value="edytuj" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" render="formWprow" execute="@this">
-                                <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
-                            </a4j:commandLink>
-                            <hr/>
-                            <a4j:commandLink value="wyślij" action="#{UrlopM.wyslij}" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" render="formTab, formWprow" limitRender="true" execute="@this">
-                                <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
-                            </a4j:commandLink>
-                            <a4j:commandLink value="anuluj" action="#{UrlopM.anuluj}" rendered="#{urlop.statusId.id==3}" render="formTab, formWprow" limitRender="true" execute="@this">
-                                <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
-                            </a4j:commandLink>
-                        </rich:column>
-                    </rich:dataTable>
-                </a4j:outputPanel>
-
-                <a4j:jsFunction name="remove" action="#{UrlopM.usun}" render="formTab, formWprow" execute="@this"
-                                oncomplete="#{rich:component('confirmPane')}.hide();" />
-                <rich:popupPanel id="confirmPane" autosized="true">
-                    Czy na pewno chcesz usunąć?
-                    <a4j:commandButton value="NIE" onclick="#{rich:component('confirmPane')}.hide();
-                            return false;" />
-                    <a4j:commandButton value="TAK" onclick="remove();
-                            return false;" />
-                </rich:popupPanel>    
-            </h:form>
-        </div>
+                                <p:outputLabel for="srodekLok" value="srodek lokomocji: " />
+                                <h:outputText id="srodekLok" value="#{urlop.srodekLok}"/>
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:rowExpansion>
+                    <p:column headerText="Akcje" style="width: 90px">
+                        <p:tooltip for="imgEd" value="edytuj"/>
+                        <p:tooltip for="imgAn" value="anuluj"/>
+                        <p:tooltip for="imgDe" value="usun"/>
+                        <p:tooltip for="imgWy" value="wyślij"/>
+                        <p:commandButton id="imgDe" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" process="imgDe" 
+                                         icon="ui-icon-trash" action="#{UrlopM.usun}" oncomplete="PF('tableV').filter();">
+                            <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                            <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
+                        </p:commandButton>
+                        <p:commandButton id="imgEd" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:form, :infoForm:messages" process="imgEd" icon="ui-icon-pencil" 
+                                         oncomplete="PF('formWprowV').close();PF('formWprowV').show();">
+                            <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
+                        </p:commandButton>
+                        <p:commandButton id="imgWy" action="#{UrlopM.wyslij}" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" 
+                                         process="@this" icon="ui-icon-play" oncomplete="PF('tableV').filter();">
+                            <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
+                        </p:commandButton>
+                        <p:message for="imgWy"/>
+                        <p:commandButton id="imgAn" action="#{UrlopM.anuluj}" rendered="#{urlop.statusId.id==3}" update=":center:formTab, :infoForm:messages" 
+                                          oncomplete="PF('tableV').filter();" process="@this" icon="ui-icon-circle-minus">
+                            <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </h:form>
     </ui:define>
 </ui:composition>

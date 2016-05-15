@@ -69,6 +69,8 @@ public class Kalendarz extends AbstEncja implements Serializable {
     
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Uzytkownik> uczestnikList;
+    
+    private String typ;
 
     @Override
     public Integer getId() {
@@ -128,6 +130,14 @@ public class Kalendarz extends AbstEncja implements Serializable {
 
     public void setOpis(String opis) {
         this.opis = opis;
+    }
+
+    public String getTyp() {
+        return typ;
+    }
+
+    public void setTyp(String typ) {
+        this.typ = typ;
     }
     
     @Override
