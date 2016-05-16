@@ -1,6 +1,8 @@
 package pl.eod.encje;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -25,10 +27,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author arti01
- */
+
 @Entity
 @Table(name = "wn_urlop")
 @NamedQueries({
@@ -101,6 +100,8 @@ public class WnUrlop implements Serializable {
     @Size(max = 255)
     @Column(name = "srodek_lok")
     private String srodekLok;
+    private BigDecimal kwotaWs;
+    private boolean pracodawca;
     @Transient
     private Date dataOstZmiany;
 
@@ -263,6 +264,22 @@ public class WnUrlop implements Serializable {
 
     public void setSrodekLok(String srodekLok) {
         this.srodekLok = srodekLok;
+    }
+
+    public boolean isPracodawca() {
+        return pracodawca;
+    }
+
+    public void setPracodawca(boolean pracodawca) {
+        this.pracodawca = pracodawca;
+    }
+
+    public BigDecimal getKwotaWs() {
+        return kwotaWs;
+    }
+
+    public void setKwotaWs(BigDecimal kwotaWs) {
+        this.kwotaWs = kwotaWs;
     }
 
     @Override

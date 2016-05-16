@@ -32,8 +32,10 @@ INSERT INTO config VALUES (11, 'email_unikalny', '1-nie, 0-tak', '1');
 
 INSERT INTO wn_rodzaje VALUES (2, 'Okolicznościowy', 'OKO');
 INSERT INTO wn_rodzaje VALUES (1, 'Wypoczynkowy', 'WYP');
-INSERT INTO wn_rodzaje VALUES (3, 'Krajowa Delegacja', 'KRJ');
-INSERT INTO wn_rodzaje VALUES (4, 'Zagraniczna delegacja', 'ZAG');
+INSERT INTO wn_rodzaje VALUES (5, 'Krajowa Delegacja', 'KRJ');
+INSERT INTO wn_rodzaje VALUES (6, 'Zagraniczna delegacja', 'ZAG');
+INSERT INTO wn_rodzaje VALUES (30, 'Wniosek szkoleniowy', 'SZK');
+INSERT INTO wn_rodzaje VALUES (40, 'Zlecenie nadgodzin', 'ZNG');
 
 --
 -- TOC entry 1930 (class 0 OID 28952)

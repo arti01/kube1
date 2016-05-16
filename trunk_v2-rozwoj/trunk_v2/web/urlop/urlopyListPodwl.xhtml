@@ -14,7 +14,7 @@
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
 
             <p:outputPanel id="formTab" layout="block">
-                <p:dataTable value="#{UrlopM.urlopyAkcept}" var="urlop" id="table" rows="10" paginator="true" emptyMessage="brak danych" sortBy="#{urlop.id}" sortOrder="descending">
+                <p:dataTable value="#{UrlopM.urlopyAkcept}" var="urlop" id="table" rows="10" rowsPerPageTemplate="10, 20, 50, 100" paginator="true" emptyMessage="brak danych" sortBy="#{urlop.id}" sortOrder="descending">
                     <p:column headerText="Pracownik" filterBy="#{urlop.uzytkownik.fullname}" filterMatchMode="contains">
                         <h:outputText value="#{urlop.uzytkownik.fullname}"/>
                     </p:column>

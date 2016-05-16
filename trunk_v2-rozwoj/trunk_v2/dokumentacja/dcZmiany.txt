@@ -1,5 +1,15 @@
+2015-05-16
+Suwaki zamiast wpisywania godzin
+
+Nowe typy wniosków
+INSERT INTO wn_rodzaje VALUES (30, 'Wniosek szkoleniowy', 'SZK');
+INSERT INTO wn_rodzaje VALUES (40, 'Zlecenie nadgodzin', 'ZNG');
+Zmieniłem (u siebie) id urlopow 
+(5, 'Krajowa Delegacja', 'KRJ');
+(6, 'Zagraniczna delegacja', 'ZAG')
+
 2015-05-14
-Wnioski do akceptacji
+Wnioski do akceptacji na PF
 
 2015-05-14
 Wstrzykiwanie terminu po zaakceptowaniu wniosku urlopowego
@@ -16,7 +26,6 @@ Zrobione tak, że nie pokazuje się główne menu dla danej opcji jeśli nie ma 
 dla podmenu. Zrobione dla: Dokumenty, Archiwum i Zasoby materiałowe
 
 2016-05-07
-2016-05-05
 strona startowa
 
 2016-04-29
