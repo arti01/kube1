@@ -46,11 +46,11 @@
                     <p:message for="data_url" styleClass="error" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
 
                     <p:outputLabel value="Godzina od:" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
-                    <p:calendar id="data_od_godz" value="#{UrlopM.godzOdT}" pattern="HH:mm" timeOnly="true" locale="pl" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
+                    <p:calendar id="data_od_godz" value="#{UrlopM.godzOdT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
                     <p:message for="data_od_godz" styleClass="error" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
 
                     <p:outputLabel for="data_do_godz" value="Godzina do:" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
-                    <p:calendar id="data_do_godz" value="#{UrlopM.godzDoT}" pattern="HH:mm" timeOnly="true" locale="pl" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
+                    <p:calendar id="data_do_godz" value="#{UrlopM.godzDoT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
                     <p:message for="data_do_godz" styleClass="error" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
                     
                     <p:outputLabel for="extraemail" value="czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>

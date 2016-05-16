@@ -41,30 +41,6 @@
                         <p:rowToggler />
                     </p:column>
                     <p:rowExpansion>
-                        <p:panel header="Historia" rendered="#{fn:length(urlop.wnHistoriaList)>0}" id="histTab">
-                            <p:dataTable value="#{urlop.wnHistoriaList}" var="hist">
-                                <p:column headerText="Data zmiany">
-                                    <h:outputText value="#{hist.dataZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
-                                </p:column>
-                                <p:column headerText="Zmianę wykonał">
-                                    <h:outputText value="#{hist.zmieniajacy.fullname}"/>
-                                </p:column>
-                                <p:column headerText="Status" style="text-align: center">
-                                    <h:outputText value="#{hist.statusId.opis}"/>
-                                </p:column>
-                                <p:column headerText="" >
-                                    <p:panel id="panel_#{row}">
-                                        <h:outputText value=" [opis] " id="opis"/>
-                                        <p:tooltip id="tt1">
-                                            <h:outputText value="#{hist.opisZmiany}"/>
-                                        </p:tooltip>
-                                    </p:panel>
-                                </p:column>
-                                <p:column headerText="Akceptant">
-                                    <h:outputText value="#{hist.akceptant.fullname}"/>
-                                </p:column>
-                            </p:dataTable>
-                        </p:panel>
                         <p:panel header="szczegóły" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
                             <h:panelGrid columns="2" columnClasses="column1p, column2p">
                                 <h:outputLabel for="miejsce" value="miejsce: " />
@@ -76,6 +52,39 @@
                                 <h:outputLabel for="srodekLok" value="srodek lokomocji: " />
                                 <h:outputText id="srodekLok" value="#{urlop.srodekLok}"/>
                             </h:panelGrid>
+                        </p:panel>
+                        <p:panel header="informacje dodatkowe" rendered="#{urlop.rodzajId.id==30}">
+                            <p:panelGrid columns="2" columnClasses="column1p, column2p">
+                                <p:outputLabel value="kwota: " />
+                                <h:outputText value="#{urlop.kwotaWs}">
+                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                </h:outputText>
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:panel header="informacje dodatkowe" rendered="#{urlop.rodzajId.id==40}">
+                            <p:panelGrid columns="2" columnClasses="column1p, column2p">
+                                <p:outputLabel value="pracodawca: " />
+                                <p:inputSwitch value="#{urlop.pracodawca}" offLabel="Nie" onLabel="Tak" disabled="true"/>
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:panel header="Historia" rendered="#{fn:length(urlop.wnHistoriaList)>0}" id="histTab">
+                            <p:dataTable value="#{urlop.wnHistoriaList}" var="hist">
+                                <p:column headerText="Data zmiany">
+                                    <h:outputText value="#{hist.dataZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
+                                </p:column>
+                                <p:column headerText="Zmianę wykonał">
+                                    <h:outputText value="#{hist.zmieniajacy.fullname}"/>
+                                </p:column>
+                                <p:column headerText="Status" style="text-align: center">
+                                    <h:outputText value="#{hist.statusId.opis}"/>
+                                </p:column>
+                                <p:column headerText="Opis" >
+                                    <h:outputText value="#{hist.opisZmiany}" id="opis"/>
+                                </p:column>
+                                <p:column headerText="Akceptant">
+                                    <h:outputText value="#{hist.akceptant.fullname}"/>
+                                </p:column>
+                            </p:dataTable>
                         </p:panel>
                     </p:rowExpansion>
                     <p:column headerText="Akcje" style="width: 95px">
