@@ -33,6 +33,8 @@ import pl.eod.encje.WnUrlop;
 import pl.eod.encje.WnUrlopDataModel;
 import pl.eod.encje.WnUrlopJpaController;
 import pl.eod.managed.Login;
+import pl.eod2.encje.Kalendarz;
+import pl.eod2.managedUm.RezerMojKalMg;
 
 @ManagedBean(name = "UrlopM")
 @SessionScoped
@@ -42,7 +44,7 @@ public class UrlopM implements Serializable {
     private WnUrlop urlop;
     private DataModel<WnUrlop> urlopyList = new ListDataModel<>();
     private DataModel<WnUrlop> urlopyAkcept = new ListDataModel<>();
-    private DataModel<WnUrlop> urlopyAkceptHist = new ListDataModel<>();
+    private final DataModel<WnUrlop> urlopyAkceptHist = new ListDataModel<>();
     private WnUrlopJpaController urlopC;
     private WnRodzajeJpaController rodzajeC;
     private KomKolejkaJpaController KomKolC;
@@ -52,8 +54,8 @@ public class UrlopM implements Serializable {
     String nameAkceptHistFilter;
     String nameObceFilter;
     String namePodwFilter;
-    private Map<String, String> filterValues = Maps.newHashMap();
-    private Map<String, SortOrder> sortOrders = Maps.newHashMapWithExpectedSize(1);
+    private final Map<String, String> filterValues = Maps.newHashMap();
+    private final Map<String, SortOrder> sortOrders = Maps.newHashMapWithExpectedSize(1);
     private String godzOd;
     private String godzDo;
     private Date dataUrlopu;
@@ -239,6 +241,7 @@ public class UrlopM implements Serializable {
         String error;
         error = urlopC.createEdit(urlop);
         if (error == null) {
+            RezerMojKalMg.NieobecnoscDodaj(urlop);
             if (!urlop.getUzytkownik().getAdrEmail().equals("")) {
                 KomKolejka kk = new KomKolejka();
                 kk.setAdresList(urlop.getUzytkownik().getAdrEmail());
@@ -358,6 +361,7 @@ public class UrlopM implements Serializable {
         wnh.setOpisZmiany("Wniosek cofnięty do wystawcy");
 
         urlop.getWnHistoriaList().add(wnh);
+        urlopC.createEdit(urlop);
 
         if (!urlop.getUzytkownik().getAdrEmail().equals("")) {
             KomKolejka kk = new KomKolejka();

@@ -7,14 +7,16 @@ package pl.eod2.plikiUpload;
 
 import eodt.lib.NewClass;
 import java.io.File;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
 public class Ocr {
-
+    
     Tesseract instance;
-
+    private static final Logger LOG = Logger.getLogger(Ocr.class.getName());
+    
     public Ocr() {
         ImageIO.scanForPlugins();
         //System.err.println("tttttttttteeeeeeeeeeeeeeeocr"+imageFile.exists());
@@ -37,20 +39,22 @@ public class Ocr {
             System.err.println("eeeeeeeeeeeeeeeocr"+e.getMessage());
         }*/
     }
-
+    
     public String oceeruj(File file) {
         if (!NewClass.OCR) {
+            LOG.info("brak licencji na ORC");
             return "";
         }
-        if(!(file.getName().toLowerCase().endsWith(".png")||file.getName().toLowerCase().endsWith(".jpg")||file.getName().toLowerCase().endsWith(".gif")
-                ||file.getName().toLowerCase().endsWith(".pdf")||file.getName().toLowerCase().endsWith(".tif")||file.getName().toLowerCase().endsWith(".bmp"))){
+        if (!(file.getName().toLowerCase().endsWith(".png") || file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".gif")
+                || file.getName().toLowerCase().endsWith(".pdf") || file.getName().toLowerCase().endsWith(".tif") || file.getName().toLowerCase().endsWith(".bmp"))) {
+            LOG.info(file.getName()+"typ pliku ie podlega ORC");
             return "";
         }
         String result = "";
         try {
             result = instance.doOCR(file);
             //System.out.println(result);
-        } catch (java.lang.RuntimeException re){
+        } catch (java.lang.RuntimeException re) {
             System.err.println("format pliku nie zawierajacy tekst");
         } catch (TesseractException e) {
             System.err.println("error_ocr" + e.getMessage());
@@ -59,5 +63,5 @@ public class Ocr {
         }
         return result;
     }
-
+    
 }

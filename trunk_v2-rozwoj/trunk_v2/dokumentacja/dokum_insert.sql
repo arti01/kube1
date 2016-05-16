@@ -3,8 +3,8 @@ INSERT INTO user_roles (id, role_name, opis) VALUES (6, 'eoddok_odb','dokumenty 
 INSERT INTO user_roles (id, role_name, opis) VALUES (7, 'eoddok_cfg','dokumenty - konfiguracja');
 INSERT INTO user_roles (id, role_name, opis) VALUES (8, 'eoddok_arc','dokumenty - archiwizacja');
 INSERT INTO user_roles (id, role_name, opis) VALUES (9, 'eod_ogl','dodawanie ogloszen');
-INSERT INTO user_roles (id, role_name, opis) VALUES (10, 'eod_um_cfg','urzadzenia med-grupy i mastergrupy');
-INSERT INTO user_roles (id, role_name, opis) VALUES (11, 'eod_um_sprz','urzadzenia med-sprzet');
+INSERT INTO user_roles (id, role_name, opis) VALUES (10, 'eod_um_cfg','zasoby - konfiguracja');
+INSERT INTO user_roles (id, role_name, opis) VALUES (11, 'eod_um_sprz','zasoby');
 INSERT INTO user_roles (id, role_name, opis) VALUES (12, 'eod_um_rez','rezerwacja zasobów');
 
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (5, 3);

@@ -8,7 +8,7 @@
 
     <p:menubar toggleEvent="click">
         <p:menuitem style="background-color: #C1DFFF" value="Start" outcome="/logowanie/index.xhtml" icon="ui-icon-refresh"/>
-        <p:submenu style="width: 149px" label="Dokumenty">
+        <p:submenu style="width: 149px" label="Dokumenty"  rendered="#{login.dcCfg or login.dcRej or login.dcOdb}">
             <p:submenu label="Konfiguracja" rendered="#{login.dcCfg}">
                 <p:menuitem value="Grupy rodzajów" action="#{RodzajeGrupyCfg.list}" ajax="false"/>
                 <p:menuitem value="Rodzaje" action="#{RodzajeCfg.list}" ajax="false"/>
@@ -34,15 +34,15 @@
             </p:submenu>
         </p:submenu>
 
-        <p:submenu style="width: 149px" label="Archiwum">
-            <p:submenu label="Dokumenty - archiwum" rendered="#{login.dcArc}">
+        <p:submenu style="width: 149px" label="Archiwum" rendered="#{login.dcArc}">
+            <p:submenu label="Dokumenty - archiwum">
                 <p:menuitem value="Do archiwum" action="#{PrzeniesArch.list}" ajax="false"/>
                 <p:menuitem value="Poczekalnia" action="#{PoczekalniaArch.list}" ajax="false"/>
                 <p:menuitem value="Archiwum" action="#{WArchiwumArch.list}" ajax="false"/>
                 <p:menuitem value="Dokumenty" action="#{DokumentyArch.list}" ajax="false"/>
                 <p:menuitem value="Wyszukaj w archiwum" action="#{WyszukajArch.form}" ajax="false"/>
             </p:submenu>
-            <p:submenu label="Archiwum - raporty" rendered="#{login.dcArc}">
+            <p:submenu label="Archiwum - raporty">
                 <p:menuitem value="Do brakowania" action="#{BrakowanieArch.list}" ajax="false"/>
                 <p:menuitem value="Zajętość Archiwów" action="#{ZajetoscArch.list}" ajax="false"/>
                 <p:menuitem value="Niezwrócone" action="#{RaportyArch.nieZwrocone}" ajax="false"/>
@@ -50,16 +50,16 @@
             </p:submenu>
         </p:submenu>
 
-        <p:submenu style="width: 149px" label="Kalendarze" expanded="#{login.menuRezerExp}">
-            <p:menuitem value="Obsługa rezerwacji" action="#{RezerwacjeMg.list}" ajax="false"/>
+        <p:submenu style="width: 149px" label="Kalendarze">
+            <p:menuitem value="Obsługa rezerwacji" action="#{RezerwacjeMg.list}" ajax="false" rendered="#{login.umRez}"/>
             <p:menuitem value="Kalendarze użytkowików" action="#{RezerMojKalMg.list}" ajax="false"/>
             <p:menuitem value="Tabela kalendarza" action="#{RezerMojKalMg.listTab}" ajax="false"/>
         </p:submenu>
 
-        <p:submenu style="width: 149px" label="Zasoby Materiałowe">
-            <p:menuitem value="Lista zasobów" action="#{UrzadzeniaMg.list}" ajax="false"/>
-            <p:menuitem value="Lista dokumentów" action="#{URejDokMg.list}" ajax="false"/>
-            <p:menuitem value="Raport stanów" action="#{UGrupaMg.raport1}" ajax="false"/>
+        <p:submenu style="width: 149px" label="Zasoby Materiałowe"  rendered="#{login.umSprz or login.umCfg}">
+            <p:menuitem value="Lista zasobów" action="#{UrzadzeniaMg.list}" ajax="false" rendered="#{login.umSprz}"/>
+            <p:menuitem value="Lista dokumentów" action="#{URejDokMg.list}" ajax="false" rendered="#{login.umSprz}"/>
+            <p:menuitem value="Raport stanów" action="#{UGrupaMg.raport1}" ajax="false" rendered="#{login.umSprz}"/>
 
             <p:submenu label="Konfiguracja" rendered="#{login.umCfg}">
                 <p:menuitem value="Master Grupy" action="#{UMasterMg.list}" ajax="false"/>
