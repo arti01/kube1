@@ -21,6 +21,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -37,6 +38,7 @@ import pl.eod.encje.Uzytkownik;
     @NamedQuery(name = "Kalendarz.findById", query = "SELECT d FROM Kalendarz d WHERE d.id = :id"),
     @NamedQuery(name = "Kalendarz.findByNazwa", query = "SELECT d FROM Kalendarz d WHERE d.nazwa = :nazwa")})
 public class Kalendarz extends AbstEncja implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -53,24 +55,28 @@ public class Kalendarz extends AbstEncja implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date dataOd;
-    
+
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date dataDo;
-        
+
     @Size(max = 10485760)
     @Lob
     private String opis;
-    
+
     @ManyToOne(optional = false, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(nullable = false)
     private Uzytkownik tworca;
-    
+
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Uzytkownik> uczestnikList;
-    
+
     private String typ;
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean prywatne=false;
 
     @Override
     public Integer getId() {
@@ -139,7 +145,15 @@ public class Kalendarz extends AbstEncja implements Serializable {
     public void setTyp(String typ) {
         this.typ = typ;
     }
-    
+
+    public boolean isPrywatne() {
+        return prywatne;
+    }
+
+    public void setPrywatne(boolean prywatne) {
+        this.prywatne = prywatne;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;

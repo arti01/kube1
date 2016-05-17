@@ -6,26 +6,13 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="tytul">
-        <h3 align="center">Rezerwacje i kalendarze - pokaż dla osób</h3>
+        <h3 align="center">Kalendarze osób decyzyjnych</h3>
     </ui:define>
 
     <ui:define name="content" id="content">
         <h:form id="center">
-            <p:panelGrid id="osobyWybor" columns="3" style="margin: 10px; width: 100%;" columnClasses="">
-                <p:panel>
-                    <p:outputLabel value="kalendarz dla:" for="osoby"/>
-                    <p:autoComplete id="osoby" value="#{RezerMojKalMg.uzyt}" completeMethod="#{RezerMojKalMg.uzytkownicyAucoComp}" var="user" itemValue="#{user}" itemLabel="#{user.fullname}"
-                                    forceSelection="true" converter="#{UzytkownikConv}">
-                        <p:column>
-                            <h:outputText value="#{user.fullname}" />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{user.adrEmail}" />
-                        </p:column>
-                    </p:autoComplete>
-                    <p:commandButton value="pokaż" process="osobyWybor" update=":center:schedulePanel" action="#{RezerMojKalMg.listObcy}"/>
-                </p:panel>
-
+            <p:panelGrid id="osobyWybor" columns="2" style="margin: 10px; width: 100%;" columnClasses="">
+                
                 <p:panel style="border-style: hidden;">
                     <h:outputText id="output" value="rozmiar kalendarza = #{RezerMojKalMg.number2}"/>
                     <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
@@ -48,7 +35,7 @@
             </p:panelGrid>
 
             <ui:include src="/um/kalInc.xhtml">
-                <ui:param name="decyz" value="#{false}"/>
+                <ui:param name="decyz" value="#{true}"/>
             </ui:include>
 
         </h:form>

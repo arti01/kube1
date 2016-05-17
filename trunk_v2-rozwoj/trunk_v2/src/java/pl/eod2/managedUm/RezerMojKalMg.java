@@ -99,6 +99,12 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         ustawSched();
         return "/um/rez_kal_tab";
     }
+    
+    public String listKalDecyz() throws InstantiationException, IllegalAccessException {
+        uzyt = login.getZalogowany().getUserId();
+        ustawSched();
+        return "/um/kal_decyz";
+    }
 
     public String listObcy() throws InstantiationException, IllegalAccessException {
         ustawSched();
@@ -145,6 +151,10 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             eventModel.addEvent(ev);
         }
         for (Kalendarz kal : uzyt.getKalendarzList()) {
+            //jesli to obcy kalendarz i zdazenie jest prywatne to nie pokazuj
+            if (!uzyt.equals(login.getZalogowany().getUserId()) && kal.isPrywatne()) {
+                continue;
+            }
             DefaultScheduleEvent ev = new DefaultScheduleEvent(kal.getNazwa(), kal.getDataOd(), kal.getDataDo(), kal);
             ev.setDescription(kal.getOpis());
             MojKalTab mkt = new MojKalTab();
@@ -171,6 +181,10 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             eventModel.addEvent(ev);
         }
         for (Kalendarz kal : uzyt.getKalendUczestnikList()) {
+            //jesli to obcy kalendarz i zdazenie jest prywatne to nie pokazuj
+            if (!uzyt.equals(login.getZalogowany().getUserId()) && kal.isPrywatne()) {
+                continue;
+            }
             DefaultScheduleEvent ev = new DefaultScheduleEvent(kal.getNazwa(), kal.getDataOd(), kal.getDataDo(), kal);
             ev.setDescription(kal.getOpis());
             ev.setEditable(false);

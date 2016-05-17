@@ -54,6 +54,7 @@
             <p:menuitem value="Obsługa rezerwacji" action="#{RezerwacjeMg.list}" ajax="false" rendered="#{login.umRez}"/>
             <p:menuitem value="Kalendarze użytkowików" action="#{RezerMojKalMg.list}" ajax="false"/>
             <p:menuitem value="Tabela kalendarza" action="#{RezerMojKalMg.listTab}" ajax="false"/>
+            <p:menuitem value="Kalendarz osób decyzyjnych" action="#{RezerMojKalMg.listKalDecyz}" ajax="false" rendered="#{login.kalDec}"/>
         </p:submenu>
 
         <p:submenu style="width: 149px" label="Zasoby Materiałowe"  rendered="#{login.umSprz or login.umCfg}">

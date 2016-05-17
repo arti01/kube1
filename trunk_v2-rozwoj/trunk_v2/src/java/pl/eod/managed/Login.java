@@ -53,6 +53,7 @@ public class Login implements Serializable {
     boolean umCfg;
     boolean umSprz;
     boolean umRez;
+    boolean kalDec;
     String typLogowania;
     List<MenuLinki> menuLinki;
     MenuLinkiJpaController menuLinkiC;
@@ -160,7 +161,7 @@ public class Login implements Serializable {
     public void loginTest() {
         System.err.println("ssssseeeeeeeeeeee");
     }
-    
+
     public String loginNew() {
         System.err.println("ssssssssssssssssssssssssssssssss");
         FacesContext context = FacesContext.getCurrentInstance();
@@ -198,9 +199,9 @@ public class Login implements Serializable {
         UzytkownikJpaController uzytC = new UzytkownikJpaController();
         //System.out.println(uzytC.iluZprawami() + "prawa");
 
-        try{
-        zalogowany = uzytC.findStruktura(request.getUserPrincipal().getName());
-        } catch(NullPointerException np){
+        try {
+            zalogowany = uzytC.findStruktura(request.getUserPrincipal().getName());
+        } catch (NullPointerException np) {
             System.err.println("nie zalogowany");
         }
 
@@ -497,6 +498,12 @@ public class Login implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         return request.isUserInRole("eod_um_rez");
+    }
+
+    public boolean isKalDec() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_kal_dec");
     }
 
     public boolean isKierownik() {
