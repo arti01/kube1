@@ -1,3 +1,9 @@
+2015-05-17
+Ograniczono podgląd kalendarza do osób z tej samej gałęzi ze struktury, czyli zalogowany może zobaczyć
+kalendarze wszystkich podwładnych swojego szefa plus oczywiście swojego szefa.
+
+Kalendarz dla osób decyzyjnych - uzupelnić tabelę KALEND_OSOBY_DEC
+
 2015-05-16
 Suwaki zamiast wpisywania godzin
 
@@ -28,7 +34,7 @@ dla podmenu. Zrobione dla: Dokumenty, Archiwum i Zasoby materiałowe
 2016-05-07
 strona startowa
 
-2016-04-29
+2016-05-03
 um/wyszukList
 dcarch/wyszukList
 dcrej/dokumentyDoBrakowania

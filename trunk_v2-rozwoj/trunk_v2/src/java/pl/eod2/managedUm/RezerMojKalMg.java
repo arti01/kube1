@@ -21,6 +21,7 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
 import pl.eod.abstr.AbstMg;
+import pl.eod.encje.Struktura;
 import pl.eod.encje.Uzytkownik;
 import pl.eod.encje.UzytkownikJpaController;
 import pl.eod.encje.WnUrlop;
@@ -50,7 +51,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     Date initDate;
     private List<Uzytkownik> usersList;
     private List<Uzytkownik> usersListSelect;
-    private final static KalendarzKontr dcCKal = new KalendarzKontr();
+    private final static KalendarzKontr DCCKAL = new KalendarzKontr();
     private final UzytkownikJpaController userC = new UzytkownikJpaController();
     private List<MojKalTab> kalTabela;
 
@@ -102,6 +103,21 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     public String listObcy() throws InstantiationException, IllegalAccessException {
         ustawSched();
         return super.list();
+    }
+
+    public List<Uzytkownik> uzytkownicyAucoComp(String query) {
+        query = query.toLowerCase();
+        List<Uzytkownik> wynik = new ArrayList<>();
+        List<Struktura> wyszuk = new ArrayList<>();
+        wyszuk.addAll(login.getZalogowany().getSzefId().getWszyscyPodwladni());
+        wyszuk.add(login.getZalogowany().getSzefId());
+        for (Struktura st : wyszuk) {
+            Uzytkownik u = st.getUserId();
+            if (u.getAdrEmail().toLowerCase().contains(query) || u.getFullname().toLowerCase().contains(query)) {
+                wynik.add(u);
+            }
+        }
+        return wynik;
     }
 
     public void ustawSched() {
@@ -181,7 +197,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             newEvent.setStyleClass("calMoj");
             newEvent.setDescription(obiektKal.getOpis());
             eventModel.addEvent(newEvent);
-            if (!dcCKal.create(obiektKal).isEmpty()) {
+            if (!DCCKAL.create(obiektKal).isEmpty()) {
                 eventModel.deleteEvent(newEvent);
                 return;
             }
@@ -190,7 +206,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             Date stDo = obiektKal.getDataDo();
             String tyt = obiektKal.getNazwa();
             String desc = obiektKal.getOpis();
-            if (!dcCKal.edit(obiektKal).isEmpty()) {
+            if (!DCCKAL.edit(obiektKal).isEmpty()) {
                 return;
             }
             event.setTitle(tyt);
@@ -204,7 +220,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
 
     public void delEvent(ActionEvent actionEvent) throws IllegalOrphanException, NonexistentEntityException, InstantiationException, IllegalAccessException {
         //obiektKal = (Kalendarz) event.getData();
-        dcCKal.destroy(obiektKal);
+        DCCKAL.destroy(obiektKal);
         eventModel.deleteEvent(event);
     }
 
@@ -219,12 +235,12 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     }
 
     private void ruchEvent(DefaultScheduleEvent oldEvent) throws NonexistentEntityException, Exception {
-        obiektKal = dcCKal.findObiekt(((Kalendarz) oldEvent.getData()).getId());
+        obiektKal = DCCKAL.findObiekt(((Kalendarz) oldEvent.getData()).getId());
         Date stOd = obiektKal.getDataOd();
         Date stDo = obiektKal.getDataDo();
         obiektKal.setDataOd(oldEvent.getStartDate());
         obiektKal.setDataDo(oldEvent.getEndDate());
-        if (!dcCKal.edit(obiektKal).isEmpty()) {
+        if (!DCCKAL.edit(obiektKal).isEmpty()) {
             oldEvent.setStartDate(stOd);
             oldEvent.setEndDate(stDo);
         }
@@ -241,7 +257,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             } else {
                 typObiekt = "calUczestnik";
             }
-            obiektKal = dcCKal.findObiekt(((Kalendarz) event.getData()).getId());
+            obiektKal = DCCKAL.findObiekt(((Kalendarz) event.getData()).getId());
             usersListSelect.clear();
             usersListSelect.addAll(usersList);
             usersListSelect.removeAll(obiektKal.getUczestnikList());
@@ -307,7 +323,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         kal.setOpis(urlop.getRodzajId().getOpis());
         kal.setTworca(urlop.getUzytkownik());
         kal.setTyp("urlop");
-        dcCKal.edit(kal);
+        DCCKAL.edit(kal);
     }
 
     public Login getLogin() {

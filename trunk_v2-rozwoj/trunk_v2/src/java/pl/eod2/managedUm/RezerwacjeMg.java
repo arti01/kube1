@@ -121,7 +121,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         for (UmRezerwacje rez : urz.getRezerwacjeList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             //Może edytować osoba z prawami rezerwacji, tworca lub zastępca            
-            ev.setEditable(rez.getTworca().equals(login.isUmRez()) || rez.getTworca().equals(login.getZalogowany().getUserId())
+            ev.setEditable(login.isUmRez() || rez.getTworca().equals(login.getZalogowany().getUserId())
                     || rez.getTworca().equals(login.getZalogowany().getSecUserId())
             );
             ev.setDescription(rez.getOpis());
@@ -140,7 +140,7 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         for (UmRezerwacje rez : urz.getRezerwacjeList()) {
             DefaultScheduleEvent ev = new DefaultScheduleEvent(rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
             //Może edytować osoba z prawami rezerwacji, tworca lub zastępca
-            ev.setEditable(rez.getTworca().equals(login.isUmRez()) || rez.getTworca().equals(login.getZalogowany().getUserId())
+            ev.setEditable(login.isUmRez() || rez.getTworca().equals(login.getZalogowany().getUserId())
                     || rez.getTworca().equals(login.getZalogowany().getSecUserId()));
             eventModel.addEvent(ev);
         }

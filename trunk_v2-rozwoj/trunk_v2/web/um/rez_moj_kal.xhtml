@@ -16,7 +16,7 @@
             <p:panelGrid id="osobyWybor" columns="3" style="margin: 10px; width: 100%;" columnClasses="">
                 <p:panel>
                     <p:outputLabel value="kalendarz dla:" for="osoby"/>
-                    <p:autoComplete id="osoby" value="#{RezerMojKalMg.uzyt}" completeMethod="#{RezerwacjeMg.uzytkownicyAucoComp}" var="user" itemValue="#{user}" itemLabel="#{user.fullname}"
+                    <p:autoComplete id="osoby" value="#{RezerMojKalMg.uzyt}" completeMethod="#{RezerMojKalMg.uzytkownicyAucoComp}" var="user" itemValue="#{user}" itemLabel="#{user.fullname}"
                                     forceSelection="true" converter="#{UzytkownikConv}">
                         <p:column>
                             <h:outputText value="#{user.fullname}" />
