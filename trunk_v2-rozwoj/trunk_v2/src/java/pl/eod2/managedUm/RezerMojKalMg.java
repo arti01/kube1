@@ -26,6 +26,8 @@ import pl.eod.encje.Uzytkownik;
 import pl.eod.encje.UzytkownikJpaController;
 import pl.eod.encje.WnUrlop;
 import pl.eod.managed.Login;
+import pl.eod2.encje.KalendOsobyDec;
+import pl.eod2.encje.KalendOsobyDecController;
 import pl.eod2.encje.Kalendarz;
 import pl.eod2.encje.KalendarzKontr;
 import pl.eod2.encje.UmRezerwacje;
@@ -52,8 +54,10 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     private List<Uzytkownik> usersList;
     private List<Uzytkownik> usersListSelect;
     private final static KalendarzKontr DCCKAL = new KalendarzKontr();
+    private final static KalendOsobyDecController KALODEC = new KalendOsobyDecController();
     private final UzytkownikJpaController userC = new UzytkownikJpaController();
     private List<MojKalTab> kalTabela;
+    private List<KalendOsobyDec> kalOsDesList;
 
     public RezerMojKalMg() throws InstantiationException, IllegalAccessException {
         super("/um/rez_moj_kal", new UmRezerwacjeKontr(), new UmRezerwacje());
@@ -99,10 +103,11 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         ustawSched();
         return "/um/rez_kal_tab";
     }
-    
+
     public String listKalDecyz() throws InstantiationException, IllegalAccessException {
         uzyt = login.getZalogowany().getUserId();
-        ustawSched();
+        kalOsDesList=KALODEC.findEntities();
+        ustawDlaWielu(kalOsDesList);
         return "/um/kal_decyz";
     }
 
@@ -124,6 +129,32 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             }
         }
         return wynik;
+    }
+
+    public void ustawDlaWielu(List<KalendOsobyDec> decyzyjni) {
+        eventModel.clear();
+        for (KalendOsobyDec dec : decyzyjni) {
+            for (Kalendarz kal : dec.getUser().getKalendarzList()) {
+                if (kal.isPrywatne()) {
+                    continue;
+                }
+                DefaultScheduleEvent ev = new DefaultScheduleEvent(kal.getNazwa(), kal.getDataOd(), kal.getDataDo(), kal);
+                ev.setDescription(kal.getOpis());
+                ev.setEditable(false);
+                ev.setStyleClass(dec.getCssStyl());
+                eventModel.addEvent(ev);
+            }
+            for (Kalendarz kal : dec.getUser().getKalendUczestnikList()) {
+                if (kal.isPrywatne()) {
+                    continue;
+                }
+                DefaultScheduleEvent ev = new DefaultScheduleEvent("Uczestnik w " + kal.getNazwa(), kal.getDataOd(), kal.getDataDo(), kal);
+                ev.setDescription(kal.getOpis());
+                ev.setEditable(false);
+                ev.setStyleClass(dec.getCssStyl());
+                eventModel.addEvent(ev);
+            }
+        }
     }
 
     public void ustawSched() {
@@ -418,6 +449,10 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
 
     public void setKalTabela(List<MojKalTab> kalTabela) {
         this.kalTabela = kalTabela;
+    }
+
+    public List<KalendOsobyDec> getKalOsDesList() {
+        return kalOsDesList;
     }
 
 }

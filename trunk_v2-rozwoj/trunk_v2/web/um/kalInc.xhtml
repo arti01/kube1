@@ -4,18 +4,19 @@
       xmlns:h="http://java.sun.com/jsf/html">
           
               <p:panel id="schedulePanel">
+                  #{RezerMojKalMg.event.editable and !decyz}
                 <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="#{6-RezerMojKalMg.number2}" view="#{RezerwacjeMg.viewKal}"
                             locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true" rightHeaderTemplate="" tooltip="true">
                     <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
-                    <p:ajax event="dateSelect" listener="#{RezerMojKalMg.onDateSelect}" update=":infoForm:messages, :center:dialog" oncomplete="PF('eventDialog').show();" rendered="#{!decyz}"/>
-                    <p:ajax event="eventMove" listener="#{RezerMojKalMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();" rendered="#{!decyz}"/>
-                    <p:ajax event="eventResize" listener="#{RezerMojKalMg.onEventResize}" update=":infoForm:messages" oncomplete="PF('myschedule').update();" rendered="#{!decyz}"/>
+                    <p:ajax event="dateSelect" listener="#{RezerMojKalMg.onDateSelect}" update=":infoForm:messages, :center:dialog" oncomplete="PF('eventDialog').show();" disabled="#{decyz}"/>
+                    <p:ajax event="eventMove" listener="#{RezerMojKalMg.onEventMove}" update=":infoForm:messages" oncomplete="PF('myschedule').update();" disabled="#{decyz}"/>
+                    <p:ajax event="eventResize" listener="#{RezerMojKalMg.onEventResize}" update=":infoForm:messages" oncomplete="PF('myschedule').update();" disabled="#{decyz}"/>
                 </p:schedule>
             </p:panel>
             <p:dialog id="contekst" header="wybierz" widgetVar="contekst" resizable="false" styleClass="disable-scroll">
                 <p:menu id="contekstmenu">
                     <p:menuitem value="Edycja"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{RezerMojKalMg.event.editable and !decyz}"/>
-                    <p:menuitem value="Podgląd"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{!RezerMojKalMg.event.editable and !decyz}"/>
+                    <p:menuitem value="Podgląd"  icon="ui-icon-search" oncomplete="PF('eventDialog').show();PF('contekst').hide();" rendered="#{!RezerMojKalMg.event.editable or decyz}"/>
                     <p:menuitem value="Usuń" icon="ui-icon-close" actionListener="#{RezerMojKalMg.delEvent}" oncomplete="PF('myschedule').update();PF('contekst').hide();"
                                 rendered="#{RezerMojKalMg.event.editable}" process="contekstmenu">
                         <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />

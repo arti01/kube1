@@ -3,7 +3,10 @@ Ograniczono podgląd kalendarza do osób z tej samej gałęzi ze struktury, czyl
 kalendarze wszystkich podwładnych swojego szefa plus oczywiście swojego szefa.
 
 Kalendarz dla osób decyzyjnych - uzupelnić tabelę KALEND_OSOBY_DEC (osoby decyzyjne)
+Uwaga - należy skorzystać z predefiniowanych styli w pliku resources/css/kalendstyle.css (można style dopisywać)
+
 INSERT INTO user_roles (id, role_name, opis) VALUES (13, 'eod_kal_dec','podglad kalendarza osob decyzyjnych');
+I nadać uprawnienia.
 
 Dodano pole "prywatne" do kalendarz - trzeba ją wyczyścić, bo dodaje pole jest nullable false
 Pole działa tak, że zdażenia prywatne są widoczne tylko dla twórcy oraz dla ewentualnych uczestników

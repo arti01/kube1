@@ -39,8 +39,8 @@ public class KalendOsobyDec implements Serializable {
     private Uzytkownik user;
     
     @NotNull
-    @Column(nullable = false, length = 7)
-    private String kolor;
+    @Column(nullable = false, length = 50)
+    private String cssStyl;
 
     public Integer getId() {
         return id;
@@ -56,6 +56,14 @@ public class KalendOsobyDec implements Serializable {
 
     public void setUser(Uzytkownik user) {
         this.user = user;
+    }
+
+    public String getCssStyl() {
+        return cssStyl;
+    }
+
+    public void setCssStyl(String cssStyl) {
+        this.cssStyl = cssStyl;
     }
     
     @Override
@@ -77,10 +85,7 @@ public class KalendOsobyDec implements Serializable {
             return false;
         }
         final KalendOsobyDec other = (KalendOsobyDec) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
     
     

@@ -11,8 +11,8 @@
 
     <ui:define name="content" id="content">
         <h:form id="center">
-            <p:panelGrid id="osobyWybor" columns="2" style="margin: 10px; width: 100%;" columnClasses="">
-                
+            <p:panelGrid id="osobyWybor" columns="3" style="margin: 10px; width: 100%;" columnClasses="">
+
                 <p:panel style="border-style: hidden;">
                     <h:outputText id="output" value="rozmiar kalendarza = #{RezerMojKalMg.number2}"/>
                     <h:inputHidden id="txt2" value="#{RezerMojKalMg.number2}" />
@@ -21,6 +21,12 @@
                     </p:slider>
                 </p:panel>
 
+                    <p:dataGrid value="#{RezerMojKalMg.kalOsDesList}" var="osoba" columns="2" layout="grid" style="border-style: hidden;">
+                        <p:panelGrid columns="2" style="width:100%; border-style: hidden;" columnClasses="column1_50, column2_50">
+                            <h:outputText value="#{osoba.user.fullname}"/>
+                            <p:spacer width="100" height="12" styleClass="#{osoba.cssStyl}"/>
+                        </p:panelGrid>
+                    </p:dataGrid>
                 <p:panel style="border-style: hidden; text-align: right">
                     <p:commandButton value="dzień" update=":center:schedulePanel" process="@this">
                         <f:setPropertyActionListener target="#{RezerwacjeMg.viewKal}" value="agendaDay"/>
