@@ -158,6 +158,7 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
     }
 
     public void ustawSched() {
+        //userC.refresh(uzyt);
         if (!uzyt.equals(login.getZalogowany().getUserId())) {
             userC.refresh(uzyt);
         }
@@ -234,6 +235,8 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
             kalTabela.add(mkt);
             eventModel.addEvent(ev);
         }
+        //System.err.println(eventModel.getEventCount());
+        //System.err.println(uzyt.getKalendarzList().size());
     }
 
     public void addEventObj() throws InstantiationException, IllegalAccessException, NonexistentEntityException, Exception {
