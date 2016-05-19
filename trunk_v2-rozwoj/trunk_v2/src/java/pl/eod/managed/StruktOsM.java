@@ -12,11 +12,14 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 import pl.eod.encje.DzialJpaController;
 import pl.eod.encje.Struktura;
 import pl.eod.encje.StrukturaJpaController;
 import pl.eod.encje.Uzytkownik;
 import pl.eod.encje.UzytkownikJpaController;
+import pl.eod2.managedRep.DrzPF;
 
 /**
  *
@@ -30,10 +33,11 @@ public class StruktOsM implements Serializable {
     UzytkownikJpaController userC;
     StrukturaJpaController struktC;
     DzialJpaController dzialC;
-    private List<Struktura> srcRoots = new ArrayList<Struktura>();
+    private final List<Struktura> srcRoots = new ArrayList<>();
     @ManagedProperty(value = "#{login}")
     private Login login;
     private boolean rozwin;
+    private TreeNode root;
 
     public StruktOsM() {
         this.rozwin = true;
@@ -47,9 +51,19 @@ public class StruktOsM implements Serializable {
     }
 
     public String lista() {
+        drzewko();
         return "/all/strukturaOs";
     }
+    
+    private void drzewko() {
+        root = new DefaultTreeNode("Organizacja - wg pracowników", null);
+        this.createTree(root, drR);
+    }
 
+    public void createTree(){
+        
+    }
+    
     public synchronized List<Struktura> getSourceRoots() throws IOException {
         Struktura firma = new Struktura();
         Uzytkownik uFirma = new Uzytkownik();
@@ -114,4 +128,14 @@ public class StruktOsM implements Serializable {
     public void setRozwin(boolean rozwin) {
         this.rozwin = rozwin;
     }
+
+    public TreeNode getRoot() {
+        return root;
+    }
+
+    public void setRoot(TreeNode root) {
+        this.root = root;
+    }
+    
+    
 }

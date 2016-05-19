@@ -56,12 +56,12 @@
                             <h:outputLabel for="przelozonyK" value="Przełożony: "/>
                             <h:outputText id="przelozonyK" value="#{strukt.szefId.userId.fullname}"/>
 
-                            <h:outputLabel for="sec_user_id" value="zastępuje go:"/>
+                            <h:outputLabel for="sec_user_id" value="Zastępuje go:"/>
                             <h:outputText id="sec_user_id" value="#{strukt.secUserId.fullname}"/>
 
-                            <h:outputLabel for="sec_user_id_jest" value="jest zastępcą dla:"/>
+                            <h:outputLabel for="sec_user_id_jest" value="Jest zastępcą dla:"/>
                             <h:panelGroup id="sec_user_id_jest">
-                                <p:dataList value="#{strukt.userId.strukturaSec}" var="str">
+                                <p:dataList value="#{strukt.userId.strukturaSec}" var="str" emptyMessage="brak">
                                     #{str.userId.fullname}
                                 </p:dataList>
                             </h:panelGroup>
@@ -78,8 +78,8 @@
                             <p:outputLabel for="extraemail" value="Dodatkowe emaile:"/>
                             <h:outputText id="extraemail" value="#{strukt.extraemail}"/>
 
-                            <p:outputLabel for="roles" value="uprawnienia:"/>
-                            <p:dataGrid id="roles" value="#{strukt.userId.role}" var="rola" columns="4">
+                            <p:outputLabel for="roles" value="Uprawnienia:"/>
+                            <p:dataGrid id="roles" value="#{strukt.userId.role}" var="rola" columns="4" layout="grid">
                                 <h:outputText value="#{rola.opis}"/>
                             </p:dataGrid>
 

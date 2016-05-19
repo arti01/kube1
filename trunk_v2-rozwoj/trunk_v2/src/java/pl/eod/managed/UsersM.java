@@ -82,6 +82,7 @@ public class UsersM implements Serializable {
     }
 
     private void initUser() {
+        //System.err.println("initUser"+new Date());
         strukt = new Struktura();
         strukt.setPrzyjmowanieWnioskow(false);
         user = new Uzytkownik();

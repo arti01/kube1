@@ -7,15 +7,16 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="tytul">
-        <h3>Edycja użytkownika</h3>
+        <h3 align="center">Edycja użytkownika</h3>
     </ui:define>
 
     <ui:define name="content">
         <h:form id="center">
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
-            <p:outputPanel id="formWprow" layout="block">
-                <p:panelGrid columns="2" id="form" columnClasses="column1,column2,column1">
+            
+            <p:outputPanel id="formWprow">
+                <p:panelGrid columns="2" id="form" columnClasses="column1,column2" style="width: 100%;">
                     <p:outputLabel for="name" value="Imię i nazwisko: "/>
                     <p:inputText id="name" value="#{UsersM.strukt.userId.fullname}" size="50"><p:message for="name" styleClass="error" /></p:inputText>
 
