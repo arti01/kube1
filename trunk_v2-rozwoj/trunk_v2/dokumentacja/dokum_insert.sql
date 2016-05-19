@@ -7,6 +7,7 @@ INSERT INTO user_roles (id, role_name, opis) VALUES (10, 'eod_um_cfg','zasoby - 
 INSERT INTO user_roles (id, role_name, opis) VALUES (11, 'eod_um_sprz','zasoby');
 INSERT INTO user_roles (id, role_name, opis) VALUES (12, 'eod_um_rez','rezerwacja zasobów');
 INSERT INTO user_roles (id, role_name, opis) VALUES (13, 'eod_kal_dec','podglad kalendarza osob decyzyjnych');
+INSERT INTO user_roles (id, role_name, opis) VALUES (14, 'eod_url_all', 'podgląd wszystkich wn. urlopowych');
 
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (5, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (6, 3);

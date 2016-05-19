@@ -26,7 +26,7 @@
                     </p:selectOneMenu>
                     <p:message for="rodzajW" styleClass="error" />
 
-                    <p:outputLabel value="cały dzień?" rendered="#{UrlopM.urlop.rodzajId.id!=40}"/>
+                    <p:outputLabel value="Cały dzień?" rendered="#{UrlopM.urlop.rodzajId.id!=40}"/>
                     <p:inputSwitch id="calyDzien" value="#{UrlopM.calyDzien}" offLabel="Nie" onLabel="Tak" rendered="#{UrlopM.urlop.rodzajId.id!=40}">
                         <p:ajax event="change" update="form" process="calyDzien" rendered="#{UrlopM.urlop.rodzajId.id!=40}"/>
                     </p:inputSwitch>
@@ -53,34 +53,34 @@
                     <p:calendar id="data_do_godz" value="#{UrlopM.godzDoT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
                     <p:message for="data_do_godz" styleClass="error" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
                     
-                    <p:outputLabel for="extraemail" value="czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
+                    <p:outputLabel for="extraemail" value="Czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
                     <h:selectBooleanCheckbox value="#{UrlopM.urlop.extraemail}" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
                     <h:outputText id="extraemail" value="#{UrlopM.urlop.uzytkownik.struktura.extraemail}" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
 
-                    <p:outputLabel for="pracodawca" value="pracodawca: " rendered="#{UrlopM.urlop.rodzajId.id==40}"/>
+                    <p:outputLabel for="pracodawca" value="Pracodawca: " rendered="#{UrlopM.urlop.rodzajId.id==40}"/>
                     <p:inputSwitch id="pracodawca" value="#{UrlopM.urlop.pracodawca}" rendered="#{UrlopM.urlop.rodzajId.id==40}" onLabel="Tak" offLabel="Nie"/>
                     <p:message for="pracodawca" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==40}"/>
                     
-                    <p:outputLabel for="kwota" value="kwota: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                    <p:outputLabel for="kwota" value="Kwota: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
                     <p:inputText id="kwota" value="#{UrlopM.urlop.kwotaWs}" rendered="#{UrlopM.urlop.rodzajId.id==30}">
                         <f:convertNumber type="currency" minFractionDigits="2" pattern="#0,00" groupingUsed="false"/>
                         <p:watermark for="kwota" value="99 999,99" />
                     </p:inputText>
                     <p:message for="kwota" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
                     
-                    <p:outputLabel for="infoDod" value="informacje dodatkowe: "/>
+                    <p:outputLabel for="infoDod" value="Informacje dodatkowe: "/>
                     <h:inputTextarea id="infoDod" value="#{UrlopM.urlop.infoDod}" cols="52"/>
                     <p:message for="infoDod" styleClass="error" />
 
-                    <p:outputLabel for="miejsce" value="delegacja - miejsce: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <p:outputLabel for="miejsce" value="Delegacja - miejsce: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
                     <h:inputText id="miejsce" value="#{UrlopM.urlop.miejsce}" size="50" rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
                     <p:message for="miejsce" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
 
-                    <p:outputLabel for="cel" value="delegacja - cel: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <p:outputLabel for="cel" value="Delegacja - cel: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
                     <h:inputText id="cel" value="#{UrlopM.urlop.cel}" size="50" rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
                     <p:message for="cel" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
 
-                    <p:outputLabel for="srodekLok" value="delegacja - srodek lokomocji: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
+                    <p:outputLabel for="srodekLok" value="Delegacja - srodek lokomocji: " rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
                     <h:inputText id="srodekLok" value="#{UrlopM.urlop.srodekLok}" size="50" rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
                     <p:message for="srodekLok" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
 
@@ -99,7 +99,7 @@
                     </p:column>
                     <p:column headerText="Nr wniosku" filterBy="#{urlop.nrWniosku}" filterMatchMode="contains">
                         <h:outputText value="#{urlop.nrWniosku}"/>
-                        <hr/>
+                        <p:separator/>
                         <h:outputText value="#{urlop.infoDod}" rendered="#{fn:length(urlop.infoDod)>0}"/>
                     </p:column>
                     <p:column headerText="Rodzaj" filterBy="#{urlop.rodzajId.opis}" filterMatchMode="contains">
@@ -110,7 +110,7 @@
                     </p:column>
                     <p:column headerText="Od Do" sortBy="#{urlop.dataOd}">
                         <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
-                        <br/>
+                        <p:separator/>
                         <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
                     </p:column>
                     <p:column headerText="Status" filterBy="#{urlop.statusId.opis}" filterMatchMode="contains" style="background-color: #{urlop.statusId.kolor} ; text-align: center">
@@ -124,35 +124,35 @@
                         <p:tooltip for="wiecej" value="rozwiń"/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:panel header="informacje dodatkowe" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
+                        <p:panel header="Informacje dodatkowe" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
                             <p:panelGrid columns="2" columnClasses="column1p, column2p">
-                                <p:outputLabel for="miejsce" value="miejsce: " />
+                                <p:outputLabel for="miejsce" value="Miejsce: " />
                                 <h:outputText id="miejsce" value="#{urlop.miejsce}" />
 
-                                <p:outputLabel for="cel" value="cel: " />
+                                <p:outputLabel for="cel" value="Cel: " />
                                 <h:outputText id="cel" value="#{urlop.cel}" />
 
-                                <p:outputLabel for="srodekLok" value="srodek lokomocji: " />
+                                <p:outputLabel for="srodekLok" value="Środek lokomocji: " />
                                 <h:outputText id="srodekLok" value="#{urlop.srodekLok}"/>
                             </p:panelGrid>
                         </p:panel>
-                        <p:panel header="informacje dodatkowe" rendered="#{urlop.rodzajId.id==30}">
+                        <p:panel header="Informacje dodatkowe" rendered="#{urlop.rodzajId.id==30}">
                             <p:panelGrid columns="2" columnClasses="column1p, column2p">
-                                <p:outputLabel value="kwota: " />
+                                <p:outputLabel value="Kwota: " />
                                 <h:outputText value="#{urlop.kwotaWs}">
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                 </h:outputText>
                             </p:panelGrid>
                         </p:panel>
-                        <p:panel header="informacje dodatkowe" rendered="#{urlop.rodzajId.id==40}">
+                        <p:panel header="Informacje dodatkowe" rendered="#{urlop.rodzajId.id==40}">
                             <p:panelGrid columns="2" columnClasses="column1p, column2p">
-                                <p:outputLabel value="pracodawca: " />
+                                <p:outputLabel value="Pracodawca: " />
                                 <p:inputSwitch value="#{urlop.pracodawca}" offLabel="Nie" onLabel="Tak" disabled="true"/>
                             </p:panelGrid>
                         </p:panel>
-                        <p:panel header="historia" rendered="#{fn:length(urlop.wnHistoriaList)>0}">
+                        <p:panel header="Historia" rendered="#{fn:length(urlop.wnHistoriaList)>0}">
                             <p:dataTable id="histTab" value="#{urlop.wnHistoriaList}" var="hist">
-                                <p:column headerText="data zmiany">
+                                <p:column headerText="Data zmiany">
                                     <h:outputText value="#{hist.dataZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                                 </p:column>
                                 <p:column headerText="Zmianę wykonał">
@@ -173,10 +173,10 @@
                         </p:panel>
                     </p:rowExpansion>
                     <p:column headerText="Akcje" style="width: 90px">
-                        <p:tooltip for="imgEd" value="edytuj"/>
-                        <p:tooltip for="imgAn" value="anuluj"/>
-                        <p:tooltip for="imgDe" value="usun"/>
-                        <p:tooltip for="imgWy" value="wyślij"/>
+                        <p:tooltip for="imgEd" value="Edytuj"/>
+                        <p:tooltip for="imgAn" value="Anuluj"/>
+                        <p:tooltip for="imgDe" value="Usun"/>
+                        <p:tooltip for="imgWy" value="Wyślij"/>
                         <p:commandButton id="imgDe" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" process="imgDe" 
                                          icon="ui-icon-trash" action="#{UrlopM.usun}" oncomplete="PF('tableV').filter();">
                             <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />

@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -22,7 +23,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import org.richfaces.component.SortOrder;
-import org.richfaces.fragment.select.Select;
 import pl.eod.encje.Dzial;
 import pl.eod.encje.DzialJpaController;
 import pl.eod.encje.KomKolejka;
@@ -61,7 +61,7 @@ public class UsersM implements Serializable {
     boolean sprawdzacUnikEmail;
     private Map<String, String> filterValues = Maps.newHashMap();
     private Map<String, SortOrder> sortOrders = Maps.newHashMapWithExpectedSize(1);
-    private StrukturaDataModel dataModel;
+    //private StrukturaDataModel dataModel;
     List<Struktura> dataModelPF = new ArrayList<>();
     private KomKolejkaJpaController KomKolC;
     String error;
@@ -73,11 +73,12 @@ public class UsersM implements Serializable {
         dzialC = new DzialJpaController();
         urC = new UserRolesJpaController();
         login.refresh();
-        dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
+        //dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
         dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
         users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
         sortOrders.put("userId.fullname", SortOrder.descending);
         KomKolC = new KomKolejkaJpaController();
+//        System.err.println("init"+new Date());
     }
 
     private void initUser() {
@@ -94,6 +95,7 @@ public class UsersM implements Serializable {
         kierownicyAll = struktC.getFindKierownicy(login.zalogowany.getUserId().getSpolkaId());
         users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
         dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
+        //System.err.println("initUser"+new Date());
         //System.out.println(struktury.getRowCount()+"initUser");
     }
 
@@ -204,7 +206,7 @@ public class UsersM implements Serializable {
         UIComponent zapisz = UIComponent.getCurrentComponent(context);
         context.addMessage(zapisz.getClientId(context), message);
         edytuj = true;
-        dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
+        //dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
         return "/all/usersEdit";
     }
 
@@ -363,9 +365,9 @@ public class UsersM implements Serializable {
         this.kierownicyAll = kierownicyAll;
     }
 
-    public Object getDataModel() {
-        return dataModel;
-    }
+    //public Object getDataModel() {
+      //  return dataModel;
+    //}
 
     public Map<String, String> getFilterValues() {
         return filterValues;

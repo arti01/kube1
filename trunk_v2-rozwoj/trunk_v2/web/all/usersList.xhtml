@@ -19,13 +19,13 @@
                 <p:dataTable value="#{UsersM.dataModelPF}" var="strukt" id="table" editable="true" emptyMessage="brak rekordów"
                              paginator="true" rows="10" rowsPerPageTemplate="10,20,50" widgetVar="userTable">
                     <p:column headerText="Imię i nazwisko, email" sortBy="#{strukt.userId.fullname}" 
-                              filterBy="#{strukt.userId.fullname} #{strukt.userId.adrEmail}" filterMatchMode="contains" filterValue="#{UsersM.filterValues['fullname']}">
+                              filterBy="#{strukt.userId.fullname} #{strukt.userId.adrEmail}" filterMatchMode="contains">
                         <h:outputText id="nameE" value="#{strukt.userId.fullname} (#{strukt.userId.adrEmail})"/>
                     </p:column>
                     <p:column headerText="Dział (symbol)" id="colKier" style="text-align: center" sortBy="#{strukt.dzialId.nazwa}"
-                              filterBy="#{strukt.dzialId.symbol} #{strukt.dzialId.nazwa}" filterMatchMode="contains" filterValue="#{UsersM.filterValues['nazwa']}">
+                              filterBy="#{strukt.dzialId.symbol} #{strukt.dzialId.nazwa}" filterMatchMode="contains">
                         <h:outputText id="dzialE" value="#{strukt.dzialId.nazwa}"/>
-                        <br/>
+                        <p:separator style="height: 1px; width: 50%"/>
                         <h:outputText id="dzialES" value="(#{strukt.dzialId.symbol})"/>
                     </p:column>
                     <p:column style="width: 45px" headerText="więcej">
@@ -61,33 +61,27 @@
 
                             <h:outputLabel for="sec_user_id_jest" value="jest zastępcą dla:"/>
                             <h:panelGroup id="sec_user_id_jest">
-                                <ul>
-                                    <ui:repeat value="#{strukt.userId.strukturaSec}" var="str">
-                                        <li>
-                                            #{str.userId.fullname}
-                                        </li>                                         
-                                    </ui:repeat>
-                                </ul>
+                                <p:dataList value="#{strukt.userId.strukturaSec}" var="str">
+                                    #{str.userId.fullname}
+                                </p:dataList>
                             </h:panelGroup>
 
-                            <h:outputLabel for="przyjwnioski" value="Czy uprawniony do przyjmowania wniosków innych osób?: "/>
+                            <p:outputLabel for="przyjwnioski" value="Czy uprawniony do przyjmowania wniosków innych osób?: "/>
                             <h:selectBooleanCheckbox id="przyjwnioski" value="#{strukt.przyjmowanieWnioskow}" readonly="true"/>
 
-                            <h:outputLabel for="musZast" value="Czy musi mieć ustawionego zastępcę?: "/>
+                            <p:outputLabel for="musZast" value="Czy musi mieć ustawionego zastępcę?: "/>
                             <h:selectBooleanCheckbox id="musZast" value="#{strukt.musZast}" readonly="true"/>
 
-                            <h:outputLabel for="extid" value="Zewnętrzny identyfikator:"/>
+                            <p:outputLabel for="extid" value="Zewnętrzny identyfikator:"/>
                             <h:outputText id="extid" value="#{strukt.userId.extId}"/>
 
-                            <h:outputLabel for="extraemail" value="Dodatkowe emaile:"/>
+                            <p:outputLabel for="extraemail" value="Dodatkowe emaile:"/>
                             <h:outputText id="extraemail" value="#{strukt.extraemail}"/>
 
-                            <h:outputLabel for="roles" value="uprawnienia:"/>
-                            <p:panelGrid columns="4">
-                                <ui:repeat id="roles" value="#{strukt.userId.role}" var="rola">
-                                    #{rola.opis},
-                                </ui:repeat>
-                            </p:panelGrid>
+                            <p:outputLabel for="roles" value="uprawnienia:"/>
+                            <p:dataGrid id="roles" value="#{strukt.userId.role}" var="rola" columns="4">
+                                <h:outputText value="#{rola.opis}"/>
+                            </p:dataGrid>
 
                             <h:outputText value="bezpośredni podwładni" rendered="#{fn:length(strukt.bezpPodWidoczni)>0}"/>
                             <p:panelGrid columns="4" rendered="#{fn:length(strukt.bezpPodWidoczni)>0}">

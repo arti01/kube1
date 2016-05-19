@@ -17,7 +17,7 @@
                 <p:commandButton value="zaznacz wszystkie" action="#{RejImpPlik.zaznaczWszystkie}" update="table"/>
                 <p:commandButton value="stwórz dokument dla wybranych plików" action="#{RejestracjaRej.importWielu}" id="dodWiele" ajax="false"/>
                 <p:message for="dodWiele" styleClass="error" />
-                <hr/>
+                <p:separator />
                 <p:outputPanel id="tablepliki">
                     <p:dataTable value="#{RejImpPlik.lista}" var="item" id="table" paginator="true" rows="20" rowsPerPageTemplate="10,20,50,100,500,1000"
                                  emptyMessage="brak rekordów" style="width: 100%">

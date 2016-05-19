@@ -19,7 +19,7 @@
         <p:commandButton value="raport excel" ajax="false" immediate="true">
             <p:dataExporter type="xls" target="table" fileName="raport" encoding="ISO-8859-2"/>
         </p:commandButton>
-        <hr/>
+        <p:separator />
 
         <p:dataTable value="#{managedBean.listaPF}" var="item" id="table" widgetVar="tableV" paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
                      emptyMessage="brak rekordów" style="width: 100%" sortOrder="descending" sortBy="#{item.dataWprow}">

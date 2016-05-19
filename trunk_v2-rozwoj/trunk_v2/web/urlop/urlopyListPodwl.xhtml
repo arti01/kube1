@@ -12,98 +12,10 @@
         <h:form id="center">
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
-
-            <p:outputPanel id="formTab" layout="block">
-                <p:dataTable value="#{UrlopM.urlopyAkcept}" var="urlop" id="table" rows="10" rowsPerPageTemplate="10, 20, 50, 100" paginator="true" emptyMessage="brak danych" sortBy="#{urlop.id}" sortOrder="descending">
-                    <p:column headerText="Pracownik" filterBy="#{urlop.uzytkownik.fullname}" filterMatchMode="contains">
-                        <h:outputText value="#{urlop.uzytkownik.fullname}"/>
-                    </p:column>
-                    <p:column headerText="Nr wniosku" filterBy="#{urlop.nrWniosku}" filterMatchMode="contains">
-                        <h:outputText value="#{urlop.nrWniosku}"/>
-                        <hr/>
-                        <h:outputText value="#{urlop.infoDod}" rendered="#{fn:length(urlop.infoDod)>0}"/>
-                    </p:column>
-                    <p:column headerText="Rodzaj" filterBy="#{urlop.rodzajId.opis}" filterMatchMode="contains">
-                        <h:outputText value="#{urlop.rodzajId.opis}"/>
-                    </p:column>
-                    <p:column headerText="Wprowadzony" sortBy="#{urlop.dataWprowadzenia}">
-                        <h:outputText value="#{urlop.dataWprowadzenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
-                    </p:column>
-                    <p:column headerText="Od Do" sortBy="#{urlop.dataOd}">
-                        <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
-                        <br/>
-                        <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
-                    </p:column>
-                    <p:column headerText="Status" style="background-color: #{urlop.statusId.kolor}; text-align: center">
-                        <h:outputText value="#{urlop.statusId.opis}"/>
-                    </p:column>
-                    <p:column headerText="Więcej" style="width:36px">
-                        <p:rowToggler />
-                    </p:column>
-                    <p:rowExpansion>
-                        <p:panel header="szczegóły" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
-                            <h:panelGrid columns="2" columnClasses="column1p, column2p">
-                                <h:outputLabel for="miejsce" value="miejsce: " />
-                                <h:outputText id="miejsce" value="#{urlop.miejsce}" />
-
-                                <h:outputLabel for="cel" value="cel: " />
-                                <h:outputText id="cel" value="#{urlop.cel}" />
-
-                                <h:outputLabel for="srodekLok" value="srodek lokomocji: " />
-                                <h:outputText id="srodekLok" value="#{urlop.srodekLok}"/>
-                            </h:panelGrid>
-                        </p:panel>
-                        <p:panel header="informacje dodatkowe" rendered="#{urlop.rodzajId.id==30}">
-                            <p:panelGrid columns="2" columnClasses="column1p, column2p">
-                                <p:outputLabel value="kwota: " />
-                                <h:outputText value="#{urlop.kwotaWs}">
-                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                </h:outputText>
-                            </p:panelGrid>
-                        </p:panel>
-                        <p:panel header="informacje dodatkowe" rendered="#{urlop.rodzajId.id==40}">
-                            <p:panelGrid columns="2" columnClasses="column1p, column2p">
-                                <p:outputLabel value="pracodawca: " />
-                                <p:inputSwitch value="#{urlop.pracodawca}" offLabel="Nie" onLabel="Tak" disabled="true"/>
-                            </p:panelGrid>
-                        </p:panel>
-                        <p:panel header="Historia" rendered="#{fn:length(urlop.wnHistoriaList)>0}" id="histTab">
-                            <p:dataTable value="#{urlop.wnHistoriaList}" var="hist">
-                                <p:column headerText="Data zmiany">
-                                    <h:outputText value="#{hist.dataZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
-                                </p:column>
-                                <p:column headerText="Zmianę wykonał">
-                                    <h:outputText value="#{hist.zmieniajacy.fullname}"/>
-                                </p:column>
-                                <p:column headerText="Status" style="text-align: center">
-                                    <h:outputText value="#{hist.statusId.opis}"/>
-                                </p:column>
-                                <p:column headerText="Opis" >
-                                    <h:outputText value="#{hist.opisZmiany}" id="opis"/>
-                                </p:column>
-                                <p:column headerText="Akceptant">
-                                    <h:outputText value="#{hist.akceptant.fullname}"/>
-                                </p:column>
-                            </p:dataTable>
-                        </p:panel>
-                    </p:rowExpansion>
-                    <p:column headerText="Akcje" style="width: 95px">
-                        <p:tooltip for="imgCo" value="Cofnij"/>
-                        <p:tooltip for="akcLink" value="Akceptuj"/>
-                        <p:tooltip for="imgOd" value="Odrzuć"/>
-                        <p:commandButton id="imgCo" action="#{UrlopM.cofnij}" update=":center:formTab, :infoForm:messages" rendered="#{urlop.statusId.id==2}" icon="ui-icon-arrowrefresh-1-n">
-                            <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
-                        </p:commandButton>
-                        <p:commandButton id="akcLink" action="#{UrlopM.akcept}" update=":center:formTab, :infoForm:messages" rendered="#{urlop.statusId.id==2}" icon="ui-icon-plus">
-                            <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
-                        </p:commandButton>
-                        <p:commandButton id="imgOd" action="#{UrlopM.odrzuc}" update=":center:formTab, :infoForm:messages" rendered="#{urlop.statusId.id==2}" icon="ui-icon-minus">
-                            <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
-                        </p:commandButton>
-                        <p:message for="akcLink" styleClass="error"/>
-                    </p:column>
-                </p:dataTable>
-            </p:outputPanel>
+            <ui:include src="/urlop/urlopyListPodwInc.xhtml">
+                <ui:param name="czyHist" value="#{false}"/>
+                <ui:param name="tabelaLista" value="#{UrlopM.urlopyAkcept}"/>
+            </ui:include>
         </h:form>
     </ui:define>
 

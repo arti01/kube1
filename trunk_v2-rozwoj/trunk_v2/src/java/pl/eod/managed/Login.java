@@ -42,6 +42,7 @@ public class Login implements Serializable {
     String template = "../templates/templateRF2PF.xhtml";
     String licencjaDla;
     boolean urlop;
+    boolean urlAll;
     boolean struktura;
     boolean admin;
     boolean kierownik;
@@ -504,6 +505,16 @@ public class Login implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         return request.isUserInRole("eod_kal_dec");
+    }
+
+    public boolean isUrlAll() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_url_all");
+    }
+
+    public void setUrlAll(boolean urlAll) {
+        this.urlAll = urlAll;
     }
 
     public boolean isKierownik() {

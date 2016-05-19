@@ -33,7 +33,6 @@ import pl.eod.encje.WnUrlop;
 import pl.eod.encje.WnUrlopDataModel;
 import pl.eod.encje.WnUrlopJpaController;
 import pl.eod.managed.Login;
-import pl.eod2.encje.Kalendarz;
 import pl.eod2.managedUm.RezerMojKalMg;
 
 @ManagedBean(name = "UrlopM")

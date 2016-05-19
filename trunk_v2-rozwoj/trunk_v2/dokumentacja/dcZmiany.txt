@@ -1,3 +1,9 @@
+2015-05-19
+reszta stron wniosków urlopowych zmigrowana do PF
+dodałem nowe prawo - lista wszystkich wniosków (do tej pory miał tylko admin)
+INSERT INTO user_roles (id, role_name, opis) VALUES (14, 'eod_url_all', 'podgląd wszystkich wn. urlopowych');
+do opcji  "wszystkie wnioski" dodałem eksport do excel
+
 2015-05-17
 Ograniczono podgląd kalendarza do osób z tej samej gałęzi ze struktury, czyli zalogowany może zobaczyć
 kalendarze wszystkich podwładnych swojego szefa plus oczywiście swojego szefa.

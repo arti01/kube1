@@ -50,7 +50,7 @@
         <p:tab id="tabPliki" title="Załączniki">
             <p:fileUpload fileUploadListener="#{fileUploadBean.listener}" mode="advanced" update="@parent:plikiGr, table" sizeLimit="10000000" style="width: 500px;"
                           rendered="#{RejestracjaRej.obiekt.dokStatusId.id==1}" invalidSizeMessage="zbyt duży plik" label="dodaj załącznik" auto="true"/>
-            <hr/>
+            <p:separator />
             <p:dataTable value="#{RejestracjaRej.obiekt.dcPlikList}" var="item" paginator="true" rows="10" id="table" style="width: 100%" lazy="false" emptyMessage="brak załączników">
                 <p:column filterBy="#{item.nazwa}" headerText="nazwa" filterMatchMode="contains">
                     #{item.nazwa}

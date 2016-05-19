@@ -33,7 +33,7 @@
             </h:panelGroup>
             <h:panelGroup rendered="#{login.zalogowany!=null}">
                 <center>
-                    <h:panelGrid columns="1">
+                    <h:panelGrid columns="1" style="width: 70%;">
                         <p:panel id="cp" header="Ogłoszenia - zwin i rozwiń aby odświeżyć" toggleable="true">
                             <p:ajax event="toggle" listener="#{login.refresh}"/>
 
