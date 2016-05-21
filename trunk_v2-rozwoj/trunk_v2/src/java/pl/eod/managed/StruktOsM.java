@@ -33,7 +33,6 @@ public class StruktOsM implements Serializable {
     UzytkownikJpaController userC;
     StrukturaJpaController struktC;
     DzialJpaController dzialC;
-    private final List<Struktura> srcRoots = new ArrayList<>();
     @ManagedProperty(value = "#{login}")
     private Login login;
     private boolean rozwin;
@@ -51,50 +50,34 @@ public class StruktOsM implements Serializable {
     }
 
     public String lista() {
-        drzewko();
+        drzewkoStart();
         return "/all/strukturaOs";
     }
-    
-    private void drzewko() {
-        root = new DefaultTreeNode("Organizacja - wg pracowników", null);
-        this.createTree(root, drR);
-    }
 
-    public void createTree(){
-        
-    }
-    
-    public synchronized List<Struktura> getSourceRoots() throws IOException {
-        Struktura firma = new Struktura();
-        Uzytkownik uFirma = new Uzytkownik();
-        List<Struktura> wynik = new ArrayList<Struktura>();
-        uFirma.setFullname("Organizacja - wg pracowników");
-        firma.setUserId(uFirma);
-        srcRoots.clear();
+    private void drzewkoStart() {
+        Uzytkownik userV = new Uzytkownik();
+        root = new DefaultTreeNode("szef", null, null);
         if (login.isAdmin()) {
+            userV.setFullname("Organizacja - widok administratora");
+            DefaultTreeNode podroot = new DefaultTreeNode("szef", userV, root);
             List<Struktura> bezSzefa = struktC.getFindBezSzefa();
             for (Struktura s : bezSzefa) {
                 if (!s.isSysSdmin() || login.getZalogowany().isSysSdmin()) {
-                    srcRoots.add(s);
+                    if (s.isUsuniety()) {
+                        continue;
+                    }
+                    if (s.getBezpPodWidoczni() != null && s.getBezpPodWidoczni().size() != 0) {
+                        drzewko(new DefaultTreeNode("szef", s.getUserId(), podroot));
+                    } else {
+                        new DefaultTreeNode("prac", s.getUserId(), podroot);
+                    }
                 }
             }
-            //srcRoots.addAll(bezSzefa);
-            firma.setBezpPod(srcRoots);
-            wynik.add(firma);
         } else {
             for (Struktura s : struktC.findGeneryczny().getBezpPod()) {
-                //System.err.println(s.getUserId().getAdrEmail());
-                //System.err.println(s.getUserId().getFullname());
-                //System.err.println(s.getUserId());
-                //System.err.println(s.getUserId().getSpolkaId());
-                //System.err.println(login.zalogowany.getUserId().getSpolkaId());
-                /*
-                jesli po zalogowaniu na admina widać drzewko, a po zalogowaniu na usera nie, to moze to śwoadczyć, że bezpośredni
-                podwladny generycznego (prezes) nie ma ustawionego lub ma zle id spolki
-                */
                 try {
                     if (s.getUserId().getSpolkaId().equals(login.zalogowany.getUserId().getSpolkaId())) {
-                        wynik.add(s);
+                        drzewko(new DefaultTreeNode("szef", s.getUserId(), root));
                     }
                 } catch (NullPointerException ex) {
                     System.err.println("Problem w strukturze - istnieje podwładny generycznego(szefa wszystkich szefów), który ma ID_spolki NULL, a nie powinien");
@@ -102,7 +85,19 @@ public class StruktOsM implements Serializable {
                 }
             }
         }
-        return wynik;
+        //this.createTree(root, drR);
+    }
+
+    public void drzewko(DefaultTreeNode nadrz) {
+        Uzytkownik us = (Uzytkownik) nadrz.getData();
+        Struktura struktura = us.getStruktura();
+        for (Struktura s : struktura.getBezpPodWidoczni()) {
+            if (s.getBezpPodWidoczni().size() != 0) {
+                drzewko(new DefaultTreeNode("szef", s.getUserId(), nadrz));
+            } else {
+                new DefaultTreeNode("prac", s.getUserId(), nadrz);
+            }
+        }
     }
 
     public DzialJpaController getDzialC() {
@@ -136,6 +131,5 @@ public class StruktOsM implements Serializable {
     public void setRoot(TreeNode root) {
         this.root = root;
     }
-    
-    
+
 }

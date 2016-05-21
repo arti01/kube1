@@ -4,7 +4,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="/templates/templateGPF.xhtml"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a4j="http://richfaces.org/a4j">
 
     <ui:define name="tytul">
         <h3 align="center">Struktura osobowa</h3>
@@ -14,6 +15,22 @@
         <h:form id="center">
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+
+            <p:tree value="#{StruktOsM.root}" var="node" dynamic="true" style="width: 97%; background-color: white;" selectionMode="single">
+
+                <p:treeNode type="szef" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
+                    <p:commandLink action="#{UsersM.edycja}">
+                        <f:setPropertyActionListener target="#{UsersM.strukt}" value="#{node.struktura}"/>
+                        <h:outputText value="#{node.fullname}"/>
+                    </p:commandLink>
+                </p:treeNode>
+                <p:treeNode type="prac" icon="ui-icon-document">
+                    <p:commandLink action="#{UsersM.edycja}">
+                        <f:setPropertyActionListener target="#{UsersM.strukt}" value="#{node.struktura}"/>
+                        <h:outputText value="#{node.fullname}"/>
+                    </p:commandLink>
+                </p:treeNode>
+            </p:tree>
         </h:form>
     </ui:define>
 </ui:composition>
