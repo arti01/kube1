@@ -6,7 +6,7 @@ co było trochę pracochłonne bo tam są te powalone drzewka i to wewnątrz tab
 Zrobione drzewka struktury osobowej i działów
 
 2015-05-19
-reszta stron wniosków urlopowych zmigrowana do PF
+reszta stron wniosków urlopowych zmigrowana do PF (były jeszcze obce i wszystkie)
 dodałem nowe prawo - lista wszystkich wniosków (do tej pory miał tylko admin)
 INSERT INTO user_roles (id, role_name, opis) VALUES (14, 'eod_url_all', 'podgląd wszystkich wn. urlopowych');
 do opcji  "wszystkie wnioski" dodałem eksport do excel
@@ -21,7 +21,7 @@ Uwaga - należy skorzystać z predefiniowanych styli w pliku resources/css/kalen
 INSERT INTO user_roles (id, role_name, opis) VALUES (13, 'eod_kal_dec','podglad kalendarza osob decyzyjnych');
 I nadać uprawnienia.
 
-Dodano pole "prywatne" do kalendarz - trzeba ją wyczyścić, bo dodaje pole jest nullable false
+Dodano pole "prywatne" do tabeli kalendarz - trzeba tą tabele najlepiej wyczyścić, bo dodane pole jest nullable false
 Pole działa tak, że zdażenia prywatne są widoczne tylko dla twórcy oraz dla ewentualnych uczestników
 
 2015-05-16
