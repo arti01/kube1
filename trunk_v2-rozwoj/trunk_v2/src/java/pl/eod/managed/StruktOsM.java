@@ -4,9 +4,7 @@
  */
 package pl.eod.managed;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -19,7 +17,6 @@ import pl.eod.encje.Struktura;
 import pl.eod.encje.StrukturaJpaController;
 import pl.eod.encje.Uzytkownik;
 import pl.eod.encje.UzytkownikJpaController;
-import pl.eod2.managedRep.DrzPF;
 
 /**
  *
@@ -47,6 +44,7 @@ public class StruktOsM implements Serializable {
         userC = new UzytkownikJpaController();
         struktC = new StrukturaJpaController();
         dzialC = new DzialJpaController();
+        drzewkoStart();
     }
 
     public String lista() {
@@ -85,7 +83,6 @@ public class StruktOsM implements Serializable {
                 }
             }
         }
-        //this.createTree(root, drR);
     }
 
     public void drzewko(DefaultTreeNode nadrz) {

@@ -35,17 +35,17 @@
                 <center>
                     <h:panelGrid columns="1" style="width: 70%;">
                         <p:panel id="cp" header="Ogłoszenia - zwin i rozwiń aby odświeżyć" toggleable="true">
-                            <p:ajax event="toggle" listener="#{login.refresh}"/>
-
+                            <p:ajax event="toggle" listener="#{login.refresh}" update="cp"/>
                             <p:dataTable value="#{login.zalogowany.ogloszeniaList}" var="ogloszenie" sortBy="#{ogloszenie.id}" sortOrder="descending"
-                                         emptyMessage="brak danych">
+                                         emptyMessage="brak danych" rowKey="#{ogloszenie.id}">
                                 <p:column headerText="tytuł" sortBy="#{ogloszenie.id}">
                                     #{ogloszenie.tytul}
                                 </p:column>
-                                <p:column headerText="treść">
-                                    <p:fieldset collapsed="true">
+                                <p:column headerText="treść" style="width: 20px;">
+                                    <p:dialog closeOnEscape="true" id="dialTresc" closable="true" showEffect="puff" hideEffect="explode" widgetVar="dialTrescV[#{ogloszenie.id}]">
                                         <h:outputText value="#{ogloszenie.tresc}" escape="false"/>
-                                    </p:fieldset>
+                                    </p:dialog>
+                                    <p:commandButton icon="ui-icon-circle-zoomin" process="@this" oncomplete="PF('dialTrescV[#{ogloszenie.id}]').show();"/>
                                 </p:column>
                                 <p:column headerText="data" sortBy="#{ogloszenie.id}">
                                     <h:outputText value="#{ogloszenie.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
@@ -59,7 +59,7 @@
                                  rendered="#{login.umSprz}" toggleable="true">
                             <p:ajax event="toggle" listener="#{login.refresh}"/>
                             <p:dataTable value="#{login.zalogowany.userId.urzadzenieAletrPrzeglList}" var="urzad"
-                                          sortBy="#{urzad.dataPrzegl}" sortOrder="ascending" emptyMessage="brak danych">
+                                         sortBy="#{urzad.dataPrzegl}" sortOrder="ascending" emptyMessage="brak danych">
                                 <p:column headerText="nazwa">
                                     #{urzad.nazwa}
                                 </p:column>

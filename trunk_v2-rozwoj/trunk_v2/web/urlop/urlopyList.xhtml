@@ -182,8 +182,7 @@
                             <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
                             <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
                         </p:commandButton>
-                        <p:commandButton id="imgEd" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formWprow, :infoForm:messages" process="imgEd" icon="ui-icon-pencil" 
-                                         >
+                        <p:commandButton id="imgEd" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formWprow, :infoForm:messages" process="imgEd" icon="ui-icon-pencil">
                             <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
                         </p:commandButton>
                         <p:commandButton id="imgWy" action="#{UrlopM.wyslij}" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" 

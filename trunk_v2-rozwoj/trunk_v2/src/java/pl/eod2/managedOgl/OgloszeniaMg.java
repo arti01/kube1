@@ -13,6 +13,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import org.richfaces.event.DropEvent;
 import pl.eod.encje.Struktura;
+import pl.eod.encje.StrukturaJpaController;
 import pl.eod.managed.Login;
 import pl.eod2.encje.Ogloszenia;
 import pl.eod2.encje.OgloszeniaJpaController;
@@ -25,17 +26,20 @@ public class OgloszeniaMg {
 
     @ManagedProperty(value = "#{login}")
     private Login login;
-    private DataModel<Ogloszenia> lista = new ListDataModel<Ogloszenia>();
+    private DataModel<Ogloszenia> lista = new ListDataModel<>();
     private OgloszeniaJpaController dcC;
     private Ogloszenia obiekt;
     private Struktura struktura;
     private String error;
     private String filtrTytul;
     private String filtrWprow;
+    
+    StrukturaJpaController struktC;
 
     @PostConstruct
     void init() {
         dcC = new OgloszeniaJpaController();
+        struktC = new StrukturaJpaController();
         refresh();
     }
 
@@ -95,11 +99,19 @@ public class OgloszeniaMg {
         ogl.getAdresaciList().addAll(odbiorcyList);
         error = dcC.edit(ogl);
     }
+    
+    public void dodajOdb() throws Exception {
+        lista.getRowData().getAdresaciList().add(struktura);
+        error = dcC.edit(lista.getRowData());
+    }
+    
+    public void dodajOdbPodw() throws Exception {
+        lista.getRowData().getAdresaciList().add(struktura);
+        lista.getRowData().getAdresaciList().addAll(struktura.getWszyscyPodwladni());
+        error = dcC.edit(lista.getRowData());
+    }
 
     public void usunOdb() throws NonexistentEntityException, Exception {
-         //System.err.println(obiekt.getTytul());
-        //System.err.println(lista.getRowData().getTytul());
-        //System.err.println(struktura.getUserId().getFullname());
         lista.getRowData().getAdresaciList().remove(struktura);
         error = dcC.edit(lista.getRowData());
     }
@@ -160,5 +172,5 @@ public class OgloszeniaMg {
     public void setStruktura(Struktura struktura) {
         this.struktura = struktura;
     }
-
+    
 }
