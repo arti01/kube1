@@ -1,3 +1,7 @@
+2016-05-23
+INSERT INTO user_roles (id, role_name, opis) VALUES (15, 'eod_um_doc','zasoby - dokumenty');
+Nowe praw - dostęp do dokumentów zasobów
+
 2015-05-22
 zrobione ogłoszenia. Nie tylko wyświetlanie na stronie startowej ale cała strona związana z ich obsługą,
 co było trochę pracochłonne bo tam są te powalone drzewka i to wewnątrz tabeli :)

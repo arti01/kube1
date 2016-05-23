@@ -8,6 +8,7 @@ INSERT INTO user_roles (id, role_name, opis) VALUES (11, 'eod_um_sprz','zasoby')
 INSERT INTO user_roles (id, role_name, opis) VALUES (12, 'eod_um_rez','rezerwacja zasobów');
 INSERT INTO user_roles (id, role_name, opis) VALUES (13, 'eod_kal_dec','podglad kalendarza osob decyzyjnych');
 INSERT INTO user_roles (id, role_name, opis) VALUES (14, 'eod_url_all', 'podgląd wszystkich wn. urlopowych');
+INSERT INTO user_roles (id, role_name, opis) VALUES (15, 'eod_um_doc','zasoby - dokumenty');
 
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (5, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (6, 3);
@@ -17,6 +18,9 @@ INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (9, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (10, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (11, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (12, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (13, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (14, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (15, 3);
 
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (5, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (6, 2);
@@ -26,6 +30,9 @@ INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (9, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (10, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (11, 2);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (12, 2);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (13, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (14, 3);
+INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (15, 3);
 
 INSERT INTO dc_typ_flow (id, nazwa, opis ) VALUES (1, 'akceptacje', 'dokument podlegający procesowi akceptacji');
 INSERT INTO dc_typ_flow (id, nazwa, opis ) VALUES (2, 'informacje', 'dokument do zapoznania się i ewentualnie potwierdzenia');

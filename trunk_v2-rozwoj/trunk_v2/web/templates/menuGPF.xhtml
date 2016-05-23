@@ -59,7 +59,7 @@
 
         <p:submenu style="width: 149px" label="Zasoby Materiałowe"  rendered="#{login.umSprz or login.umCfg}">
             <p:menuitem value="Lista zasobów" action="#{UrzadzeniaMg.list}" ajax="false" rendered="#{login.umSprz}"/>
-            <p:menuitem value="Lista dokumentów" action="#{URejDokMg.list}" ajax="false" rendered="#{login.umSprz}"/>
+            <p:menuitem value="Lista dokumentów" action="#{URejDokMg.list}" ajax="false" rendered="#{login.umDoc}"/>
             <p:menuitem value="Raport stanów" action="#{UGrupaMg.raport1}" ajax="false" rendered="#{login.umSprz}"/>
 
             <p:submenu label="Konfiguracja" rendered="#{login.umCfg}">

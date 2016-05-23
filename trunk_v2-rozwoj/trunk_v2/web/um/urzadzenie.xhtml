@@ -105,7 +105,7 @@
                             </h:inputText></f:facet>
                             #{item.grupa.nazwa}
                     </rich:column>
-                    <rich:column>
+                    <rich:column rendered="#{login.umDoc}">
                         <f:facet name="header">dokumenty</f:facet>
                         <rich:tooltip target="imgHist">
                             Historia dokumentów
