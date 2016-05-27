@@ -1,148 +1,138 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+<ui:composition template="/templates/templateGPF.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:rich="http://richfaces.org/rich"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/templateRF2PF.xhtml"
-                xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="tytul">
+        <h3 align="center">Zasoby materiałowe</h3>
+    </ui:define>
 
     <ui:define name="content">
-        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
-        <h3>Zasób</h3>
-        <a4j:status onstart="#{rich:component('statPane')}.show()" onstop="#{rich:component('statPane')}.hide()" />
-        <ui:include src="./urzadzenieEdit.xhtml"/>
-        <hr/>
-        <h:form>
-            <rich:popupPanel header="Wprowadź podstawowe informacje" id="dodajPane"  autosized="true" domElementAttachment="parent" left="13" top="13" minHeight="450" minWidth="950">
-                <f:facet name="controls">
-                    <h:outputLink value="#" onclick="#{rich:component('dodajPane')}.hide();
-                            return false;">
-                        <h:outputText value="zamknij (X)"  style="font-weight: bold;"/>
-                    </h:outputLink>
-                </f:facet>
-                <ui:include src="../dcrej/dokumentEditRF.xhtml">
-                    <ui:param name="detal" value="#{false}"/> 
-                    <ui:param name="managedBean" value="#{URejDokMg}"/>
-                </ui:include>
-                <ui:param name="managedBean" value="#{URejDokMg}"/>
-                <a4j:commandButton id="dodaj" value="Dodaj" action="#{managedBean.dodaj}" render="listPanel, dodajPane" execute="dodajPane"
-                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();} else {#{rich:component('dodajPane')}.show();}" 
-                                   rendered="#{RejestracjaRej.obiekt.id==null}"/>
-                <a4j:commandButton id="zapisz" value="Zapisz" action="#{managedBean.edytuj}" render="listPanel, dodajPane" execute="dodajPane"
-                                   oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dodajPane')}.hide();}  else {#{rich:component('dodajPane')}.show();}" 
-                                   rendered="#{RejestracjaRej.obiekt.id!=null}"/>
-                <a4j:commandButton value="Wyjdź" action="#{RejestracjaRej.refreshObiekt}" render="dodajPane" onclick="#{rich:component('dodajPane')}.hide();
-                            return false;" />
-            </rich:popupPanel>
 
+        <h:form id="center">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
 
-            <rich:panel id="listPanel">
-                <a4j:commandLink  execute="@this" action="#{UrzadzeniaMg.newObiekt}" render="dodajPaneRodzaj, listPanel" oncomplete="#{rich:component('dodajPaneRodzaj')}.show()">
-                    <h4>[dodaj zasób]</h4>
-                </a4j:commandLink>
+            <p:fieldset id="dodPanel" legend="rozwiń/zwiń formatkę dodawania" toggleable="true" toggleSpeed="230" collapsed="#{UrzadzeniaMg.obiekt.id==null}">
+                <p:panelGrid id="dodajGrid" columns="3" columnClasses="column1, column2">
+                    <p:outputLabel for="nameD" value="nazwa: "/>
+                    <p:inputText id="nameD" value="#{UrzadzeniaMg.obiekt.nazwa}" size="80"/>
+                    <p:message for="nameD" styleClass="error" />
 
-                <rich:dataTable id="tableRodzaj" value="#{UrzadzeniaMg.lista}" var="item" iterationStatusVar="it" rows="10" style="width: 100%">
-                    <f:facet name="header"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
-                    <f:facet name="footer"><rich:dataScroller for="tableRodzaj" maxPages="5" fastControls="hide"/></f:facet>
-                    <rich:column sortBy="#{item.nazwa}" sortOrder="ascending" filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nazwa, UrzadzeniaMg.filtrNazwa) or UrzadzeniaMg.filtrNazwa==''}">
-                        <f:facet name="header">
-                            nazwa: <br/> (do filtrowania<br/> użyj TAB)<br/>
-                            <h:inputText value="#{UrzadzeniaMg.filtrNazwa}" size="13">
-                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
-                            </h:inputText></f:facet>
-                        <h:outputText  id="nazwaT" value="#{item.nazwa}"/>
-                        <rich:tooltip target="nazwaT" value="#{item.notatka}" layout="block"/>    
-                    </rich:column>
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nrInw, UrzadzeniaMg.filtrNrInw) or UrzadzeniaMg.filtrNrInw==''}">
-                        <f:facet name="header">nr<br/> inwentarzowy<br/>
-                            <h:inputText value="#{UrzadzeniaMg.filtrNrInw}" size="13">
-                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
-                            </h:inputText></f:facet>
-                            #{item.nrInw}
-                    </rich:column>
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.nrSer, UrzadzeniaMg.filtrNrSer) or UrzadzeniaMg.filtrNrSer==''}">
-                        <f:facet name="header">nr<br/>seryjny<br/>
-                            <h:inputText value="#{UrzadzeniaMg.filtrNrSer}" size="13">
-                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
-                            </h:inputText></f:facet>
-                            #{item.nrSer}
-                    </rich:column>
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.lokalizacja, UrzadzeniaMg.filtrLokal) or UrzadzeniaMg.filtrLokal==''}">
-                        <f:facet name="header">lokalizacja<br/>
-                            <h:inputText value="#{UrzadzeniaMg.filtrLokal}" size="13">
-                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
-                            </h:inputText></f:facet>
-                            #{item.lokalizacja}
-                    </rich:column>
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.firmaSerw, UrzadzeniaMg.filtrFirmaSerw) or UrzadzeniaMg.filtrFirmaSerw==''}">
-                        <f:facet name="header">firma<br/>serwisująca<br/>
-                            <h:inputText value="#{UrzadzeniaMg.filtrFirmaSerw}" size="13">
-                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
-                            </h:inputText></f:facet>
-                            #{item.firmaSerw}
-                    </rich:column>
-                    <rich:column style="text-align: center">
-                        <f:facet name="header">data<br/>przeglądu</f:facet>
-                        <h:outputText value="#{item.dataPrzegl}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
-                        <br/>
-                        <h:outputText value="przeterminowany" style="background-color: red" rendered="#{item.dataNizDzis}"/><br/>
-                        <h:outputText value="niedługo termin" style="background-color: orange" rendered="#{item.alertPrzegl}"/>
-                    </rich:column>
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.userOdpow.fullname, UrzadzeniaMg.filtrOsobOdp) or UrzadzeniaMg.filtrOsobOdp==''}">
-                        <f:facet name="header">osoba<br/>odpowiedzialna<br/>
-                            <h:inputText value="#{UrzadzeniaMg.filtrOsobOdp}" size="13">
-                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
-                            </h:inputText></f:facet>
-                            #{item.userOdpow.fullname}
-                    </rich:column>
-                    <rich:column filterType="custom" filterExpression="#{fn:containsIgnoreCase(item.grupa.nazwa, UrzadzeniaMg.filtrGrupa) or UrzadzeniaMg.filtrGrupa==''}">
-                        <f:facet name="header">grupa<br/>
-                            <h:inputText value="#{UrzadzeniaMg.filtrGrupa}" size="13">
-                                <a4j:ajax event="blur" render="tableRodzaj" execute="@this" />
-                            </h:inputText></f:facet>
-                            #{item.grupa.nazwa}
-                    </rich:column>
-                    <rich:column rendered="#{login.umDoc}">
-                        <f:facet name="header">dokumenty</f:facet>
-                        <rich:tooltip target="imgHist">
-                            Historia dokumentów
-                        </rich:tooltip>
-                        <rich:tooltip target="imgAdd">
-                            Nowy dokument
-                        </rich:tooltip>
-                        <a4j:commandButton id="imgHist" execute="@this" oncomplete="#{rich:component('dokHist')}.show()" image="/images/lista.png"/>
-                        <a4j:commandButton id="imgAdd" render="dodajPane" execute="@this" oncomplete="#{rich:component('dodajPane')}.show()" action="#{URejDokMg.nowyDokDlaUrzad}" image="/images/add.png">
-                            <f:setPropertyActionListener target="#{URejDokMg.urzad}" value="#{item}" />
-                        </a4j:commandButton>
-                        <ui:include src="/um/dokHist.xhtml"/>
-                    </rich:column>
+                    <p:outputLabel for="opisD" value="opis: "/>
+                    <p:inputTextarea id="opisD" value="#{UrzadzeniaMg.obiekt.notatka}" cols="75"/>
+                    <p:message for="opisD" styleClass="error" /> 
 
-                    <rich:column style="width: 45px">
-                        <f:facet name="header">
-                            <a4j:commandLink action="#{UrzadzeniaMg.clearFiltr}" render="tableRodzaj">wyczyść filtry</a4j:commandLink>
-                        </f:facet>
-                        <rich:tooltip target="imgDe" value="usuń" layout="block"/>
-                        <rich:tooltip target="imgEd" value="edytuj" layout="block"/>
-                        <a4j:commandButton id="imgDe" execute="@this" render="@none" image="/images/delete.png"
-                                           oncomplete="#{rich:component('confirmPaneRodzaj')}.show()" >
-                            <f:setPropertyActionListener target="#{UrzadzeniaMg.obiekt}" value="#{item}" />
-                        </a4j:commandButton>
-                        <a4j:commandButton id="imgEd" render="dodajPaneRodzaj" execute="@this" oncomplete="#{rich:component('dodajPaneRodzaj')}.show()" image="/images/edit.png">
-                            <f:setPropertyActionListener target="#{UrzadzeniaMg.obiekt}" value="#{item}" />
-                        </a4j:commandButton>
-                    </rich:column>
-                </rich:dataTable>
-            </rich:panel>
+                    <p:outputLabel for="nrInwD" value="nr inwentarzowy: "/>
+                    <p:inputText id="nrInwD" value="#{UrzadzeniaMg.obiekt.nrInw}" size="80"/>
+                    <p:message for="nrInwD" styleClass="error" />
 
-            <rich:popupPanel id="statPane" autosized="true">
-                <h:graphicImage value="/images/ai.gif" alt="ai" />
-                Proszę czekać
-            </rich:popupPanel>
+                    <p:outputLabel for="nrSerD" value="nr seryjny: "/>
+                    <p:inputText id="nrSerD" value="#{UrzadzeniaMg.obiekt.nrSer}" size="80"/>
+                    <p:message for="nrSerD" styleClass="error" />
+
+                    <p:outputLabel for="lokalizacjaD" value="lokalizacja: "/>
+                    <p:inputText id="lokalizacjaD" value="#{UrzadzeniaMg.obiekt.lokalizacja}" size="80"/>
+                    <p:message for="lokalizacjaD" styleClass="error" />
+
+                    <p:outputLabel for="firmaSerwD" value="firma serwisująca: "/>
+                    <p:inputText id="firmaSerwD" value="#{UrzadzeniaMg.obiekt.firmaSerw}" size="80"/>
+                    <p:message for="firmaSerwD" styleClass="error" />
+
+                    <p:outputLabel for="dataD" value="data przedlądu: "/>
+                    <p:calendar value="#{UrzadzeniaMg.obiekt.dataPrzegl}" id="dataD" pattern="yyyy-MM-dd" locale="pl"/>
+                    <p:message for="dataD" styleClass="error" />
+
+                    <p:outputLabel for="cenaJedD" value="cena jednostkowa: "/>
+                    <p:inputText id="cenaJedD" value="#{UrzadzeniaMg.obiekt.cenaJednostkowa}"  size="80" ><f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                        <p:ajax event="change" update="wartoscRazemD" process="dodajGrid"/>
+                    </p:inputText>
+                    <p:message for="cenaJedD" styleClass="error" />
+
+                    <p:outputLabel for="stanPoczD" value="stan początkowy: "/>
+                    <p:inputText id="stanPoczD" value="#{UrzadzeniaMg.obiekt.stanPoczatkowy}"  size="80"/>
+                    <p:message for="stanPoczD" styleClass="error" />
+
+                    <p:outputLabel for="stanD" value="stan: "/>
+                    <p:inputText id="stanD" value="#{UrzadzeniaMg.obiekt.stan}" size="80" >
+                        <p:ajax event="change" update="wartoscRazemD" process="dodajGrid"/>
+                    </p:inputText>
+                    <p:message for="stanD" styleClass="error" />
+
+                    <p:outputLabel for="wartoscRazemD" value="wartość razem: "/>
+                    <p:inputText id="wartoscRazemD" value="#{UrzadzeniaMg.obiekt.wartoscRazem}"  size="80" readonly="true"><f:convertNumber type="currency"  groupingUsed="true" minFractionDigits="2"/></p:inputText>
+                    <p:message for="wartoscRazemD" styleClass="error" />
+
+                    <p:outputLabel for="grupaD" value="grupa: "/>
+                    <p:selectOneMenu id="grupaD" value="#{UrzadzeniaMg.obiekt.grupa}" converter="#{UmGrupaConv}" filter="true" filterMatchMode="startsWith">
+                        <f:selectItems value="#{UrzadzeniaMg.grupyList}" var="grupa" itemValue="#{grupa}" itemLabel="#{grupa.nazwa}"/>
+                    </p:selectOneMenu>
+                    <p:message for="grupaD" styleClass="error" />
+
+                    <p:outputLabel for="userOdpowD" value="osoba odpowiedzialna: "/>
+                    <p:selectOneMenu id="userOdpowD" value="#{UrzadzeniaMg.obiekt.userOdpow}" converter="#{UzytkownikConv}" filter="true" filterMatchMode="startsWith">
+                        <f:selectItems value="#{UrzadzeniaMg.login.zalogowany.userId.spolkaId.userList}" var="user" itemValue="#{user}" itemLabel="#{user.fullname}"/>
+                    </p:selectOneMenu>
+                    <p:message for="userOdpowD" styleClass="error" />
+                </p:panelGrid>
+                <center>
+                    <p:message for="dodaj" styleClass="error"/>
+                    <p:message for="zapisz" styleClass="error"/>
+                    <p:commandButton id="dodaj" value="Dodaj" action="#{UrzadzeniaMg.dodaj}" update="table, dodPanel" process="dodPanel"
+                                     oncomplete="PF('tableV').clearFilters()" rendered="#{UrzadzeniaMg.obiekt.id==null}"/>
+                    <p:commandButton id="zapisz" value="Zapisz" action="#{UrzadzeniaMg.edytuj}" update="table, dodPanel" process="dodPanel"
+                                     oncomplete="PF('tableV').clearFilters()" rendered="#{UrzadzeniaMg.obiekt.id!=null}"/>
+                </center>
+            </p:fieldset>
+
+            <p:dataTable id="table" value="#{UrzadzeniaMg.lista}" var="item" rows="10" paginator="true" emptyMessage="brak danych" rowsPerPageTemplate="10,20,50,100" 
+                         widgetVar="tableV" style="width: 100%">
+                <p:column headerText="nazwa" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}" filterMatchMode="contains">
+                    <h:outputText  id="nazwaT" value="#{item.nazwa}"/>
+                    <p:tooltip for="nazwaT" value="#{item.notatka}"/>    
+                </p:column>
+                <p:column headerText="nr inwentarzowy" filterBy="#{item.nrInw}" filterMatchMode="contains">
+                    #{item.nrInw}
+                </p:column>
+                <p:column headerText="nr seryjny" filterBy="#{item.nrSer}" filterMatchMode="contains">
+                    #{item.nrSer}
+                </p:column>
+                <p:column headerText="lokalizacja" filterBy="#{item.lokalizacja}" filterMatchMode="contains">
+                    #{item.lokalizacja}
+                </p:column>
+                <p:column headerText="firma serwisująca" filterBy="#{item.firmaSerw}" filterMatchMode="contains">
+                    #{item.firmaSerw}
+                </p:column>
+                <p:column headerText="data przeglądu" sortBy="#{item.dataPrzegl}" style="text-align: center">
+                    <h:outputText value="#{item.dataPrzegl}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" timeZone="CET"/></h:outputText>
+                    <p:separator/>
+                    <h:outputText value="przeterminowany" style="background-color: red" rendered="#{item.dataNizDzis}"/><br/>
+                    <h:outputText value="niedługo termin" style="background-color: orange" rendered="#{item.alertPrzegl}"/>
+                </p:column>
+                <p:column headerText="osoba odpowiedzialna" filterBy="#{item.userOdpow.fullname}" filterMatchMode="contains">
+                    #{item.userOdpow.fullname}
+                </p:column>
+                <p:column headerText="grupa" filterBy="#{item.grupa.nazwa}" filterMatchMode="contains">
+                    #{item.grupa.nazwa}
+                </p:column>
+                <p:column headerText="dokumenty" rendered="#{login.umDoc}">
+                    dorobić
+                    <!--<ui:include src="/um/dokHist.xhtml"/>-->
+                </p:column>
+
+                <p:column headerText="akcje" style="width: 55px">
+                    <p:commandButton title="edycja" id="imgEd" update=":center:dodPanel" process="imgEd" icon="ui-icon-pencil">
+                        <f:setPropertyActionListener target="#{UrzadzeniaMg.obiekt}" value="#{item}" />
+                    </p:commandButton>
+                    <p:commandButton title="usuń" id="imgDe" update="table, :infoForm:messages" process="imgDe" 
+                                     icon="ui-icon-trash" action="#{UrzadzeniaMg.usun}" oncomplete="PF('tableV').filter();">
+                        <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
+                        <f:setPropertyActionListener target="#{UrzadzeniaMg.obiekt}" value="#{item}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
         </h:form>
-        <hr/>
     </ui:define>
 </ui:composition>
-
