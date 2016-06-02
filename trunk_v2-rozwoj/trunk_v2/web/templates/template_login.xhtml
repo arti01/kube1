@@ -2,51 +2,122 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>eSK.EOD dla: #{login.licencjaDla}</title>
-        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
-        <link href="../resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="../javax.faces.resource/theme.css.xhtml?ln=primefaces-redmond" rel="stylesheet" type="text/css"/>
+        <link href="../resources/css/kalendstyle.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" type="image/png" href="../images/eod_logo.png"/>
+        <style>
+            .ui-state-disabled, .ui-widget-content .ui-state-disabled{
+                opacity: .7;
+            }
+            .ui-widget-content {
+                font-size: 12px;
+            }
+
+            .ui-widget .ui-widget {
+                font-size: 11px;
+            }
+
+            .disable-scroll .ui-dialog-content {
+                overflow: hidden !important;
+            }
+            .ui-menu .ui-menu-parent .ui-menu-child {
+                white-space: nowrap !important;
+                width: 19em;
+            }
+
+            ul.ui-menu-child
+            {
+                white-space: nowrap;
+                width: auto;
+            }
+            .ui-menu .ui-menu-child
+            {
+                left: 30px;
+            }
+            .ui-menu .ui-menuitem-link{
+                font-size: 12px;
+            }
+            .column1 {
+                vertical-align: top;
+                width: 47%;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2 {
+                vertical-align: top;
+                width: 100%;
+                text-align: left;
+                border-style: hidden;
+            }
+            .column1p {
+                vertical-align: top;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2p {
+                vertical-align: top;
+                text-align: left;
+                border-style: hidden;
+            }
+            .column1_50 {
+                vertical-align: top;
+                width: 50%;
+                text-align: right;
+                border-style: hidden;
+            }
+            .column2_50 {
+                vertical-align: top;
+                width: 50%;
+                text-align: left;
+                border-style: hidden;
+            }
+            .ui-panelgrid .ui-panelgrid-cell{
+                background-color: ghostwhite;
+            }
+            .ui-column-title{
+                font-size: 10px;
+            }
+            .ui-widget-content .ui-inputfield{
+                font-size: 11px;
+            }
+            .fc-event{
+                font-size: 11px;
+            }
+        </style>
     </h:head>
 
     <h:body style="background-color: #f8f8ff">
-        <table width="100%" bgcolor="#f8f8ff" cellpadding="0" cellspacing="0" align="center" border="1" style="background-color: #f8f8ff;" >
-            <tr><td bgcolor="#f8f8ff">
-                    <div id="top" class="top" style="background-color: #f8f8ff;">
-                        <ui:insert name="top">
-                            <table width="100%" style="font-size: 20px;" border="0"><tr>
-                                    <td align="right" width="100px;"><img src="../images/eod_logo.png" alt="eSK.EOD" border="0" style="width: 60%; height: 60%"/>
-                                    </td>
-                                    <td align="center"><i><b><font size="6">E</font></b><font size="5">LEKTRONICZNY</font> <b><font size="6">O</font></b><font size="5">BIEG</font> <b><font size="6">D</font></b><font size="5">OKUMENTÓW</font></i>&nbsp;<sub>v2.0</sub></td>
-                                    </tr>
-                            </table>
-                            <hr width="98%" class="linia_top"/>
-                        </ui:insert>
-                    </div>
+        <p:layout style="min-width:400px;min-height:200px;background-color: ghostwhite" fullPage="true">
+            <p:layoutUnit position="north" style="background-color: ghostwhite;">
+                <table width="100%" style="font-size: 21px; background-color: ghostwhite; margin: 0px" border="0"><tr>
+                        <td align="right" width="100px;"><img src="../images/eod_logo.png" alt="eSK.EOD" border="0"  style="width: 60%; height: 60%"/>
+                        </td>
+                        <td align="center"><i><b><font size="6">E</font></b><font size="5">LEKTRONICZNY</font> <b><font size="6">O</font></b><font size="5">BIEG</font> <b><font size="6">D</font></b><font size="5">OKUMENTÓW</font></i>&nbsp;<sub>v2.0</sub></td>
+                    </tr>
+                </table>
+            </p:layoutUnit>
 
-                    <div style="border: 0px solid brown;background-color: #f8f8ff;">
-                        <div id="content" class="login_content" style="background-color: #f8f8ff;">
-                            <ui:insert name="content">Content</ui:insert>
-                        </div>
-                    </div>
+            <p:layoutUnit position="center" style="background-color: ghostwhite">
+                <ui:insert name="content">
+                </ui:insert>
+            </p:layoutUnit>
 
-                    <div id="bottom" style="background-color: #f8f8ff;">
-                        <hr width="98%" class="linia_top"/>
-                        <table width="100%" border="0" cellpadding="5" cellspacing="0">
-                            <tr valign="middle">
-                                <td align="center">Licencja dla:<b> #{login.licencjaDla}</b></td>
-                            </tr>
-                            <tr valign="middle">
-                                <td align="center">&copy; Wszelkie prawa zastrzeżone eSoftKing 2016</td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-        </table>
+            <p:layoutUnit position="south" style="background-color: ghostwhite">
+                <table width="100%" border="0" cellpadding="5" cellspacing="0" style="background-color: ghostwhite;font-size: 95%;">
+                    <tr valign="middle">
+                        <td align="center">Licencja dla:<b> #{login.licencjaDla}</b></td>
+                    </tr>
+                    <tr valign="middle">
+                        <td align="center">&copy; Wszelkie prawa zastrzeżone eSoftKing 2016</td>
+                    </tr>
+                </table>
+            </p:layoutUnit>
+        </p:layout>
     </h:body>
-
 </html>
-<!-- <h3><h:outputLink value="http://www.esoftking.pl" >http://www.esoftking.pl</h:outputLink></h3> -->

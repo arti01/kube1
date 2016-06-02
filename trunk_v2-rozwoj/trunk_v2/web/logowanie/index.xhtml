@@ -14,14 +14,16 @@
         <h:form id="center">
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
-
-            <h:panelGroup rendered="#{login.bladLicencj}">
-                <h1>przekroczono warunki licencji</h1>
-                <h:outputLink value="../logowanie/logout.jsp">
-                    Wyjście
-                </h:outputLink>
-                <hr/>
-            </h:panelGroup>
+            <center>
+                <h:panelGroup rendered="#{login.bladLicencj}">
+                    <h1>przekroczono warunki licencji</h1>
+                        
+                    <h:outputLink value="../logowanie/logout.jsp">
+                        <p:button value="Wyjście"/>
+                    </h:outputLink>
+                    <hr/>
+                </h:panelGroup>
+            </center>
 
             <h:panelGroup rendered="#{login.zalogowany==null}">
                 <h1>Elektroniczny Obieg Dokumentów</h1>

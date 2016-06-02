@@ -7,35 +7,21 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        <link type="text/css" rel="stylesheet" href="../resources/css/default.css"></link>
-
-        <div id="login" style="background-color: #f8f8ff;">
-            <center>
-                <form method="POST" name="loginform" action="j_security_check">
-                    <table style="width:300px;vertical-align: middle; background-color: #c8cccd; margin: 10px,10px,10px,10px; border: 1px solid gray;"  cellpadding="5" cellspacing="5" border="0">
-                        <tr>
-                            <td width="120px">Użytkownik:</td>
-                            <td width="180px"><input type="text" name="j_username"  class="pole_wpis" size="10" maxlength="250"/></td>
-                        </tr>
-                        <tr>
-                            <td>Hasło:</td>
-                            <td><input type="password" name="j_password" class="pole_wpis" size="10" maxlength="250"/></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><input type="submit" value="Zaloguj" class="przycisk" /></td>
-                        </tr>
-                    </table>
-                </form>
-                <br/>
-                <form method="POST" name="" action="#{RepozytMg.listBezLogin()}">
-                    <p:panel>
-                        <input type="submit" value="Wspólne repozytorium dokumentów" class="przycisk" style="width: 200px;"/>
-                    </p:panel>
-                </form>
-            </center>
-        </div>
-        <br/>
-        <h:outputLabel value="typ logowania: "/>
-        <h:outputText value="#{login.typLogowania}"/>
+        <center>
+            <h:form id="login" onsubmit="action = 'j_security_check';" prependId="false">
+                <p:panel style="background-color: #c8cccd; margin: 10px 10px 10px 10px; width: 300px;">
+                <h:panelGrid columns="2" columnClasses="column1, column2">
+                    <p:outputLabel for="j_username" value="Użytkownik: "/>
+                    <p:inputText id="j_username" />            
+                    <p:outputLabel for="j_password" value="Hasło: "/>
+                    <p:password id="j_password" />
+                </h:panelGrid>
+                <p:commandButton id="submit" value="Zaloguj" ajax="false"/>
+                </p:panel>
+            </h:form>
+            <h:form >
+                <p:button outcome="/rep/wspolne.xhtml" value="Wspólne repozytorium dokumentów"/>
+            </h:form>
+        </center>
     </ui:define>
 </ui:composition>

@@ -114,7 +114,7 @@
             </p:layoutUnit>
 
             <p:layoutUnit position="center" style="background-color: ghostwhite">
-                <h:form id="infoForm">
+                <h:form id="infoForm"  rendered="#{!login.bladLicencj}">
                     <p:growl id="messages" showDetail="false" life="3700"/>
                     <p:idleMonitor timeout="2100000" onidle="PF('dlg1').show();"/>
                     <p:dialog header="Sesja wygasła" widgetVar="dlg1" closable="false" resizable="false" hideEffect="fade" showEffect="fade" width="400">

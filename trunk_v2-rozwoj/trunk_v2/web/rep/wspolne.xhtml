@@ -10,6 +10,7 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="center">
+            <h:outputText value="#{RepozytMg.template}" style="font-size: 1px;"/>
             <p:tree value="#{RepozytMg.root}" var="node" dynamic="true" style="width: 97%; background-color: white;" selectionMode="single">
                 <p:treeNode type="dir" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                     <h:outputText value="#{node.shortName}" />

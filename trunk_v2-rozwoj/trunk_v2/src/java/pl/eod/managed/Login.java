@@ -383,7 +383,12 @@ public class Login implements Serializable {
 
     public Struktura getZalogowany() {
         if (zalogowany == null) {
+            try{
             refresh();
+            } catch (NullPointerException np){
+                System.err.println("niestety niezalogowany");
+                return null;
+            }
         }
         return zalogowany;
     }
