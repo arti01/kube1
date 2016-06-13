@@ -4,7 +4,6 @@
       xmlns:h="http://java.sun.com/jsf/html">
           
               <p:panel id="schedulePanel">
-                  #{RezerMojKalMg.event.editable and !decyz}
                 <p:schedule id="schedule" value="#{RezerMojKalMg.eventModel}" widgetVar="myschedule" aspectRatio="#{6-RezerMojKalMg.number2}" view="#{RezerwacjeMg.viewKal}"
                             locale="pl" timeZone="CET" timeFormat="HH:mm" axisFormat="HH:mm" style="white-space:pre;" displayEventEnd="true" rightHeaderTemplate="" tooltip="true">
                     <p:ajax event="eventSelect" listener="#{RezerMojKalMg.onEventSelect}" update=":center:dialog, :center:contekstmenu" oncomplete="PF('contekst').show();"/>
