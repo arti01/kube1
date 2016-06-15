@@ -117,13 +117,13 @@ public class UsersM implements Serializable {
     }
 
     public String edycja() {
-        rolesKlon = new CopyOnWriteArrayList<UserRoles>(strukt.getUserId().getRole());
+        rolesKlon = new CopyOnWriteArrayList<>(strukt.getUserId().getRole());
         return "/all/usersEdit";
     }
 
     public String ustawZastepce() throws IOException {
         strukt = login.getZalogowany();
-        rolesKlon = new CopyOnWriteArrayList<UserRoles>(strukt.getUserId().getRole());
+        rolesKlon = new CopyOnWriteArrayList<>(strukt.getUserId().getRole());
         return "/common/ustawZastepce";
     }
 

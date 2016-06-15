@@ -12,7 +12,7 @@
 
     <ui:define name="content">
         <h:form id="center">
-            <p:remoteCommand name="onload" oncomplete="PF('userTable').filter()" autoRun="true" />
+            <p:remoteCommand name="onload" oncomplete="PF('userTable').filter()" autoRun="true" rendered="false"/>
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
             <p:outputPanel id="listPanel">

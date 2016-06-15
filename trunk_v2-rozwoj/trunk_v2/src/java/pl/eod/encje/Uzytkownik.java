@@ -307,6 +307,9 @@ public class Uzytkownik implements Serializable {
     }
 
     public WnLimity getWnLimity() {
+        /*WnLimity wn=new WnLimity();
+        wn.setUlimit("Limit:227h 50m(30.1 dni)<br/> Wykorz.:0h 0m     (0.0 dni)<br/> Pozost.:227h 50m (30.1 dni)");
+        wnLimity=wn;*/
         return wnLimity;
     }
 

@@ -93,11 +93,9 @@
             <p:menuitem value="Zmiana hasła" action="#{login.htmlZmianaHasla}" 
                         rendered="#{(login.zalogowany.userId.extId=='' or fn:contains(login.zalogowany.userId.extId, '@') or fn:contains(login.zalogowany.userId.extId, 'FN')) and login.zalogowany!=null}" ajax="false"/>
             <p:menuitem value="Zarządzanie spółkami" action="#{SpolkiMg.list}" rendered="#{login.admin}" ajax="false"/>
-            <p:menuitem value="Ustaw swojego zastępcę" action="#{UsersM.ustawZastepce}"  rendered="#{login.kierownik}" ajax="false"/>
-            <p:menuitem rendered="#{fn:length(login.zalogowany.userId.wnLimity.ulimit)!=0}">
-                Dostępny urlop:<br/>
-                <strong>#{login.zalogowany.userId.wnLimity.ulimit}</strong>
-            </p:menuitem>
+            <p:menuitem value="Ustaw swojego zastępcę" action="#{UsersM.ustawZastepce}" rendered="#{login.kierownik}" ajax="false"/>
+            <p:menuitem rendered="#{fn:length(login.zalogowany.userId.wnLimity.ulimit)!=0}" escape="false" 
+                        value="Dostępny urlop:&lt;br/&gt;#{login.zalogowany.userId.wnLimity.ulimit}"/>
         </p:submenu>
 
         <p:menuitem style="background-color: #C1DFFF" value="Wyjście" url="../logowanie/logout.jsp" ajax="false"/>
