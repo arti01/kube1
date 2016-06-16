@@ -40,7 +40,7 @@
                     <p:calendar id="data_do" value="#{UrlopM.urlop.dataDo}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopM.calyDzien and UrlopM.urlop.rodzajId.id!=40}"/>
                     <p:message for="data_do" styleClass="error" rendered="#{UrlopM.calyDzien and UrlopM.urlop.rodzajId.id!=40}"/>
 
-                    <p:outputLabel for="data_url" value="Dzień urlopu:" rendered="#{!UrlopM.calyDzien}"/>
+                    <p:outputLabel for="data_url" value="Dzień urlopu:" rendered="#{!UrlopM.calyDzien and UrlopM.urlop.rodzajId.id!=40}"/>
                     <p:outputLabel for="data_url" value="Dzień nadgodzin:" rendered="#{UrlopM.urlop.rodzajId.id==40}"/>
                     <p:calendar id="data_url" value="#{UrlopM.dataUrlopu}" pattern="yyyy-MM-dd" locale="pl" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
                     <p:message for="data_url" styleClass="error" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
@@ -187,6 +187,7 @@
                             <f:setPropertyActionListener target="#{UrlopM.godzOdT}" value="#{urlop.dataOd}"/>
                             <f:setPropertyActionListener target="#{UrlopM.godzDoT}" value="#{urlop.dataDo}"/>
                             <f:setPropertyActionListener target="#{UrlopM.dataUrlopu}" value="#{urlop.dataOd}"/>
+                            <f:setPropertyActionListener target="#{UrlopM.calyDzien}" value="#{urlop.calyDzien}"/>
                         </p:commandButton>
                         <p:commandButton id="imgWy" action="#{UrlopM.wyslij}" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" 
                                          process="@this" icon="ui-icon-play" oncomplete="PF('tableV').filter();">

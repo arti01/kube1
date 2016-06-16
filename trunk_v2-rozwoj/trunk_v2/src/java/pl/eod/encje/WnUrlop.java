@@ -107,6 +107,8 @@ public class WnUrlop implements Serializable {
     String dataOdStr;
     @Transient
     String dataDoStr;
+    @Transient
+    boolean calyDzien;
 
     public WnUrlop() {
     }
@@ -289,13 +291,18 @@ public class WnUrlop implements Serializable {
     }
 
     public String getDataOdStr() {
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sdf.format(dataOd);
     }
 
     public String getDataDoStr() {
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sdf.format(dataDo);
+    }
+
+    public boolean isCalyDzien() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(dataOd).equals("00:00") && sdf.format(dataDo).equals("23:59");
     }
 
     @Override
