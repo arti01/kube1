@@ -52,7 +52,7 @@
                     <p:outputLabel for="data_do_godz" value="Godzina do:" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
                     <p:calendar id="data_do_godz" value="#{UrlopM.godzDoT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
                     <p:message for="data_do_godz" styleClass="error" rendered="#{!UrlopM.calyDzien or UrlopM.urlop.rodzajId.id==40}"/>
-                    
+
                     <p:outputLabel for="extraemail" value="Czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
                     <h:selectBooleanCheckbox value="#{UrlopM.urlop.extraemail}" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
                     <h:outputText id="extraemail" value="#{UrlopM.urlop.uzytkownik.struktura.extraemail}" rendered="#{fn:length(UrlopM.urlop.uzytkownik.struktura.extraemail)>0}"/>
@@ -60,14 +60,14 @@
                     <p:outputLabel for="pracodawca" value="Pracodawca: " rendered="#{UrlopM.urlop.rodzajId.id==40}"/>
                     <p:inputSwitch id="pracodawca" value="#{UrlopM.urlop.pracodawca}" rendered="#{UrlopM.urlop.rodzajId.id==40}" onLabel="Tak" offLabel="Nie"/>
                     <p:message for="pracodawca" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==40}"/>
-                    
+
                     <p:outputLabel for="kwota" value="Kwota: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
                     <p:inputText id="kwota" value="#{UrlopM.urlop.kwotaWs}" rendered="#{UrlopM.urlop.rodzajId.id==30}">
                         <f:convertNumber type="currency" minFractionDigits="2" pattern="#0,00" groupingUsed="false"/>
                         <p:watermark for="kwota" value="99 999,99" />
                     </p:inputText>
                     <p:message for="kwota" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
-                    
+
                     <p:outputLabel for="infoDod" value="Informacje dodatkowe: "/>
                     <h:inputTextarea id="infoDod" value="#{UrlopM.urlop.infoDod}" cols="52"/>
                     <p:message for="infoDod" styleClass="error" />
@@ -184,6 +184,9 @@
                         </p:commandButton>
                         <p:commandButton id="imgEd" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formWprow, :infoForm:messages" process="imgEd" icon="ui-icon-pencil">
                             <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
+                            <f:setPropertyActionListener target="#{UrlopM.godzOdT}" value="#{urlop.dataOd}"/>
+                            <f:setPropertyActionListener target="#{UrlopM.godzDoT}" value="#{urlop.dataDo}"/>
+                            <f:setPropertyActionListener target="#{UrlopM.dataUrlopu}" value="#{urlop.dataOd}"/>
                         </p:commandButton>
                         <p:commandButton id="imgWy" action="#{UrlopM.wyslij}" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" 
                                          process="@this" icon="ui-icon-play" oncomplete="PF('tableV').filter();">

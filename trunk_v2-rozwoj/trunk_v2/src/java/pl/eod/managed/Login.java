@@ -100,6 +100,7 @@ public class Login implements Serializable {
         if (!md5.equalsIgnoreCase(klucz)) {
             zalogowany = null;
             this.setBladLicencj(true);
+            //System.err.println(klucz + "licencja"+eodtljar+md5);
             System.err.println(klucz + "licencja");
             template = "../templates/template_login.xhtml";
         }

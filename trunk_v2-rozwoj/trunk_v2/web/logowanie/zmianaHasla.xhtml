@@ -1,37 +1,33 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:rich="http://richfaces.org/rich"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:a4j="http://richfaces.org/a4j"
+                template="/templates/templateGPF.xhtml"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-                template="/templates/templateRF2PF.xhtml">
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="tytul">
+        <h3 align="center">Zmiana Hasła</h3>
+    </ui:define>
 
     <ui:define name="content">
-        <h:outputStylesheet library="css" name="../resources/css/default.css"/>
-        <div id="tabela">
-            <h4>Twoje wnioski</h4>
-            <h:form id="form1">
-                <a4j:outputPanel id="formWprow" layout="block">
-                    <h:panelGrid columns="3" id="form">
-                        <h:outputLabel value="hasło" />
-                        <h:inputSecret id="userpass" value="#{login.zalogowany.userId.hasla.pass}" immediate="true" size="50"/>
-                        <h:message for="userpass" styleClass="error" />
+        <h:form id="center">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+            <p:outputPanel id="formWprow" layout="block">
+                <p:panelGrid columns="3" id="form" columnClasses="column1, column2">
+                    <p:outputLabel value="hasło" />
+                    <h:inputSecret id="userpass" value="#{login.zalogowany.userId.hasla.pass}" immediate="true" size="50"/>
+                    <p:message for="userpass" styleClass="error" />
 
-                        <h:outputLabel value="hasło ponownie" />
-                        <h:inputSecret id="userpass1" value="#{login.password}" immediate="true" size="50"/>
-                        <h:message for="userpass1" styleClass="error" />
-
-                        <h:commandButton id="wykonaj" value="wykonaj" action="#{login.zmienHaslo}"/>
-                        <h:message for="wykonaj" styleClass="error" />
-                    </h:panelGrid>
-                </a4j:outputPanel>
-                <hr/>
-                <h:outputLink value="../index.html" style="text-align: center; font-size: large">Opuść tą stronę</h:outputLink>
-            </h:form>
-        </div>
+                    <p:outputLabel value="hasło ponownie" />
+                    <h:inputSecret id="userpass1" value="#{login.password}" immediate="true" size="50"/>
+                    <p:message for="userpass1" styleClass="error" />
+                    <p:commandButton id="wykonaj" value="wykonaj" action="#{login.zmienHaslo}" ajax="false"/>
+                    <p:message for="wykonaj" styleClass="error" />
+                </p:panelGrid>
+            </p:outputPanel>
+        </h:form>
     </ui:define>
 
 </ui:composition>

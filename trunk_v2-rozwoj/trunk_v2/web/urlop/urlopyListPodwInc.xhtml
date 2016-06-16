@@ -19,10 +19,10 @@
                     <p:column headerText="Wprowadzony" sortBy="#{urlop.dataWprowadzenia}">
                         <h:outputText value="#{urlop.dataWprowadzenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                     </p:column>
-                    <p:column headerText="Data Od" sortBy="#{urlop.dataOd}">
+                    <p:column headerText="Data Od" sortBy="#{urlop.dataOd}" filterBy="#{urlop.dataOdStr}">
                         <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
                     </p:column>
-                    <p:column headerText="Data Do" sortBy="#{urlop.dataDo}">
+                    <p:column headerText="Data Do" sortBy="#{urlop.dataDo}" filterBy="#{urlop.dataDoStr}">
                         <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
                     </p:column>
                     <p:column headerText="Status" style="background-color: #{urlop.statusId.kolor}; text-align: center" filterBy="#{urlop.statusId.opis}">

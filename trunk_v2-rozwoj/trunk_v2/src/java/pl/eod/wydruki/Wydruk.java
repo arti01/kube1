@@ -5,23 +5,11 @@
 package pl.eod.wydruki;
 
 import java.io.ByteArrayOutputStream;
-import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import org.apache.fop.apps.FopFactory;
-import pl.eod2.encje.DcDokDoWiadomosci;
 import pl.eod2.encje.DcDokument;
 import pl.eod2.managedRej.Rejestracja;
 

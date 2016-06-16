@@ -3,7 +3,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
+    
     <p:panel id="listPanel">
         <p:dataTable value="#{OgloszeniaMg.lista}" var="item" id="table" widgetVar="tableV" rows="10" style="width: 100%" sortBy="#{item.id}" sortOrder="descending"
                      paginator="true" rowsPerPageTemplate="10, 20, 50" emptyMessage="brak rekordów">

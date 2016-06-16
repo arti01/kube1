@@ -2,7 +2,7 @@ package pl.eod.encje;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Currency;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -26,7 +26,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "wn_urlop")
@@ -72,7 +71,7 @@ public class WnUrlop implements Serializable {
     private Integer extraemail;
     @Column(name = "info_dod", nullable = true)
     private String infoDod;
-    
+
     @OrderBy(value = "id ASC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "urlopId", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<WnHistoria> wnHistoriaList;
@@ -104,6 +103,10 @@ public class WnUrlop implements Serializable {
     private boolean pracodawca;
     @Transient
     private Date dataOstZmiany;
+    @Transient
+    String dataOdStr;
+    @Transient
+    String dataDoStr;
 
     public WnUrlop() {
     }
@@ -230,8 +233,11 @@ public class WnUrlop implements Serializable {
     }
 
     public void setExtraemail(boolean extraemail) {
-        if(extraemail) this.extraemail =1;
-        else this.extraemail =null;
+        if (extraemail) {
+            this.extraemail = 1;
+        } else {
+            this.extraemail = null;
+        }
     }
 
     public String getInfoDod() {
@@ -280,6 +286,16 @@ public class WnUrlop implements Serializable {
 
     public void setKwotaWs(BigDecimal kwotaWs) {
         this.kwotaWs = kwotaWs;
+    }
+
+    public String getDataOdStr() {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sdf.format(dataOd);
+    }
+
+    public String getDataDoStr() {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sdf.format(dataDo);
     }
 
     @Override
