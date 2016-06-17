@@ -18,11 +18,12 @@ import javax.faces.convert.Converter;
 @ManagedBean(name = "UzytkownikConv")
 @SessionScoped
 public class UzytkownikConv implements Converter, Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     private Object object;
-    UzytkownikJpaController uC=new UzytkownikJpaController();
-    
+    UzytkownikJpaController uC = new UzytkownikJpaController();
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         String u;
@@ -32,11 +33,11 @@ public class UzytkownikConv implements Converter, Serializable {
         } catch (NumberFormatException ec) {
             return null;
         }
-        Object wynik=null;
-        try{
-        wynik=uC.findUzytkownik(new Long(u));
-        }catch(NumberFormatException nfe){
-            wynik=null;
+        Object wynik;
+        try {
+            wynik = uC.findUzytkownik(new Long(u));
+        } catch (NumberFormatException nfe) {
+            wynik = null;
         }
         return wynik;
 
@@ -45,6 +46,6 @@ public class UzytkownikConv implements Converter, Serializable {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         Uzytkownik u = (Uzytkownik) value;
-        return (value != null) ? u.getId().toString() : null;
+        return (value != null&&u.getId()!=null) ? u.getId().toString() : null;
     }
 }

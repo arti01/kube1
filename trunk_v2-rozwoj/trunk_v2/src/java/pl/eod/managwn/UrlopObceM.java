@@ -16,7 +16,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import pl.eod.encje.KomKolejka;
@@ -49,6 +52,15 @@ public class UrlopObceM {
     public String list() {
         initUrlop();
         return "/urlop/urlopyListObce";
+    }
+
+    public void changeUserList(AjaxBehaviorEvent event) {
+        Uzytkownik u = (Uzytkownik) ((UIOutput) event.getSource()).getValue();
+        if (u.getId() == null) {
+            urlop.setExtraemail(false);
+        } else {
+            urlop.setExtraemail(u.getStruktura().getExtraemail().length() > 0);
+        }
     }
 
     public void anuluj() {

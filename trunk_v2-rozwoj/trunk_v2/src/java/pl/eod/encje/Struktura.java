@@ -259,7 +259,7 @@ public class Struktura implements Serializable {
     }
 
     public List<Struktura> getBezpPodWidoczni() {
-        List<Struktura> wynik = new ArrayList<Struktura>();
+        List<Struktura> wynik = new ArrayList<>();
         for (Struktura s : getBezpPod()) {
             if (!s.isUsuniety()) {
                 wynik.add(s);
@@ -269,7 +269,7 @@ public class Struktura implements Serializable {
     }
 
     public List<Struktura> getObceWnioski() {
-        List<Struktura> wynik = new ArrayList<Struktura>();
+        List<Struktura> wynik = new ArrayList<>();
         if (isStKier()) {
             wynik.addAll(getBezpPodWidoczni());
         } else {
