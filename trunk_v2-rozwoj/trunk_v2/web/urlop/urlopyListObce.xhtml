@@ -103,6 +103,9 @@
 
             <p:outputPanel id="formTab" layout="block">
                 <p:dataTable value="#{UrlopObceM.urlopyList}" var="urlop" id="table" paginator="true" rowsPerPageTemplate="10, 20, 50, 100" rows="10" sortBy="#{urlop.id}" sortOrder="descending" widgetVar="tableV" emptyMessage="brak danych">
+                    <p:column headerText="Wniosek pracownika" filterBy="#{urlop.uzytkownik.fullname}" filterMatchMode="contains">
+                        <h:outputText value="#{urlop.uzytkownik.fullname}"/>
+                    </p:column>
                     <p:column headerText="Wniosek złożony przez">
                         <h:outputText value="#{urlop.przyjmujacy.fullname}" rendered="#{urlop.przyjmujacy!=null}"/>
                         <h:outputText value="#{urlop.uzytkownik.fullname}" rendered="#{urlop.przyjmujacy==null}"/>

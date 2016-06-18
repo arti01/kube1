@@ -19,7 +19,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import pl.eod.encje.KomKolejka;
@@ -44,8 +43,8 @@ public class UrlopObceM {
     @ManagedProperty(value = "#{login}")
     private Login login;
     private Locale locale;
-    private String godzOd;
-    private String godzDo;
+    private Date godzOdT;
+    private Date godzDoT;
     private Date dataUrlopu;
     boolean calyDzien;
 
@@ -216,14 +215,12 @@ public class UrlopObceM {
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
         Calendar calDo = Calendar.getInstance();
-        if (!calyDzien) {
+        if (!calyDzien || urlop.getRodzajId().getId()==40) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
-            cal.setTime(sdf.parse(godzOd));
+            cal.setTime(godzOdT);
             calOd.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
-            cal.setTime(sdf.parse(godzDo));
+            cal.setTime(godzDoT);
             calDo.add(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
             urlop.setDataOd(calOd.getTime());
             urlop.setDataDo(calDo.getTime());
@@ -233,7 +230,6 @@ public class UrlopObceM {
             calDo.add(Calendar.MINUTE, 59);
             urlop.setDataDo(calDo.getTime());
         }
-
         if (urlop.getUzytkownik() == null) {
             message.setSummary("wybierz pracownika");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -284,8 +280,13 @@ public class UrlopObceM {
 
     private void initUrlop() {
         login.refresh();
-        godzOd = "HH:MM";
-        godzDo = "HH:MM";
+        Calendar cal=Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        godzOdT=cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        godzDoT=cal.getTime();
         dataUrlopu = new Date();
         calyDzien = true;
         urlop = new WnUrlop();
@@ -326,20 +327,20 @@ public class UrlopObceM {
         return locale;
     }
 
-    public String getGodzOd() {
-        return godzOd;
+    public Date getGodzOdT() {
+        return godzOdT;
     }
 
-    public void setGodzOd(String godzOd) {
-        this.godzOd = godzOd;
+    public void setGodzOdT(Date godzOdT) {
+        this.godzOdT = godzOdT;
     }
 
-    public String getGodzDo() {
-        return godzDo;
+    public Date getGodzDoT() {
+        return godzDoT;
     }
 
-    public void setGodzDo(String godzDo) {
-        this.godzDo = godzDo;
+    public void setGodzDoT(Date godzDoT) {
+        this.godzDoT = godzDoT;
     }
 
     public Date getDataUrlopu() {

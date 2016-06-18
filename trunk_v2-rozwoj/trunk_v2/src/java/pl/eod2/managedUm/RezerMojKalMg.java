@@ -154,6 +154,13 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
                 ev.setStyleClass(dec.getCssStyl());
                 eventModel.addEvent(ev);
             }
+            for (UmRezerwacje rez : dec.getUser().getRezUczestnikList()) {
+                DefaultScheduleEvent ev = new DefaultScheduleEvent("Uczestnik w rezerwacji: " + rez.getNazwa(), rez.getDataOd(), rez.getDataDo(), rez);
+                ev.setDescription(rez.getOpis());
+                ev.setEditable(false);
+                ev.setStyleClass(dec.getCssStyl());
+                eventModel.addEvent(ev);
+            }
         }
     }
 
