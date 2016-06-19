@@ -3,8 +3,16 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
     <p:fieldset legend="rozwiń" toggleable="true" collapsed="true">
-        <p:panelGrid columns="2" id="odb">
-            <p:tree value="#{StruktOsM.root}" var="node" dynamic="true" selectionMode="single">
+        <style>
+            .col1ogl{
+                width: 70%;
+            }
+            .col2ogl{
+                width: 30%;
+            }
+        </style>
+            <p:panelGrid columns="2" id="odb" layout="grid" columnClasses="col1ogl, col2ogl">
+            <p:tree value="#{StruktOsM.root}" var="node" dynamic="true" selectionMode="single" style="width: 100%">
                 <p:treeNode type="szef" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">
                     <p:commandLink value="#{node.fullname}" action="#{OgloszeniaMg.dodajOdb}" update=":@parent:@parent:@parent:pgOdb" process="@this">
                         <f:setPropertyActionListener target="#{OgloszeniaMg.struktura}" value="#{node.struktura}" />

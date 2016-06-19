@@ -1,5 +1,4 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html">
 
     <h:head>
@@ -11,8 +10,6 @@
 
     <h:body>
         <h2>Brak uprawnień</h2>
-        <h:link value="do strony głównej" outcome="../index.html"/>
+         <h:outputLink value="../logowanie/logout.jsp">do strony głównej </h:outputLink>
         <br/>
-        <h:link value="wyloguj" outcome="../logout.jsp"/>
-    </h:body>
-s</html>
+    </h:body></html>

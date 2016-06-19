@@ -1,7 +1,5 @@
 <%@page  %>
 <% 
-
-
 Cookie[] cookies = request.getCookies();
 for (int i = 0; i < cookies.length; i++){
     Cookie cookie = cookies[i];
@@ -14,7 +12,6 @@ for (int i = 0; i < cookies.length; i++){
          
     }//}
 request.getSession().invalidate();
-
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>

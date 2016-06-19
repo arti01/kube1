@@ -172,6 +172,19 @@ public class UsersM implements Serializable {
             initUser();
         }
     }
+    
+   public void  dodajtest() throws Exception{
+       for(int i=0;i<200;i++){
+           Struktura s=new Struktura();
+           s=strukt;
+           if(s.getId()!=null){
+           s.setId(s.getId()+1+i);
+           s.getUserId().setId(s.getUserId().getId()+1+i);
+           }
+           s.getUserId().setFullname(i+"test");
+           struktC.create(s);
+       }
+   }
 
     public void usun() {
         struktC.zrobNiewidczony(strukt);

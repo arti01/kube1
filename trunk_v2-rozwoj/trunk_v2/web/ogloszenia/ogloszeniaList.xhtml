@@ -7,18 +7,18 @@
     <p:panel id="listPanel">
         <p:dataTable value="#{OgloszeniaMg.lista}" var="item" id="table" widgetVar="tableV" rows="10" style="width: 100%" sortBy="#{item.id}" sortOrder="descending"
                      paginator="true" rowsPerPageTemplate="10, 20, 50" emptyMessage="brak rekordów">
-            <p:column headerText="tytuł" filterBy="#{item.tytul}">
+            <p:column headerText="tytuł" filterBy="#{item.tytul}" style="width: 20em;">
                 <h:outputText id="tytul" value="#{item.tytul}"/>
-                <p:tooltip for="tytul" style="width: 20em;">
+                <p:tooltip for="tytul">
                     <h:outputText value="#{item.tresc}" escape="false"/>
                 </p:tooltip>
             </p:column>
 
-            <p:column headerText="wprowadził" filterBy="#{item.wprowadzil.fullname}" style="width: 20em;">
+            <p:column headerText="wprowadził" filterBy="#{item.wprowadzil.fullname}" style="width: 13em;">
                 #{item.wprowadzil.fullname}
             </p:column>
 
-            <p:column headerText="data wprowadzenia:" sortBy="#{item.dataWprow}" style="width: 10em;">
+            <p:column headerText="data wprowadzenia:" sortBy="#{item.dataWprow}" style="width: 8em;">
                 <h:outputText value="#{item.dataWprow}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" timeZone="CET"/></h:outputText>
             </p:column>
             <p:column headerText="odbiorcy ogłoszenia">
