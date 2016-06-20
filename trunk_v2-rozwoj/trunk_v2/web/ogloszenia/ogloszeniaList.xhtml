@@ -29,7 +29,7 @@
                     <f:setPropertyActionListener target="#{OgloszeniaMg.obiekt}" value="#{item}"/>
                 </p:commandButton>
 
-                <p:commandButton id="usun" title="Usuń" action="#{OgloszeniaMg.usun}" update="table" oncomplete="PF('tableV').filter();"
+                <p:commandButton id="usun" title="Usuń" action="#{OgloszeniaMg.usun}" update="table" oncomplete="PF('tableV').clearFilters();"
                                  style="font-weight: lighter; font-size: smaller;" icon="ui-icon-trash" process="@this">
                     <f:setPropertyActionListener target="#{OgloszeniaMg.obiekt}" value="#{item}" />
                     <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
