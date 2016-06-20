@@ -4,6 +4,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns="http://www.w3.org/1999/xhtml"
                 template="../templates/template_login.xhtml"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
@@ -20,7 +21,7 @@
                 </p:panel>
             </h:form>
             <h:form >
-                <p:button outcome="/rep/wspolne.xhtml" value="Wspólne repozytorium dokumentów"/>
+                <p:button outcome="/rep/wspolne.xhtml" value="Wspólne repozytorium dokumentów" rendered="#{fn:length(RepozytMg.dir_repo)!=0}"/>
             </h:form>
         </center>
     </ui:define>

@@ -85,8 +85,8 @@
         </p:submenu>
 
         <p:submenu label="Inne funkcje">
-            <p:submenu label="Repozytoria dokumentów">
-                <p:menuitem value="Wspólne" action="#{RepozytMg.list}" ajax="false"/>
+            <p:submenu label="Repozytoria dokumentów" rendered="#{fn:length(RepozytMg.dir_repo)!=0 or fn:length(login.zalogowany.repozytoriaList)!=0}">
+                <p:menuitem value="Wspólne" action="#{RepozytMg.list}" ajax="false" rendered="#{fn:length(RepozytMg.dir_repo)!=0}"/>
                 <p:menuitem value="Dedykowane" action="#{RepozytMg.inne}" ajax="false" rendered="#{fn:length(login.zalogowany.repozytoriaList)!=0}"/>
             </p:submenu>
             <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}" ajax="false"/>

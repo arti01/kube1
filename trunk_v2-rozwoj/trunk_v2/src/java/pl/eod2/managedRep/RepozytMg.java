@@ -23,17 +23,19 @@ public class RepozytMg {
     private TreeNode root;
     private List<TreeNode> inneRoot;
     DrzPF drR;
-    String template="/templates/template_bez_login.xhtml";
+    String template = "/templates/template_bez_login.xhtml";
 
     @PostConstruct
     public void init() {
         ConfigJpaController confC = new ConfigJpaController();
         this.dir_repo = confC.findConfigNazwa("dir_repo").getWartosc();
-        this.drzewko();
+        if(this.dir_repo!=null&&this.dir_repo.length()>0){
+            this.drzewko();
+        }
     }
 
     public String list() {
-        template="/templates/templateGPF.xhtml";
+        template = "/templates/templateGPF.xhtml";
         this.drzewko();
         return "/rep/wspolne";
     }
@@ -56,11 +58,11 @@ public class RepozytMg {
     }
 
     private void inneDrzewka() {
-        inneRoot=new ArrayList<>();
-        List<Repozytoria>repoAll=new ArrayList<>();
+        inneRoot = new ArrayList<>();
+        List<Repozytoria> repoAll = new ArrayList<>();
         repoAll.addAll(login.getZalogowany().getRepozytoriaList());
         for (Repozytoria rep : login.getZalogowany().getSzefId().getRepozytoriaList()) {
-            if(!repoAll.contains(rep)){
+            if (!repoAll.contains(rep)) {
                 repoAll.add(rep);
             }
         }
@@ -102,6 +104,10 @@ public class RepozytMg {
 
     public String getTemplate() {
         return template;
-}
-    
+    }
+
+    public String getDir_repo() {
+        return dir_repo;
+    }
+
 }
