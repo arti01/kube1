@@ -87,7 +87,7 @@
         <p:submenu label="Inne funkcje">
             <p:submenu label="Repozytoria dokumentów">
                 <p:menuitem value="Wspólne" action="#{RepozytMg.list}" ajax="false"/>
-                <p:menuitem value="Dedykowane" action="#{RepozytMg.inne}" ajax="false"/>
+                <p:menuitem value="Dedykowane" action="#{RepozytMg.inne}" ajax="false" rendered="#{fn:length(login.zalogowany.repozytoriaList)!=0}"/>
             </p:submenu>
             <p:menuitem value="Ogłoszenia - zarządzanie" action="#{OgloszeniaMg.list}" rendered="#{login.ogl}" ajax="false"/>
             <p:menuitem value="Zmiana hasła" action="#{login.htmlZmianaHasla}" 
