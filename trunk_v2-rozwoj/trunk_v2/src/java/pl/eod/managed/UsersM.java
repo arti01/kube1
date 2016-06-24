@@ -201,18 +201,14 @@ public class UsersM implements Serializable {
 
     public String zapisz() throws NonexistentEntityException, Exception {
         //obsluga dla readonly roli w formularzu
-        System.err.println(new Date().getTime()+"==1");
         if (!strukt.getUserId().getRole().equals(rolesKlon) && rolesKlon != null) {
             rolesKlon.removeAll(roleAll);
             // System.err.println(rolesKlon);
             strukt.getUserId().getRole().addAll(rolesKlon);
         }
-        System.err.println(new Date().getTime()+"==2");
         error = struktC.editArti(strukt);
-        System.err.println(new Date().getTime()+"==3");
         if (error == null) {
             initUser();
-            System.err.println(new Date().getTime()+"==4");
             return "/all/usersList?faces-redirect=true";
         }
         FacesMessage message = new FacesMessage(error);

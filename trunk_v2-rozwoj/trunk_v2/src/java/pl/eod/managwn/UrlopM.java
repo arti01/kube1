@@ -73,7 +73,14 @@ public class UrlopM implements Serializable {
     }
 
     public String listPodwlHist() {
-        initUrlop();
+        //initUrlop();
+        ArrayList<WnUrlop> akceptHist = new ArrayList<>();
+        for (WnHistoria wh : login.getZalogowany().getUserId().getWnHistoriaListAkceptant()) {
+            if (!akceptHist.contains(wh.getUrlopId())) {
+                akceptHist.add(wh.getUrlopId());
+            }
+        }
+        urlopyAkceptHist.setWrappedData(akceptHist);
         return "/urlop/urlopyListAkceptHist";
     }
 
@@ -471,14 +478,13 @@ public class UrlopM implements Serializable {
         urlopC = new WnUrlopJpaController();
         rodzajeC = new WnRodzajeJpaController();
         KomKolC = new KomKolejkaJpaController();
-        initUrlop();
+        //initUrlop();
         sortOrders.put("id", SortOrder.descending);
     }
 
     private void initUrlop() {
         //godzOd = "HH:MM";
         //godzDo = "HH:MM";
-        
         Calendar cal=Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
@@ -503,15 +509,7 @@ public class UrlopM implements Serializable {
             akceptL.addAll(s.getUserId().getWnUrlopListDoAkceptu());
         }
         urlopyAkcept.setWrappedData(akceptL);
-
-        ArrayList<WnUrlop> akceptHist = new ArrayList<>();
-        for (WnHistoria wh : login.getZalogowany().getUserId().getWnHistoriaListAkceptant()) {
-            if (!akceptHist.contains(wh.getUrlopId())) {
-                akceptHist.add(wh.getUrlopId());
-            }
-        }
-        urlopyAkceptHist.setWrappedData(akceptHist);
-        login.refresh();
+        //login.refresh();
     }
 
     public WnUrlop getUrlop() {

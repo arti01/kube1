@@ -74,10 +74,12 @@
 
                     <p:outputLabel for="role" value="role w systemie: &lt;br/&gt; (aby je edytować ustaw właściwe zewnętrzne id i zapisz)" escape="false"/>
                     <p:selectManyCheckbox id="role" columns="4" layout="grid" value="#{UsersM.strukt.userId.role}" converter="#{UserRolesConv}"
-                                          disabled="#{!(UsersM.strukt.userId.extId=='' or fn:contains(UsersM.strukt.userId.extId, '@') or fn:contains(UsersM.strukt.userId.extId, 'FN')) }"
+                                          rendered="#{(UsersM.strukt.userId.extId=='' or fn:contains(UsersM.strukt.userId.extId, '@') or fn:contains(UsersM.strukt.userId.extId, 'FN'))}"
                                           style="font-size: smaller">
                         <f:selectItems value="#{UsersM.roleAll}" var="rola" itemValue="#{rola}" itemLabel="#{rola.opis}"/>
                     </p:selectManyCheckbox>
+                    <h:outputText value="role niedostępne - ustawiane z systemu zewnętrznego"
+                                  rendered="#{!(UsersM.strukt.userId.extId=='' or fn:contains(UsersM.strukt.userId.extId, '@') or fn:contains(UsersM.strukt.userId.extId, 'FN'))}"/>
 
                     <p:outputLabel for="repoz" value="ma dostęp do określonych repozytoriów dokumentów" escape="false"/>
                     <p:selectManyCheckbox id="repoz" columns="4" layout="grid" value="#{UsersM.strukt.repozytoriaList}" converter="#{repozytoriaConv}"
