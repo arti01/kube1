@@ -69,6 +69,12 @@ public class UrlopM implements Serializable {
 
     public String listPodwl() {
         initUrlop();
+        ArrayList<WnUrlop> akceptL = new ArrayList<>();
+        akceptL.addAll(login.getZalogowany().getUserId().getWnUrlopListDoAkceptu());
+        for (Struktura s : login.getZalogowany().getUserId().getStrukturaSec()) {
+            akceptL.addAll(s.getUserId().getWnUrlopListDoAkceptu());
+        }
+        urlopyAkcept.setWrappedData(akceptL);
         return "/urlop/urlopyListPodwl";
     }
 
@@ -136,6 +142,7 @@ public class UrlopM implements Serializable {
             ex.printStackTrace();
         } finally {
             initUrlop();
+            listPodwl();//bo musi odswierzyc liste
             FacesContext context = FacesContext.getCurrentInstance();
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             FacesMessage message = new FacesMessage();
@@ -280,6 +287,7 @@ public class UrlopM implements Serializable {
             }
         }
         initUrlop();
+        listPodwl();//bo musi odswierzyc liste
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent zapisz = UIComponent.getCurrentComponent(context);
         FacesMessage message = new FacesMessage();
@@ -343,7 +351,7 @@ public class UrlopM implements Serializable {
         }
 
         initUrlop();
-
+        listPodwl();//bo musi odswierzyc liste
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent zapisz = UIComponent.getCurrentComponent(context);
         FacesMessage message = new FacesMessage();
@@ -402,7 +410,7 @@ public class UrlopM implements Serializable {
         }
 
         initUrlop();
-
+        listPodwl();//bo musi odswierzyc liste
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent zapisz = UIComponent.getCurrentComponent(context);
         FacesMessage message = new FacesMessage();
@@ -502,13 +510,6 @@ public class UrlopM implements Serializable {
             urlop.setExtraemail(true);
         }
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopList());
-
-        ArrayList<WnUrlop> akceptL = new ArrayList<>();
-        akceptL.addAll(login.getZalogowany().getUserId().getWnUrlopListDoAkceptu());
-        for (Struktura s : login.getZalogowany().getUserId().getStrukturaSec()) {
-            akceptL.addAll(s.getUserId().getWnUrlopListDoAkceptu());
-        }
-        urlopyAkcept.setWrappedData(akceptL);
         //login.refresh();
     }
 
