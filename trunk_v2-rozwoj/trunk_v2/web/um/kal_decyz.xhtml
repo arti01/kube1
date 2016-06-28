@@ -23,7 +23,7 @@
 
                     <p:dataGrid value="#{RezerMojKalMg.kalOsDesList}" var="osoba" columns="2" layout="grid" style="border-style: hidden;">
                         <p:panelGrid columns="2" style="width:100%; border-style: hidden;" columnClasses="column1_50, column2_50">
-                            <h:outputText value="#{osoba.user.fullname}"/>
+                            <h:outputText value="#{osoba.user.fullname} (#{osoba.user.spolkaId.symbol})"/>
                             <p:spacer width="100" height="12" styleClass="#{osoba.cssStyl}"/>
                         </p:panelGrid>
                     </p:dataGrid>

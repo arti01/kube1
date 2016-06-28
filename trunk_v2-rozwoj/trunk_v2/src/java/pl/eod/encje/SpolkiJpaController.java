@@ -205,4 +205,5 @@ public class SpolkiJpaController implements Serializable {
             em.close();
         }
     }
+    
 }

@@ -456,4 +456,4 @@ public class Uzytkownik implements Serializable {
     public String toString() {
         return "pl.eod.encje.Uzytkownik[ id=" + id + " ]";
     }
-}
+    }

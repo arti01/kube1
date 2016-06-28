@@ -458,4 +458,18 @@ public class StrukturaJpaController implements Serializable {
             em.close();
         }
     }
+    public List<Struktura> strukturyNieUsuniete(Spolki sp){
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            Query query;
+                query = em.createNamedQuery("Struktura.nieusunieci");
+                query.setParameter("idSpolki", sp);
+            return query.getResultList();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
 }

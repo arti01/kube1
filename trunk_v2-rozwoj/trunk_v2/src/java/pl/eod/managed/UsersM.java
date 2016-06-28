@@ -70,7 +70,7 @@ public class UsersM implements Serializable {
         urC = new UserRolesJpaController();
         login.refresh();
         //dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
-        dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
+        //dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
         //users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
         //sortOrders.put("userId.fullname", SortOrder.descending);
         KomKolC = new KomKolejkaJpaController();
@@ -91,7 +91,11 @@ public class UsersM implements Serializable {
         dzialyAll = dzialC.findDzialEntities(login.zalogowany.getUserId().getSpolkaId());
         kierownicyAll = struktC.getFindKierownicy(login.zalogowany.getUserId().getSpolkaId());
         //users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
+        //System.err.println(new Date().getTime());
         dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
+        //System.err.println(new Date().getTime());
+        //dataModelPF = struktC.strukturyNieUsuniete(login.zalogowany.getUserId().getSpolkaId());
+        //System.err.println(new Date().getTime());
         //System.err.println("initUser"+new Date());
         //System.out.println(struktury.getRowCount()+"initUser");
     }
@@ -158,7 +162,9 @@ public class UsersM implements Serializable {
     }
 
     public void dodaj() throws NonexistentEntityException, Exception {
+
         String error1 = struktC.create(strukt);
+        
         if (error1 != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error1, error1);
             FacesContext context = FacesContext.getCurrentInstance();
@@ -172,19 +178,6 @@ public class UsersM implements Serializable {
             initUser();
         }
     }
-    
-   public void  dodajtest() throws Exception{
-       for(int i=0;i<200;i++){
-           Struktura s=new Struktura();
-           s=strukt;
-           if(s.getId()!=null){
-           s.setId(s.getId()+1+i);
-           s.getUserId().setId(s.getUserId().getId()+1+i);
-           }
-           s.getUserId().setFullname(i+"test");
-           struktC.create(s);
-       }
-   }
 
     public void usun() {
         struktC.zrobNiewidczony(strukt);
@@ -292,7 +285,6 @@ public class UsersM implements Serializable {
     public void setUsers(List<Uzytkownik> users) {
         this.users = users;
     }*/
-
     public Uzytkownik getUser() {
         return user;
     }
@@ -376,7 +368,7 @@ public class UsersM implements Serializable {
     }
 
     //public Object getDataModel() {
-      //  return dataModel;
+    //  return dataModel;
     //}
 
     /*public Map<String, String> getFilterValues() {
@@ -394,7 +386,6 @@ public class UsersM implements Serializable {
     public void setSortOrders(Map<String, SortOrder> sortOrders) {
         this.sortOrders = sortOrders;
     }*/
-
     public List<Struktura> getDataModelPF() {
         return dataModelPF;
     }
