@@ -158,13 +158,6 @@ public class Spolki implements Serializable {
     }
 
     public List<Struktura> getStrukturalist() {
-        /*    strukturalist = new ArrayList<>();
-        for (Uzytkownik u : this.getUserList()) {
-            if (!u.getStruktura().isUsuniety()) {
-                strukturalist.add(u.getStruktura());
-            }
-        }
-        return strukturalist;*/
         return new StrukturaJpaController().strukturyNieUsuniete(this);
     }
 

@@ -21,6 +21,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.TreeNode;
 import pl.eod.abstr.AbstMg;
+import pl.eod.encje.Struktura;
 import pl.eod.encje.Uzytkownik;
 import pl.eod.managed.Login;
 import pl.eod2.encje.DcRodzaj;
@@ -65,10 +66,8 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         usersList = new ArrayList<>();
         usersListSelect = new ArrayList<>();
         zrobDrzewo(false, null);
-        for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
-            if (!u.getStruktura().isUsuniety()) {
-                usersList.add(u);
-            }
+        for (Struktura s : login.getZalogowany().getUserId().getSpolkaId().getStrukturalist()) {
+                usersList.add(s.getUserId());
         }
         usersListSelect.addAll(usersList);
     }

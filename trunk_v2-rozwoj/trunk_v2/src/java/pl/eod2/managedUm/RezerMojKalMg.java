@@ -76,10 +76,8 @@ public class RezerMojKalMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> imple
         usersList = new ArrayList<>();
         usersListSelect = new ArrayList<>();
         kalTabela = new ArrayList<>();
-        for (Uzytkownik u : login.getZalogowany().getUserId().getSpolkaId().getUserList()) {
-            if (!u.getStruktura().isUsuniety()) {
-                usersList.add(u);
-            }
+        for (Struktura s : login.getZalogowany().getUserId().getSpolkaId().getStrukturalist()) {
+                usersList.add(s.getUserId());
         }
         usersListSelect.addAll(usersList);
     }
