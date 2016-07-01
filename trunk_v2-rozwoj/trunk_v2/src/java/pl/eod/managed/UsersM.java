@@ -51,6 +51,7 @@ public class UsersM implements Serializable {
     StrukturaJpaController struktC;
     UserRolesJpaController urC;
     Struktura strukt;
+    Struktura newSzef;
     DzialJpaController dzialC;
     @ManagedProperty(value = "#{login}")
     private Login login;
@@ -164,7 +165,7 @@ public class UsersM implements Serializable {
     public void dodaj() throws NonexistentEntityException, Exception {
 
         String error1 = struktC.create(strukt);
-        
+
         if (error1 != null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, error1, error1);
             FacesContext context = FacesContext.getCurrentInstance();
@@ -223,7 +224,7 @@ public class UsersM implements Serializable {
                 strukt.getDzialId().setNazwa(strukt.getSzefId().getDzialId().getNazwa());
             }
         } catch (NullPointerException ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
         } catch (Exception ex1) {
             ex1.printStackTrace();
         }
@@ -278,13 +279,23 @@ public class UsersM implements Serializable {
         return wynik;
     }
 
-    /*public List<Uzytkownik> getUsers() {
-        return users;
+    public void zmienPrzelozonegoDo() throws NonexistentEntityException, NullPointerException, Exception {
+        for (Struktura s : strukt.getBezpPod()) {
+            s.setSzefId(newSzef);
+            struktC.editArti(s);
+        }
+        //struktC.editArti(struktC.findStruktura(strukt.getId()));
+        strukt.setBezpPod(new ArrayList<>());
+        struktC.editArti(strukt);
+        System.err.println(strukt.getBezpPodWidoczni());
+        FacesMessage message = new FacesMessage("zmiana wykonana");
+        FacesContext context = FacesContext.getCurrentInstance();
+        UIComponent zapisz = UIComponent.getCurrentComponent(context);
+        context.addMessage(zapisz.getClientId(context), message);
+        //initUser();
+        //return "/all/usersList?faces-redirect=true";
     }
 
-    public void setUsers(List<Uzytkownik> users) {
-        this.users = users;
-    }*/
     public Uzytkownik getUser() {
         return user;
     }
@@ -367,25 +378,14 @@ public class UsersM implements Serializable {
         this.kierownicyAll = kierownicyAll;
     }
 
-    //public Object getDataModel() {
-    //  return dataModel;
-    //}
-
-    /*public Map<String, String> getFilterValues() {
-        return filterValues;
+    public Struktura getNewSzef() {
+        return newSzef;
     }
 
-    public void setFilterValues(Map<String, String> filterValues) {
-        this.filterValues = filterValues;
+    public void setNewSzef(Struktura newSzef) {
+        this.newSzef = newSzef;
     }
 
-    public Map<String, SortOrder> getSortOrders() {
-        return sortOrders;
-    }
-
-    public void setSortOrders(Map<String, SortOrder> sortOrders) {
-        this.sortOrders = sortOrders;
-    }*/
     public List<Struktura> getDataModelPF() {
         return dataModelPF;
     }

@@ -14,7 +14,7 @@
         <h:form id="center">
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
-            
+
             <p:outputPanel id="formWprow">
                 <p:panelGrid columns="2" id="form" columnClasses="column1,column2" style="width: 100%;">
                     <p:outputLabel for="name" value="Imię i nazwisko: "/>
@@ -45,7 +45,7 @@
                     <p:selectOneMenu id="przelozonyEK" value="#{UsersM.strukt.szefId}" converter="#{StrukturaConv}">
                         <f:selectItems value="#{UsersM.strukt.mozliwiSzefowie}" var="struktura" itemValue="#{struktura}" itemLabel="#{struktura.userId.fullname}"/>
                     </p:selectOneMenu>
-                    
+
 
                     <p:outputLabel for="sec_user_id" value="Zastępuje go"/>
                     <p:autoComplete id="sec_user_id" value="#{UsersM.strukt.secUserId}" completeMethod="#{UsersM.uzytkownicyAucoComp}" var="user" itemValue="#{user}"
@@ -67,7 +67,7 @@
 
                     <p:outputLabel for="extid" value="Zewnętrzne Id:"/>
                     <p:inputText id="extid" value="#{UsersM.strukt.userId.extId}" size="10"><p:message for="extid" styleClass="error" /></p:inputText>
-                    
+
 
                     <p:outputLabel for="extraemail" value="Dodatkowe emaile (oddzielone przecinkiem):"/>
                     <p:inputText id="extraemail" value="#{UsersM.strukt.extraemail}" size="50"><p:message for="extraemail" styleClass="error" /></p:inputText>
@@ -86,11 +86,27 @@
                                           style="font-size: smaller">
                         <f:selectItems value="#{repozytoriaKontr.findEntities}" var="repo" itemValue="#{repo}" itemLabel="#{repo.nazwa}"/>
                     </p:selectManyCheckbox>
-
-                    <p:message for="zapisz" styleClass="error"/>
+                    <p:outputLabel value="podwładni"/>
+                    <p:fieldset collapsed="true" legend="rozwiń" toggleable="true" id="podwField">
+                        <p:dataList value="#{UsersM.strukt.bezpPodWidoczni}" var="podw" emptyMessage="brak">
+                            #{podw.userId.fullname}
+                        </p:dataList>
+                        <br/>
+                        <p:commandButton type="button" value="zmień przełożonego dla wszystkich podwładnych" onclick="PF('zmienPrzel').show();"  rendered="#{fn:length(UsersM.strukt.bezpPodWidoczni)>0}"/>
+                    </p:fieldset>
+                    <p:spacer/>
                     <p:commandButton id="zapisz" value=" Zapisz " action="#{UsersM.zapisz}" update="formWprow" process="formWprow"/>
                 </p:panelGrid>
             </p:outputPanel>
+
+            <p:dialog id="zmienPrzel" widgetVar="zmienPrzel" header="ustaw nowego przełożonego">
+                <p:selectOneMenu value="#{UsersM.newSzef}" converter="#{StrukturaConv}">
+                    <f:selectItems value="#{UsersM.strukt.mozliwiSzefowie}" var="struktura" itemValue="#{struktura}" itemLabel="#{struktura.userId.fullname}"/>
+                </p:selectOneMenu>
+                <p:separator/>
+                <p:commandButton id="zmPrzBut" value="wykonaj zmianę" process="zmienPrzel" action="#{UsersM.zmienPrzelozonegoDo}" oncomplete="PF('zmienPrzel').hide();" 
+                                 update="infoForm, podwField"/>
+            </p:dialog>
         </h:form>
     </ui:define>
 
