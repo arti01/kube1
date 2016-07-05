@@ -30,7 +30,7 @@ public class MailWyslij {
         this.mail_smtp_port = confC.findConfigNazwa("mail_smtp_port").getWartosc();
         this.username = confC.findConfigNazwa("username").getWartosc();
         this.password = confC.findConfigNazwa("password").getWartosc();
-        this.password = confC.findConfigNazwa("mail_smtp_from").getWartosc();
+        this.mail_smtp_from = confC.findConfigNazwa("mail_smtp_from").getWartosc();
         this.link=confC.findConfigNazwa("email_link").getWartosc();
         this.czy_ssl=confC.findConfigNazwa("czy_ssl").getWartosc();
         this.tresc=this.tresc+"\n\r"+this.link;
