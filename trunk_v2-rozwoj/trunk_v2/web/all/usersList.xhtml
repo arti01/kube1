@@ -17,21 +17,24 @@
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
             <p:outputPanel id="listPanel">
                 <p:dataTable value="#{UsersM.dataModelPF}" var="strukt" id="table" editable="true" emptyMessage="brak rekordów"
-                             paginator="true" rows="10" rowsPerPageTemplate="10,20,50" widgetVar="userTable">
-                    <p:column headerText="Imię i nazwisko, email" sortBy="#{strukt.userId.fullname}" 
+                             paginator="true" rows="10" rowsPerPageTemplate="10,20,50" widgetVar="userTable" sortBy="#{strukt.dzialId.symbol} #{!strukt.stKier} #{strukt.userId.fullname}">
+                    <p:column headerText="Imię i nazwisko, email" sortBy="#{strukt.userId.fullname}" style="text-align: center;border-width: 2px" 
                               filterBy="#{strukt.userId.fullname} #{strukt.userId.adrEmail}" filterMatchMode="contains">
                         <h:outputText id="nameE" value="#{strukt.userId.fullname} (#{strukt.userId.adrEmail})"/>
+                        <p:separator style="height: 1px; width: 50%"/>
+                        <h:outputText value="pracownik" rendered="#{!strukt.stKier}"/>
+                        <h:outputText value="kierownik" rendered="#{strukt.stKier}"/>
                     </p:column>
-                    <p:column headerText="Dział (symbol)" id="colKier" style="text-align: center" sortBy="#{strukt.dzialId.nazwa}"
+                    <p:column headerText="Dział (symbol)" id="colKier" style="text-align: center;border-width: 2px" sortBy="#{strukt.dzialId.nazwa}" 
                               filterBy="#{strukt.dzialId.symbol} #{strukt.dzialId.nazwa}" filterMatchMode="contains">
                         <h:outputText id="dzialE" value="#{strukt.dzialId.nazwa}"/>
                         <p:separator style="height: 1px; width: 50%"/>
                         <h:outputText id="dzialES" value="(#{strukt.dzialId.symbol})"/>
                     </p:column>
-                    <p:column style="width: 45px" headerText="więcej">
+                    <p:column style="width: 45px;border-width: 2px" headerText="więcej">
                         <p:rowToggler />
                     </p:column>
-                    <p:column headerText="akcje" style="width: 95px">
+                    <p:column headerText="akcje" style="width: 95px;border-width: 2px">
                         <p:commandButton id="zapisz" title="Edytuj"  action="#{UsersM.edycja}" icon="ui-icon-pencil" style="font-weight: lighter; font-size: smaller;">
                             <f:setPropertyActionListener target="#{UsersM.strukt}" value="#{strukt}"/>
                         </p:commandButton>
