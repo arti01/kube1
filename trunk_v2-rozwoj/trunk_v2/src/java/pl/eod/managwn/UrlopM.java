@@ -60,7 +60,6 @@ public class UrlopM implements Serializable {
     private Date godzOdT;
     private Date godzDoT;
     private Date dataUrlopu;
-    boolean calyDzien;
 
     public String list() {
         initUrlop();
@@ -432,7 +431,7 @@ public class UrlopM implements Serializable {
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
         Calendar calDo = Calendar.getInstance();
-        if (!calyDzien || urlop.getRodzajId().getId()==40) {
+        if (urlop.getRodzajId().getId()==40 ||urlop.getRodzajId().getId()==30||urlop.getRodzajId().getId()==3) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
@@ -502,7 +501,6 @@ public class UrlopM implements Serializable {
         godzDoT=cal.getTime();
         
         dataUrlopu = new Date();
-        calyDzien = true;
         login.refresh();
         urlop = new WnUrlop();
         urlop.setUzytkownik(login.getZalogowany().getUserId());
@@ -600,30 +598,6 @@ public class UrlopM implements Serializable {
 
     public Map<String, SortOrder> getSortOrders() {
         return sortOrders;
-    }
-
-/*    public String getGodzOd() {
-        return godzOd;
-    }
-
-    public void setGodzOd(String godzOd) {
-        this.godzOd = godzOd;
-    }
-
-    public String getGodzDo() {
-        return godzDo;
-    }
-
-    public void setGodzDo(String godzDo) {
-        this.godzDo = godzDo;
-    }*/
-
-    public boolean isCalyDzien() {
-        return calyDzien;
-    }
-
-    public void setCalyDzien(boolean calyDzien) {
-        this.calyDzien = calyDzien;
     }
 
     public Date getDataUrlopu() {

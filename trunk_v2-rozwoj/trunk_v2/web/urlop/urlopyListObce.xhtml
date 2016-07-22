@@ -33,32 +33,26 @@
                     </p:selectOneMenu>
                     <p:message for="rodzajW" styleClass="error" />
 
-                    <p:outputLabel value="Cały dzień?" rendered="#{UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    <p:inputSwitch id="calyDzien" value="#{UrlopObceM.calyDzien}" offLabel="Nie" onLabel="Tak" rendered="#{UrlopObceM.urlop.rodzajId.id!=40}">
-                        <p:ajax event="change" update="form" process="calyDzien" rendered="#{UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    </p:inputSwitch>
-                    <p:outputLabel rendered="#{UrlopObceM.urlop.rodzajId.id!=40}"/>
+                    <p:outputLabel for="data_od" value="Data od:" rendered="#{UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=30 and UrlopObceM.urlop.rodzajId.id!=3}"/>
+                    <p:calendar id="data_od" value="#{UrlopObceM.urlop.dataOd}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=30 and UrlopObceM.urlop.rodzajId.id!=3}"/>
+                    <p:message for="data_od" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=30 and UrlopObceM.urlop.rodzajId.id!=3}"/>
 
-                    <p:outputLabel for="data_od" value="Data od:" rendered="#{UrlopObceM.calyDzien and UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    <p:calendar id="data_od" value="#{UrlopObceM.urlop.dataOd}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.calyDzien and UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    <p:message for="data_od" styleClass="error" rendered="#{UrlopObceM.calyDzien and UrlopObceM.urlop.rodzajId.id!=40}"/>
+                    <p:outputLabel for="data_do" value="Data do:" rendered="#{UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=30 and UrlopObceM.urlop.rodzajId.id!=3}"/>
+                    <p:calendar id="data_do" value="#{UrlopObceM.urlop.dataDo}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=30 and UrlopObceM.urlop.rodzajId.id!=3}"/>
+                    <p:message for="data_do" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=30 and UrlopObceM.urlop.rodzajId.id!=3}"/>
 
-                    <p:outputLabel for="data_do" value="Data do:" rendered="#{UrlopObceM.calyDzien and UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    <p:calendar id="data_do" value="#{UrlopObceM.urlop.dataDo}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.calyDzien and UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    <p:message for="data_do" styleClass="error" rendered="#{UrlopObceM.calyDzien and UrlopObceM.urlop.rodzajId.id!=40}"/>
-
-                    <p:outputLabel for="data_url" value="Dzień urlopu:" rendered="#{!UrlopObceM.calyDzien and UrlopObceM.urlop.rodzajId.id!=40}"/>
+                    <p:outputLabel for="data_url" value="Dzień urlopu:" rendered="#{UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==3}"/>
                     <p:outputLabel for="data_url" value="Dzień nadgodzin:" rendered="#{UrlopObceM.urlop.rodzajId.id==40}"/>
-                    <p:calendar id="data_url" value="#{UrlopObceM.dataUrlopu}" pattern="yyyy-MM-dd" locale="pl" rendered="#{!UrlopObceM.calyDzien or UrlopObceM.urlop.rodzajId.id==40}"/>
-                    <p:message for="data_url" styleClass="error" rendered="#{!UrlopObceM.calyDzien or UrlopObceM.urlop.rodzajId.id==40}"/>
+                    <p:calendar id="data_url" value="#{UrlopObceM.dataUrlopu}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==3}"/>
+                    <p:message for="data_url" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==3}"/>
 
-                    <p:outputLabel value="Godzina od:" rendered="#{!UrlopObceM.calyDzien or UrlopObceM.urlop.rodzajId.id==40}"/>
-                    <p:calendar id="data_od_godz" value="#{UrlopObceM.godzOdT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{!UrlopObceM.calyDzien or UrlopObceM.urlop.rodzajId.id==40}"/>
-                    <p:message for="data_od_godz" styleClass="error" rendered="#{!UrlopObceM.calyDzien or UrlopObceM.urlop.rodzajId.id==40}"/>
+                    <p:outputLabel value="Godzina od:" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==3}"/>
+                    <p:calendar id="data_od_godz" value="#{UrlopObceM.godzOdT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==3}"/>
+                    <p:message for="data_od_godz" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==3}"/>
 
-                    <p:outputLabel for="data_do_godz" value="Godzina do:" rendered="#{!UrlopObceM.calyDzien or UrlopObceM.urlop.rodzajId.id==40}"/>
-                    <p:calendar id="data_do_godz" value="#{UrlopObceM.godzDoT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{!UrlopObceM.calyDzien or UrlopObceM.urlop.rodzajId.id==40}"/>
-                    <p:message for="data_do_godz" styleClass="error" rendered="#{!UrlopObceM.calyDzien or UrlopObceM.urlop.rodzajId.id==40}"/>
+                    <p:outputLabel for="data_do_godz" value="Godzina do:" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==3}"/>
+                    <p:calendar id="data_do_godz" value="#{UrlopObceM.godzDoT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==3}"/>
+                    <p:message for="data_do_godz" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==3}"/>
 
                     <p:outputLabel for="extraemail" value="Czy wysłać informacje na dodatkowe e-maile?" rendered="#{fn:length(UrlopObceM.urlop.uzytkownik.struktura.extraemail)>0}"/>
                     <h:panelGroup rendered="#{fn:length(UrlopObceM.urlop.uzytkownik.struktura.extraemail)>0}">
