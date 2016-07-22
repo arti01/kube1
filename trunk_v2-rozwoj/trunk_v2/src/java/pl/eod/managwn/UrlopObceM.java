@@ -46,7 +46,6 @@ public class UrlopObceM {
     private Date godzOdT;
     private Date godzDoT;
     private Date dataUrlopu;
-    boolean calyDzien;
 
     public String list() {
         initUrlop();
@@ -215,7 +214,7 @@ public class UrlopObceM {
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
         Calendar calDo = Calendar.getInstance();
-        if (!calyDzien || urlop.getRodzajId().getId()==40) {
+        if (urlop.getRodzajId().getId()==40||urlop.getRodzajId().getId()==30||urlop.getRodzajId().getId()==3) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
@@ -288,7 +287,6 @@ public class UrlopObceM {
         cal.set(Calendar.MINUTE, 59);
         godzDoT=cal.getTime();
         dataUrlopu = new Date();
-        calyDzien = true;
         urlop = new WnUrlop();
         urlop.setUzytkownik(new Uzytkownik());
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopListPrzyjmujacy());
@@ -350,13 +348,4 @@ public class UrlopObceM {
     public void setDataUrlopu(Date dataUrlopu) {
         this.dataUrlopu = dataUrlopu;
     }
-
-    public boolean isCalyDzien() {
-        return calyDzien;
-    }
-
-    public void setCalyDzien(boolean calyDzien) {
-        this.calyDzien = calyDzien;
-    }
-
 }
