@@ -129,7 +129,13 @@ public class UrlopObceM {
         WnStatusy st = new WnStatusy();
         st.setId(new Long(2));
         urlop.setStatusId(st);
+        try{
         urlop.setAkceptant(urlop.getUzytkownik().getStruktura().getSzefId().getUserId());
+        } catch (NullPointerException np){
+            System.err.println("zapewne brak szefa");
+            np.printStackTrace();
+            return;
+        }
 
         WnHistoria wnh = new WnHistoria();
         wnh.setDataZmiany(new Date());

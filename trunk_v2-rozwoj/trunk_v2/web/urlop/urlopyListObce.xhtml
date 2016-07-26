@@ -116,9 +116,15 @@
                         <h:outputText value="#{urlop.dataWprowadzenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                     </p:column>
                     <p:column headerText="Od Do" sortBy="#{urlop.dataOd}">
-                        <h:outputText value="#{urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                        <h:outputText value="#{urlop.dataOd}" rendered="#{urlop.rodzajId.id==40 or urlop.rodzajId.id==30 or urlop.rodzajId.id==3}">
+                            <f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                        <h:outputText value="#{urlop.dataOd}" rendered="#{!(urlop.rodzajId.id==40 or urlop.rodzajId.id==30 or urlop.rodzajId.id==3)}">
+                            <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
                         <p:separator/>
-                        <h:outputText value="#{urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                        <h:outputText value="#{urlop.dataDo}" rendered="#{urlop.rodzajId.id==40 or urlop.rodzajId.id==30 or urlop.rodzajId.id==3}">
+                            <f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                        <h:outputText value="#{urlop.dataDo}" rendered="#{!(urlop.rodzajId.id==40 or urlop.rodzajId.id==30 or urlop.rodzajId.id==3)}">
+                            <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
                     </p:column>
                     <p:column headerText="Status" filterBy="#{urlop.statusId.opis}" filterMatchMode="contains" style="background-color: #{urlop.statusId.kolor} ; text-align: center">
                         <h:outputText value="#{urlop.statusId.opis}"/>
@@ -194,7 +200,6 @@
                             <f:setPropertyActionListener target="#{UrlopObceM.godzOdT}" value="#{urlop.dataOd}"/>
                             <f:setPropertyActionListener target="#{UrlopObceM.godzDoT}" value="#{urlop.dataDo}"/>
                             <f:setPropertyActionListener target="#{UrlopObceM.dataUrlopu}" value="#{urlop.dataOd}"/>
-                            <f:setPropertyActionListener target="#{UrlopObceM.calyDzien}" value="#{urlop.calyDzien}"/>
                         </p:commandButton>
                         <p:commandButton id="imgWy" action="#{UrlopObceM.wyslij}" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" 
                                          process="@this" icon="ui-icon-play" oncomplete="PF('tableV').filter();">
