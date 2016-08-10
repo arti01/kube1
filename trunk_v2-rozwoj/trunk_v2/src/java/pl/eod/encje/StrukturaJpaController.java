@@ -385,6 +385,16 @@ public class StrukturaJpaController implements Serializable {
         }
         return wynik;
     }
+    
+    public List<Struktura> findStrukturaWidoczniAll() {
+        List<Struktura> wynik = new ArrayList<>();
+        for (Struktura s : findStrukturaEntities()) {
+            if (!s.isUsuniety()) {
+                wynik.add(s);
+            }
+        }
+        return wynik;
+    }
 
     public List<Struktura> findStrukturaEntities() {
         return findStrukturaEntities(true, -1, -1);
