@@ -55,12 +55,35 @@
                     <p:inputSwitch id="pracodawca" value="#{UrlopM.urlop.pracodawca}" rendered="#{UrlopM.urlop.rodzajId.id==40}" onLabel="Tak" offLabel="Nie"/>
                     <p:message for="pracodawca" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==40}"/>
 
-                    <p:outputLabel for="kwota" value="Kwota: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
-                    <p:inputText id="kwota" value="#{UrlopM.urlop.kwotaWs}" rendered="#{UrlopM.urlop.rodzajId.id==30}">
-                        <f:convertNumber type="currency" minFractionDigits="2" pattern="#0,00" groupingUsed="false"/>
-                        <p:watermark for="kwota" value="99 999,99" />
-                    </p:inputText>
-                    <p:message for="kwota" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                        <p:outputLabel for="wpisowe" value="Wpisowe: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+
+                        <p:inputNumber id="wpisowe" value="#{UrlopM.urlop.wpisowe}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}">
+                            <p:ajax event="change" update="form" process="form"/>
+                        </p:inputNumber>
+                        <p:message for="wpisowe" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+
+                        <p:outputLabel for="koszty_dojazdu" value="Koszty dojazdu: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                        <p:inputNumber id="koszty_dojazdu" value="#{UrlopM.urlop.koszty_dojazdu}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}">
+                            <p:ajax event="change" update="form" process="form"/>
+                        </p:inputNumber>
+                        <p:message for="koszty_dojazdu" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+
+                        <p:outputLabel for="hotel" value="Hotel: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                        <p:inputNumber id="hotel" value="#{UrlopM.urlop.hotel}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}">
+                            <p:ajax event="change" update="form" process="form"/>
+                        </p:inputNumber>
+                        <p:message for="hotel" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+
+                        <p:outputLabel for="inne" value="Inne: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                        <p:inputNumber id="inne" value="#{UrlopM.urlop.inne}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}">
+                            <p:ajax event="change" update="form" process="form"/>
+                        </p:inputNumber>
+                        <p:message for="inne" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+
+                        <p:outputLabel for="kwota" value="przewidywane koszty: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                        <p:inputNumber id="kwota" value="#{UrlopM.urlop.kwotaWs}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}" readonly="true">
+                        </p:inputNumber>
+                        <p:message for="kwota" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
 
                     <p:outputLabel for="infoDod" value="Informacje dodatkowe: "/>
                     <h:inputTextarea id="infoDod" value="#{UrlopM.urlop.infoDod}" cols="52"/>
