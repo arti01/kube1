@@ -55,35 +55,36 @@
                     <p:inputSwitch id="pracodawca" value="#{UrlopM.urlop.pracodawca}" rendered="#{UrlopM.urlop.rodzajId.id==40}" onLabel="Tak" offLabel="Nie"/>
                     <p:message for="pracodawca" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==40}"/>
 
-                        <p:outputLabel for="wpisowe" value="Wpisowe: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                    <p:outputLabel value="Koszty szolenia:" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                    <p:panelGrid columns="4" rendered="#{UrlopM.urlop.rodzajId.id==30}" columnClasses="column1, column2, column1, column2">
+                        <p:outputLabel value="Temat szkolenia: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                        <p:inputText value="#{UrlopM.urlop.temat_szkolenia}" size="45"/>
 
+                        <p:outputLabel for="wpisowe" value="Wpisowe: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
                         <p:inputNumber id="wpisowe" value="#{UrlopM.urlop.wpisowe}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}">
                             <p:ajax event="change" update="form" process="form"/>
                         </p:inputNumber>
-                        <p:message for="wpisowe" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
 
                         <p:outputLabel for="koszty_dojazdu" value="Koszty dojazdu: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
                         <p:inputNumber id="koszty_dojazdu" value="#{UrlopM.urlop.koszty_dojazdu}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}">
                             <p:ajax event="change" update="form" process="form"/>
                         </p:inputNumber>
-                        <p:message for="koszty_dojazdu" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
 
                         <p:outputLabel for="hotel" value="Hotel: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
                         <p:inputNumber id="hotel" value="#{UrlopM.urlop.hotel}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}">
                             <p:ajax event="change" update="form" process="form"/>
                         </p:inputNumber>
-                        <p:message for="hotel" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
 
                         <p:outputLabel for="inne" value="Inne: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
                         <p:inputNumber id="inne" value="#{UrlopM.urlop.inne}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}">
                             <p:ajax event="change" update="form" process="form"/>
                         </p:inputNumber>
-                        <p:message for="inne" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
 
-                        <p:outputLabel for="kwota" value="przewidywane koszty: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
-                        <p:inputNumber id="kwota" value="#{UrlopM.urlop.kwotaWs}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}" readonly="true">
+                        <p:outputLabel for="kwota" value="Przewidywane koszty: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                        <p:inputNumber id="kwota" value="#{UrlopM.urlop.kwotaWs}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}" disabled="true">
                         </p:inputNumber>
-                        <p:message for="kwota" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
+                    </p:panelGrid>
+                    <p:spacer rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
 
                     <p:outputLabel for="infoDod" value="Informacje dodatkowe: "/>
                     <h:inputTextarea id="infoDod" value="#{UrlopM.urlop.infoDod}" cols="52"/>
@@ -160,8 +161,31 @@
                             </p:panelGrid>
                         </p:panel>
                         <p:panel header="Informacje dodatkowe" rendered="#{urlop.rodzajId.id==30}">
-                            <p:panelGrid columns="2" columnClasses="column1p, column2p">
-                                <p:outputLabel value="Kwota: " />
+                            <p:panelGrid columns="6" columnClasses="column1p, column2p,column1p, column2p,column1p, column2p">
+                                <p:outputLabel value="Temat szkolenia: "/>
+                                <h:outputText value="#{urlop.temat_szkolenia}"/>
+
+                                <p:outputLabel value="Wpisowe: "/>
+                                <h:outputText value="#{urlop.wpisowe}">
+                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                </h:outputText>
+                                
+                                <p:outputLabel value="Koszty dojazdu: "/>
+                                <h:outputText value="#{urlop.koszty_dojazdu}">
+                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                </h:outputText>
+                                
+                                <p:outputLabel value="Hotel: "/>
+                                <h:outputText value="#{urlop.hotel}">
+                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                </h:outputText>
+                                
+                                <p:outputLabel value="Inne: "/>
+                                <h:outputText value="#{urlop.inne}">
+                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                </h:outputText>
+
+                                <p:outputLabel value="Przewidywana kwota: " />
                                 <h:outputText value="#{urlop.kwotaWs}">
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                 </h:outputText>
