@@ -1,3 +1,7 @@
+2016-09-13
+rezerwacje widoczne dla wszystkich spolek
+INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'rez_all_sp', 'rezerwacje dla wszystkich spolek', 'tak');
+
 2016-05-23
 INSERT INTO user_roles (id, role_name, opis) VALUES (15, 'eod_um_doc','zasoby - dokumenty');
 Nowe praw - dostęp do dokumentów zasobów
