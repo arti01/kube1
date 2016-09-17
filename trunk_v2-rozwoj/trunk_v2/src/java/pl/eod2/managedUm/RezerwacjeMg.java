@@ -23,6 +23,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.TreeNode;
 import pl.eod.abstr.AbstMg;
+import pl.eod.encje.ConfigJpaController;
 import pl.eod.encje.Struktura;
 import pl.eod.encje.StrukturaDataModel;
 import pl.eod.encje.StrukturaJpaController;
@@ -32,6 +33,7 @@ import pl.eod.managed.Login;
 import pl.eod2.encje.DcRodzaj;
 import pl.eod2.encje.UmGrupa;
 import pl.eod2.encje.UmMasterGrupa;
+import pl.eod2.encje.UmMasterGrupaJpaController;
 import pl.eod2.encje.UmRezerwacje;
 import pl.eod2.encje.UmRezerwacjeKontr;
 import pl.eod2.encje.UmUrzadzenie;
@@ -94,7 +96,13 @@ public class RezerwacjeMg extends AbstMg<UmRezerwacje, UmRezerwacjeKontr> implem
         if (rodz != null && !rodz.getIdRodzajGrupa().isUrzMed()) {
             return;
         }
-        List<UmMasterGrupa> masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
+        boolean allSpolki = (new ConfigJpaController().findConfigNazwa("rez_all_sp").getWartosc()).equalsIgnoreCase("tak");
+        List<UmMasterGrupa> masterList;
+        if (allSpolki) {
+            masterList = new UmMasterGrupaJpaController().findUmMasterGrupaEntities();
+        } else {
+            masterList = login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList();
+        }
         for (UmMasterGrupa mg : masterList) {
             if (!mg.isGrZrezerwacja() && !all) {
                 continue;

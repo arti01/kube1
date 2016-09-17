@@ -41,7 +41,8 @@ public class UMasterMg {
     public void refresh() {
         //lista.setWrappedData(dcC.findUmMasterGrupaEntities());
         lista.clear();
-        lista.addAll(dcC.findUmMasterGrupaEntities());
+        //lista.addAll(dcC.findUmMasterGrupaEntities());
+        lista.addAll(login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList());
         obiekt = new UmMasterGrupa();
         error = null;
     }
@@ -73,7 +74,7 @@ public class UMasterMg {
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
             lista.clear();
-            lista.addAll(dcC.findUmMasterGrupaEntities());
+            lista.addAll(login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList());
         } else {
             uStruktMg.refresh();
             refreshBezLista();

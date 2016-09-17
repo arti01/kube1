@@ -15,6 +15,7 @@ import org.primefaces.event.RowEditEvent;
 import pl.eod.managed.Login;
 import pl.eod2.encje.UmGrupa;
 import pl.eod2.encje.UmGrupaJpaController;
+import pl.eod2.encje.UmMasterGrupa;
 import pl.eod2.encje.exceptions.IllegalOrphanException;
 import pl.eod2.encje.exceptions.NonexistentEntityException;
 
@@ -40,11 +41,13 @@ public class UGrupaMg {
     public void refresh() {
         login.refresh();
         lista.clear();
-        lista.addAll(dcC.findUmGrupaEntities());
+        for (UmMasterGrupa mg : login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList()) {
+            lista.addAll(mg.getGrupaList());
+        }
         obiekt = new UmGrupa();
         error = null;
     }
-    
+
     public void refreshBezLista() {
         login.refresh();
         obiekt = new UmGrupa();
@@ -71,7 +74,9 @@ public class UGrupaMg {
             UIComponent zapisz = UIComponent.getCurrentComponent(context);
             context.addMessage(zapisz.getClientId(context), message);
             lista.clear();
-            lista.addAll(dcC.findUmGrupaEntities());
+            for (UmMasterGrupa mg : login.getZalogowany().getUserId().getSpolkaId().getUmMasterGrupaList()) {
+                lista.addAll(mg.getGrupaList());
+            }
         } else {
             uStruktMg.refresh();
             refreshBezLista();
@@ -88,7 +93,7 @@ public class UGrupaMg {
         refresh();
         return "/um/grupa";
     }
-    
+
     public String raport1() {
         refresh();
         return "/um/raport1";
@@ -133,8 +138,9 @@ public class UGrupaMg {
     public void setuStruktMg(UStruktMg uStruktMg) {
         this.uStruktMg = uStruktMg;
     }
- public void editList(RowEditEvent event) throws NonexistentEntityException, Exception {
-        obiekt=(UmGrupa) event.getObject();
+
+    public void editList(RowEditEvent event) throws NonexistentEntityException, Exception {
+        obiekt = (UmGrupa) event.getObject();
         edytuj();
     }
 }
