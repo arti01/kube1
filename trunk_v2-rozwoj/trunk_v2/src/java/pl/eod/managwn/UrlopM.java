@@ -479,6 +479,10 @@ public class UrlopM implements Serializable {
         }
         context.addMessage(zapisz.getClientId(context), message);
     }
+    
+    public String drukujWs(){
+        return "/urlop/printWs.xhtml";
+    }
 
     @PostConstruct
     public void init() {

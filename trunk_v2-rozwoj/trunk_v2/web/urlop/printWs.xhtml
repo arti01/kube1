@@ -1,0 +1,150 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:define name="tytul">
+        <h3 align="center">Twoje wnioski urlopowe</h3>
+    </ui:define>
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                <p:printer target="druk" />
+            </p:commandButton>
+            <h:panelGroup id="druk">
+                <style type="text/css">
+                    @page {
+                        size: 21cm 29.7cm;
+                        margin: 10mm 15mm 15mm 15mm; /* change the margins as you want them to be. */
+                    }
+                    body {font-family: sans-serif; font-size: 10pt}
+                    input[type=checkbox] {
+                        transform: scale(0.7);
+                    }
+                </style>
+
+                <table style="text-align: left; width: 510pt; border: solid 2px; padding: 10px" >
+                    <tbody>
+                        <tr><td><p:graphicImage url="/resources/wydruki/logo_druk.png" width="200pt"/></td>
+                            <td style="text-align: center; font-size: large; width: 85%; font-weight: bolder;">WNIOSEK SZKOLENIOWY</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="width: 510pt; border: solid 2px; padding: 10px;">
+                    <tr>
+                        <td>
+                            <table style="width: 100%;" border="0" cellpadding="2" cellspacing="10pt">
+                                <tr>
+                                    <td style="vertical-align: central;text-align: center; width: 20%;"><b>#{UrlopM.urlop.uzytkownik.fullname}</b><br/>(imię i nazwisko)</td>
+                                    <td style="vertical-align: central;text-align: right;">..............................<br/>(miejscowość, data)</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: central;;text-align: center;">....................................<br/>(dział/ośrodek)</td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: central;;text-align: center;">....................................<br/>(stanowisko)</td>
+                                </tr>
+                            </table>
+                            <p style="text-align: right">
+                                Dyrektor Działu / Ośrodka </p>
+                            <p style="text-align: justify">Uprzejmie proszę o wyrażenie zgody na delegowanie mnie na szkolenie  na temat 			
+                                Szkolenie to odbędzie się w terminie <br/>od <b>#{UrlopM.urlop.dataOdStr}</b> do <b>#{UrlopM.urlop.dataDoStr}</b> w: <b>#{UrlopM.urlop.miejsce}</b>
+                            </p>
+                            <p style="text-align: right"><br/><br/><br/>............................................<br/>(podpis Pracownika)</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">
+                            <hr/>
+                            <p style="font-weight: bold">Przewidywane koszty:</p>
+                            <p style="font-weight: bold"><input type="checkbox"/>całość: <b>    <h:outputText value="#{UrlopM.urlop.kwotaWs}">
+                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                    </h:outputText></b></p>
+                            <p>W tym:
+                                <br/><input type="checkbox" style="width: 5px;height: 5px"/>wpisowe: <b>
+                                    <h:outputText value="#{UrlopM.urlop.wpisowe}">
+                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                    </h:outputText>
+                                </b>
+                                <br/><input type="checkbox" style="font-size: small"/>koszty dojazdu: <b><h:outputText value="#{UrlopM.urlop.koszty_dojazdu}">
+                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                    </h:outputText></b><input type="checkbox"/>PKP/PKS<input type="checkbox"/>Inne (jakie?): ....................
+                                    <br/><input type="checkbox"/>hotel: <b>    <h:outputText value="#{UrlopM.urlop.hotel}">
+                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                    </h:outputText></b><input type="checkbox"/>limit (jaki?): ......................
+                                    <br/><input type="checkbox"/>inne (jakie): <b>    <h:outputText value="#{UrlopM.urlop.inne}">
+                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                        </h:outputText></b><h:outputText value=" #{UrlopM.urlop.infoDod}"/>
+                            </p>
+                            <br/>
+                            <p style="font-weight: bold">Budżet szkoleniowy (dotyczy TYLKO ośrodków medycznych):</p>
+                            <p>W tym:
+                                <br/><input type="checkbox"/>zgodne z założonym budżetem szkoleniowym (PL-R-18-03)
+                                <br/><input type="checkbox"/>nieplanowane (poza budżetem szkoleniowym – wymagana zgoda Zarządu), określ źródło finansowania: .............
+                                <br/>..............................................................................................................................................................................
+                            </p>
+                        </td>
+                        <tr>
+                            <td>
+                                <table style="width: 100%;" border="0" cellpadding="1" cellspacing="1pt">
+                                    <tr>
+                                        <td style="vertical-align: bottom;text-align: left;">
+                                            <input type="checkbox"/>wyrażam zgodę <input type="checkbox"/>nie wyrażam zgody
+                                        </td>
+                                        <td style="vertical-align: central;text-align: center;">
+                                        </td>
+                                        <td style="vertical-align: bottom;text-align: right;">
+                                            <input type="checkbox"/>wyrażam zgodę <input type="checkbox"/>nie wyrażam zgody
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: bottom;text-align: left;">
+                                            na delegowanie pracownika na w/w szkolenie.
+                                        </td>
+                                        <td style="vertical-align: central;text-align: center;">
+                                        </td>
+                                        <td style="vertical-align: top;text-align: right;">
+                                            na delegowanie pracownika na w/w szkolenie.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: bottom;text-align: left;">
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            .......................................................................................
+                                        </td>
+                                        <td style="vertical-align: central;text-align: center;">
+                                        </td>
+                                        <td style="vertical-align: bottom;text-align: right;">
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            .......................................................................................
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: bottom;text-align: left; font-size: smaller;font-style: italic">
+                                            (podpis Przełożonego lub Dyrektora Działu / Ośrodka)
+                                        </td>
+                                        <td style="vertical-align: central;text-align: center;">
+                                        </td>
+                                        <td style="vertical-align: bottom;text-align: right; font-size: smaller;font-style: italic">
+                                            (podpis Dyrektora Operacyjnego lub  Zarządu)
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tr>
+                </table>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>
