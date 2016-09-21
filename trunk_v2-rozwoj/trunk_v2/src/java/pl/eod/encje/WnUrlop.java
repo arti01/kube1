@@ -85,11 +85,13 @@ public class WnUrlop implements Serializable {
     @Column(name = "srodek_lok")
     private String srodekLok;
     private BigDecimal wpisowe;
+    private BigDecimal diety;
     private BigDecimal koszty_dojazdu;
     private BigDecimal hotel;
     private BigDecimal inne;
     @Column(precision=7, scale=2)
     private BigDecimal kwotaWs;
+    private String nrrachunku;
     private boolean pracodawca;
 
     @OrderBy(value = "id ASC")
@@ -366,6 +368,25 @@ public class WnUrlop implements Serializable {
     public boolean isCalyDzien() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(dataOd).equals("00:00") && sdf.format(dataDo).equals("23:59");
+    }
+
+    public BigDecimal getDiety() {
+        if (diety == null) {
+            diety = new BigDecimal(0);
+        }
+        return diety;
+    }
+
+    public void setDiety(BigDecimal diety) {
+        this.diety = diety;
+    }
+
+    public String getNrrachunku() {
+        return nrrachunku;
+    }
+
+    public void setNrrachunku(String nrrachunku) {
+        this.nrrachunku = nrrachunku;
     }
 
     @Override

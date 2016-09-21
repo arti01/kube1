@@ -1,3 +1,6 @@
+2016-09-21
+INSERT INTO wn_rodzaje VALUES (50, 'Szkolenie zagraniczne', 'SZZ');
+
 2016-09-13
 rezerwacje widoczne dla wszystkich spolek
 INSERT INTO config(id, nazwa, opis, wartosc) VALUES ((select max(id)+1 from config), 'rez_all_sp', 'rezerwacje dla wszystkich spolek', 'tak');

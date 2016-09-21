@@ -483,6 +483,10 @@ public class UrlopM implements Serializable {
     public String drukujWs(){
         return "/urlop/printWs.xhtml";
     }
+    
+    public String drukujDz(){
+        return "/urlop/printDz.xhtml";
+    }
 
     @PostConstruct
     public void init() {

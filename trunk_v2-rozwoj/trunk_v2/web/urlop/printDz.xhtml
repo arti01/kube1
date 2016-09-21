@@ -1,0 +1,95 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/templateGPF.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <ui:define name="tytul">
+        <h3 align="center">Twoje wnioski urlopowe</h3>
+    </ui:define>
+    <ui:define name="content" id="content">
+        <h:form id="center">
+            <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                <p:printer target="druk" />
+            </p:commandButton>
+            <h:panelGroup id="druk">
+                <style type="text/css">
+                    @page {
+                        size: 21cm 29.7cm;
+                        margin: 10mm 15mm 15mm 15mm; /* change the margins as you want them to be. */
+                    }
+                    body {font-family: sans-serif; font-size: 10pt}
+                    input[type=checkbox] {
+                        transform: scale(0.7);
+                    }
+                </style>
+
+                <table style="text-align: left; width: 510pt; border: solid 2px; padding: 10px" >
+                    <tbody>
+                        <tr><td><p:graphicImage url="/resources/wydruki/logo_druk.png" width="200pt"/></td>
+                            <td style="text-align: center; font-size: large; width: 85%; font-weight: bolder;">SKIEROWANIE NA SZKOLENIE/WYJAZD ZAGRANICZNY*</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="width: 510pt; border: solid 2px; padding: 10px;">
+                    <tr>
+                        <td>
+                            <table style="width: 100%;" border="0" cellpadding="2" cellspacing="10pt">
+                                <tr>
+                                    <td style="vertical-align: central;text-align: center; width: 20%;">....................................<br/>(dział/ośrodek)</td>
+                                    <td style="vertical-align: central;text-align: right;">.....................................<br/>(miejscowość, data)</td>
+                                </tr>
+                            </table>
+                            <p style="text-align: right">
+                                Zarząd / Dyrektor Zarządzający*</p>
+                            <p style="text-align: justify">Uprzejmie proszę o wyrażenie zgody na delegowanie p. <b>#{UrlopM.urlop.uzytkownik.fullname}</b> na szkolenie/wyjazd zagraniczny* 
+                                <b>#{UrlopM.urlop.temat_szkolenia}#{UrlopM.urlop.cel}</b><br/>
+                                Szkolenie/wyjazd zagraniczny* odbędzie się w terminie od <b><h:outputText value="#{UrlopM.urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
+                                </b> do <b><h:outputText value="#{UrlopM.urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText></b>
+                                w <b>#{UrlopM.urlop.miejsce}</b>
+                            </p>
+                            <p style="text-align: right"><br/><br/><br/>............................................<br/>(podpis Przełożonego)</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">
+                            <hr/>
+                            <p style="font-weight: bold">Zaliczka na wyjazd zagraniczny:</p>
+                            Zwracam się z prośbą o wypłatę zaliczki w PLN / w walucie** (EUR / USD / GBP -zakreślić walutę) na wyjazd zagraniczny na pokrycie poniższych kosztów:
+                            <p><input type="checkbox"/>Diety: <h:outputText value="#{UrlopM.urlop.diety}">
+                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                </h:outputText>
+                                <br/>
+                                <input type="checkbox" style="width: 5px;height: 5px"/>Ryczałty na przejazdy : <b>
+                                    <h:outputText value="#{UrlopM.urlop.koszty_dojazdu}">
+                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                    </h:outputText>
+                                </b>
+                                <br/><input type="checkbox" style="font-size: small"/>Hotel: <b><h:outputText value="#{UrlopM.urlop.hotel}">
+                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                    </h:outputText></b>
+                                <br/><input type="checkbox"/>Inne (jakie): <b>    <h:outputText value="#{UrlopM.urlop.inne}">
+                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                    </h:outputText></b><h:outputText value=" #{UrlopM.urlop.infoDod}"/>
+                            </p>
+                            <p>Zaliczkę proszę przelać na: poniższy rachunek walutowy, którego jestem właścicielem/rachunek bankowy zgłoszony w dziale Kadr do otrzymywania wynagrodzenia*
+                                <br/>
+                                Konto walutowe: <b>#{UrlopM.urlop.nrrachunku}</b>
+                            </p>
+                        </td>
+                        <tr>
+                            <td>
+                                <p style="text-align: right"><br/><br/>............................................<br/>(podpis Pracownika)</p>
+                                Wyrażam zgodę / Nie wyrażam zgody* na delegowanie pracownika na w/w szkolenie/wyjazd zagraniczny oraz wypłatę zaliczki.
+                                <p style="text-align: right"><br/><br/><br/>............................................<br/>(podpis Członka Zarządu)</p>
+                                <p>* niepotrzebne skreślić
+                                    <br/>** proszę wybrać w jakiej walucie ma zostać wypłacona zaliczka – UWAGA: zaliczka w walucie jest wypłacana tylko w przypadku posiadania przez pracownika konta walutowego w jednej z trzech następujących walut: EUR, USD lub GBP</p>
+                            </td>
+                        </tr>
+                    </tr>
+                </table>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>

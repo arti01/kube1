@@ -36,6 +36,7 @@ INSERT INTO wn_rodzaje VALUES (5, 'Krajowa Delegacja', 'KRJ');
 INSERT INTO wn_rodzaje VALUES (6, 'Zagraniczna delegacja', 'ZAG');
 INSERT INTO wn_rodzaje VALUES (30, 'Wniosek szkoleniowy', 'SZK');
 INSERT INTO wn_rodzaje VALUES (40, 'Zlecenie nadgodzin', 'ZNG');
+INSERT INTO wn_rodzaje VALUES (50, 'Szkolenie zagraniczne', 'SZZ');
 
 --
 -- TOC entry 1930 (class 0 OID 28952)
