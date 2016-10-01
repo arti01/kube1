@@ -163,30 +163,35 @@
                         <p:tooltip for="wiecej" value="rozwiń"/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:panel header="Informacje dodatkowe" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
+                        <p:panel header="Informacje dodatkowe - delegacje" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
                             <p:panelGrid columns="2" columnClasses="column1p, column2p">
-                                <p:outputLabel for="miejsce" value="Miejsce: " />
+                                <p:outputLabel for="miejsce" value="Miejsce delegacji: " />
                                 <h:outputText id="miejsce" value="#{urlop.miejsce}" />
 
-                                <p:outputLabel for="cel" value="Cel: " />
+                                <p:outputLabel for="cel" value="Cel delegacji: " />
                                 <h:outputText id="cel" value="#{urlop.cel}" />
 
-                                <p:outputLabel for="srodekLok" value="Środek lokomocji: " />
+                                <p:outputLabel for="srodekLok" value="Delegacja - środek lokomocji: " />
                                 <h:outputText id="srodekLok" value="#{urlop.srodekLok}"/>
                             </p:panelGrid>
                         </p:panel>
                         
-                        <p:panel header="Informacje dodatkowe" rendered="#{urlop.rodzajId.id==50}">
+                        <p:panel header="Informacje dodatkowe - koszty" rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==30 or urlop.rodzajId.id==50}">
                             <p:panelGrid columns="6" columnClasses="column1p, column2p,column1p, column2p,column1p, column2p">
-                                <p:outputLabel value="Temat szkolenia: "/>
-                                <h:outputText value="#{urlop.temat_szkolenia}"/>
+                                <p:outputLabel value="Temat szkolenia: " rendered="#{urlop.rodzajId.id==30 or urlop.rodzajId.id==50}"/>
+                                <h:outputText value="#{urlop.temat_szkolenia}" rendered="#{urlop.rodzajId.id==30 or urlop.rodzajId.id==50}"/>
 
-                                <p:outputLabel value="Wpisowe: "/>
-                                <h:outputText value="#{urlop.wpisowe}">
+                                <p:outputLabel value="Wpisowe: " rendered="#{urlop.rodzajId.id==30}"/>
+                                <h:outputText value="#{urlop.wpisowe}" rendered="#{urlop.rodzajId.id==30}">
+                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                </h:outputText>
+                                
+                                <p:outputLabel value="Diety: " rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}"/>
+                                <h:outputText value="#{urlop.diety}" rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}">
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                 </h:outputText>
 
-                                <p:outputLabel value="Koszty dojazdu: "/>
+                                <p:outputLabel value="Koszty/ryczałt dojazdu: "/>
                                 <h:outputText value="#{urlop.koszty_dojazdu}">
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                 </h:outputText>
@@ -205,56 +210,19 @@
                                 <h:outputText value="#{urlop.infoDod}">
                                 </h:outputText>
                                 
-                                <p:outputLabel value="Przewidywana kwota: " />
-                                <h:outputText value="#{urlop.kwotaWs}">
+                                <p:outputLabel value="Przewidywana kwota: " rendered="#{urlop.rodzajId.id==30}"/>
+                                <h:outputText value="#{urlop.kwotaWs}" rendered="#{urlop.rodzajId.id==30}">
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                 </h:outputText>
                                 
-                                <p:outputLabel value="Miejscowość: "/>
-                                <h:outputText value="#{urlop.miejsce}">
-                                </h:outputText>
+                                <p:outputLabel value="Nr rachunku: " rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}"/>
+                                <h:outputText value="#{urlop.nrrachunku}" rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}"/>
+                                
+                                <p:outputLabel value="Miejscowość: " rendered="#{urlop.rodzajId.id==30 or urlop.rodzajId.id==50}"/>
+                                <h:outputText value="#{urlop.miejsce}" rendered="#{urlop.rodzajId.id==30 or urlop.rodzajId.id==50}"/>
                             </p:panelGrid>
                         </p:panel>
                         
-                        <p:panel header="Informacje dodatkowe" rendered="#{urlop.rodzajId.id==30}">
-                            <p:panelGrid columns="6" columnClasses="column1p, column2p,column1p, column2p,column1p, column2p">
-                                <p:outputLabel value="Temat szkolenia: "/>
-                                <h:outputText value="#{urlop.temat_szkolenia}"/>
-
-                                <p:outputLabel value="Wpisowe: "/>
-                                <h:outputText value="#{urlop.wpisowe}">
-                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                </h:outputText>
-
-                                <p:outputLabel value="Koszty dojazdu: "/>
-                                <h:outputText value="#{urlop.koszty_dojazdu}">
-                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                </h:outputText>
-
-                                <p:outputLabel value="Hotel: "/>
-                                <h:outputText value="#{urlop.hotel}">
-                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                </h:outputText>
-
-                                <p:outputLabel value="Inne koszty: "/>
-                                <h:outputText value="#{urlop.inne}">
-                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                </h:outputText>
-
-                                <p:outputLabel value="Inne koszty (opis): "/>
-                                <h:outputText value="#{urlop.infoDod}">
-                                </h:outputText>
-                                
-                                <p:outputLabel value="Przewidywana kwota: " />
-                                <h:outputText value="#{urlop.kwotaWs}">
-                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                </h:outputText>
-                                
-                                <p:outputLabel value="Miejscowość: "/>
-                                <h:outputText value="#{urlop.miejsce}">
-                                </h:outputText>
-                            </p:panelGrid>
-                        </p:panel>
                         <p:panel header="Informacje dodatkowe" rendered="#{urlop.rodzajId.id==40}">
                             <p:panelGrid columns="2" columnClasses="column1p, column2p">
                                 <p:outputLabel value="Pracodawca: " />
@@ -314,7 +282,7 @@
                         <p:commandButton id="imgDr" action="#{UrlopM.drukujWs}" rendered="#{urlop.rodzajId.id==30 and urlop.statusId.id==3}" icon="ui-icon-print" process="@this">
                             <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
                         </p:commandButton>
-                        <p:commandButton id="imgDrDz" action="#{UrlopM.drukujDz}" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==6) and urlop.statusId.id==3}" icon="ui-icon-print" process="@this">
+                        <p:commandButton id="imgDrDz" action="#{UrlopM.drukujDz}" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==50) and urlop.statusId.id==3}" icon="ui-icon-print" process="@this">
                             <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
                         </p:commandButton>
                     </p:column>

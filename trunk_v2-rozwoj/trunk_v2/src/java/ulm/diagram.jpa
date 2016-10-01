@@ -1,0 +1,2367 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" pkg="pl.eod2.encje" v="1.5.4" status="GENERATED" xs="false" id="_14745668896531" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokumentArchPK" sm="false" abs="false" class="DcDokumentArch" visibile="true" minimized="false" rootElement="_14745668896531" id="_14745668896822">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_14745668896874">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_14745668896875">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataWprow" id="_14745668896886">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_wprow" nullable="false"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataDok" id="_14745668896887">
+                <jpa:column name="data_dok"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opisDlugi" id="_147456688969715">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:column name="opis_dlugi"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="symbolSpDzialRok" id="_147456688969716">
+                <an n="@javax.validation.constraints.Size(max=50)"/>
+                <jpa:column name="symbol_sp_dzial_rok"/>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="symbolNrKol" id="_147456688969722">
+                <jpa:column name="symbol_nr_kol"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" fetch="LAZY" visibile="true" name="userId" id="_14745668896888">
+                <join-column name="user_id" referenced-column="_1474566890320300" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890535406" fetch="LAZY" visibile="true" name="zrodloId" id="_14745668896889">
+                <join-column name="zrodlo_id" referenced-column="_1474566890535407" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889991158" fetch="LAZY" visibile="true" name="rodzajId" id="_147456688968910">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <join-column name="rodzaj_id" referenced-column="_1474566889987142" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890140204" connected-attribute-id="_1474566890143211" fetch="LAZY" visibile="true" name="teczkaId" id="_147456688968911">
+                <join-column name="teczka_id" referenced-column="_1474566890140205" nullable="true"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_147456688986273" fetch="LAZY" visibile="true" name="dokStatusId" id="_147456688969614">
+                <join-column name="dokstatusid_id" referenced-column="_147456688986274" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890261262" fetch="LAZY" visibile="true" name="kontrahentId" id="_147456688969717">
+                <join-column name="kontrahent_id" referenced-column="_1474566890261263" nullable="false"/>
+            </many-to-one>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890551411" connected-attribute-id="_1474566890551416" fetch="LAZY" visibile="true" name="dcPlikList" id="_147456688968912">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890301292" connected-attribute-id="_1474566890302297" fetch="LAZY" visibile="true" name="dcDokKrok" id="_147456688969613">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890187224" connected-attribute-id="_1474566890187229" fetch="LAZY" visibile="true" name="dcDokDoWiadList" id="_147456688969718">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1474566889969124" fetch="LAZY" visibile="true" name="urzadzeniaList" id="_147456688969934">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </many-to-many>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_147456688994390" connected-attribute-id="_1474566889951113" fetch="LAZY" visibile="true" name="dokumentyList" id="_147456688970035">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+            </many-to-many>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_14745668896822" connected-attribute-id="_147456688970037" visibile="true" name="dcArchListOld" id="_147456688970036"/>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_14745668896822" connected-attribute-id="_147456688970036" fetch="LAZY" visibile="true" name="dcArchList" id="_147456688970037">
+                <cascade>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </many-to-many>
+            <embedded connected-class-id="_147456688969824" visibile="true" name="dokArchDane" id="_147456688969723"/>
+            <transient attribute-type="String" visibile="true" name="dataWprowStr" id="_147456688969719"/>
+            <transient attribute-type="String" visibile="true" name="dataDokStr" id="_147456688969720"/>
+            <transient attribute-type="String" visibile="true" name="symbolDok" id="_147456688969721"/>
+            <transient attribute-type="pl.eod2.encje.DcDokument" visibile="true" name="dokWyszuk" id="_147456688970038"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_14745668896853">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcDokumentArch.findAll">
+            <jpa:query>SELECT d FROM DcDokumentArch d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentArch.findById">
+            <jpa:query>SELECT d FROM DcDokumentArch d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentArch.findByNazwa">
+            <jpa:query>SELECT d FROM DcDokumentArch d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentArch.findByStatus">
+            <jpa:query>SELECT d FROM DcDokumentArch d WHERE d.dokStatusId.id = :statusId</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentArch.findMaxNrKol">
+            <jpa:query>SELECT max(d.symbolNrKol) FROM DcDokumentArch d WHERE d.symbolSpDzialRok=:symbolSpDzialRok</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_dokument_arch"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokPolaDodPK" sm="false" abs="false" class="DcDokPolaDod" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688972339">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_147456688972340">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="typ" id="_147456688972341"/>
+            <basic attribute-type="int" visibile="true" name="dlugosc" id="_147456688972442">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Min(1L)"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="wartosc" id="_147456688972443"/>
+            <many-to-one connected-entity-id="_147456688994390" connected-attribute-id="_1474566889951114" visibile="true" name="dcDok" id="_147456688972444"/>
+        </jpa:attributes>
+        <jpa:table name="dc_dok_pola_dod"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="WnStatusyPK" sm="false" abs="false" class="WnStatusy" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688974145">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="opis" id="_147456688974247">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=255)"/>
+                <jpa:column name="opis" unique="true"/>
+            </basic>
+            <basic optional="false" attribute-type="String" visibile="true" name="skrot" id="_147456688974248">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=2)"/>
+                <jpa:column name="skrot"/>
+            </basic>
+            <basic optional="false" attribute-type="String" visibile="true" name="kolor" id="_147456688974249">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=6)"/>
+                <jpa:column name="kolor"/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890200231" connected-attribute-id="_1474566890200235" visibile="true" name="wnHistoriaList" id="_147456688974250">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890589426" connected-attribute-id="_1474566890593433" visibile="true" name="wnUrlopList" id="_147456688974751">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_147456688974246">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="id"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="WnStatusy.findAll">
+            <jpa:query>SELECT w FROM WnStatusy w</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnStatusy.findById">
+            <jpa:query>SELECT w FROM WnStatusy w WHERE w.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnStatusy.findByOpis">
+            <jpa:query>SELECT w FROM WnStatusy w WHERE w.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnStatusy.findBySkrot">
+            <jpa:query>SELECT w FROM WnStatusy w WHERE w.skrot = :skrot</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnStatusy.findByKolor">
+            <jpa:query>SELECT w FROM WnStatusy w WHERE w.kolor = :kolor</jpa:query>
+        </jpa:nq>
+        <jpa:table name="wn_statusy"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcAkceptTypKrokuPK" sm="false" abs="false" class="DcAkceptTypKroku" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688976752">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_147456688976754">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=255)"/>
+                <jpa:column name="NAZWA" nullable="false" length="255"/>
+            </basic>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566890124198" connected-attribute-id="_1474566890124201" fetch="LAZY" visibile="true" name="dcAkceptKrokiList" id="_147456688976755">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566890156212" connected-attribute-id="_1474566890156217" fetch="LAZY" visibile="true" name="dcDocKrokiList" id="_147456688977256">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_147456688976753">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="ID" nullable="false"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcAkceptTypKroku.findAll">
+            <jpa:query>SELECT d FROM DcAkceptTypKroku d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcAkceptTypKroku.findById">
+            <jpa:query>SELECT d FROM DcAkceptTypKroku d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcAkceptTypKroku.findByNazwa">
+            <jpa:query>SELECT d FROM DcAkceptTypKroku d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:table name="DC_AKCEPT_TYP_KROKU"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="OgloszeniaPK" sm="false" abs="false" class="Ogloszenia" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688979557">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="tytul" id="_147456688979559">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="tresc" id="_147456688979660">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataWprow" id="_147456688980163">
+                <jpa:column name="data_wprow"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <many-to-one connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327323" visibile="true" name="wprowadzil" id="_147456688979661"/>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1474566890465372" connected-attribute-id="_1474566890469387" fetch="LAZY" visibile="true" name="adresaciList" id="_147456688979662"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_147456688979558">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQOGLOSZENIA"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="Ogloszenia.findBySpolka">
+            <jpa:query>SELECT d FROM Ogloszenia d WHERE d.wprowadzil.spolkaId=:spolkaId</jpa:query>
+        </jpa:nq>
+        <jpa:table name="ogloszenia"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="HaslaPK" sm="false" abs="false" class="Hasla" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688981964">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="pass" id="_147456688982066">
+                <an n="@javax.validation.constraints.Size(min=1, max=50)"/>
+                <an n="@org.hibernate.validator.constraints.NotEmpty"/>
+                <jpa:column name="PASS"/>
+            </basic>
+            <one-to-one own="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326305" visibile="true" name="uzytkownik" id="_147456688981965"/>
+        </jpa:attributes>
+        <jpa:nq name="Hasla.findAll">
+            <jpa:query>SELECT h FROM Hasla h</jpa:query>
+        </jpa:nq>
+        <jpa:table name="passwords"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DzialPK" sm="false" abs="false" class="Dzial" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688983967">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_147456688983969">
+                <an n="@javax.validation.constraints.Size(min=0, max=255)"/>
+                <jpa:column name="nazwa" nullable="false"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="symbol" id="_147456688983970">
+                <an n="@javax.validation.constraints.Size(min=0, max=10)"/>
+                <jpa:column name="symbol" nullable="true"/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890465372" connected-attribute-id="_1474566890468378" fetch="LAZY" visibile="true" name="strukturaList" id="_147456688983971"/>
+            <transient attribute-type="java.util.List&lt;pl.eod.encje.Struktura&gt;" visibile="true" name="strukturaListWidoczni" id="_147456688984472"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_147456688983968">
+                <jpa:column name="id"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDZIAL"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="Dzial.findAll">
+            <jpa:query>SELECT d FROM Dzial d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Dzial.findById">
+            <jpa:query>SELECT d FROM Dzial d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Dzial.findByNazwa">
+            <jpa:query>SELECT d FROM Dzial d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dzial"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokumentStatusPK" sm="false" abs="false" class="DcDokumentStatus" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688986273">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_147456688986275">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="nazwa" length="255"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_147456688986276">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="opis" length="255"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="kolor" id="_147456688986277">
+                <an n="@javax.validation.constraints.Size(max=10)"/>
+                <jpa:column name="kolor" length="10"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="dlaTabeli" id="_147456688986881">
+                <an n="@javax.validation.constraints.Size(max=50)"/>
+                <jpa:column name="dla_tabeli" length="50"/>
+            </basic>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_147456688994390" connected-attribute-id="_1474566889950101" fetch="LAZY" visibile="true" name="dcDokumentList" id="_147456688986378">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889990156" fetch="LAZY" visibile="true" name="dcRodzajPoczList" id="_147456688986879">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889991157" fetch="LAZY" visibile="true" name="dcRodzajKoncList" id="_147456688986880">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_147456688986274">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="id" nullable="false"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcDokumentStatus.findAll">
+            <jpa:query>SELECT d FROM DcDokumentStatus d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentStatus.findById">
+            <jpa:query>SELECT d FROM DcDokumentStatus d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentStatus.findByNazwa">
+            <jpa:query>SELECT d FROM DcDokumentStatus d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentStatus.findByTabela">
+            <jpa:query>SELECT d FROM DcDokumentStatus d WHERE d.dlaTabeli = :tabela</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentStatus.findByOpis">
+            <jpa:query>SELECT d FROM DcDokumentStatus d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_dokument_status"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcRodzajTypyPolPK" sm="false" abs="false" class="DcRodzajTypyPol" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688988982">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_147456688988983">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566890420354" connected-attribute-id="_1474566890420356" fetch="LAZY" visibile="true" name="dcRodzajPolaDodList" id="_147456688988984">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+            </one-to-many>
+        </jpa:attributes>
+        <jpa:table name="dc_rodzaj_typy_pol"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcTypFlowPK" sm="false" abs="false" class="DcTypFlow" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688991785">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_147456688991887">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="NAZWA" length="255"/>
+            </basic>
+            <basic optional="false" attribute-type="String" visibile="true" name="opis" id="_147456688991888">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=255)"/>
+                <jpa:column name="OPIS" nullable="false" length="255"/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889990149" fetch="LAZY" visibile="true" name="dcRodzajList" id="_147456688991889">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_147456688991886">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="ID" nullable="false"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcTypFlow.findAll">
+            <jpa:query>SELECT d FROM DcTypFlow d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcTypFlow.findById">
+            <jpa:query>SELECT d FROM DcTypFlow d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcTypFlow.findByNazwa">
+            <jpa:query>SELECT d FROM DcTypFlow d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcTypFlow.findByOpis">
+            <jpa:query>SELECT d FROM DcTypFlow d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="DC_TYP_FLOW"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokumentPK" sm="false" abs="false" class="DcDokument" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688994390">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_147456688994492">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_147456688994493">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataWprow" id="_147456688994494">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_wprow" nullable="false"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataDok" id="_147456688994495">
+                <jpa:column name="data_dok"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opisDlugi" id="_1474566889950103">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:column name="opis_dlugi"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="symbolSpDzialRok" id="_1474566889950104">
+                <an n="@javax.validation.constraints.Size(max=50)"/>
+                <jpa:column name="symbol_sp_dzial_rok"/>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="symbolNrKol" id="_1474566889950111">
+                <jpa:column name="symbol_nr_kol"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327317" fetch="LAZY" visibile="true" name="userId" id="_147456688994496">
+                <join-column name="user_id" referenced-column="_1474566890320300" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890535406" connected-attribute-id="_1474566890535410" fetch="LAZY" visibile="true" name="zrodloId" id="_147456688994497">
+                <join-column name="zrodlo_id" referenced-column="_1474566890535407" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889987148" fetch="LAZY" visibile="true" name="rodzajId" id="_147456688994498">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <join-column name="rodzaj_id" referenced-column="_1474566889987142" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890140204" connected-attribute-id="_1474566890140208" fetch="LAZY" visibile="true" name="teczkaId" id="_147456688994499">
+                <join-column name="teczka_id" referenced-column="_1474566890140205" nullable="true"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_147456688986273" connected-attribute-id="_147456688986378" fetch="LAZY" visibile="true" name="dokStatusId" id="_1474566889950101">
+                <join-column name="dokstatusid_id" referenced-column="_147456688986274" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890261262" connected-attribute-id="_1474566890261272" fetch="LAZY" visibile="true" name="kontrahentId" id="_1474566889950105">
+                <join-column name="kontrahent_id" referenced-column="_1474566890261263" nullable="false"/>
+            </many-to-one>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890021165" connected-attribute-id="_1474566890021169" fetch="LAZY" visibile="true" name="dcPlikList" id="_1474566889944100">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <order-by>nazwa</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890156212" connected-attribute-id="_1474566890156215" fetch="LAZY" visibile="true" name="dcDokKrok" id="_1474566889950102">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <order-by>lp</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890246255" connected-attribute-id="_1474566890246260" fetch="LAZY" visibile="true" name="dcDokDoWiadList" id="_1474566889950106">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_147456688972339" connected-attribute-id="_147456688972444" fetch="LAZY" visibile="true" name="dcDokPolaDodList" id="_1474566889951114">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1474566889969124" connected-attribute-id="_1474566889969135" fetch="LAZY" visibile="true" name="urzadzeniaList" id="_1474566889951112">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </many-to-many>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_14745668896822" connected-attribute-id="_147456688970035" fetch="LAZY" visibile="true" name="dcArchList" id="_1474566889951113">
+                <cascade>
+                    <jpa:cascade-persist/>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </many-to-many>
+            <embedded connected-class-id="_1474566889951116" visibile="true" name="dokArchDod" id="_1474566889951115"/>
+            <transient attribute-type="String" visibile="true" name="dataWprowStr" id="_1474566889950107"/>
+            <transient attribute-type="String" visibile="true" name="dataDokStr" id="_1474566889950108"/>
+            <transient attribute-type="String" visibile="true" name="procentWykonania" id="_1474566889950109"/>
+            <transient attribute-type="String" visibile="true" name="symbolDok" id="_1474566889950110"/>
+            <transient attribute-type="String" visibile="true" name="infoWyszuk" id="_1474566889952122"/>
+            <transient attribute-type="pl.eod2.encje.DcPlik" visibile="true" name="infoWyszukPlik" id="_1474566889952123"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_147456688994491">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCDOKUMENT"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcDokument.findAll">
+            <jpa:query>SELECT d FROM DcDokument d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokument.findById">
+            <jpa:query>SELECT d FROM DcDokument d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokument.findByNazwa">
+            <jpa:query>SELECT d FROM DcDokument d WHERE d.nazwa = :tytul</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokument.findByOpis">
+            <jpa:query>SELECT d FROM DcDokument d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokument.findByDataWprow">
+            <jpa:query>SELECT d FROM DcDokument d WHERE d.dataWprow = :dataWprow</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokument.findByDataDok">
+            <jpa:query>SELECT d FROM DcDokument d WHERE d.dataDok = :dataDok</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokument.findByStatus">
+            <jpa:query>SELECT d FROM DcDokument d WHERE d.dokStatusId.id = :statusId</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokument.findDlaArch">
+            <jpa:query>SELECT d FROM DcDokument d WHERE d.rodzajId.idRodzajGrupa.archiw =1</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokument.findMaxNrKol">
+            <jpa:query>SELECT max(d.symbolNrKol) FROM DcDokument d WHERE d.symbolSpDzialRok=:symbolSpDzialRok</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_dokument"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="UmUrzadzeniePK" sm="false" abs="false" class="UmUrzadzenie" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566889969124">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_1474566889969126">
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column name="nazwa" unique="true" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="nrSer" id="_1474566889969127">
+                <an n="@javax.validation.constraints.Size(min=0, max=256)"/>
+                <jpa:column name="nr_ser" unique="false" nullable="true" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="nrInw" id="_1474566889969128">
+                <an n="@javax.validation.constraints.Size(min=0, max=256)"/>
+                <jpa:column name="nr_inw" unique="false" nullable="true" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="lokalizacja" id="_1474566889969129">
+                <an n="@javax.validation.constraints.Size(min=0, max=256)"/>
+                <jpa:column name="lokalizacja" unique="false" nullable="true" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="firmaSerw" id="_1474566889969130">
+                <an n="@javax.validation.constraints.Size(min=0, max=256)"/>
+                <jpa:column name="firma_serw" unique="false" nullable="true" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="notatka" id="_1474566889969131">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataPrzegl" id="_1474566889969132">
+                <jpa:column name="data_wprow"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="stan" id="_1474566889973136"/>
+            <basic attribute-type="int" visibile="true" name="stanPoczatkowy" id="_1474566889973137">
+                <an n="@javax.validation.constraints.Min(0L)"/>
+            </basic>
+            <basic attribute-type="Double" visibile="true" name="cenaJednostkowa" id="_1474566889973138">
+                <an n="@javax.validation.constraints.Min(0L)"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890621460" connected-attribute-id="_1474566890621463" fetch="EAGER" visibile="true" name="grupa" id="_1474566889969133">
+                <join-column nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327324" visibile="true" name="userOdpow" id="_1474566889969134">
+                <join-column nullable="false"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890450363" connected-attribute-id="_1474566890450368" visibile="true" name="rezerwacjeList" id="_1474566889973140">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <order-by>dataOd ASC</order-by>
+            </one-to-many>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_147456688994390" connected-attribute-id="_1474566889951112" fetch="LAZY" visibile="true" name="dokumentyList" id="_1474566889969135">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+            </many-to-many>
+            <transient attribute-type="double" visibile="true" name="wartoscRazem" id="_1474566889973139"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566889969125">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQUMURZADZENIE"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="UM_URZADZENIA"/>
+    </jpa:entity>
+    <jpa:entity name="DcRodzaj" xre="false" compositePrimaryKeyClass="DcRodzajPK" sm="false" abs="false" class="DcRodzaj" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566889987141">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566889987143">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="symbol" id="_1474566889987144">
+                <an n="@javax.validation.constraints.Size(max=5)"/>
+                <jpa:column nullable="false" length="5"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566889987145">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="limitCzaasuAkceptacji" id="_1474566889987146">
+                <jpa:column name="limit_czasu_akceptacji"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="szablon" id="_1474566889990151">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="symbolRwa" id="_1474566889990153">
+                <an n="@javax.validation.constraints.Size(max=10)"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890004160" connected-attribute-id="_1474566890005164" fetch="LAZY" visibile="true" name="idRodzajGrupa" id="_1474566889987147">
+                <join-column name="id_rodzaj_grupa" referenced-column="_1474566890004161" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_147456688991785" connected-attribute-id="_147456688991889" fetch="LAZY" visibile="true" name="idTypFlow" id="_1474566889990149">
+                <join-column name="id_typ_flow" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890091186" connected-attribute-id="_1474566890091191" fetch="LAZY" visibile="true" name="symbMer1Id" id="_1474566889990154">
+                <join-column name="id_symb_mer1" referenced-column="_1474566890091187" nullable="true"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890108192" connected-attribute-id="_1474566890108197" fetch="LAZY" visibile="true" name="symbMer2Id" id="_1474566889990155">
+                <join-column name="id_symb_mer2" referenced-column="_1474566890108193" nullable="true"/>
+            </many-to-one>
+            <many-to-one connected-entity-id="_147456688986273" connected-attribute-id="_147456688986879" fetch="LAZY" visibile="true" name="dcDokStatusPocz" id="_1474566889990156">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <join-column name="id_dc_status_pocz" referenced-column="_147456688986274"/>
+            </many-to-one>
+            <many-to-one connected-entity-id="_147456688986273" connected-attribute-id="_147456688986880" fetch="LAZY" visibile="true" name="dcDokStatusKonc" id="_1474566889991157">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <join-column name="id_dc_status_konc" referenced-column="_147456688986274"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_147456688994390" connected-attribute-id="_147456688994498" fetch="LAZY" visibile="true" name="dcDokumentList" id="_1474566889987148">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890124198" connected-attribute-id="_1474566890124200" fetch="LAZY" visibile="true" name="dcAkceptKroki" id="_1474566889990150">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_14745668896822" connected-attribute-id="_147456688968910" fetch="LAZY" visibile="true" name="dcDokumentArchList" id="_1474566889991158">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890420354" connected-attribute-id="_1474566890420355" fetch="LAZY" visibile="true" name="dcRodzajPolaDodList" id="_1474566889991159">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1474566890501394" connected-attribute-id="_1474566890504400" fetch="LAZY" visibile="true" name="umMasterGrupaList" id="_1474566889990152">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </many-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566889987142">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCRODZAJ"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="opisBind.findAll">
+            <jpa:query>SELECT d FROM DcRodzaj d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcRodzaj.findAllzKrok">
+            <jpa:query>SELECT d FROM DcRodzaj d WHERE SIZE(d.dcAkceptKroki)&gt;0</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcRodzaj.findById">
+            <jpa:query>SELECT d FROM DcRodzaj d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcRodzaj.findByNazwa">
+            <jpa:query>SELECT d FROM DcRodzaj d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcRodzaj.findByUm">
+            <jpa:query>SELECT d FROM DcRodzaj d WHERE d.idRodzajGrupa.urzMed=1 and SIZE(d.dcAkceptKroki)&gt;0</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcRodzaj.findByArch">
+            <jpa:query>SELECT d FROM DcRodzaj d WHERE d.idRodzajGrupa.archiw=1 and SIZE(d.dcAkceptKroki)&gt;0</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcRodzaj.findByOpis">
+            <jpa:query>SELECT d FROM DcRodzaj d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_rodzaj"/>
+    </jpa:entity>
+    <jpa:entity name="DcRodzajGrupa" xre="false" compositePrimaryKeyClass="DcRodzajGrupaPK" sm="false" abs="false" class="DcRodzajGrupa" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890004160">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890004162">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@org.hibernate.validator.constraints.NotEmpty"/>
+                <an n="@javax.validation.constraints.Size(min=3, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890004163">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889987147" fetch="LAZY" visibile="true" name="dcRodzajList" id="_1474566890005164">
+                <cascade>
+                    <jpa:cascade-persist/>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890004161">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCGRUPARODZAJ"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcRodzajGrupa.findAll">
+            <jpa:query>SELECT d FROM DcRodzajGrupa d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcRodzajGrupa.findById">
+            <jpa:query>SELECT d FROM DcRodzajGrupa d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcRodzajGrupa.findByNazwa">
+            <jpa:query>SELECT d FROM DcRodzajGrupa d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcRodzajGrupa.findByOpis">
+            <jpa:query>SELECT d FROM DcRodzajGrupa d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_rodzaj_grupa"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcPlikPK" sm="false" abs="false" class="DcPlik" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890021165">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890021167">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="byte[]" visibile="true" name="plik" id="_1474566890021168">
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataDodania" id="_1474566890021170">
+                <jpa:column name="data_dodania"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="tresc" id="_1474566890021171">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_147456688994390" connected-attribute-id="_1474566889944100" fetch="LAZY" visibile="true" name="idDok" id="_1474566890021169">
+                <join-column name="id_dok" referenced-column="_147456688994491" nullable="true"/>
+            </many-to-one>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890021166">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCPLIK"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcPlik.findAll">
+            <jpa:query>SELECT d FROM DcPlik d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcPlik.findById">
+            <jpa:query>SELECT d FROM DcPlik d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcPlik.findByNazwa">
+            <jpa:query>SELECT d FROM DcPlik d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_plik"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="UserRolesPK" sm="false" abs="false" class="UserRoles" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890045172">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="rolename" id="_1474566890045174">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=255)"/>
+                <jpa:column name="ROLE_NAME" unique="true"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890048176">
+                <jpa:column name="OPIS"/>
+            </basic>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326306" visibile="true" name="uzytkownik" id="_1474566890045175"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890045173">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="ID"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQROLE"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="UserRoles.findAll">
+            <jpa:query>SELECT u FROM UserRoles u</jpa:query>
+        </jpa:nq>
+        <jpa:table name="USER_ROLES"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcPlikImportPK" sm="false" abs="false" class="DcPlikImport" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890063177">
+        <jpa:attributes>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataDodania" id="_1474566890063179">
+                <jpa:column name="data_dodania"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_1474566890063181">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <one-to-one own="true" orphan-removal="true" connected-entity-id="_1474566890172219" connected-attribute-id="_1474566890172221" visibile="true" name="dcPlikImportBin" id="_1474566890063180">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <join-column name="id_bin" referenced-column="_1474566890172220"/>
+            </one-to-one>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890063178">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCPLIKIMPORT"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcPlikImport.findAll">
+            <jpa:query>SELECT d FROM DcPlikImport d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcPlikImport.findAllbezPlik">
+            <jpa:query>SELECT d FROM DcPlikImport d</jpa:query>
+        </jpa:nq>
+        <jpa:table name="DC_PLIK_IMPORT"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokDoWiadCelPK" sm="false" abs="false" class="DcDokDoWiadCel" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890076182">
+        <jpa:attributes>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326312" fetch="LAZY" visibile="true" name="userid" id="_1474566890077184">
+                <join-column name="userid" referenced-column="_1474566890320300" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890246255" connected-attribute-id="_1474566890246261" fetch="LAZY" visibile="true" name="idDokDoWiad" id="_1474566890077185">
+                <join-column name="id_dok_do_wiad" referenced-column="_1474566890246256" nullable="false"/>
+            </many-to-one>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890076183">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCDOKDOWIADCEL"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcDokDoWiadCel.findAll">
+            <jpa:query>SELECT d FROM DcDokDoWiadCel d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokDoWiadCel.findById">
+            <jpa:query>SELECT d FROM DcDokDoWiadCel d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokDoWiadCel.findByUserid">
+            <jpa:query>SELECT d FROM DcDokDoWiadCel d WHERE d.userid = :userid</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_dok_do_wiad_cel"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcSymbMer1PK" sm="false" abs="false" class="DcSymbMer1" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890091186">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890091188">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column unique="true" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890091189">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="czas" id="_1474566890091190"/>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889990154" fetch="LAZY" visibile="true" name="dcRodzajList" id="_1474566890091191"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890091187">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCSYMBMER1"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcSymbMer1.findAll">
+            <jpa:query>SELECT d FROM DcSymbMer1 d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcSymbMer1.findById">
+            <jpa:query>SELECT d FROM DcSymbMer1 d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcSymbMer1.findByNazwa">
+            <jpa:query>SELECT d FROM DcSymbMer1 d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcSymbMer1.findByOpis">
+            <jpa:query>SELECT d FROM DcSymbMer1 d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_symb_mer_1"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcSymbMer2PK" sm="false" abs="false" class="DcSymbMer2" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890108192">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890108194">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column unique="true" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890108195">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="czas" id="_1474566890108196"/>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889990155" fetch="LAZY" visibile="true" name="dcRodzajList" id="_1474566890108197"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890108193">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCSYMBMER2"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcSymbMer2.findAll">
+            <jpa:query>SELECT d FROM DcSymbMer2 d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcSymbMer2.findById">
+            <jpa:query>SELECT d FROM DcSymbMer2 d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcSymbMer2.findByNazwa">
+            <jpa:query>SELECT d FROM DcSymbMer2 d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcSymbMer2.findByOpis">
+            <jpa:query>SELECT d FROM DcSymbMer2 d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_symb_mer_2"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcAkceptKrokiPK" sm="false" abs="false" class="DcAkceptKroki" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890124198">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="Integer" visibile="true" name="lp" id="_1474566890127203">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889990150" fetch="LAZY" visibile="true" name="rodzajId" id="_1474566890124200">
+                <join-column name="ID_DC_RODZAJ" referenced-column="_1474566889987142" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_147456688976752" connected-attribute-id="_147456688976755" fetch="LAZY" visibile="true" name="dcAckeptTypKroku" id="_1474566890124201">
+                <join-column name="ID_DC_TYP_KROKU" nullable="false"/>
+            </many-to-one>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327318" visibile="true" name="uzytkownikList" id="_1474566890124202"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890124199">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCAKCEPTKROK"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcAkceptKroki.findAll">
+            <jpa:query>SELECT d FROM DcAkceptKroki d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcAkceptKroki.findById">
+            <jpa:query>SELECT d FROM DcAkceptKroki d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcAkceptKroki.findByRodzajId">
+            <jpa:query>SELECT d FROM DcAkceptKroki d WHERE d.rodzajId = :rodzajId</jpa:query>
+        </jpa:nq>
+        <jpa:table name="DC_AKCEPT_KROKI"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcTeczkaPK" sm="false" abs="false" class="DcTeczka" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890140204">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890140206">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column unique="true" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890140207">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_147456688994390" connected-attribute-id="_147456688994499" fetch="LAZY" visibile="true" name="dcDokumentList" id="_1474566890140208"/>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_14745668896822" connected-attribute-id="_147456688968911" fetch="LAZY" visibile="true" name="dcDokumentArchList" id="_1474566890143211"/>
+            <transient attribute-type="java.util.List&lt;pl.eod2.encje.DcDokument&gt;" visibile="true" name="dcDokumentListDoArch" id="_1474566890143209"/>
+            <transient attribute-type="java.util.List&lt;pl.eod2.encje.DcDokumentArch&gt;" visibile="true" name="dcDokumentListPoczDoArch" id="_1474566890143210"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890140205">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCTECZKA"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcTeczka.findAll">
+            <jpa:query>SELECT d FROM DcTeczka d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcTeczka.findById">
+            <jpa:query>SELECT d FROM DcTeczka d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcTeczka.findByNazwa">
+            <jpa:query>SELECT d FROM DcTeczka d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcTeczka.findDlaStatus">
+            <jpa:query>SELECT d.teczkaId from DcDokument d where d.dokStatusId=:status</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcTeczka.findByOpis">
+            <jpa:query>SELECT d FROM DcTeczka d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_teczka"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokumentKrokPK" sm="false" abs="false" class="DcDokumentKrok" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890156212">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="int" visibile="true" name="lp" id="_1474566890156214">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="LP" nullable="false"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_147456688994390" connected-attribute-id="_1474566889950102" fetch="LAZY" visibile="true" name="idDok" id="_1474566890156215">
+                <join-column name="ID_DOKUMENT" referenced-column="_147456688994491" nullable="true"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890518401" connected-attribute-id="_1474566890521405" fetch="LAZY" visibile="true" name="akcept" id="_1474566890156216">
+                <join-column name="AKCEPT" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_147456688976752" connected-attribute-id="_147456688977256" fetch="LAZY" visibile="true" name="dcAckeptTypKroku" id="_1474566890156217">
+                <join-column name="ID_DC_TYP_KROKU" nullable="false"/>
+            </many-to-one>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890214239" connected-attribute-id="_1474566890214242" fetch="LAZY" visibile="true" name="dcKrokUzytkownikaList" id="_1474566890157218">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890156213">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="ID" nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDcDokumentKrok"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcDokumentKrok.findAll">
+            <jpa:query>SELECT d FROM DcDokumentKrok d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentKrok.findById">
+            <jpa:query>SELECT d FROM DcDokumentKrok d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentKrok.findByLp">
+            <jpa:query>SELECT d FROM DcDokumentKrok d WHERE d.lp = :lp</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentKrok.findByAkcept">
+            <jpa:query>SELECT d FROM DcDokumentKrok d WHERE d.akcept = :akcept</jpa:query>
+        </jpa:nq>
+        <jpa:table name="DC_DOKUMENT_KROK"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcPlikImportBinPK" sm="false" abs="false" class="DcPlikImportBin" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890172219">
+        <jpa:attributes>
+            <basic attribute-type="byte[]" visibile="true" name="plik" id="_1474566890172222">
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="tresc" id="_1474566890172223">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <one-to-one own="false" connected-entity-id="_1474566890063177" connected-attribute-id="_1474566890063180" visibile="true" name="dcPlikImport" id="_1474566890172221"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890172220">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCPLIKIMPORTBIN"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="DC_PLIK_IMPORT_BIN"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokDoWiadomosciArchPK" sm="false" abs="false" class="DcDokDoWiadomosciArch" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890187224">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="tresc" id="_1474566890187226">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="tresc" length="255"/>
+            </basic>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataWprow" id="_1474566890187227">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_wprow" nullable="false"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" fetch="LAZY" visibile="true" name="wprowadzil" id="_1474566890187228">
+                <join-column name="wprowadzil" referenced-column="_1474566890320300" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_14745668896822" connected-attribute-id="_147456688969718" fetch="LAZY" visibile="true" name="dokid" id="_1474566890187229">
+                <join-column name="dokid" referenced-column="_14745668896853" nullable="true"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890353333" connected-attribute-id="_1474566890353336" fetch="LAZY" visibile="true" name="dcDokDoWiadCelList" id="_1474566890187230">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890187225">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCDOKDOWIADARCH"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="dc_dok_do_wiadomosci_arch"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="WnHistoriaPK" sm="false" abs="false" class="WnHistoria" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890200231">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataZmiany" id="_1474566890200233">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_zmiany"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic optional="false" attribute-type="String" visibile="true" name="opisZmiany" id="_1474566890200237">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="opis_zmiany"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890589426" connected-attribute-id="_1474566890590432" visibile="true" name="urlopId" id="_1474566890200234">
+                <join-column name="urlop_id" referenced-column="_1474566890590427"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_147456688974145" connected-attribute-id="_147456688974250" fetch="EAGER" visibile="true" name="statusId" id="_1474566890200235">
+                <cascade>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <join-column name="status_id" referenced-column="_147456688974246"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326308" visibile="true" name="zmieniajacy" id="_1474566890200236">
+                <join-column name="zmieniajacy" referenced-column="_1474566890320300"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327314" visibile="true" name="akceptant" id="_1474566890200238">
+                <join-column name="akceptant" referenced-column="_1474566890320300"/>
+            </many-to-one>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890200232">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="id"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQWNHIST"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="WnHistoria.findAll">
+            <jpa:query>SELECT w FROM WnHistoria w</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnHistoria.findById">
+            <jpa:query>SELECT w FROM WnHistoria w WHERE w.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnHistoria.findByDataZmiany">
+            <jpa:query>SELECT w FROM WnHistoria w WHERE w.dataZmiany = :dataZmiany</jpa:query>
+        </jpa:nq>
+        <jpa:table name="wn_historia"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokumentKrokUzytkownikPK" sm="false" abs="false" class="DcDokumentKrokUzytkownik" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890214239">
+        <jpa:attributes>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataAkcept" id="_1474566890214244">
+                <jpa:column name="data_akcept" nullable="true"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="informacja" id="_1474566890214245">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="informacja" length="255"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327319" fetch="LAZY" visibile="true" name="idUser" id="_1474566890214241">
+                <join-column name="ID_USER" referenced-column="_1474566890320300" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890156212" connected-attribute-id="_1474566890157218" fetch="LAZY" visibile="true" name="idDokumentKrok" id="_1474566890214242">
+                <join-column name="ID_DOKUMENT_KROK" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890518401" connected-attribute-id="_1474566890518404" fetch="LAZY" visibile="true" name="akcept" id="_1474566890214243">
+                <join-column name="AKCEPT" nullable="false"/>
+            </many-to-one>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890214240">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="ID" nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDcDokumentKrokUzytkownik"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcDokumentKrokUzytkownik.findAll">
+            <jpa:query>SELECT d FROM DcDokumentKrokUzytkownik d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentKrokUzytkownik.findById">
+            <jpa:query>SELECT d FROM DcDokumentKrokUzytkownik d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentKrokUzytkownik.findByIdUser">
+            <jpa:query>SELECT d FROM DcDokumentKrokUzytkownik d WHERE d.idUser = :idUser</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentKrokUzytkownik.findByIdDokumentKrok">
+            <jpa:query>SELECT d FROM DcDokumentKrokUzytkownik d WHERE d.idDokumentKrok = :idDokumentKrok</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokumentKrokUzytkownik.findByAkcept">
+            <jpa:query>SELECT d FROM DcDokumentKrokUzytkownik d WHERE d.akcept = :akcept</jpa:query>
+        </jpa:nq>
+        <jpa:table name="DC_DOKUMENT_KROK_UZYTKOWNIK"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="KalendarzPK" sm="false" abs="false" class="Kalendarz" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890229246">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_1474566890229248">
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column name="nazwa" unique="false" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataOd" id="_1474566890229249">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataDo" id="_1474566890229250">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890232253">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="typ" id="_1474566890232254"/>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327328" visibile="true" name="tworca" id="_1474566890229251">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <join-column nullable="false"/>
+            </many-to-one>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327329" visibile="true" name="uczestnikList" id="_1474566890229252">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </many-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890229247">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQKalendarz"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="Kalendarz.findAll">
+            <jpa:query>SELECT d FROM Kalendarz d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Kalendarz.findById">
+            <jpa:query>SELECT d FROM Kalendarz d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Kalendarz.findByNazwa">
+            <jpa:query>SELECT d FROM Kalendarz d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:table name="KALENDARZ"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokDoWiadomosciPK" sm="false" abs="false" class="DcDokDoWiadomosci" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890246255">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="tresc" id="_1474566890246257">
+                <an n="@javax.validation.constraints.Size(max=255, min=1)"/>
+                <jpa:column name="tresc" length="255"/>
+            </basic>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataWprow" id="_1474566890246258">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_wprow" nullable="false"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326311" fetch="LAZY" visibile="true" name="wprowadzil" id="_1474566890246259">
+                <join-column name="wprowadzil" referenced-column="_1474566890320300" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_147456688994390" connected-attribute-id="_1474566889950106" fetch="LAZY" visibile="true" name="dokid" id="_1474566890246260">
+                <join-column name="dokid" referenced-column="_147456688994491" nullable="true"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890076182" connected-attribute-id="_1474566890077185" fetch="LAZY" visibile="true" name="dcDokDoWiadCelList" id="_1474566890246261">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890246256">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCDOKDOWIAD"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcDokDoWiadomosci.findAll">
+            <jpa:query>SELECT d FROM DcDokDoWiadomosci d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokDoWiadomosci.findById">
+            <jpa:query>SELECT d FROM DcDokDoWiadomosci d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokDoWiadomosci.findByTresc">
+            <jpa:query>SELECT d FROM DcDokDoWiadomosci d WHERE d.tresc = :tresc</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokDoWiadomosci.findByDataWprow">
+            <jpa:query>SELECT d FROM DcDokDoWiadomosci d WHERE d.dataWprow = :dataWprow</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokDoWiadomosci.findByWprowadzil">
+            <jpa:query>SELECT d FROM DcDokDoWiadomosci d WHERE d.wprowadzil = :wprowadzil</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcDokDoWiadomosci.findByDokid">
+            <jpa:query>SELECT d FROM DcDokDoWiadomosci d WHERE d.dokid = :dokid</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_dok_do_wiadomosci"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcKontrahenciPK" sm="false" abs="false" class="DcKontrahenci" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890261262">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890261264">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=255)"/>
+                <jpa:column name="nazwa" nullable="false" length="255"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="nipRegon" id="_1474566890261265">
+                <an n="@javax.validation.constraints.Size(max=50)"/>
+                <jpa:column name="nip_regon" length="50"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="osobaKontak" id="_1474566890261266">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="osoba_kontak" length="255"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="www" id="_1474566890261267">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="www" length="255"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="email" id="_1474566890261268">
+                <an n="@org.hibernate.validator.constraints.Email"/>
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="email" length="255"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="adres" id="_1474566890261269">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="adres" length="255"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="infoDod" id="_1474566890261270">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:column name="info_dod"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="tel" id="_1474566890261271">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="tel" length="255"/>
+            </basic>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_147456688994390" connected-attribute-id="_1474566889950105" fetch="LAZY" visibile="true" name="dokumentList" id="_1474566890261272">
+                <cascade>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890433359" connected-attribute-id="_1474566890433361" fetch="LAZY" visibile="true" name="dodEmailList" id="_1474566890264273">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <transient attribute-type="java.util.List&lt;java.lang.String&gt;" visibile="true" name="emaileAll" id="_1474566890264274"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890261263">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="id" nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCKONTRAH"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcKontrahenci.findAll">
+            <jpa:query>SELECT d FROM DcKontrahenci d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcKontrahenci.findById">
+            <jpa:query>SELECT d FROM DcKontrahenci d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcKontrahenci.findByNazwa">
+            <jpa:query>SELECT d FROM DcKontrahenci d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcKontrahenci.findByNipRegon">
+            <jpa:query>SELECT d FROM DcKontrahenci d WHERE d.nipRegon = :nipRegon</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcKontrahenci.findByOsobaKontak">
+            <jpa:query>SELECT d FROM DcKontrahenci d WHERE d.osobaKontak = :osobaKontak</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcKontrahenci.findByWww">
+            <jpa:query>SELECT d FROM DcKontrahenci d WHERE d.www = :www</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcKontrahenci.findByEmail">
+            <jpa:query>SELECT d FROM DcKontrahenci d WHERE d.email = :email</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcKontrahenci.findByAdres">
+            <jpa:query>SELECT d FROM DcKontrahenci d WHERE d.adres = :adres</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcKontrahenci.findByInfoDod">
+            <jpa:query>SELECT d FROM DcKontrahenci d WHERE d.infoDod = :infoDod</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_kontrahenci"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="SpolkiPK" sm="false" abs="false" class="Spolki" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890275275">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890275277">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@org.hibernate.validator.constraints.NotEmpty"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=255)"/>
+                <jpa:column name="nazwa" nullable="false" length="255"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890275278">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="opis" length="255"/>
+            </basic>
+            <basic optional="false" attribute-type="String" visibile="true" name="symbol" id="_1474566890278280">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@org.hibernate.validator.constraints.NotEmpty"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=5)"/>
+                <jpa:column name="symbol" nullable="false" length="5"/>
+            </basic>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326310" visibile="true" name="userList" id="_1474566890275279">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566890501394" connected-attribute-id="_1474566890504399" visibile="true" name="umMasterGrupaList" id="_1474566890278281">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <order-by>nazwa ASC</order-by>
+            </one-to-many>
+            <transient attribute-type="java.util.List&lt;pl.eod.encje.Struktura&gt;" visibile="true" name="strukturalist" id="_1474566890278282"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890275276">
+                <jpa:column name="id" nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQSPOLKI"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="Spolki.findAll">
+            <jpa:query>SELECT s FROM Spolki s</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Spolki.findById">
+            <jpa:query>SELECT s FROM Spolki s WHERE s.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Spolki.findByNazwa">
+            <jpa:query>SELECT s FROM Spolki s WHERE s.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Spolki.findByOpis">
+            <jpa:query>SELECT s FROM Spolki s WHERE s.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="spolki">
+            <jpa:unique-constraint>
+                <jpa:column-name>"nazwa"</jpa:column-name>
+            </jpa:unique-constraint>
+        </jpa:table>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="KomKolejkaPK" sm="false" abs="false" class="KomKolejka" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890289283">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="adresList" id="_1474566890289285">
+                <an n="@javax.validation.constraints.Size(max=2147483647)"/>
+                <jpa:column name="adres_list"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="tresc" id="_1474566890289286">
+                <an n="@javax.validation.constraints.Size(max=2147483647)"/>
+                <jpa:column name="tresc" length="1000"/>
+            </basic>
+            <basic attribute-type="Integer" visibile="true" name="status" id="_1474566890289287">
+                <jpa:column name="status"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="temat" id="_1474566890289288">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="temat"/>
+            </basic>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataInsert" id="_1474566890289289">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_insert"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataWysylk" id="_1474566890289290">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_wysylk"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="idDokumenu" id="_1474566890289291">
+                <jpa:column name="id_dokumentu"/>
+            </basic>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890289284">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="id"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQKOMKOL"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="KomKolejka.findAll">
+            <jpa:query>SELECT k FROM KomKolejka k</jpa:query>
+        </jpa:nq>
+        <jpa:table name="kom_kolejka"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokumentKrokArchPK" sm="false" abs="false" class="DcDokumentKrokArch" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890301292">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="int" visibile="true" name="lp" id="_1474566890302294">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="LP" nullable="false"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890518401" fetch="LAZY" visibile="true" name="akcept" id="_1474566890302295">
+                <join-column name="AKCEPT" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_147456688976752" fetch="LAZY" visibile="true" name="dcAckeptTypKroku" id="_1474566890302296">
+                <join-column name="ID_DC_TYP_KROKU" nullable="false"/>
+            </many-to-one>
+            <many-to-one connected-entity-id="_14745668896822" connected-attribute-id="_147456688969613" visibile="true" name="idDok" id="_1474566890302297"/>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890606453" connected-attribute-id="_1474566890607456" fetch="LAZY" visibile="true" name="dcKrokUzytkownikaList" id="_1474566890302298">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890302293">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="ID" nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDcDokumentKrokArch"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="DC_DOKUMENT_KROK_ARCH"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="UzytkownikPK" sm="false" abs="false" class="Uzytkownik" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890320299">
+        <annotation n="@org.eclipse.persistence.annotations.PrimaryKey(validation=org.eclipse.persistence.annotations.IdValidation.NULL)"/>
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="fullname" id="_1474566890320301">
+                <an n="@javax.validation.constraints.Size(min=3, max=255)"/>
+                <an n="@org.hibernate.validator.constraints.NotEmpty"/>
+                <jpa:column name="fullname" nullable="false"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="adrEmail" id="_1474566890321302">
+                <an n="@org.hibernate.validator.constraints.Email"/>
+                <jpa:column name="adr_email"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="extId" id="_1474566890327315">
+                <jpa:column name="ext_id" nullable="false"/>
+            </basic>
+            <many-to-one connected-entity-id="_1474566890275275" connected-attribute-id="_1474566890275279" visibile="true" name="spolkaId" id="_1474566890326310">
+                <cascade>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <join-column name="spolka_id" referenced-column="_1474566890275276"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890465372" connected-attribute-id="_1474566890468376" visibile="true" name="strukturaSec" id="_1474566890321303">
+                <cascade>
+                    <jpa:cascade-refresh/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890589426" connected-attribute-id="_1474566890593435" fetch="LAZY" visibile="true" name="wnUrlopList" id="_1474566890326307">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890200231" connected-attribute-id="_1474566890200236" fetch="LAZY" visibile="true" name="wnHistoriaList" id="_1474566890326308">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890589426" connected-attribute-id="_1474566890593438" fetch="LAZY" visibile="true" name="wnUrlopListPrzyjmujacy" id="_1474566890326309">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566890246255" connected-attribute-id="_1474566890246259" fetch="LAZY" visibile="true" name="dcDoWiadList" id="_1474566890326311">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566890076182" connected-attribute-id="_1474566890077184" fetch="LAZY" visibile="true" name="dcDoWiadCelList" id="_1474566890326312">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890589426" connected-attribute-id="_1474566890593436" fetch="LAZY" visibile="true" name="wnUrlopListDoAkceptu" id="_1474566890326313">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890200231" connected-attribute-id="_1474566890200238" fetch="LAZY" visibile="true" name="wnHistoriaListAkceptant" id="_1474566890327314">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_147456688994390" connected-attribute-id="_147456688994496" fetch="LAZY" visibile="true" name="dcDokumentList" id="_1474566890327317">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566890214239" connected-attribute-id="_1474566890214241" fetch="LAZY" visibile="true" name="dcDokumentKrokUzytkownikList" id="_1474566890327319">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_147456688979557" connected-attribute-id="_147456688979661" fetch="LAZY" visibile="true" name="ogloszeniaList" id="_1474566890327323">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566889969124" connected-attribute-id="_1474566889969134" fetch="LAZY" visibile="true" name="urzadzenieList" id="_1474566890327324">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <order-by>id DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566890450363" connected-attribute-id="_1474566890450369" fetch="LAZY" visibile="true" name="rezerwacjeList" id="_1474566890327326">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <order-by>dataOd DESC</order-by>
+            </one-to-many>
+            <one-to-many orphan-removal="false" own="false" collection-type="java.util.List" connected-entity-id="_1474566890229246" connected-attribute-id="_1474566890229251" fetch="LAZY" visibile="true" name="kalendarzList" id="_1474566890327328">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <order-by>dataOd DESC</order-by>
+            </one-to-many>
+            <one-to-one own="false" connected-entity-id="_1474566890465372" connected-attribute-id="_1474566890468377" visibile="true" name="struktura" id="_1474566890326304">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-one>
+            <one-to-one own="true" connected-entity-id="_147456688981964" connected-attribute-id="_147456688981965" visibile="true" name="hasla" id="_1474566890326305">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <join-column name="haslo_id"/>
+            </one-to-one>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1474566890045172" connected-attribute-id="_1474566890045175" fetch="LAZY" visibile="true" name="role" id="_1474566890326306"/>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890124198" connected-attribute-id="_1474566890124202" fetch="LAZY" visibile="true" name="dcAkceptKrokiList" id="_1474566890327318"/>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890450363" connected-attribute-id="_1474566890450370" fetch="LAZY" visibile="true" name="rezUczestnikList" id="_1474566890327327"/>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890229246" connected-attribute-id="_1474566890229252" fetch="LAZY" visibile="true" name="kalendUczestnikList" id="_1474566890327329"/>
+            <transient attribute-type="pl.eod.encje.WnLimity" visibile="true" name="wnLimity" id="_1474566890327316"/>
+            <transient attribute-type="java.util.List&lt;pl.eod2.encje.DcDokumentKrokUzytkownik&gt;" visibile="true" name="dcDoAkceptuKrokiList" id="_1474566890327320"/>
+            <transient attribute-type="java.util.List&lt;pl.eod2.encje.DcDokumentKrokUzytkownik&gt;" visibile="true" name="dcDokumentListHist" id="_1474566890327321"/>
+            <transient attribute-type="java.util.List&lt;pl.eod2.encje.DcDokDoWiadCel&gt;" visibile="true" name="dcDoWiadCelListFiltr" id="_1474566890327322"/>
+            <transient attribute-type="java.util.List&lt;pl.eod2.encje.UmUrzadzenie&gt;" visibile="true" name="urzadzenieAletrPrzeglList" id="_1474566890327325"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890320300">
+                <jpa:column name="id"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQUSER"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="Uzytkownik.findAll">
+            <jpa:query>SELECT u FROM Uzytkownik u</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Uzytkownik.findById">
+            <jpa:query>SELECT u FROM Uzytkownik u WHERE u.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Uzytkownik.findByFullname">
+            <jpa:query>SELECT u FROM Uzytkownik u WHERE u.fullname = :fullname</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Uzytkownik.findByAdrEmail">
+            <jpa:query>SELECT u FROM Uzytkownik u WHERE u.adrEmail = :adrEmail</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Uzytkownik.findByAdrEmailAndFullname">
+            <jpa:query>SELECT u FROM Uzytkownik u WHERE u.adrEmail = :adrEmail AND u.fullname = :fullname and (u.struktura.usuniety&lt;&gt;1 or u.struktura.usuniety is null)</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Uzytkownik.zPrawami">
+            <jpa:query>SELECT u FROM Uzytkownik u JOIN u.role r WHERE r.rolename!='eoduser' group by u</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Uzytkownik.findByExtId">
+            <jpa:query>SELECT u FROM Uzytkownik u WHERE u.extId = :extId and (u.struktura.usuniety&lt;&gt;1 or u.struktura.usuniety is null)</jpa:query>
+        </jpa:nq>
+        <jpa:table name="uzytkownik"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="WnLimityPK" sm="false" abs="false" class="WnLimity" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890340330">
+        <annotation n="@org.eclipse.persistence.annotations.PrimaryKey(validation=org.eclipse.persistence.annotations.IdValidation.NONE)"/>
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="ulimit" id="_1474566890340332">
+                <an n="@javax.validation.constraints.Size(max=50)"/>
+                <jpa:column name="ulimit"/>
+            </basic>
+            <one-to-one own="true" primaryKey="true" connected-entity-id="_1474566890320299" visibile="true" name="username" id="_1474566890340331">
+                <join-column name="username"/>
+            </one-to-one>
+        </jpa:attributes>
+        <jpa:nq name="WnLimity.findAll">
+            <jpa:query>SELECT w FROM WnLimity w</jpa:query>
+        </jpa:nq>
+        <jpa:table name="wn_limity"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokDoWiadCelArchPK" sm="false" abs="false" class="DcDokDoWiadCelArch" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890353333">
+        <jpa:attributes>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" fetch="LAZY" visibile="true" name="userid" id="_1474566890353335">
+                <join-column name="userid" referenced-column="_1474566890320300" nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890187224" connected-attribute-id="_1474566890187230" fetch="LAZY" visibile="true" name="idDokDoWiad" id="_1474566890353336">
+                <join-column name="id_dok_do_wiad" referenced-column="_1474566890187225" nullable="false"/>
+            </many-to-one>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890353334">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCDOKDOWIADCELARCH"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="dc_dok_do_wiad_cel_arch"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="WnRodzajePK" sm="false" abs="false" class="WnRodzaje" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890365337">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="opis" id="_1474566890365339">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=2147483647)"/>
+                <jpa:column name="opis" unique="true"/>
+            </basic>
+            <basic optional="false" attribute-type="String" visibile="true" name="symbol" id="_1474566890368341">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@org.hibernate.validator.constraints.NotEmpty"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=5)"/>
+                <jpa:column name="symbol" nullable="false" length="5"/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890589426" connected-attribute-id="_1474566890593434" visibile="true" name="wnUrlopList" id="_1474566890365340">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890365338">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="id"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="WnRodzaje.findAll">
+            <jpa:query>SELECT w FROM WnRodzaje w ORDER BY w.id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnRodzaje.findById">
+            <jpa:query>SELECT w FROM WnRodzaje w WHERE w.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnRodzaje.findByOpis">
+            <jpa:query>SELECT w FROM WnRodzaje w WHERE w.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="wn_rodzaje"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcArchZajetoscPK" sm="false" abs="false" class="DcArchZajetosc" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890393342">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890393344">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column unique="true" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890393345">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="double" visibile="true" name="razemMetrow" id="_1474566890393346"/>
+            <basic attribute-type="double" visibile="true" name="zajetychMetrow" id="_1474566890393347"/>
+            <transient attribute-type="double" visibile="true" name="wolnychMetrow" id="_1474566890393348"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890393343">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCARCHZAJ"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcArchZajetosc.findAll">
+            <jpa:query>SELECT d FROM DcArchZajetosc d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcArchZajetosc.findById">
+            <jpa:query>SELECT d FROM DcArchZajetosc d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcArchZajetosc.findByNazwa">
+            <jpa:query>SELECT d FROM DcArchZajetosc d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcArchZajetosc.findByOpis">
+            <jpa:query>SELECT d FROM DcArchZajetosc d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_arch_zajetosc"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="ConfigPK" sm="false" abs="false" class="Config" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890406349">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890406351">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=50)"/>
+                <jpa:column name="nazwa" unique="false"/>
+            </basic>
+            <basic optional="false" attribute-type="String" visibile="true" name="opis" id="_1474566890406352">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=255)"/>
+                <jpa:column name="opis"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="wartosc" id="_1474566890406353">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="wartosc"/>
+            </basic>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890406350">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="id"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="Config.findAll">
+            <jpa:query>SELECT c FROM Config c</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Config.findById">
+            <jpa:query>SELECT c FROM Config c WHERE c.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Config.findByNazwa">
+            <jpa:query>SELECT c FROM Config c WHERE c.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Config.findByOpis">
+            <jpa:query>SELECT c FROM Config c WHERE c.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Config.findByWartosc">
+            <jpa:query>SELECT c FROM Config c WHERE c.wartosc = :wartosc</jpa:query>
+        </jpa:nq>
+        <jpa:table name="config"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcRodzajPolaDodPK" sm="false" abs="false" class="DcRodzajPolaDod" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890420354">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_1474566890420357">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="dlugosc" id="_1474566890420358">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Min(1L)"/>
+            </basic>
+            <many-to-one connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889991159" visibile="true" name="idRodz" id="_1474566890420355"/>
+            <many-to-one connected-entity-id="_147456688988982" connected-attribute-id="_147456688988984" visibile="true" name="idRodzTypyPol" id="_1474566890420356"/>
+        </jpa:attributes>
+        <jpa:table name="dc_rodzaj_pola_dod"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcKontahentDodEmailPK" sm="false" abs="false" class="DcKontahentDodEmail" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890433359">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="email" id="_1474566890433360">
+                <an n="@org.hibernate.validator.constraints.Email"/>
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="email" length="255"/>
+            </basic>
+            <many-to-one connected-entity-id="_1474566890261262" connected-attribute-id="_1474566890264273" visibile="true" name="kontrahentId" id="_1474566890433361">
+                <join-column name="kontrahent_id" referenced-column="_1474566890261263" nullable="false"/>
+            </many-to-one>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890433362">
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCKONTRAHEMAILDOD"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="dc_kontrahenci_email_dod"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="UmRezerwacjePK" sm="false" abs="false" class="UmRezerwacje" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890450363">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_1474566890450365">
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column name="nazwa" unique="false" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataOd" id="_1474566890450366">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataDo" id="_1474566890450367">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890454371">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566889969124" connected-attribute-id="_1474566889973140" visibile="true" name="urzadzenie" id="_1474566890450368">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <join-column nullable="false"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327326" visibile="true" name="tworca" id="_1474566890450369">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <join-column nullable="false"/>
+            </many-to-one>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890327327" visibile="true" name="uczestnikList" id="_1474566890450370"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890450364">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQUMRezerwacje"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="UmRezerwacje.findAll">
+            <jpa:query>SELECT d FROM UmRezerwacje d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="UmRezerwacje.findById">
+            <jpa:query>SELECT d FROM UmRezerwacje d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="UmRezerwacje.findByNazwa">
+            <jpa:query>SELECT d FROM UmRezerwacje d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:table name="UM_REZERWACJE"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="StrukturaPK" sm="false" abs="false" class="Struktura" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890465372">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="extraemail" id="_1474566890469386">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="extraemail" nullable="true"/>
+            </basic>
+            <many-to-one connected-entity-id="_1474566890465372" connected-attribute-id="_1474566890465375" visibile="true" name="szefId" id="_1474566890465374">
+                <join-column name="szef_id" referenced-column="_1474566890465373"/>
+            </many-to-one>
+            <many-to-one connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890321303" visibile="true" name="secUserId" id="_1474566890468376">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <join-column name="sec_user_id" referenced-column="_1474566890320300"/>
+            </many-to-one>
+            <many-to-one connected-entity-id="_147456688983967" connected-attribute-id="_147456688983971" visibile="true" name="dzialId" id="_1474566890468378">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <join-column name="dzial_id" referenced-column="_147456688983968"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890465372" connected-attribute-id="_1474566890465374" visibile="true" name="bezpPod" id="_1474566890465375"/>
+            <one-to-one own="true" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326304" visibile="true" name="userId" id="_1474566890468377">
+                <cascade>
+                    <jpa:cascade-persist/>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <join-column name="user_id" referenced-column="_1474566890320300"/>
+            </one-to-one>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_147456688979557" connected-attribute-id="_147456688979662" fetch="LAZY" visibile="true" name="ogloszeniaList" id="_1474566890469387"/>
+            <many-to-many own="true" collection-type="java.util.List" connected-entity-id="_1474566890483389" connected-attribute-id="_1474566890483393" visibile="true" name="repozytoriaList" id="_1474566890469388"/>
+            <transient attribute-type="java.util.List&lt;pl.eod.encje.Struktura&gt;" visibile="true" name="bezpPodzPodwlad" id="_1474566890469379"/>
+            <transient attribute-type="java.util.List&lt;pl.eod.encje.Struktura&gt;" visibile="true" name="bezpPodBezPodwlad" id="_1474566890469380"/>
+            <transient attribute-type="java.util.List&lt;pl.eod.encje.Struktura&gt;" visibile="true" name="wszyscyPodwladni" id="_1474566890469381"/>
+            <transient attribute-type="java.util.List&lt;pl.eod.encje.Struktura&gt;" visibile="true" name="mozliwiSzefowie" id="_1474566890469382"/>
+            <transient attribute-type="String[]" visibile="true" name="rolaString" id="_1474566890469383"/>
+            <transient attribute-type="java.util.List&lt;pl.eod.encje.Struktura&gt;" visibile="true" name="bezpPodWidoczni" id="_1474566890469384"/>
+            <transient attribute-type="java.util.List&lt;pl.eod.encje.Struktura&gt;" visibile="true" name="obceWnioski" id="_1474566890469385"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890465373">
+                <jpa:column name="id"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQSTRUKTURA"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="Struktura.findAll">
+            <jpa:query>SELECT s FROM Struktura s</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Struktura.findById">
+            <jpa:query>SELECT s FROM Struktura s WHERE s.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Struktura.findByStKier">
+            <jpa:query>SELECT s FROM Struktura s WHERE s.stKier = :stKier ORDER BY s.userId.fullname</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Struktura.findBezSzefa">
+            <jpa:query>SELECT s FROM Struktura s WHERE s.szefId is null and (s.usuniety&lt;&gt;1 or s.usuniety is null) ORDER BY s.userId.fullname</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Struktura.findBezSzefaSpolka">
+            <jpa:query>SELECT s FROM Struktura s WHERE s.szefId is null and (s.usuniety&lt;&gt;1 or s.usuniety is null) AND s.userId.spolkaId=:spolka ORDER BY s.userId.fullname</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Struktura.kierownicy">
+            <jpa:query>SELECT s FROM Struktura s WHERE s.stKier=1 and (s.usuniety&lt;&gt;1 or s.usuniety is null) AND s.userId.spolkaId=:spolka ORDER BY s.userId.fullname</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Struktura.kierownicyAll">
+            <jpa:query>SELECT s FROM Struktura s WHERE s.stKier=1 and (s.usuniety&lt;&gt;1 or s.usuniety is null) ORDER BY s.userId.fullname</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Struktura.nieusunieci">
+            <jpa:query>SELECT s FROM Struktura s WHERE (s.usuniety&lt;&gt;1 or s.usuniety is null) and s.userId.spolkaId=:idSpolki</jpa:query>
+        </jpa:nq>
+        <jpa:table name="struktura"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="RepozytoriaPK" sm="false" abs="false" class="Repozytoria" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890483389">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_1474566890483391">
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column name="nazwa" unique="true" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="sciezka" id="_1474566890483392">
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column name="sciezka" unique="true" nullable="false" length="256"/>
+            </basic>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890465372" connected-attribute-id="_1474566890469388" fetch="LAZY" visibile="true" name="strukturaList" id="_1474566890483393">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </many-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890483390">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQRepozytoria"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="Repozytoria.findAll">
+            <jpa:query>SELECT d FROM Repozytoria d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Repozytoria.findById">
+            <jpa:query>SELECT d FROM Repozytoria d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="Repozytoria.findByNazwa">
+            <jpa:query>SELECT d FROM Repozytoria d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:table name="REPOZYTORIA"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="UmMasterGrupaPK" sm="false" abs="false" class="UmMasterGrupa" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890501394">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_1474566890501396">
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column name="nazwa" unique="true" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890504398">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890275275" connected-attribute-id="_1474566890278281" visibile="true" name="spolkaId" id="_1474566890504399">
+                <join-column nullable="false"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566890621460" connected-attribute-id="_1474566890624464" visibile="true" name="grupaList" id="_1474566890501397">
+                <cascade>
+                    <jpa:cascade-merge/>
+                    <jpa:cascade-refresh/>
+                </cascade>
+                <order-by>nazwa ASC</order-by>
+            </one-to-many>
+            <many-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566889987141" connected-attribute-id="_1474566889990152" fetch="EAGER" visibile="true" name="rodzajeDokList" id="_1474566890504400"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890501395">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQUMGRUPA"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="UmMasterGrupa.findAll">
+            <jpa:query>SELECT d FROM UmMasterGrupa d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="UmMasterGrupa.findById">
+            <jpa:query>SELECT d FROM UmMasterGrupa d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="UmMasterGrupa.findByNazwa">
+            <jpa:query>SELECT d FROM UmMasterGrupa d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:table name="UM_MASTERGRUPA"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcAkceptStatusPK" sm="false" abs="false" class="DcAkceptStatus" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890518401">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890518403">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=255)"/>
+                <jpa:column name="NAZWA" nullable="false" length="255"/>
+            </basic>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890214239" connected-attribute-id="_1474566890214243" fetch="LAZY" visibile="true" name="dokKrokUserList" id="_1474566890518404">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890156212" connected-attribute-id="_1474566890156216" fetch="LAZY" visibile="true" name="dokKrokList" id="_1474566890521405">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890518402">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="ID" nullable="false"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcAkceptStatus.findAll">
+            <jpa:query>SELECT d FROM DcAkceptStatus d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcAkceptStatus.findById">
+            <jpa:query>SELECT d FROM DcAkceptStatus d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcAkceptStatus.findByNazwa">
+            <jpa:query>SELECT d FROM DcAkceptStatus d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:table name="DC_AKCEPT_STATUS"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcZrodloPK" sm="false" abs="false" class="DcZrodlo" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890535406">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890535408">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890535409">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_147456688994390" connected-attribute-id="_147456688994497" fetch="LAZY" visibile="true" name="dcDokumentList" id="_1474566890535410">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+            </one-to-many>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890535407">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCZRODLO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="DcZrodlo.findAll">
+            <jpa:query>SELECT d FROM DcZrodlo d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcZrodlo.findById">
+            <jpa:query>SELECT d FROM DcZrodlo d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcZrodlo.findByNazwa">
+            <jpa:query>SELECT d FROM DcZrodlo d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="DcZrodlo.findByOpis">
+            <jpa:query>SELECT d FROM DcZrodlo d WHERE d.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="dc_zrodlo"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcPlikArchPK" sm="false" abs="false" class="DcPlikArch" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890551411">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="String" visibile="true" name="nazwa" id="_1474566890551413">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="byte[]" visibile="true" name="plik" id="_1474566890551414">
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataDodania" id="_1474566890551415">
+                <jpa:column name="data_dodania"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <many-to-one connected-entity-id="_14745668896822" connected-attribute-id="_147456688968912" visibile="true" name="idDok" id="_1474566890551416"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890551412">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDCPLIKARCH"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="dc_plik_arch"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="KalendOsobyDecPK" sm="false" abs="false" class="KalendOsobyDec" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890565417">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="cssStyl" id="_1474566890565420">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false" length="50"/>
+            </basic>
+            <one-to-one own="true" connected-entity-id="_1474566890320299" visibile="true" name="user" id="_1474566890565419"/>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890565418">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQKALENDOSOBYDEC"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="KalendOsobyDec.findAll">
+            <jpa:query>SELECT d FROM KalendOsobyDec d</jpa:query>
+        </jpa:nq>
+        <jpa:table name="KALEND_OSOBY_DEC"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="MenuLinkiPK" sm="false" abs="false" class="MenuLinki" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890577421">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_1474566890577423">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="nazwa"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="link" id="_1474566890577424">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="link"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890577425">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="opis"/>
+            </basic>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890577422">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="id"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="MenuLinki.findAll">
+            <jpa:query>SELECT m FROM MenuLinki m</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="MenuLinki.findById">
+            <jpa:query>SELECT m FROM MenuLinki m WHERE m.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="MenuLinki.findByNazwa">
+            <jpa:query>SELECT m FROM MenuLinki m WHERE m.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="MenuLinki.findByLink">
+            <jpa:query>SELECT m FROM MenuLinki m WHERE m.link = :link</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="MenuLinki.findByOpis">
+            <jpa:query>SELECT m FROM MenuLinki m WHERE m.opis = :opis</jpa:query>
+        </jpa:nq>
+        <jpa:table name="menu_linki"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="WnUrlopPK" sm="false" abs="false" class="WnUrlop" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890589426">
+        <jpa:attributes>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataOd" id="_1474566890590428">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_od"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataDo" id="_1474566890590429">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_do"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic optional="false" attribute-type="String" visibile="true" name="nrWniosku" id="_1474566890590430">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <an n="@javax.validation.constraints.Size(min=1, max=50)"/>
+                <jpa:column name="nr_wniosku"/>
+            </basic>
+            <basic optional="false" attribute-type="java.util.Date" visibile="true" name="dataWprowadzenia" id="_1474566890590431">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="data_wprowadzenia"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="infoDod" id="_1474566890593439">
+                <jpa:column name="info_dod" nullable="true"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="miejsce" id="_1474566890593440">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="miejsce"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="cel" id="_1474566890593441">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="cel"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="srodekLok" id="_1474566890593442">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="srodek_lok"/>
+            </basic>
+            <basic attribute-type="java.math.BigDecimal" visibile="true" name="kwotaWs" id="_1474566890593443"/>
+            <basic attribute-type="String" visibile="true" name="temat_szkolenia" id="_1474566890593444">
+                <jpa:column name="temat_szkolenia" nullable="true"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="java.math.BigDecimal" visibile="true" name="wpisowe" id="_1474566890593445"/>
+            <basic attribute-type="java.math.BigDecimal" visibile="true" name="koszty_dojazdu" id="_1474566890593446"/>
+            <basic attribute-type="java.math.BigDecimal" visibile="true" name="hotel" id="_1474566890593447"/>
+            <basic attribute-type="java.math.BigDecimal" visibile="true" name="inne" id="_1474566890593448"/>
+            <basic attribute-type="java.math.BigDecimal" visibile="true" name="diety" id="_1474566890593451"/>
+            <basic attribute-type="String" visibile="true" name="nrrachunku" id="_1474566890593452"/>
+            <many-to-one optional="false" connected-entity-id="_147456688974145" connected-attribute-id="_147456688974751" visibile="true" name="statusId" id="_1474566890593433">
+                <join-column name="status_id" referenced-column="_147456688974246"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890365337" connected-attribute-id="_1474566890365340" visibile="true" name="rodzajId" id="_1474566890593434">
+                <join-column name="rodzaj_id" referenced-column="_1474566890365338"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326307" visibile="true" name="uzytkownik" id="_1474566890593435">
+                <join-column name="uid" referenced-column="_1474566890320300"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326313" visibile="true" name="akceptant" id="_1474566890593436">
+                <join-column name="akceptant_id" referenced-column="_1474566890320300"/>
+            </many-to-one>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" connected-attribute-id="_1474566890326309" visibile="true" name="przyjmujacy" id="_1474566890593438">
+                <join-column name="przyjmujacy" referenced-column="_1474566890320300"/>
+            </many-to-one>
+            <one-to-many orphan-removal="true" own="false" collection-type="java.util.List" connected-entity-id="_1474566890200231" connected-attribute-id="_1474566890200234" fetch="LAZY" visibile="true" name="wnHistoriaList" id="_1474566890590432">
+                <cascade>
+                    <jpa:cascade-all/>
+                </cascade>
+                <order-by>id ASC</order-by>
+            </one-to-many>
+            <transient attribute-type="java.util.Date" visibile="true" name="dataOstZmiany" id="_1474566890593437"/>
+            <transient attribute-type="String" visibile="true" name="dataOdStr" id="_1474566890593449"/>
+            <transient attribute-type="String" visibile="true" name="dataDoStr" id="_1474566890593450"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890590427">
+                <jpa:column name="id"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQWNURLOP"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="WnUrlop.findAll">
+            <jpa:query>SELECT w FROM WnUrlop w</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnUrlop.findById">
+            <jpa:query>SELECT w FROM WnUrlop w WHERE w.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnUrlop.findByDataOd">
+            <jpa:query>SELECT w FROM WnUrlop w WHERE w.dataOd = :dataOd</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnUrlop.findByDataDo">
+            <jpa:query>SELECT w FROM WnUrlop w WHERE w.dataDo = :dataDo</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnUrlop.findByNrWniosku">
+            <jpa:query>SELECT w FROM WnUrlop w WHERE w.nrWniosku = :nrWniosku</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnUrlop.findDoEskalacji">
+            <jpa:query>SELECT w FROM WnUrlop w WHERE w.statusId.id=:statusId</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnUrlop.findFiltr">
+            <jpa:query>SELECT w FROM WnUrlop w WHERE w.statusId.id=:statusId and w.uzytkownik.fullname like :fullname</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="WnUrlop.findByDataWprowadzenia">
+            <jpa:query>SELECT w FROM WnUrlop w WHERE w.dataWprowadzenia = :dataWprowadzenia</jpa:query>
+        </jpa:nq>
+        <jpa:table name="wn_urlop"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="DcDokumentKrokUzytkownikArchPK" sm="false" abs="false" class="DcDokumentKrokUzytkownikArch" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890606453">
+        <jpa:attributes>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataAkcept" id="_1474566890607458">
+                <jpa:column name="data_akcept" nullable="true"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="informacja" id="_1474566890607459">
+                <an n="@javax.validation.constraints.Size(max=255)"/>
+                <jpa:column name="informacja" length="255"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" fetch="LAZY" visibile="true" name="idUser" id="_1474566890607455">
+                <join-column name="ID_USER" referenced-column="_1474566890320300" nullable="false"/>
+            </many-to-one>
+            <many-to-one connected-entity-id="_1474566890301292" connected-attribute-id="_1474566890302298" visibile="true" name="idDokumentKrok" id="_1474566890607456"/>
+            <many-to-one optional="false" connected-entity-id="_1474566890518401" fetch="LAZY" visibile="true" name="akcept" id="_1474566890607457">
+                <join-column name="AKCEPT" nullable="false"/>
+            </many-to-one>
+            <jpa:id attribute-type="Integer" visibile="true" name="id" id="_1474566890607454">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:column name="ID" nullable="false"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQDcDokumentKrokUzytkownikArch"/>
+                <jpa:sequence-generator name="ID"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="DC_DOKUMENT_KROK_UZYTKOWNIK_ARCH"/>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyClass="UmGrupaPK" sm="false" abs="false" class="UmGrupa" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566890621460">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="nazwa" id="_1474566890621462">
+                <an n="@javax.validation.constraints.Size(min=1, max=256)"/>
+                <jpa:column name="nazwa" unique="true" nullable="false" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="opis" id="_1474566890624465">
+                <an n="@javax.validation.constraints.Size(max=10485760)"/>
+                <jpa:lob/>
+            </basic>
+            <basic attribute-type="int" visibile="true" name="czasAlert" id="_1474566890624466">
+                <an n="@javax.validation.constraints.Min(0L)"/>
+                <an n="@javax.validation.constraints.Max(999L)"/>
+                <jpa:column name="czas_alert"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890501394" connected-attribute-id="_1474566890501397" fetch="EAGER" visibile="true" name="masterGrp" id="_1474566890624464">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <join-column nullable="false"/>
+            </many-to-one>
+            <one-to-many own="false" collection-type="java.util.List" connected-entity-id="_1474566889969124" connected-attribute-id="_1474566889969133" visibile="true" name="urzadzenieList" id="_1474566890621463">
+                <cascade>
+                    <jpa:cascade-merge/>
+                </cascade>
+                <order-by>nazwa ASC</order-by>
+            </one-to-many>
+            <transient attribute-type="int" visibile="true" name="stanRazem" id="_1474566890624467"/>
+            <transient attribute-type="double" visibile="true" name="wartoscRazem" id="_1474566890624468"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_1474566890621461">
+                <an n="@javax.validation.constraints.NotNull"/>
+                <jpa:generated-value strategy="SEQUENCE" generator="SEQUMGRUPA"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="UmGrupa.findAll">
+            <jpa:query>SELECT d FROM UmGrupa d</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="UmGrupa.findById">
+            <jpa:query>SELECT d FROM UmGrupa d WHERE d.id = :id</jpa:query>
+        </jpa:nq>
+        <jpa:nq name="UmGrupa.findByNazwa">
+            <jpa:query>SELECT d FROM UmGrupa d WHERE d.nazwa = :nazwa</jpa:query>
+        </jpa:nq>
+        <jpa:table name="UM_GRUPA"/>
+    </jpa:entity>
+    <jpa:embeddable sm="false" abs="false" class="DcDokumentArchDane" visibile="true" minimized="false" rootElement="_14745668896531" id="_147456688969824">
+        <jpa:attributes>
+            <basic attribute-type="java.util.Date" visibile="true" name="archData" id="_147456688969825">
+                <jpa:column name="arch_data"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="archOsobaZdajaca" id="_147456688969926">
+                <an n="@javax.validation.constraints.Size(max=256)"/>
+                <jpa:column name="arch_osoba_zdajaca" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="archOsobaOdpowiadajaca" id="_147456688969927">
+                <an n="@javax.validation.constraints.Size(max=256)"/>
+                <jpa:column name="arch_osoba_odpowiadajaca" length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="archPokoj" id="_147456688969928">
+                <an n="@javax.validation.constraints.Size(max=256)"/>
+                <jpa:column name="arch_pokoj " length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="archRegal" id="_147456688969929">
+                <an n="@javax.validation.constraints.Size(max=256)"/>
+                <jpa:column name="arch_regal " length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="archPolka" id="_147456688969930">
+                <an n="@javax.validation.constraints.Size(max=256)"/>
+                <jpa:column name="arch_polka " length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="archKarton" id="_147456688969931">
+                <an n="@javax.validation.constraints.Size(max=256)"/>
+                <jpa:column name="arch_karton " length="256"/>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="archTeczka" id="_147456688969932">
+                <an n="@javax.validation.constraints.Size(max=256)"/>
+                <jpa:column name="arch_teczka " length="256"/>
+            </basic>
+            <transient attribute-type="String" visibile="true" name="archDataStr" id="_147456688969933"/>
+        </jpa:attributes>
+    </jpa:embeddable>
+    <jpa:embeddable sm="false" abs="false" class="DcDokumentArchDod" visibile="true" minimized="false" rootElement="_14745668896531" id="_1474566889951116">
+        <jpa:attributes>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataWypozycz" id="_1474566889951117">
+                <jpa:column name="data_wyp"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataPlanZwrot" id="_1474566889951118">
+                <jpa:column name="data_pl_zwr"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="dataRzeczZwrot" id="_1474566889951119">
+                <jpa:column name="data_real_zwr"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="String" visibile="true" name="imieNazwisko" id="_1474566889951120">
+                <jpa:column name="imie_nazwisko"/>
+            </basic>
+            <many-to-one optional="false" connected-entity-id="_1474566890320299" fetch="LAZY" visibile="true" name="wydal" id="_1474566889951121"/>
+        </jpa:attributes>
+    </jpa:embeddable>
+    <jpa:diagram>
+        <plane elementRef="_14745668896531"/>
+    </jpa:diagram>
+</jpa:entity-mappings>

@@ -28,7 +28,7 @@
                 <table style="text-align: left; width: 510pt; border: solid 2px; padding: 10px" >
                     <tbody>
                         <tr><td><p:graphicImage url="/resources/wydruki/logo_druk.png" width="200pt"/></td>
-                            <td style="text-align: center; font-size: large; width: 85%; font-weight: bolder;">SKIEROWANIE NA SZKOLENIE/WYJAZD ZAGRANICZNY*</td>
+                            <td style="text-align: center; font-size: 11pt; width: 85%; font-weight: bolder;">SKIEROWANIE NA SZKOLENIE/WYJAZD ZAGRANICZNY*</td>
                         </tr>
                     </tbody>
                 </table>
@@ -57,9 +57,9 @@
                             <hr/>
                             <p style="font-weight: bold">Zaliczka na wyjazd zagraniczny:</p>
                             Zwracam się z prośbą o wypłatę zaliczki w PLN / w walucie** (EUR / USD / GBP -zakreślić walutę) na wyjazd zagraniczny na pokrycie poniższych kosztów:
-                            <p><input type="checkbox"/>Diety: <h:outputText value="#{UrlopM.urlop.diety}">
+                            <p><input type="checkbox"/>Diety: <b><h:outputText value="#{UrlopM.urlop.diety}">
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                </h:outputText>
+                                </h:outputText></b>
                                 <br/>
                                 <input type="checkbox" style="width: 5px;height: 5px"/>Ryczałty na przejazdy : <b>
                                     <h:outputText value="#{UrlopM.urlop.koszty_dojazdu}">
