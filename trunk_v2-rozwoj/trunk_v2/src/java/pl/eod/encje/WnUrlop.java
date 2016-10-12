@@ -93,6 +93,8 @@ public class WnUrlop implements Serializable {
     private BigDecimal kwotaWs;
     private String nrrachunku;
     private boolean pracodawca;
+    private boolean zgodnZbudz;
+    private boolean czyZaliczka;
 
     @OrderBy(value = "id ASC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "urlopId", fetch = FetchType.LAZY, orphanRemoval = true)
@@ -389,6 +391,23 @@ public class WnUrlop implements Serializable {
         this.nrrachunku = nrrachunku;
     }
 
+    public boolean isZgodnZbudz() {
+        return zgodnZbudz;
+    }
+
+    public void setZgodnZbudz(boolean zgodnZbudz) {
+        this.zgodnZbudz = zgodnZbudz;
+    }
+
+    public boolean isCzyZaliczka() {
+        return czyZaliczka;
+    }
+
+    public void setCzyZaliczka(boolean czyZaliczka) {
+        this.czyZaliczka = czyZaliczka;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

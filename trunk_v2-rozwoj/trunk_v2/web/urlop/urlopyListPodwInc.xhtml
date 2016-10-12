@@ -10,8 +10,6 @@
             </p:column>
             <p:column headerText="Nr wniosku" filterBy="#{urlop.nrWniosku}" filterMatchMode="contains">
                 <h:outputText value="#{urlop.nrWniosku}"/>
-                <p:separator />
-                <h:outputText value="#{urlop.infoDod}" rendered="#{fn:length(urlop.infoDod)>0}"/>
             </p:column>
             <p:column headerText="Rodzaj" filterBy="#{urlop.rodzajId.opis}" filterMatchMode="contains">
                 <h:outputText value="#{urlop.rodzajId.opis}"/>
@@ -104,6 +102,11 @@
                         <p:inputSwitch value="#{urlop.pracodawca}" offLabel="Nie" onLabel="Tak" disabled="true"/>
                     </p:panelGrid>
                 </p:panel>
+
+                <p:panel header="Informacje dodatkowe" rendered="#{fn:length(urlop.infoDod)>0 and !(urlop.rodzajId.id==6 or urlop.rodzajId.id==30 or urlop.rodzajId.id==50)}">
+                    <h:outputText value="#{urlop.infoDod}"/>    
+                </p:panel>
+
                 <p:panel header="Historia" rendered="#{fn:length(urlop.wnHistoriaList)>0}">
                     <p:dataTable id="histTab" value="#{urlop.wnHistoriaList}" var="hist">
                         <p:column headerText="Data zmiany">
