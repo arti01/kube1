@@ -83,7 +83,8 @@
                     <p:message for="czyZal" rendered="#{UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}"/>
 
                     <p:outputLabel value="Koszty:" rendered="#{(UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50) and UrlopM.urlop.czyZaliczka}"/>
-                    <p:panelGrid columns="2" columnClasses="column1, column2" rendered="#{(UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50) and UrlopM.urlop.czyZaliczka}">
+                    <p:outputLabel value=" " rendered="#{(UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50) and !UrlopM.urlop.czyZaliczka}"/>
+                    <p:panelGrid columns="3" columnClasses="column1, column2" rendered="#{UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}">
                         <p:panelGrid columns="2" columnClasses="column1, column2" rendered="#{(UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==50)}">
                             <p:outputLabel value="Temat szkolenia: " rendered="#{UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==50}"/>
                             <p:inputText value="#{UrlopM.urlop.temat_szkolenia}" size="40" rendered="#{UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==50}"/>
@@ -92,7 +93,7 @@
                             <p:inputText id="miejscowosc" value="#{UrlopM.urlop.miejsce}" rendered="#{UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==50}" size="40"/>
                         </p:panelGrid>
 
-                        <p:panelGrid columns="2" columnClasses="column1, column2">
+                        <p:panelGrid columns="2" columnClasses="column1, column2" rendered="#{UrlopM.urlop.czyZaliczka}">
                             <p:outputLabel for="wpisowe" value="Wpisowe: " rendered="#{UrlopM.urlop.rodzajId.id==30}"/>
                             <p:inputNumber id="wpisowe" value="#{UrlopM.urlop.wpisowe}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopM.urlop.rodzajId.id==30}">
                                 <p:ajax event="change" update="form" process="form"/>
@@ -130,7 +131,7 @@
 
                         </p:panelGrid>
                     </p:panelGrid>
-                    
+                    <p:spacer rendered="#{(UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50)}"/>
                 </p:panelGrid>
                 <center>
                     <p:message for="dodaj" styleClass="error"/>
@@ -173,8 +174,9 @@
                     <p:column headerText="Status" filterBy="#{urlop.statusId.opis}" filterMatchMode="contains" style="background-color: #{urlop.statusId.kolor} ; text-align: center">
                         <h:outputText value="#{urlop.statusId.opis}"/>
                     </p:column>
-                    <p:column headerText="Akceptant" filterBy="#{urlop.akceptant.fullname}" filterMatchMode="contains">
-                        <h:outputText value="#{urlop.akceptant.fullname}"/>
+                    <p:column headerText="Akceptant/Zaakceptował" filterBy="#{urlop.akceptant.fullname}" filterMatchMode="contains">
+                        <h:outputText value="#{urlop.akceptant.fullname}" rendered="#{urlop.statusId.id!=3}"/>
+                        <h:outputText value="#{urlop.zaakceptowal.fullname}" rendered="#{urlop.statusId.id==3}"/>
                     </p:column>
                     <p:column headerText="Więcej" style="width:36px" exportable="false">
                         <p:rowToggler id="wiecej"/>

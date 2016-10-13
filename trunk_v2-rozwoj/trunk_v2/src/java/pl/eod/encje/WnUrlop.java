@@ -123,6 +123,8 @@ public class WnUrlop implements Serializable {
     String dataDoStr;
     @Transient
     boolean calyDzien;
+    @Transient
+    Uzytkownik zaakceptowal;
 
     public WnUrlop() {
     }
@@ -407,6 +409,17 @@ public class WnUrlop implements Serializable {
         this.czyZaliczka = czyZaliczka;
     }
 
+    public Uzytkownik getZaakceptowal() {
+        zaakceptowal=null;
+        for(WnHistoria hist:this.wnHistoriaList){
+            if(hist.getStatusId().getId()==3){
+                return hist.getZmieniajacy();
+            }
+        }
+        return zaakceptowal;
+    }
+
+    
     
     @Override
     public int hashCode() {
