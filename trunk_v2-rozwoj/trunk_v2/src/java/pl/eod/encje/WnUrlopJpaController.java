@@ -202,7 +202,7 @@ public class WnUrlopJpaController implements Serializable {
             Order o;
             o = queryBuilder.desc(urlop.get("id"));
             queryDefinition.select(urlop).orderBy(o);
-            CriteriaQuery cq = queryBuilder.createQuery();
+            CriteriaQuery<Object> cq = queryBuilder.createQuery();
             Query q = em.createQuery(queryDefinition);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -276,7 +276,7 @@ public class WnUrlopJpaController implements Serializable {
     public int getWnUrlopCount() {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaQuery<Object> cq = em.getCriteriaBuilder().createQuery();
             Root<WnUrlop> rt = cq.from(WnUrlop.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
