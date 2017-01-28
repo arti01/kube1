@@ -220,7 +220,7 @@ public class UrlopObceM {
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
         Calendar calDo = Calendar.getInstance();
-        if (urlop.getRodzajId().getId()==40||urlop.getRodzajId().getId()==30||urlop.getRodzajId().getId()==3) {
+        if (urlop.getRodzajId().getId()==40||urlop.getRodzajId().getId()==3) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
@@ -298,6 +298,12 @@ public class UrlopObceM {
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopListPrzyjmujacy());
     }
 
+     public void changeRodzList(){
+        if(urlop.getRodzajId().getId()==30){
+            urlop.setCzyZaliczka(true);
+        }
+    }
+    
     public WnUrlop getUrlop() {
         return urlop;
     }

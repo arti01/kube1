@@ -27,17 +27,17 @@
                     <p:message for="rodzajW" styleClass="error" />
 
                     <p:outputLabel for="data_od" value="Data od:" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=40}"/>
-                    <p:calendar id="data_od" value="#{UrlopM.urlop.dataOd}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=30 and UrlopM.urlop.rodzajId.id!=40}"/>
-                    <p:message for="data_od" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=30 and UrlopM.urlop.rodzajId.id!=40}"/>
+                    <p:calendar id="data_od" value="#{UrlopM.urlop.dataOd}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=40}"/>
+                    <p:message for="data_od" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=40}"/>
 
                     <p:outputLabel for="data_do" value="Data do:" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=40}"/>
-                    <p:calendar id="data_do" value="#{UrlopM.urlop.dataDo}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=30 and UrlopM.urlop.rodzajId.id!=40}"/>
-                    <p:message for="data_do" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=30 and UrlopM.urlop.rodzajId.id!=40}"/>
+                    <p:calendar id="data_do" value="#{UrlopM.urlop.dataDo}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=40}"/>
+                    <p:message for="data_do" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id!=3 and UrlopM.urlop.rodzajId.id!=40}"/>
 
                     <p:outputLabel for="data_url" value="Data:" rendered="#{UrlopM.urlop.rodzajId.id==3}"/>
                     <p:outputLabel for="data_url" value="Dzień nadgodzin:" rendered="#{UrlopM.urlop.rodzajId.id==40}"/>
-                    <p:calendar id="data_url" value="#{UrlopM.dataUrlopu}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopM.urlop.rodzajId.id==40 or UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==3}"/>
-                    <p:message for="data_url" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==40 or UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==3}"/>
+                    <p:calendar id="data_url" value="#{UrlopM.dataUrlopu}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopM.urlop.rodzajId.id==40 or UrlopM.urlop.rodzajId.id==3}"/>
+                    <p:message for="data_url" styleClass="error" rendered="#{UrlopM.urlop.rodzajId.id==40 or UrlopM.urlop.rodzajId.id==3}"/>
 
                     <p:outputLabel value="Godzina od:" rendered="#{UrlopM.urlop.rodzajId.id==40 or UrlopM.urlop.rodzajId.id==3}"/>
                     <p:calendar id="data_od_godz" value="#{UrlopM.godzOdT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{UrlopM.urlop.rodzajId.id==40 or UrlopM.urlop.rodzajId.id==3}"/>
@@ -76,8 +76,8 @@
                     <p:message for="srodekLok" styleClass="error"  rendered="#{UrlopM.urlop.rodzajId.id==5 or UrlopM.urlop.rodzajId.id==6}"/>
 
 
-                    <p:outputLabel for="czyZal" value="Czy zaliczka" rendered="#{UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}"/>
-                    <h:selectBooleanCheckbox id="czyZal" value="#{UrlopM.urlop.czyZaliczka}" rendered="#{UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}">
+                    <p:outputLabel for="czyZal" value="Czy zaliczka" rendered="#{UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}"/>
+                    <h:selectBooleanCheckbox id="czyZal" value="#{UrlopM.urlop.czyZaliczka}" rendered="#{UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}">
                         <p:ajax update="czyZalPanel" process="czyZal"/>
                     </h:selectBooleanCheckbox>
                     <p:message for="czyZal" rendered="#{UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}"/>
@@ -90,7 +90,7 @@
                             <p:outputLabel for="miejscowosc" value="Miejscowość szkolenia: " rendered="#{UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==50}"/>
                             <p:inputText id="miejscowosc" value="#{UrlopM.urlop.miejsce}" rendered="#{UrlopM.urlop.rodzajId.id==30 or UrlopM.urlop.rodzajId.id==50}" size="40"/>
                         </p:panelGrid>
-                        
+
                         <h:panelGroup id="czyZalPanel">
                             <p:panelGrid columns="2" columnClasses="column1, column2" rendered="#{UrlopM.urlop.czyZaliczka}">
                                 <f:facet name="header">
@@ -131,9 +131,14 @@
 
                                 <p:outputLabel for="nrrachunku" value="Nr rachunku: " rendered="#{UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}"/>
                                 <p:inputText id="nrrachunku" value="#{UrlopM.urlop.nrrachunku}" rendered="#{UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}" size="26" required="true" requiredMessage="nr rachunku jest wymagany"/>
-                                
+
                                 <p:outputLabel for="walutarachunku" value="Waluta rachunku: " rendered="#{UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}"/>
-                                <p:inputText id="walutarachunku" value="#{UrlopM.urlop.walutarachunku}" rendered="#{UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}" size="3" required="true" requiredMessage="waluta rachunku jest wymagana"/>
+                                <p:selectOneMenu id="walutarachunku" value="#{UrlopM.urlop.walutarachunku}" rendered="#{UrlopM.urlop.rodzajId.id==6 or UrlopM.urlop.rodzajId.id==50}">
+                                    <f:selectItem itemValue="PLN" itemLabel="PLN"/>
+                                    <f:selectItem itemValue="EUR" itemLabel="EUR"/>
+                                    <f:selectItem itemValue="USD" itemLabel="USD"/>
+                                    <f:selectItem itemValue="GBP" itemLabel="GBP"/>
+                                </p:selectOneMenu>
                             </p:panelGrid>
                         </h:panelGroup>
                     </p:panelGrid>
@@ -148,7 +153,7 @@
 
             <p:outputPanel id="formTab" layout="block">
                 <p:commandButton value="raport excel" ajax="false" immediate="true">
-                    <p:dataExporter type="xls" target="table" fileName="raport" encoding="ISO-8859-2"/>
+                    <p:dataExporter type="xls" target="table" fileName="raport" encoding="ISO-8859-2" postProcessor="#{UrlopM.postProcessXLS}"/>
                 </p:commandButton>
                 <p:separator/>
 
@@ -167,15 +172,15 @@
                         <h:outputText value="#{urlop.dataWprowadzenia}"><f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm:ss" timeZone="CET"/></h:outputText>
                     </p:column>
                     <p:column headerText="Od" sortBy="#{urlop.dataOd}">
-                        <h:outputText value="#{urlop.dataOd}" rendered="#{urlop.rodzajId.id==40 or urlop.rodzajId.id==30 or urlop.rodzajId.id==3}">
+                        <h:outputText value="#{urlop.dataOd}" rendered="#{urlop.rodzajId.id==40 or urlop.rodzajId.id==3}">
                             <f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
-                        <h:outputText value="#{urlop.dataOd}" rendered="#{!(urlop.rodzajId.id==40 or urlop.rodzajId.id==30 or urlop.rodzajId.id==3)}">
+                        <h:outputText value="#{urlop.dataOd}" rendered="#{!(urlop.rodzajId.id==40 or urlop.rodzajId.id==3)}">
                             <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
                     </p:column>
                     <p:column headerText="Do" sortBy="#{urlop.dataDo}">
-                        <h:outputText value="#{urlop.dataDo}" rendered="#{urlop.rodzajId.id==40 or urlop.rodzajId.id==30 or urlop.rodzajId.id==3}">
+                        <h:outputText value="#{urlop.dataDo}" rendered="#{urlop.rodzajId.id==40 or urlop.rodzajId.id==3}">
                             <f:convertDateTime type="date" pattern="yyyy-MM-dd HH:mm" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
-                        <h:outputText value="#{urlop.dataDo}" rendered="#{!(urlop.rodzajId.id==40 or urlop.rodzajId.id==30 or urlop.rodzajId.id==3)}">
+                        <h:outputText value="#{urlop.dataDo}" rendered="#{!(urlop.rodzajId.id==40 or urlop.rodzajId.id==3)}">
                             <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
                     </p:column>
                     <p:column headerText="Status" filterBy="#{urlop.statusId.opis}" filterMatchMode="contains" style="background-color: #{urlop.statusId.kolor} ; text-align: center">
