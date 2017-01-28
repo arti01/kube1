@@ -438,7 +438,7 @@ public class UrlopM implements Serializable {
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
         Calendar calDo = Calendar.getInstance();
-        if (urlop.getRodzajId().getId() == 40 || urlop.getRodzajId().getId() == 30 || urlop.getRodzajId().getId() == 3) {
+        if (urlop.getRodzajId().getId() == 40 || urlop.getRodzajId().getId() == 3) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
