@@ -92,6 +92,8 @@ public class WnUrlop implements Serializable {
     @Column(precision=7, scale=2)
     private BigDecimal kwotaWs;
     private String nrrachunku;
+    @Size(max = 3)
+    private String walutarachunku;
     private boolean pracodawca;
     private boolean zgodnZbudz;
     private boolean czyZaliczka;
@@ -417,6 +419,14 @@ public class WnUrlop implements Serializable {
             }
         }
         return zaakceptowal;
+    }
+
+    public String getWalutarachunku() {
+        return walutarachunku;
+    }
+
+    public void setWalutarachunku(String walutarachunku) {
+        this.walutarachunku = walutarachunku;
     }
 
     

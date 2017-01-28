@@ -22,6 +22,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.richfaces.component.SortOrder;
 import pl.eod.encje.KomKolejka;
 import pl.eod.encje.KomKolejkaJpaController;
@@ -32,6 +38,7 @@ import pl.eod.encje.WnStatusy;
 import pl.eod.encje.WnUrlop;
 import pl.eod.encje.WnUrlopDataModel;
 import pl.eod.encje.WnUrlopJpaController;
+import pl.eod.encje.WnUrlop_;
 import pl.eod.managed.Login;
 import pl.eod2.managedUm.RezerMojKalMg;
 
@@ -431,7 +438,7 @@ public class UrlopM implements Serializable {
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
         Calendar calDo = Calendar.getInstance();
-        if (urlop.getRodzajId().getId()==40 ||urlop.getRodzajId().getId()==30||urlop.getRodzajId().getId()==3) {
+        if (urlop.getRodzajId().getId() == 40 || urlop.getRodzajId().getId() == 30 || urlop.getRodzajId().getId() == 3) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
@@ -454,7 +461,7 @@ public class UrlopM implements Serializable {
 
         String error;
         if (urlop.getId() == null) {
-            urlop.setWnHistoriaList(new ArrayList<WnHistoria>());
+            urlop.setWnHistoriaList(new ArrayList<>());
             WnHistoria wnh = new WnHistoria();
             wnh.setDataZmiany(new Date());
             wnh.setStatusId(st);
@@ -479,12 +486,12 @@ public class UrlopM implements Serializable {
         }
         context.addMessage(zapisz.getClientId(context), message);
     }
-    
-    public String drukujWs(){
+
+    public String drukujWs() {
         return "/urlop/printWs.xhtml";
     }
-    
-    public String drukujDz(){
+
+    public String drukujDz() {
         return "/urlop/printDz.xhtml";
     }
 
@@ -500,14 +507,14 @@ public class UrlopM implements Serializable {
     private void initUrlop() {
         //godzOd = "HH:MM";
         //godzDo = "HH:MM";
-        Calendar cal=Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
-        godzOdT=cal.getTime();
+        godzOdT = cal.getTime();
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
-        godzDoT=cal.getTime();
-        
+        godzDoT = cal.getTime();
+
         dataUrlopu = new Date();
         login.refresh();
         urlop = new WnUrlop();
@@ -517,6 +524,22 @@ public class UrlopM implements Serializable {
         }
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopList());
         //login.refresh();
+    }
+
+    public void changeRodzList() {
+        if (urlop.getRodzajId().getId() == 30) {
+            urlop.setCzyZaliczka(true);
+        }
+    }
+
+    public void postProcessXLS(Object document) {
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        HSSFRow header = sheet.getRow(0);
+
+        for (int colNum = 0; colNum < header.getLastCellNum(); colNum++) {
+            wb.getSheetAt(0).autoSizeColumn(colNum);
+        }
     }
 
     public WnUrlop getUrlop() {
