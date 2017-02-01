@@ -61,7 +61,8 @@
                                 </b> do <b><h:outputText value="#{UrlopM.urlop.dataOd}">
                                         <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText></b> w: <b>#{UrlopM.urlop.miejsce}</b>
                             </p>
-                            <p style="text-align: right"><br/><br/><br/>............................................<br/>(podpis Pracownika)</p>
+                            <p style="text-align: right"><br/><br/><br/><h:outputText value="#{UrlopM.urlop.dataWprowadzenia}">
+                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>, #{UrlopM.urlop.uzytkownik.fullname}............................................<br/>(podpis Pracownika)</p>
                         </td>
                     </tr>
                     <tr>
@@ -94,7 +95,7 @@
                                     <br/>zgodne z założonym budżetem szkoleniowym (PL-R-18-03)
                                 </h:panelGroup>
                                 <h:panelGroup rendered="#{!UrlopM.urlop.zgodnZbudz}">
-                                    <br/>nieplanowane (poza budżetem szkoleniowym – wymagana zgoda Zarządu), określ źródło finansowania: .............
+                                    <br/>nieplanowane (poza budżetem szkoleniowym – wymagana zgoda Zarządu), określ źródło finansowania:
                                     <br/>..............................................................................................................................................................................
                                 </h:panelGroup>
                                 <br/><br/>
@@ -130,6 +131,7 @@
                                             <br/>
                                             <br/>
                                             <br/>
+                                            <h:outputText value="#{UrlopM.urlop.dataOstZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>, #{UrlopM.urlop.zaakceptowal.fullname}
                                             .......................................................................................
                                         </td>
                                         <td style="vertical-align: central;text-align: center;">

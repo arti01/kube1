@@ -43,7 +43,8 @@
                             <table style="width: 100%;" border="0" cellpadding="2" cellspacing="10pt">
                                 <tr>
                                     <td style="vertical-align: central;text-align: center; width: 20%;">....................................<br/>(dział/ośrodek)</td>
-                                    <td style="vertical-align: central;text-align: right;">.....................................<br/>(miejscowość, data)</td>
+                                    <td style="vertical-align: central;text-align: right;"><h:outputText value="#{UrlopM.urlop.dataWprowadzenia}">
+                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>................................<br/>(miejscowość, data)</td>
                                 </tr>
                             </table>
                             <p style="text-align: right">
@@ -54,7 +55,7 @@
                                 </b> do <b><h:outputText value="#{UrlopM.urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText></b>
                                 w <b>#{UrlopM.urlop.miejsce}</b>
                             </p>
-                            <p style="text-align: right"><br/><br/><br/>............................................<br/>(podpis Przełożonego)</p>
+                            <p style="text-align: right"><br/><br/><br/><h:outputText value="#{UrlopM.urlop.dataOstZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>, #{UrlopM.urlop.zaakceptowal.fullname} ............................................<br/>(podpis Przełożonego)</p>
                         </td>
                     </tr>
                     <tr>
@@ -80,12 +81,13 @@
                             </p>
                             <p>Zaliczkę proszę przelać na: poniższy rachunek walutowy, którego jestem właścicielem/rachunek bankowy zgłoszony w dziale Kadr do otrzymywania wynagrodzenia*
                                 <br/>
-                                Konto walutowe: <b>#{UrlopM.urlop.nrrachunku}</b> waluta: <b>#{UrlopM.urlop.walutarachunku}</b>
+                                Konto: <b>#{UrlopM.urlop.nrrachunku}</b> waluta: <b>#{UrlopM.urlop.walutarachunku}</b>
                             </p>
                         </td>
                         <tr>
                             <td>
-                                <p style="text-align: right"><br/><br/>............................................<br/>(podpis Pracownika)</p>
+                                <p style="text-align: right"><br/><br/><h:outputText value="#{UrlopM.urlop.dataWprowadzenia}">
+                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>, #{UrlopM.urlop.uzytkownik.fullname}............................................<br/>(podpis Pracownika)</p>
                                 Wyrażam zgodę / Nie wyrażam zgody* na delegowanie pracownika na w/w szkolenie/wyjazd zagraniczny oraz wypłatę zaliczki.
                                 <p style="text-align: right"><br/><br/><br/>............................................<br/>(podpis Członka Zarządu)</p>
                                 <p>* niepotrzebne skreślić
