@@ -28,14 +28,14 @@
                 <table style="width: 800px; border: solid 2px; padding: 10px;">
                     <tr >
                         <td width="100%" style="border-bottom: 2px solid black;">
-                        <table style="text-align: left; width: 800px; border: solid 0px; " >
-                   
-                        <tr >
-                            <td style="width: 250px;"><p:graphicImage url="/resources/wydruki/logo_druk.png" width="250px"/></td>
-                            <td style=" text-align: center; font-size: 13pt;width: 550px; font-weight: bold;">SKIEROWANIE NA SZKOLENIE/WYJAZD ZAGRANICZNY*</td>
-                        </tr>
-                   
-                        </table>
+                            <table style="text-align: left; width: 800px; border: solid 0px; " >
+
+                                <tr >
+                                    <td style="width: 250px;"><p:graphicImage url="/resources/wydruki/logo_druk.png" width="250px"/></td>
+                                    <td style=" text-align: center; font-size: 13pt;width: 550px; font-weight: bold;">SKIEROWANIE NA SZKOLENIE/WYJAZD ZAGRANICZNY*</td>
+                                </tr>
+
+                            </table>
                         </td>
                     </tr>
                     <tr>
@@ -44,7 +44,7 @@
                                 <tr>
                                     <td style="vertical-align: central;text-align: center; width: 20%;">....................................<br/>(dział/ośrodek)</td>
                                     <td style="vertical-align: central;text-align: right;"><h:outputText value="#{UrlopM.urlop.dataWprowadzenia}">
-                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>................................<br/>(miejscowość, data)</td>
+                                            <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>................................<br/>(miejscowość, data)</td>
                                 </tr>
                             </table>
                             <p style="text-align: right">
@@ -61,33 +61,46 @@
                     <tr>
                         <td style="text-align: left;">
                             <hr/>
-                            <p style="font-weight: bold">Zaliczka na wyjazd zagraniczny:</p>
-                            Zwracam się z prośbą o wypłatę zaliczki w PLN / w walucie** (EUR / USD / GBP -zakreślić walutę) na wyjazd zagraniczny na pokrycie poniższych kosztów:
-                            <p><input type="checkbox"/>Diety: <b><h:outputText value="#{UrlopM.urlop.diety}">
-                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                </h:outputText></b>
-                                <br/>
-                                <input type="checkbox" style="width: 5px;height: 5px"/>Ryczałty na przejazdy : <b>
-                                    <h:outputText value="#{UrlopM.urlop.koszty_dojazdu}">
-                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                    </h:outputText>
-                                </b>
-                                <br/><input type="checkbox" style="font-size: small"/>Hotel: <b><h:outputText value="#{UrlopM.urlop.hotel}">
-                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                    </h:outputText></b>
-                                <br/><input type="checkbox"/>Inne (jakie): <b>    <h:outputText value="#{UrlopM.urlop.inne}">
-                                        <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                    </h:outputText></b><h:outputText value=" #{UrlopM.urlop.infoDod}"/>
-                            </p>
-                            <p>Zaliczkę proszę przelać na: poniższy rachunek walutowy, którego jestem właścicielem/rachunek bankowy zgłoszony w dziale Kadr do otrzymywania wynagrodzenia*
-                                <br/>
-                                Konto: <b>#{UrlopM.urlop.nrrachunku}</b> waluta: <b>#{UrlopM.urlop.walutarachunku}</b>
-                            </p>
+                            <h:panelGroup rendered="#{UrlopM.urlop.czyZaliczka}">
+                                <p style="font-weight: bold">Zaliczka na wyjazd zagraniczny:</p>
+                                Zwracam się z prośbą o wypłatę zaliczki w <b>#{UrlopM.urlop.walutarachunku}</b> na wyjazd zagraniczny na pokrycie poniższych kosztów:
+                                <p><h:panelGroup rendered="#{UrlopM.urlop.czyDieta}">
+                                        <input type="checkbox" checked="true"/>Diety: <b>TAK</b>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{!UrlopM.urlop.czyDieta}">
+                                        <input type="checkbox"/>Diety: <b>NIE</b>
+                                    </h:panelGroup>
+                                    <br/>
+                                    <h:panelGroup rendered="#{UrlopM.urlop.czyRyczalty}">
+                                        <input type="checkbox" checked="true"/>Ryczałty na przejazdy: <b>TAK</b>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{!UrlopM.urlop.czyRyczalty}">
+                                        <input type="checkbox"/>Ryczałty na przejazdy: <b>NIE</b>
+                                    </h:panelGroup>
+                                    <br/>
+                                    <br/><input type="checkbox" style="font-size: small"/>Hotel: <b><h:outputText value="#{UrlopM.urlop.hotel}">
+                                            <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                        </h:outputText></b>
+                                    <br/><input type="checkbox"/>Inne (jakie): <b>    <h:outputText value="#{UrlopM.urlop.inne}">
+                                            <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
+                                        </h:outputText></b><h:outputText value=" #{UrlopM.urlop.infoDod}"/>
+                                </p>
+                                <p>Zaliczkę proszę przelać na: poniższy rachunek walutowy, którego jestem właścicielem/rachunek bankowy zgłoszony w dziale Kadr do otrzymywania wynagrodzenia*
+                                    <br/>
+                                    Konto: <b>#{UrlopM.urlop.nrrachunku}</b> waluta: <b>#{UrlopM.urlop.walutarachunku}</b>
+                                </p>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{!UrlopM.urlop.czyZaliczka}">
+                                <p style="font-weight: bold">Zaliczka na wyjazd zagraniczny: <b>NIE</b></p>
+                            </h:panelGroup>
                         </td>
                         <tr>
                             <td>
-                                <p style="text-align: right"><br/><br/><h:outputText value="#{UrlopM.urlop.dataWprowadzenia}">
-                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>, #{UrlopM.urlop.uzytkownik.fullname}............................................<br/>(podpis Pracownika)</p>
+                                <h:panelGroup rendered="#{UrlopM.urlop.czyZaliczka}">
+                                    <p style="text-align: right"><br/><br/><h:outputText value="#{UrlopM.urlop.dataWprowadzenia}">
+                                            <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>, #{UrlopM.urlop.uzytkownik.fullname}............................................<br/>(podpis Pracownika)</p>
+                                </h:panelGroup>
+                                <hr/>
                                 Wyrażam zgodę / Nie wyrażam zgody* na delegowanie pracownika na w/w szkolenie/wyjazd zagraniczny oraz wypłatę zaliczki.
                                 <p style="text-align: right"><br/><br/><br/>............................................<br/>(podpis Członka Zarządu)</p>
                                 <p>* niepotrzebne skreślić

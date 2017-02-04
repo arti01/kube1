@@ -124,13 +124,12 @@
                                 <p:outputLabel for="inne_opis" value="Inne (opis): " rendered="#{UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
                                 <p:inputText id="inne_opis" value="#{UrlopObceM.urlop.infoDod}" rendered="#{UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==50 or UrlopObceM.urlop.rodzajId.id==6}" size="40"/>
 
-                                <p:outputLabel for="diety" value="Diety: " rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
-                                <p:inputNumber id="diety" value="#{UrlopObceM.urlop.diety}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}">
-                                    <p:ajax event="change" update="form" process="form"/>
-                                </p:inputNumber>
+                                <p:outputLabel for="diety" value="Diety: "  rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>        
+                                <h:selectBooleanCheckbox id="diety" value="#{UrlopObceM.urlop.czyDieta}" rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
 
                                 <p:outputLabel for="koszty_dojazdu" value="Koszty/ryczałt dojazdu: " rendered="#{UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
-                                <p:inputNumber id="koszty_dojazdu" value="#{UrlopObceM.urlop.koszty_dojazdu}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==50 or UrlopObceM.urlop.rodzajId.id==6}">
+                                <h:selectBooleanCheckbox id="koszty_dojazdu" value="#{UrlopM.urlop.czyRyczalty}" rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==50}"/>
+                                <p:inputNumber id="koszty_dojazdu1" value="#{UrlopObceM.urlop.koszty_dojazdu}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopObceM.urlop.rodzajId.id==30}">
                                     <p:ajax event="change" update="form" process="form"/>
                                 </p:inputNumber>
 

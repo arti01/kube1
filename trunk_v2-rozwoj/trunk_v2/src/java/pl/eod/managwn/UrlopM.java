@@ -24,6 +24,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -45,7 +46,7 @@ import pl.eod2.managedUm.RezerMojKalMg;
 @ManagedBean(name = "UrlopM")
 @SessionScoped
 public class UrlopM implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     private WnUrlop urlop;
     private DataModel<WnUrlop> urlopyList = new ListDataModel<>();
@@ -67,12 +68,12 @@ public class UrlopM implements Serializable {
     private Date godzOdT;
     private Date godzDoT;
     private Date dataUrlopu;
-
+    
     public String list() {
         initUrlop();
         return "/urlop/urlopyList";
     }
-
+    
     public String listPodwl() {
         initUrlop();
         ArrayList<WnUrlop> akceptL = new ArrayList<>();
@@ -83,7 +84,7 @@ public class UrlopM implements Serializable {
         urlopyAkcept.setWrappedData(akceptL);
         return "/urlop/urlopyListPodwl";
     }
-
+    
     public String listPodwlHist() {
         //initUrlop();
         ArrayList<WnUrlop> akceptHist = new ArrayList<>();
@@ -95,7 +96,7 @@ public class UrlopM implements Serializable {
         urlopyAkceptHist.setWrappedData(akceptHist);
         return "/urlop/urlopyListAkceptHist";
     }
-
+    
     public void anuluj() {
         String info = "";
         try {
@@ -113,9 +114,9 @@ public class UrlopM implements Serializable {
             wnh.setUrlopId(urlop);
             //wnh.setAkceptant(login.getZalogowany().getSzefId().getUserId());
             wnh.setOpisZmiany("anulowano po zaakceptowaniu");
-
+            
             urlop.getWnHistoriaList().add(wnh);
-
+            
             urlopC.createEdit(urlop);
 
             //wysylanie maila
@@ -129,7 +130,7 @@ public class UrlopM implements Serializable {
                 kk.setTresc("Pracownik " + urlop.getUzytkownik().getFullname() + " anulował urlop " + urlop.getRodzajId().getOpis() + " wnioskowany w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku() + ". Dodatkowe informacje: " + urlop.getInfoDod());
                 KomKolC.create(kk);
             }
-
+            
             if (!login.getZalogowany().getSzefId().getUserId().getAdrEmail().equals("")) {
                 KomKolejka kk = new KomKolejka();
                 kk.setAdresList(login.getZalogowany().getSzefId().getUserId().getAdrEmail());
@@ -140,7 +141,7 @@ public class UrlopM implements Serializable {
                 KomKolC.create(kk);
             }
             info = "Wniosek anulowany";
-
+            
         } catch (Exception ex) {
             //if(login.getZalogowany().getSzefId()==null) info = "nie można ustawić akceptanta, brak przełożonego";
             //else 
@@ -156,7 +157,7 @@ public class UrlopM implements Serializable {
             context.addMessage(zapisz.getClientId(context), message);
         }
     }
-
+    
     public void wyslij() {
         String info = "";
         String error = null;
@@ -165,7 +166,7 @@ public class UrlopM implements Serializable {
             st.setId(new Long(2));
             urlop.setStatusId(st);
             urlop.setAkceptant(login.getZalogowany().getSzefId().getUserId());
-
+            
             WnHistoria wnh = new WnHistoria();
             wnh.setDataZmiany(new Date());
             WnStatusy st1 = new WnStatusy();
@@ -175,9 +176,9 @@ public class UrlopM implements Serializable {
             wnh.setUrlopId(urlop);
             wnh.setAkceptant(login.getZalogowany().getSzefId().getUserId());
             wnh.setOpisZmiany("wysłano do akceptu przełożonemu");
-
+            
             urlop.getWnHistoriaList().add(wnh);
-
+            
             error = urlopC.createEdit(urlop);
             String tresc;
             if (error == null) {
@@ -197,10 +198,10 @@ public class UrlopM implements Serializable {
                         tresc = tresc + ". Na czas nieobecności pracownika, zastępuje go " + urlop.getUzytkownik().getStruktura().getSecUserId().getFullname() + " (email: " + urlop.getUzytkownik().getStruktura().getSecUserId().getAdrEmail() + ")";
                     }
                     kk.setTresc(tresc);
-
+                    
                     KomKolC.create(kk);
                 }
-
+                
                 if (!urlop.getAkceptant().getAdrEmail().equals("")) {
                     KomKolejka kk = new KomKolejka();
                     kk.setAdresList(urlop.getAkceptant().getAdrEmail());
@@ -208,7 +209,7 @@ public class UrlopM implements Serializable {
                     kk.setIdDokumenu(urlop.getId().intValue());
                     kk.setTemat("Prośba o akceptację wniosku urlopowego");
                     tresc = "Proszę o akceptację wniosku urlopowego. " + "Pracownik " + urlop.getUzytkownik().getFullname() + " wnioskuje o urlop " + urlop.getRodzajId().getOpis() + " w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku();
-
+                    
                     if (!urlop.getInfoDod().isEmpty()) {
                         tresc = tresc + ". Dodatkowe informacje: " + urlop.getInfoDod();
                     }
@@ -241,13 +242,13 @@ public class UrlopM implements Serializable {
             context.addMessage(zapisz.getClientId(context), message);
         }
     }
-
+    
     public void akcept() {
         WnStatusy st = new WnStatusy();
         st.setId(new Long(3));
         urlop.setStatusId(st);
         urlop.setAkceptant(null);
-
+        
         WnHistoria wnh = new WnHistoria();
         wnh.setDataZmiany(new Date());
         WnStatusy st1 = new WnStatusy();
@@ -257,7 +258,7 @@ public class UrlopM implements Serializable {
         wnh.setUrlopId(urlop);
         wnh.setAkceptant(null);
         wnh.setOpisZmiany("Wniosek zaakceptowany");
-
+        
         urlop.getWnHistoriaList().add(wnh);
         String error;
         error = urlopC.createEdit(urlop);
@@ -272,7 +273,7 @@ public class UrlopM implements Serializable {
                 kk.setTresc("Twoj wniosek o urlop " + urlop.getNrWniosku() + " został zaakceptowany");
                 KomKolC.create(kk);
             }
-
+            
             if (urlop.getPrzyjmujacy() != null) {
                 KomKolejka kk = new KomKolejka();
                 kk.setAdresList(urlop.getPrzyjmujacy().getAdrEmail());
@@ -305,13 +306,13 @@ public class UrlopM implements Serializable {
         }
         context.addMessage(zapisz.getClientId(context), message);
     }
-
+    
     public void odrzuc() {
         WnStatusy st = new WnStatusy();
         st.setId(new Long(4));
         urlop.setStatusId(st);
         urlop.setAkceptant(null);
-
+        
         WnHistoria wnh = new WnHistoria();
         wnh.setDataZmiany(new Date());
         WnStatusy st1 = new WnStatusy();
@@ -321,11 +322,11 @@ public class UrlopM implements Serializable {
         wnh.setUrlopId(urlop);
         wnh.setAkceptant(null);
         wnh.setOpisZmiany("Wniosek odrzucony");
-
+        
         urlop.getWnHistoriaList().add(wnh);
-
+        
         urlopC.createEdit(urlop);
-
+        
         if (!urlop.getUzytkownik().getAdrEmail().equals("")) {
             KomKolejka kk = new KomKolejka();
             kk.setAdresList(urlop.getUzytkownik().getAdrEmail());
@@ -335,7 +336,7 @@ public class UrlopM implements Serializable {
             kk.setTresc("Twoj wniosek o urlop " + urlop.getNrWniosku() + " został odrzucony");
             KomKolC.create(kk);
         }
-
+        
         if (urlop.getPrzyjmujacy() != null) {
             KomKolejka kk = new KomKolejka();
             kk.setAdresList(urlop.getPrzyjmujacy().getAdrEmail());
@@ -345,7 +346,7 @@ public class UrlopM implements Serializable {
             kk.setTresc("Twoj wniosek o urlop " + urlop.getNrWniosku() + " został odrzucony");
             KomKolC.create(kk);
         }
-
+        
         if (urlop.isExtraemail()) {
             KomKolejka kk = new KomKolejka();
             kk.setAdresList(urlop.getUzytkownik().getStruktura().getExtraemail());
@@ -355,7 +356,7 @@ public class UrlopM implements Serializable {
             kk.setTresc("Wniosek o urlop " + urlop.getUzytkownik().getFullname() + " nr wniosku: " + urlop.getNrWniosku() + " został odrzucony");
             KomKolC.create(kk);
         }
-
+        
         initUrlop();
         listPodwl();//bo musi odswierzyc liste
         FacesContext context = FacesContext.getCurrentInstance();
@@ -363,15 +364,15 @@ public class UrlopM implements Serializable {
         FacesMessage message = new FacesMessage();
         message.setSummary("Wniosek odrzucony");
         context.addMessage(zapisz.getClientId(context), message);
-
+        
     }
-
+    
     public void cofnij() {
         WnStatusy st = new WnStatusy();
         st.setId(new Long(5));
         urlop.setStatusId(st);
         urlop.setAkceptant(null);
-
+        
         WnHistoria wnh = new WnHistoria();
         wnh.setDataZmiany(new Date());
         WnStatusy st1 = new WnStatusy();
@@ -381,10 +382,10 @@ public class UrlopM implements Serializable {
         wnh.setUrlopId(urlop);
         wnh.setAkceptant(null);
         wnh.setOpisZmiany("Wniosek cofnięty do wystawcy");
-
+        
         urlop.getWnHistoriaList().add(wnh);
         urlopC.createEdit(urlop);
-
+        
         if (!urlop.getUzytkownik().getAdrEmail().equals("")) {
             KomKolejka kk = new KomKolejka();
             kk.setAdresList(urlop.getUzytkownik().getAdrEmail());
@@ -394,7 +395,7 @@ public class UrlopM implements Serializable {
             kk.setTresc("Twoj wniosek o urlop " + urlop.getNrWniosku() + " został cofnięty do poprawy");
             KomKolC.create(kk);
         }
-
+        
         if (urlop.getPrzyjmujacy() != null) {
             KomKolejka kk = new KomKolejka();
             kk.setAdresList(urlop.getPrzyjmujacy().getAdrEmail());
@@ -404,7 +405,7 @@ public class UrlopM implements Serializable {
             kk.setTresc("Twoj wniosek o urlop " + urlop.getNrWniosku() + " został cofnięty do poprawy");
             KomKolC.create(kk);
         }
-
+        
         if (urlop.isExtraemail()) {
             KomKolejka kk = new KomKolejka();
             kk.setAdresList(urlop.getUzytkownik().getStruktura().getExtraemail());
@@ -414,7 +415,7 @@ public class UrlopM implements Serializable {
             kk.setTresc("Wniosek o urlop " + urlop.getUzytkownik().getFullname() + " nr wniosku: " + urlop.getNrWniosku() + " został cofnięty do poprawy");
             KomKolC.create(kk);
         }
-
+        
         initUrlop();
         listPodwl();//bo musi odswierzyc liste
         FacesContext context = FacesContext.getCurrentInstance();
@@ -423,7 +424,7 @@ public class UrlopM implements Serializable {
         message.setSummary("Wniosek cofnięty do wystawcy");
         context.addMessage(zapisz.getClientId(context), message);
     }
-
+    
     public void usun() {
         urlopC.destroy(urlop);
         FacesContext context = FacesContext.getCurrentInstance();
@@ -433,7 +434,7 @@ public class UrlopM implements Serializable {
         context.addMessage(zapisz.getClientId(context), message);
         initUrlop();
     }
-
+    
     public void dodaj() throws ParseException {
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
@@ -458,7 +459,7 @@ public class UrlopM implements Serializable {
         urlop.setStatusId(st);
         //urlop.setNrWniosku("ddddddddddd");
         urlop.setDataWprowadzenia(new Date());
-
+        
         String error;
         if (urlop.getId() == null) {
             urlop.setWnHistoriaList(new ArrayList<>());
@@ -486,15 +487,15 @@ public class UrlopM implements Serializable {
         }
         context.addMessage(zapisz.getClientId(context), message);
     }
-
+    
     public String drukujWs() {
         return "/urlop/printWs.xhtml";
     }
-
+    
     public String drukujDz() {
         return "/urlop/printDz.xhtml";
     }
-
+    
     @PostConstruct
     public void init() {
         urlopC = new WnUrlopJpaController();
@@ -503,7 +504,7 @@ public class UrlopM implements Serializable {
         //initUrlop();
         sortOrders.put("id", SortOrder.descending);
     }
-
+    
     private void initUrlop() {
         //godzOd = "HH:MM";
         //godzDo = "HH:MM";
@@ -514,7 +515,7 @@ public class UrlopM implements Serializable {
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         godzDoT = cal.getTime();
-
+        
         dataUrlopu = new Date();
         login.refresh();
         urlop = new WnUrlop();
@@ -525,134 +526,144 @@ public class UrlopM implements Serializable {
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopList());
         //login.refresh();
     }
-
+    
     public void changeRodzList() {
         if (urlop.getRodzajId().getId() == 30) {
             urlop.setCzyZaliczka(true);
         }
     }
-
+    
     public void postProcessXLS(Object document) {
         HSSFWorkbook wb = (HSSFWorkbook) document;
         HSSFSheet sheet = wb.getSheetAt(0);
         HSSFRow header = sheet.getRow(0);
-
+        
+        HSSFPalette palette = wb.getCustomPalette();
+        short colorIndex = 45;
+        palette.setColorAtIndex(colorIndex, (byte)201, (byte)221, (byte)255);
+        HSSFCellStyle style = wb.createCellStyle();
+        style.setFillForegroundColor(colorIndex);
+        //style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND); 
+        style.setFillPattern(HSSFCellStyle.BORDER_MEDIUM); 
+        style.setFillBackgroundColor(colorIndex);
+        //header.setRowStyle(style);
         for (int colNum = 0; colNum < header.getLastCellNum(); colNum++) {
             wb.getSheetAt(0).autoSizeColumn(colNum);
+            header.getCell(colNum).setCellStyle(style);
         }
     }
-
+    
     public WnUrlop getUrlop() {
         return urlop;
     }
-
+    
     public void setUrlop(WnUrlop urlop) {
         this.urlop = urlop;
     }
-
+    
     public DataModel<WnUrlop> getUrlopyList() {
         return urlopyList;
     }
-
+    
     public void setUrlopyList(DataModel<WnUrlop> urlopyList) {
         this.urlopyList = urlopyList;
     }
-
+    
     public WnRodzajeJpaController getRodzajeC() {
         return rodzajeC;
     }
-
+    
     public Login getLogin() {
         return login;
     }
-
+    
     public void setLogin(Login login) {
         this.login = login;
     }
-
+    
     public Locale getLocale() {
         locale = new Locale("pl", "PL");
         return locale;
     }
-
+    
     public DataModel<WnUrlop> getUrlopyAkcept() {
         return urlopyAkcept;
     }
-
+    
     public void setUrlopyAkcept(DataModel<WnUrlop> urlopyAkcept) {
         this.urlopyAkcept = urlopyAkcept;
     }
-
+    
     public DataModel<WnUrlop> getUrlopyAkceptHist() {
         return urlopyAkceptHist;
     }
-
+    
     public String getNameAkceptHistFilter() {
         return nameAkceptHistFilter;
     }
-
+    
     public void setNameAkceptHistFilter(String nameAkceptHistFilter) {
         this.nameAkceptHistFilter = nameAkceptHistFilter;
     }
-
+    
     public String getNameObceFilter() {
         return nameObceFilter;
     }
-
+    
     public void setNameObceFilter(String nameObceFilter) {
         this.nameObceFilter = nameObceFilter;
     }
-
+    
     public String getNamePodwFilter() {
         return namePodwFilter;
     }
-
+    
     public void setNamePodwFilter(String namePodwFilter) {
         this.namePodwFilter = namePodwFilter;
     }
-
+    
     public WnUrlopJpaController getUrlopC() {
         return urlopC;
     }
-
+    
     public void setUrlopC(WnUrlopJpaController urlopC) {
         this.urlopC = urlopC;
     }
-
+    
     public Object getDataModel() {
         return new WnUrlopDataModel();
     }
-
+    
     public Map<String, String> getFilterValues() {
         return filterValues;
     }
-
+    
     public Map<String, SortOrder> getSortOrders() {
         return sortOrders;
     }
-
+    
     public Date getDataUrlopu() {
         return dataUrlopu;
     }
-
+    
     public void setDataUrlopu(Date dataUrlopu) {
         this.dataUrlopu = dataUrlopu;
     }
-
+    
     public Date getGodzOdT() {
         return godzOdT;
     }
-
+    
     public void setGodzOdT(Date godzOdT) {
         this.godzOdT = godzOdT;
     }
-
+    
     public Date getGodzDoT() {
         return godzDoT;
     }
-
+    
     public void setGodzDoT(Date godzDoT) {
         this.godzDoT = godzDoT;
     }
-
+    
 }
