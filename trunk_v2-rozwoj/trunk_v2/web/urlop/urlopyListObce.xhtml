@@ -232,13 +232,15 @@
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                 </h:outputText>
 
-                                <p:outputLabel value="Diety: " rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}"/>
-                                <h:outputText value="#{urlop.diety}" rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}">
-                                    <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                </h:outputText>
+                                <p:outputLabel value="Dieta: " rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}"/>
+                                <h:outputText value="TAK" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==50) and urlop.czyDieta}"/>
+                                <h:outputText value="NIE" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==50) and !urlop.czyDieta}"/>
 
                                 <p:outputLabel value="Koszty/ryczałt dojazdu: "/>
-                                <h:outputText value="#{urlop.koszty_dojazdu}">
+                                <h:outputText value="TAK" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==50) and urlop.czyRyczalty}"/>
+                                <h:outputText value="NIE" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==50) and !urlop.czyRyczalty}"/>
+                                
+                                <h:outputText value="#{urlop.koszty_dojazdu}" rendered="#{(urlop.rodzajId.id!=6 and urlop.rodzajId.id!=50)}">
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                 </h:outputText>
 
