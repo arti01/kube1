@@ -137,10 +137,10 @@
                                 <p:inputNumber id="kwota" value="#{UrlopObceM.urlop.kwotaWs}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopObceM.urlop.rodzajId.id==30}" disabled="true">
                                 </p:inputNumber>
 
-                                <p:outputLabel for="nrrachunku" value="Nr rachunku: " rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
+                                <p:outputLabel for="nrrachunku" value="Nr rachunku bankowego: " rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
                                 <p:inputText id="nrrachunku" value="#{UrlopObceM.urlop.nrrachunku}" rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}" size="26" required="true" requiredMessage="nr rachunku jest wymagany"/>
 
-                                <p:outputLabel for="walutarachunku" value="Waluta rachunku: " rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
+                                <p:outputLabel for="walutarachunku" value="Waluta rachunku bankowego: " rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
                                 <p:selectOneMenu id="walutarachunku" value="#{UrlopObceM.urlop.walutarachunku}" rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}">
                                     <f:selectItem itemValue="PLN" itemLabel="PLN"/>
                                     <f:selectItem itemValue="EUR" itemLabel="EUR"/>
@@ -263,7 +263,7 @@
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                 </h:outputText>
 
-                                <p:outputLabel value="Nr rachunku: " rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}"/>
+                                <p:outputLabel value="Nr rachunku bankowego: " rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}"/>
                                 <h:outputText value="#{urlop.nrrachunku}" rendered="#{urlop.rodzajId.id==6 or urlop.rodzajId.id==50}"/>
 
                                 <p:outputLabel value="Miejscowość: " rendered="#{urlop.rodzajId.id==30 or urlop.rodzajId.id==50}"/>

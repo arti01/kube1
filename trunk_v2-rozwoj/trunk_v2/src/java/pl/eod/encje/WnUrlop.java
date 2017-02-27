@@ -91,6 +91,7 @@ public class WnUrlop implements Serializable {
     private BigDecimal inne;
     @Column(precision=7, scale=2)
     private BigDecimal kwotaWs;
+    @Size(max = 26, min = 26, message = "numer rachunku powinien składać się z 26 znaków")
     private String nrrachunku;
     @Size(max = 3)
     private String walutarachunku;
