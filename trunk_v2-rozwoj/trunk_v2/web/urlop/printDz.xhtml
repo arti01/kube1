@@ -49,11 +49,11 @@
                             </table>
                             <p style="text-align: right">
                                 Zarząd / Dyrektor Zarządzający*</p>
-                            <p style="text-align: justify">Uprzejmie proszę o wyrażenie zgody na delegowanie p. <b>#{UrlopM.urlop.uzytkownik.fullname}</b> na szkolenie/wyjazd zagraniczny* 
-                                <b>#{UrlopM.urlop.temat_szkolenia}#{UrlopM.urlop.cel}</b><br/>
+                            <p style="text-align: justify">Uprzejmie proszę o wyrażenie zgody na delegowanie p. <b>#{UrlopM.urlop.uzytkownik.fullname}</b> na szkolenie/wyjazd zagraniczny*<br/> 
+                                Cel: <b>#{UrlopM.urlop.temat_szkolenia}#{UrlopM.urlop.cel}</b><br/>
                                 Szkolenie/wyjazd zagraniczny* odbędzie się w terminie od <b><h:outputText value="#{UrlopM.urlop.dataOd}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
                                 </b> do <b><h:outputText value="#{UrlopM.urlop.dataDo}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText></b>
-                                w <b>#{UrlopM.urlop.miejsce}</b>
+                                <br/>w <b>#{UrlopM.urlop.miejsce}</b>
                             </p>
                             <p style="text-align: right"><br/><br/><br/><h:outputText value="#{UrlopM.urlop.dataOstZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>, #{UrlopM.urlop.zaakceptowal.fullname}<br/>(podpis Przełożonego)</p>
                         </td>
