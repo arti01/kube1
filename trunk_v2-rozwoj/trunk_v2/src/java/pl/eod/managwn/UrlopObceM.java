@@ -220,6 +220,8 @@ public class UrlopObceM {
         Calendar cal = Calendar.getInstance();
         Calendar calOd = Calendar.getInstance();
         Calendar calDo = Calendar.getInstance();
+        cal.clear(Calendar.ZONE_OFFSET);
+        calDo.clear(Calendar.ZONE_OFFSET);
         if (urlop.getRodzajId().getId()==40||urlop.getRodzajId().getId()==3) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
@@ -231,8 +233,7 @@ public class UrlopObceM {
             urlop.setDataDo(calDo.getTime());
         } else {
             calDo.setTime(urlop.getDataDo());
-            calDo.add(Calendar.HOUR_OF_DAY, 23);
-            calDo.add(Calendar.MINUTE, 59);
+            calDo.set(calDo.get(Calendar.YEAR), calDo.get(Calendar.MONTH), calDo.get(Calendar.DATE), 23, 59);
             urlop.setDataDo(calDo.getTime());
         }
         if (urlop.getUzytkownik() == null) {
