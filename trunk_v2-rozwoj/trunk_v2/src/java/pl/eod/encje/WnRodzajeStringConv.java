@@ -11,9 +11,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-@ManagedBean(name = "WnRodzajeConv")
+@ManagedBean(name = "WnRodzajeStringConv")
 @SessionScoped
-public class WnRodzajeConv implements Converter, Serializable {
+public class WnRodzajeStringConv implements Converter, Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -40,8 +40,13 @@ public class WnRodzajeConv implements Converter, Serializable {
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        WnRodzaje u = (WnRodzaje) value;
+        String u;
+        try{
+            u = (String) value;
+        }catch (ClassCastException e){
+            u=null;
+        }
         //System.out.println((value != null) ? u.getId().toString() : null);
-        return (value != null) ? u.getId().toString() : null;
+        return (value != null) ? u : null;
     }
 }

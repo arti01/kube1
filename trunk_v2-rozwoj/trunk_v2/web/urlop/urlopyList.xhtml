@@ -9,6 +9,11 @@
         <h3 align="center">Twoje wnioski</h3>
     </ui:define>
     <ui:define name="content" id="content">
+        <style>
+            ui-state-disabled, .ui-widget-content .ui-state-disabled{
+                display: none;
+            }
+        </style>
         <h:form id="center">
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
@@ -20,8 +25,11 @@
                     <p:message for="name" styleClass="error" />
 
                     <p:outputLabel for="rodzajW" value="Zwracam się z prośbą o udzielenie (rodzaj):"/>
-                    <p:selectOneMenu id="rodzajW" value="#{UrlopM.urlop.rodzajId}" converter="#{WnRodzajeConv}">
-                        <f:selectItems value="#{UrlopM.rodzajeC.findWnRodzajeEntities}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.opis}"/>
+                    <p:selectOneMenu id="rodzajW" value="#{UrlopM.urlop.rodzajId}" converter="#{WnRodzajeStringConv}">
+                        <f:selectItem itemValue="1" itemLabel="wypocz"/>
+                        <f:selectItem itemValue="2" itemLabel="okolicz"/>
+                        <f:selectItem itemValue="6" itemLabel="deleg zagr" itemDisabled="#{login.zalogowany.dzialId.id==232201}"/>
+                        <f:selectItem itemValue="40" itemLabel="nadgodz"/>
                         <p:ajax update="form" process="rodzajW" listener="#{UrlopM.changeRodzList}"/>
                     </p:selectOneMenu>
                     <p:message for="rodzajW" styleClass="error" />
@@ -227,7 +235,7 @@
                                 <p:outputLabel value="Koszty/ryczałt dojazdu: "/>
                                 <h:outputText value="TAK" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==50) and urlop.czyRyczalty}"/>
                                 <h:outputText value="NIE" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==50) and !urlop.czyRyczalty}"/>
-                                
+
                                 <h:outputText value="#{urlop.koszty_dojazdu}" rendered="#{(urlop.rodzajId.id!=6 and urlop.rodzajId.id!=50)}">
                                     <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                 </h:outputText>
