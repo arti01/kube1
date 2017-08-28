@@ -10,12 +10,10 @@
     </ui:define>
     <ui:define name="content" id="content">
         <h:form id="center">
-           <!-- <p:commandButton value="Drukuj" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-                <p:printer target="druk"   />
-            </p:commandButton>
-            -->
-            <p:button href="../urlop/printWsPDF.jsp" icon="ui-icon-print" value="Drukuj PDF"/>
-            
+          <!--  <p:commandButton value="Drukuj" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                <p:printer target="druk" />
+            </p:commandButton> -->
+             <p:button href="../urlop/printObceWsPDF.jsp" icon="ui-icon-print" value="Drukuj PDF"/>
             <h:panelGroup id="druk">
                 <style type="text/css">
                     @page {
@@ -27,8 +25,7 @@
                         transform: scale(0.7);
                     }
                 </style>
-            
-                  
+
                 <table style="width: 800px; border: solid 2px; padding: 10px;">
                     <tr>
                         <td width="100%" style="border-bottom: 2px solid black;">
@@ -46,59 +43,59 @@
                         <td>
                             <table style="width: 100%;" border="0" cellpadding="2" cellspacing="10pt">
                                 <tr>
-                                    <td style="vertical-align: central;text-align: center; width: 20%;"><b>#{UrlopM.urlop.uzytkownik.fullname}</b><br/>(imię i nazwisko)</td>
-                                    <td style="vertical-align: central;text-align: right;"><b><h:outputText value="#{UrlopM.urlop.dataWprowadzenia}">
-                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText></b><br/>(data)</td>
+                                    <td style="vertical-align: central;text-align: center; width: 20%;"><b>#{UrlopObceM.urlop.uzytkownik.fullname}</b><br/>(imię i nazwisko)</td>
+                                    <td style="vertical-align: central;text-align: right;"><b><h:outputText value="#{UrlopObceM.urlop.dataWprowadzenia}">
+                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText></b><br/>(data)</td>
                                 </tr>
                                 <tr>
-                                    <td style="vertical-align: central;;text-align: center;">#{UrlopM.urlop.uzytkownik.struktura.dzialId.nazwa}<br/>(dział/ośrodek)<br/><br/><br/></td>
+                                    <td style="vertical-align: central;;text-align: center;">....................................<br/>(dział/ośrodek)</td>
                                 </tr>
-                               <!-- <tr>
+                                <tr>
                                     <td style="vertical-align: central;;text-align: center;">....................................<br/>(stanowisko)</td>
-                                </tr> -->
+                                </tr>
                             </table>
                             <p style="text-align: right">
                                 Dyrektor Działu / Ośrodka </p>
-                            <p style="text-align: justify">Uprzejmie proszę o wyrażenie zgody na delegowanie mnie na szkolenie  na temat: <b>#{UrlopM.urlop.temat_szkolenia}</b>.  			
-                                <br/>Szkolenie to odbędzie się w terminie od <b><h:outputText value="#{UrlopM.urlop.dataOd}">
-                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>
-                                </b> do <b><h:outputText value="#{UrlopM.urlop.dataDo}">
-                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText></b> w: <b>#{UrlopM.urlop.miejsce}</b>
+                            <p style="text-align: justify">Uprzejmie proszę o wyrażenie zgody na delegowanie mnie na szkolenie  na temat: <b>#{UrlopObceM.urlop.temat_szkolenia}</b>.  			
+                                <br/>Szkolenie to odbędzie się w terminie od <b><h:outputText value="#{UrlopObceM.urlop.dataOd}">
+                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>
+                                </b> do <b><h:outputText value="#{UrlopObceM.urlop.dataDo}">
+                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText></b> w: <b>#{UrlopObceM.urlop.miejsce}</b>
                             </p>
-                            <p style="text-align: right"><br/><br/><br/><h:outputText value="#{UrlopM.urlop.dataWprowadzenia}">
-                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>, #{UrlopM.urlop.uzytkownik.fullname}<br/>(podpis Pracownika)</p>
+                            <p style="text-align: right"><br/><br/><br/><h:outputText value="#{UrlopObceM.urlop.dataWprowadzenia}">
+                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>, #{UrlopObceM.urlop.uzytkownik.fullname}<br/>(podpis Pracownika)</p>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: left;">
                             <hr/>
                             <p style="font-weight: bold">Przewidywane koszty:</p>
-                            <p style="font-weight: bold"><input type="checkbox"/>całość: <b>    <h:outputText value="#{UrlopM.urlop.kwotaWs}">
+                            <p style="font-weight: bold"><input type="checkbox"/>całość: <b>    <h:outputText value="#{UrlopObceM.urlop.kwotaWs}">
                                         <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                     </h:outputText></b></p>
                             <p>W tym:
                                 <br/><input type="checkbox" style="width: 5px;height: 5px"/>wpisowe: <b>
-                                    <h:outputText value="#{UrlopM.urlop.wpisowe}">
+                                    <h:outputText value="#{UrlopObceM.urlop.wpisowe}">
                                         <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                     </h:outputText>
                                 </b>
-                                <br/><input type="checkbox" style="font-size: small"/>koszty dojazdu: <b><h:outputText value="#{UrlopM.urlop.koszty_dojazdu}">
+                                <br/><input type="checkbox" style="font-size: small"/>koszty dojazdu: <b><h:outputText value="#{UrlopObceM.urlop.koszty_dojazdu}">
                                         <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                     </h:outputText></b><input type="checkbox"/>PKP/PKS<input type="checkbox"/>Inne (jakie?): ....................
-                                <br/><input type="checkbox"/>hotel: <b>    <h:outputText value="#{UrlopM.urlop.hotel}">
+                                <br/><input type="checkbox"/>hotel: <b>    <h:outputText value="#{UrlopObceM.urlop.hotel}">
                                         <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
                                     </h:outputText></b><input type="checkbox"/>limit (jaki?): ......................
-                                <br/><input type="checkbox"/>inne (jakie): <b>   <h:outputText value="#{UrlopM.urlop.inne}">
+                                <br/><input type="checkbox"/>inne (jakie): <b>   <h:outputText value="#{UrlopObceM.urlop.inne}">
                                         <f:convertNumber currencyCode="PLN" type="currency" minFractionDigits="2"/>
-                                    </h:outputText></b><h:outputText value=" #{UrlopM.urlop.infoDod}"/>
+                                    </h:outputText></b><h:outputText value=" #{UrlopObceM.urlop.infoDod}"/>
                             </p>
                             <br/>
                             <p style="font-weight: bold">Budżet szkoleniowy (dotyczy TYLKO ośrodków medycznych):
                                 <br/>
-                                <h:panelGroup rendered="#{UrlopM.urlop.zgodnZbudz}">
+                                <h:panelGroup rendered="#{UrlopObceM.urlop.zgodnZbudz}">
                                     <br/>zgodne z założonym budżetem szkoleniowym (PL-R-18-03)
                                 </h:panelGroup>
-                                <h:panelGroup rendered="#{!UrlopM.urlop.zgodnZbudz}">
+                                <h:panelGroup rendered="#{!UrlopObceM.urlop.zgodnZbudz}">
                                     <br/>nieplanowane (poza budżetem szkoleniowym – wymagana zgoda Zarządu), określ źródło finansowania:
                                     <br/>..............................................................................................................................................................................
                                 </h:panelGroup>
@@ -108,13 +105,12 @@
                         <tr>
                             <td>
                                 <table style="width: 100%;" border="0" cellpadding="1" cellspacing="1pt">
-                                  <!--  <tr>
+                                    <!--<tr>
                                         <td style="vertical-align: bottom;text-align: left;">
-                                            <input type="checkbox" checked="true"/>wyrażam zgodę <input type="checkbox"/>nie wyrażam zgody
+                                            <input type="checkbox" checked="true"/>wyrażam zgodę <input type="checkbox"/>nie wyrażam zgody 
                                         </td>
-                                        <td style="vertical-align: central;text-align: center;">
-                                        </td>
-                                    </tr> -->
+                                        
+                                    </tr>-->
                                     <tr>
                                         <td style="vertical-align: bottom;text-align: left;">
                                             Wyrażam zgodę na delegowanie pracownika na w/w szkolenie.
@@ -129,7 +125,7 @@
                                             <br/>
                                             <br/>
                                             <br/>
-                                            <h:outputText value="#{UrlopM.urlop.dataOstZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopM.locale}" timeZone="CET"/></h:outputText>, #{UrlopM.urlop.zaakceptowal.fullname}
+                                            <h:outputText value="#{UrlopObceM.urlop.dataOstZmiany}"><f:convertDateTime type="date" pattern="yyyy-MM-dd" locale="#{UrlopObceM.locale}" timeZone="CET"/></h:outputText>, #{UrlopObceM.urlop.zaakceptowal.fullname}
                                             
                                         </td>
                                         <td style="vertical-align: central;text-align: center;">
@@ -150,10 +146,7 @@
                         </tr>
                     </tr>
                 </table>
-            
-                                
             </h:panelGroup>
-        </h:form
-        >
+        </h:form>
     </ui:define>
 </ui:composition>

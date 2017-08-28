@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import pl.eod.encje.ConfigJpaController;
 import pl.eod.encje.KomKolejka;
 import pl.eod.encje.KomKolejkaJpaController;
 import pl.eod.encje.Uzytkownik;
@@ -46,6 +47,8 @@ public class UrlopObceM {
     private Date godzOdT;
     private Date godzDoT;
     private Date dataUrlopu;
+    
+    private boolean centralAccess=true;
 
     public String list() {
         initUrlop();
@@ -77,7 +80,7 @@ public class UrlopObceM {
             wnh.setZmieniajacy(login.getZalogowany().getUserId());
             wnh.setUrlopId(urlop);
             //wnh.setAkceptant(login.getZalogowany().getSzefId().getUserId());
-            wnh.setOpisZmiany("uprawniona osoba anulowala po zaakceptowaniu");
+            wnh.setOpisZmiany("Uprawniona osoba anulowała po zaakceptowaniu");
 
             urlop.getWnHistoriaList().add(wnh);
 
@@ -91,8 +94,8 @@ public class UrlopObceM {
                 kk.setAdresList(urlop.getUzytkownik().getStruktura().getExtraemail());
                 kk.setStatus(0);
                 kk.setIdDokumenu(urlop.getId().intValue());
-                kk.setTemat("Informacja o anulowaniu wniosku urlopowego");
-                kk.setTresc("Uprawniona osoba anulowała urlop pracownika " + urlop.getUzytkownik().getFullname() + ". Urlop " + urlop.getRodzajId().getOpis() + " wnioskowany w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku() + ". Dodatkowe informacje: " + urlop.getInfoDod());
+                kk.setTemat("Informacja o anulowaniu wniosku");
+                kk.setTresc("Uprawniona osoba anulowała wniosek pracownika " + urlop.getUzytkownik().getFullname() + ". Wniosek: " + urlop.getRodzajId().getOpis() + " w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku() + ". Dodatkowe informacje: " + urlop.getInfoDod());
                 KomKolC.create(kk);
             }
 
@@ -101,8 +104,8 @@ public class UrlopObceM {
                 kk.setAdresList(urlop.getUzytkownik().getStruktura().getSzefId().getUserId().getAdrEmail());
                 kk.setStatus(0);
                 kk.setIdDokumenu(urlop.getId().intValue());
-                kk.setTemat("Informacja o anulowaniu wniosku urlopowego");
-                tresc = "Uprawniona osoba anulowała urlop pracownika " + urlop.getUzytkownik().getFullname() + ". Urlop " + urlop.getRodzajId().getOpis() + " wnioskowany w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku() + ". Dodatkowe informacje: " + urlop.getInfoDod();
+                kk.setTemat("Informacja o anulowaniu wniosku");
+                tresc = "Uprawniona osoba anulowała wniosek pracownika " + urlop.getUzytkownik().getFullname() + ". Wniosek: " + urlop.getRodzajId().getOpis() + " w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku() + ". Dodatkowe informacje: " + urlop.getInfoDod();
                 kk.setTresc(tresc);
                 KomKolC.create(kk);
             }
@@ -112,7 +115,7 @@ public class UrlopObceM {
         } catch (Exception ex) {
             //if(login.getZalogowany().getSzefId()==null) info = "nie można ustawić akceptanta, brak przełożonego";
             //else 
-            info = "Coś poszło nie tak";
+            info = "Coś poszło nie tak...";
             ex.printStackTrace();
         } finally {
             initUrlop();
@@ -145,7 +148,7 @@ public class UrlopObceM {
         wnh.setZmieniajacy(login.getZalogowany().getUserId());
         wnh.setUrlopId(urlop);
         wnh.setAkceptant(urlop.getUzytkownik().getStruktura().getSzefId().getUserId());
-        wnh.setOpisZmiany("uprawniona osoba wysłała wniosek do akceptu przełożonemu");
+        wnh.setOpisZmiany("Uprawniona osoba wysłała wniosek do akceptacji przełożonego");
 
         urlop.getWnHistoriaList().add(wnh);
 
@@ -160,8 +163,8 @@ public class UrlopObceM {
                 kk.setAdresList(urlop.getUzytkownik().getStruktura().getExtraemail());
                 kk.setStatus(0);
                 kk.setIdDokumenu(urlop.getId().intValue());
-                kk.setTemat("Informacja o wniosku urlopowym");
-                tresc = "Pracownik " + urlop.getUzytkownik().getFullname() + " wnioskuje o urlop " + urlop.getRodzajId().getOpis() + " w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku();
+                kk.setTemat("Informacja o wniosku");
+                tresc = "Pracownik " + urlop.getUzytkownik().getFullname() + " wnioskuje o: " + urlop.getRodzajId().getOpis() + " w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku();
                 if (!urlop.getInfoDod().isEmpty()) {
                     tresc = tresc + ". Dodatkowe informacje: " + urlop.getInfoDod();
                 }
@@ -177,8 +180,8 @@ public class UrlopObceM {
                 kk.setAdresList(urlop.getAkceptant().getAdrEmail());
                 kk.setStatus(0);
                 kk.setIdDokumenu(urlop.getId().intValue());
-                kk.setTemat("Prośba o akceptację wniosku urlopowego");
-                tresc = "Proszę o akceptację wniosku urlopowego. " + "Pracownik " + urlop.getUzytkownik().getFullname() + " wnioskuje o urlop " + urlop.getRodzajId().getOpis() + " w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku();
+                kk.setTemat("Prośba o akceptację wniosku");
+                tresc = "Proszę o akceptację wniosku. " + "Pracownik " + urlop.getUzytkownik().getFullname() + " wnioskuje o: " + urlop.getRodzajId().getOpis() + " w dniach od:" + sdf.format(urlop.getDataOd()) + " do:" + sdf.format(urlop.getDataDo()) + ". Numer wniosku: " + urlop.getNrWniosku();
                 if (!urlop.getInfoDod().isEmpty()) {
                     tresc = tresc + ". Dodatkowe informacje: " + urlop.getInfoDod();
                 }
@@ -197,7 +200,7 @@ public class UrlopObceM {
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             message.setSummary(error);
         } else {
-            message.setSummary("uprawniona osoba wysłała wniosek");
+            message.setSummary("Uprawniona osoba wysłała wniosek");
         }
         context.addMessage(zapisz.getClientId(context), message);
 
@@ -208,7 +211,7 @@ public class UrlopObceM {
         FacesContext context = FacesContext.getCurrentInstance();
         UIComponent zapisz = UIComponent.getCurrentComponent(context);
         FacesMessage message = new FacesMessage();
-        message.setSummary("wniosek usunięty");
+        message.setSummary("Wniosek usunięty");
         context.addMessage(zapisz.getClientId(context), message);
         initUrlop();
     }
@@ -222,7 +225,7 @@ public class UrlopObceM {
         Calendar calDo = Calendar.getInstance();
         cal.clear(Calendar.ZONE_OFFSET);
         calDo.clear(Calendar.ZONE_OFFSET);
-        if (urlop.getRodzajId().getId()==40||urlop.getRodzajId().getId()==3) {
+        if (urlop.getRodzajId().getId()==40 || urlop.getRodzajId().getId()==3 || urlop.getRodzajId().getId()==10 || urlop.getRodzajId().getId()==11) {
             calOd.setTime(dataUrlopu);
             calDo.setTime(dataUrlopu);
             cal.setTime(godzOdT);
@@ -237,7 +240,7 @@ public class UrlopObceM {
             urlop.setDataDo(calDo.getTime());
         }
         if (urlop.getUzytkownik() == null) {
-            message.setSummary("wybierz pracownika");
+            message.setSummary("Wybierz pracownika");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             context.addMessage(zapisz.getClientId(context), message);
             return;
@@ -257,7 +260,7 @@ public class UrlopObceM {
             wnh.setStatusId(st);
             wnh.setZmieniajacy(login.getZalogowany().getUserId());
             wnh.setUrlopId(urlop);
-            wnh.setOpisZmiany("uprawniona osoba wprowadziła wniosek");
+            wnh.setOpisZmiany("Uprawniona osoba wprowadziła wniosek");
             urlop.getWnHistoriaList().add(wnh);
             urlop.setPrzyjmujacy(login.getZalogowany().getUserId());
             error = urlopC.createEdit(urlop);
@@ -270,7 +273,7 @@ public class UrlopObceM {
         } else {
             initUrlop();
 
-            message.setSummary("wniosek zapisany");
+            message.setSummary("Wniosek zapisany");
             message.setSeverity(FacesMessage.SEVERITY_INFO);
         }
         context.addMessage(zapisz.getClientId(context), message);
@@ -297,6 +300,22 @@ public class UrlopObceM {
         urlop = new WnUrlop();
         urlop.setUzytkownik(new Uzytkownik());
         urlopyList.setWrappedData(login.getZalogowany().getUserId().getWnUrlopListPrzyjmujacy());
+        
+        ArrayList<Long> dzialDeny = new ArrayList();
+        ConfigJpaController confC = new ConfigJpaController();
+        String blackList = confC.findConfigNazwa("dzial_blackList").getWartosc();
+        if(blackList!=null){
+            String[] bList = blackList.trim().split("\\|",-1);
+            for(String b : bList)
+                dzialDeny.add(Long.valueOf(b));
+        
+        }
+        Long dzialId = login.getZalogowany().getDzialId().getId();
+        String dzialNazwa = login.getZalogowany().getDzialId().getNazwa().trim();
+       // System.out.println("DZNAME:"+dzialNazwa+"  ID:"+dzialId);
+        if(dzialNazwa.indexOf("SD")==-1 && !dzialDeny.contains(dzialId))
+             centralAccess=false;
+        
     }
 
      public void changeRodzList(){
@@ -304,6 +323,20 @@ public class UrlopObceM {
             urlop.setCzyZaliczka(true);
         }
     }
+     
+     public String drukujWs() {
+        return "/urlop/printObceWs.xhtml";
+    }
+     public String drukujDz() {
+        return "/urlop/printObceDz.xhtml";
+    }
+
+//    public String drukujDz() {
+//        UrlopM urlopM = new UrlopM();
+//        urlopM.init();
+//        urlopM.setUrlop(getUrlop());
+//        return urlopM.drukujDz();
+//    }
     
     public WnUrlop getUrlop() {
         return urlop;
@@ -361,4 +394,14 @@ public class UrlopObceM {
     public void setDataUrlopu(Date dataUrlopu) {
         this.dataUrlopu = dataUrlopu;
     }
+
+    public boolean isCentralAccess() {
+        return centralAccess;
+    }
+
+    public void setCentralAccess(boolean centralAccess) {
+        this.centralAccess = centralAccess;
+    }
+    
+    
 }

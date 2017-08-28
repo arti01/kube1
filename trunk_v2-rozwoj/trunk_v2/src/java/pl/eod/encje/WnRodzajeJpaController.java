@@ -14,6 +14,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.Predicate;
 import pl.eod.encje.exceptions.IllegalOrphanException;
 import pl.eod.encje.exceptions.NonexistentEntityException;
 import pl.eod.encje.exceptions.PreexistingEntityException;
@@ -184,6 +185,8 @@ public class WnRodzajeJpaController implements Serializable {
         }
     }
 
+    
+    
     public WnRodzaje findWnRodzaje(Long id) {
         EntityManager em = getEntityManager();
         try {

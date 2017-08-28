@@ -34,6 +34,7 @@
             </p:column>
             <p:column headerText="Więcej" style="width:36px" exportable="false">
                 <p:rowToggler />
+                
             </p:column>
             <p:rowExpansion>
                 <p:panel header="Informacje dodatkowe - delegacje" rendered="#{urlop.rodzajId.id==5 or urlop.rodzajId.id==6}">
@@ -141,6 +142,17 @@
                 </p:commandButton>
                 <p:commandButton id="imgOd" action="#{UrlopM.odrzuc}" update=":center:formTab, :infoForm:messages" rendered="#{urlop.statusId.id==2}" icon="ui-icon-minus">
                     <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
+                </p:commandButton>
+                <p:message for="akcLink" styleClass="error"/>
+            </p:column>
+            <p:column headerText="Akcje" style="width: 30px" rendered="#{czyHist}" exportable="false">
+                <p:tooltip for="imgDr" value="Drukuj"/>
+                <p:tooltip for="imgDrDz" value="Drukuj"/>
+                <p:commandButton id="imgDr" action="#{UrlopM.drukujWs}" rendered="#{urlop.rodzajId.id==30 and urlop.statusId.id==3}" icon="ui-icon-print" process="@this">
+                            <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
+                </p:commandButton>
+                <p:commandButton id="imgDrDz" action="#{UrlopM.drukujDz}" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==50) and urlop.statusId.id==3}" icon="ui-icon-print" process="@this">
+                            <f:setPropertyActionListener target="#{UrlopM.urlop}" value="#{urlop}"/>
                 </p:commandButton>
                 <p:message for="akcLink" styleClass="error"/>
             </p:column>

@@ -122,6 +122,7 @@ public class ConfigJpaController implements Serializable {
         }
     }
     
+    
     private List<Config> findConfigEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {

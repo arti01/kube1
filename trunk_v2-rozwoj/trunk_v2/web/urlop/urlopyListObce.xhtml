@@ -1,4 +1,5 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="/templates/templateGPF.xhtml"
@@ -9,6 +10,7 @@
         <h3 align="center">Obce wnioski</h3>
     </ui:define>
     <ui:define name="content" id="content">
+        
         <h:form id="center">
             <p:defaultCommand target="dummy"/>
             <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
@@ -27,24 +29,36 @@
                     <p:message for="name" styleClass="error" />
 
                     <p:outputLabel for="rodzajW" value="Zwracam się z prośbą o udzielenie (rodzaj):"/>
-                    <p:selectOneMenu id="rodzajW" value="#{UrlopObceM.urlop.rodzajId}" converter="#{WnRodzajeConv}">
-                        <f:selectItems value="#{UrlopObceM.rodzajeC.findWnRodzajeEntities}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.opis}"/>
-                        <p:ajax update="form" process="rodzajW" listener="#{UrlopObceM.changeRodzList}"/>/>
+                    <p:selectOneMenu id="rodzajW" value="#{UrlopObceM.urlop.rodzajId}" converter="#{WnRodzajeStringConv}">
+                        <f:selectItem itemValue="1" itemLabel="Wypoczynkowy"/>
+                        <f:selectItem itemValue="2" itemLabel="Okolicznościowy"/>
+                        <f:selectItem itemValue="3" itemLabel="Opieka na dziecko 2 dni art.188 KP"/>
+                        <f:selectItem itemValue="4" itemLabel="Urlop na żądanie"/>
+                        <f:selectItem itemValue="5" itemLabel="Delegacja krajowa"/>
+                        <f:selectItem itemValue="6" itemLabel="Delegacja zagraniczna"/>
+                        <f:selectItem itemValue="30" itemLabel="Wniosek szkoleniowy - krajowy"/>
+                        <c:if test="#{UrlopM.centralAccess==false}">
+                        <f:selectItem itemValue="10" itemLabel="Odbiór dnia wolnego za pracę w sobotę"/>
+                        <f:selectItem itemValue="11" itemLabel="Odbiór dnia wolnego za pracę w niedzielę i święto"/>
+                        <f:selectItem itemValue="25" itemLabel="Home office"/>
+                        </c:if>
+                        
+                        <p:ajax update="form" process="rodzajW" listener="#{UrlopObceM.changeRodzList}"/>
                     </p:selectOneMenu>
                     <p:message for="rodzajW" styleClass="error" />
 
-                    <p:outputLabel for="data_od" value="Data od:" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    <p:calendar id="data_od" value="#{UrlopObceM.urlop.dataOd}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    <p:message for="data_od" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40}"/>
+                    <p:outputLabel for="data_od" value="Data od:" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40  and UrlopObceM.urlop.rodzajId.id!=11 and UrlopObceM.urlop.rodzajId.id!=10}"/>
+                    <p:calendar id="data_od" value="#{UrlopObceM.urlop.dataOd}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=11 and UrlopObceM.urlop.rodzajId.id!=10}"/>
+                    <p:message for="data_od" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=11 and UrlopObceM.urlop.rodzajId.id!=10}"/>
 
-                    <p:outputLabel for="data_do" value="Data do:" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    <p:calendar id="data_do" value="#{UrlopObceM.urlop.dataDo}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40}"/>
-                    <p:message for="data_do" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40}"/>
+                    <p:outputLabel for="data_do" value="Data do:" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=11 and UrlopObceM.urlop.rodzajId.id!=10}"/>
+                    <p:calendar id="data_do" value="#{UrlopObceM.urlop.dataDo}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=11 and UrlopObceM.urlop.rodzajId.id!=10}"/>
+                    <p:message for="data_do" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id!=3 and UrlopObceM.urlop.rodzajId.id!=40 and UrlopObceM.urlop.rodzajId.id!=11 and UrlopObceM.urlop.rodzajId.id!=10}"/>
 
-                    <p:outputLabel for="data_url" value="Data:" rendered="#{UrlopObceM.urlop.rodzajId.id==3}"/>
+                    <p:outputLabel for="data_url" value="Data:" rendered="#{UrlopObceM.urlop.rodzajId.id==3 or UrlopObceM.urlop.rodzajId.id==10 or UrlopObceM.urlop.rodzajId.id==11}"/>
                     <p:outputLabel for="data_url" value="Dzień nadgodzin:" rendered="#{UrlopObceM.urlop.rodzajId.id==40}"/>
-                    <p:calendar id="data_url" value="#{UrlopObceM.dataUrlopu}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==3}"/>
-                    <p:message for="data_url" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==3}"/>
+                    <p:calendar id="data_url" value="#{UrlopObceM.dataUrlopu}" pattern="yyyy-MM-dd" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==3 or UrlopObceM.urlop.rodzajId.id==10 or UrlopObceM.urlop.rodzajId.id==11}"/>
+                    <p:message for="data_url" styleClass="error" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==3 or UrlopObceM.urlop.rodzajId.id==10 or UrlopObceM.urlop.rodzajId.id==11}"/>
 
                     <p:outputLabel value="Godzina od:" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==3}"/>
                     <p:calendar id="data_od_godz" value="#{UrlopObceM.godzOdT}" pattern="HH:00" timeOnly="true" locale="pl" rendered="#{UrlopObceM.urlop.rodzajId.id==40 or UrlopObceM.urlop.rodzajId.id==3}"/>
@@ -128,7 +142,7 @@
                                 <h:selectBooleanCheckbox id="diety" value="#{UrlopObceM.urlop.czyDieta}" rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
 
                                 <p:outputLabel for="koszty_dojazdu" value="Koszty/ryczałt dojazdu: " rendered="#{UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
-                                <h:selectBooleanCheckbox id="koszty_dojazdu" value="#{UrlopM.urlop.czyRyczalty}" rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==30 or UrlopObceM.urlop.rodzajId.id==50}"/>
+                                <h:selectBooleanCheckbox id="koszty_dojazdu" value="#{UrlopObceM.urlop.czyRyczalty}" rendered="#{UrlopObceM.urlop.rodzajId.id==6 or UrlopObceM.urlop.rodzajId.id==50}"/>
                                 <p:inputNumber id="koszty_dojazdu1" value="#{UrlopObceM.urlop.koszty_dojazdu}" emptyValue="0.00" decimalSeparator="," thousandSeparator="&#160;" rendered="#{UrlopObceM.urlop.rodzajId.id==30}">
                                     <p:ajax event="change" update="form" process="form"/>
                                 </p:inputNumber>
@@ -160,8 +174,8 @@
             </p:fieldset>
 
             <p:outputPanel id="formTab" layout="block">
-                <p:commandButton value="raport excel" ajax="false" immediate="true">
-                    <p:dataExporter type="xls" target="table" fileName="raport" encoding="ISO-8859-2" postProcessor="#{UrlopM.postProcessXLS}"/>
+                <p:commandButton value="Raport XLS" ajax="false" immediate="true">
+                    <p:dataExporter type="xls" target="table" fileName="raport" encoding="ISO-8859-2" postProcessor="#{UrlopObceM.postProcessXLS}"/>
                 </p:commandButton>
                 <p:separator/>
                 
@@ -308,6 +322,7 @@
                         <p:tooltip for="imgAn" value="Anuluj"/>
                         <p:tooltip for="imgDe" value="Usun"/>
                         <p:tooltip for="imgWy" value="Wyślij"/>
+                        <p:tooltip for="imgDr" value="Drukuj"/>
                         <p:commandButton id="imgDe" rendered="#{urlop.statusId.id==1 or urlop.statusId.id==5}" update=":center:formTab, :infoForm:messages" process="imgDe" 
                                          icon="ui-icon-trash" action="#{UrlopObceM.usun}" oncomplete="PF('tableV').filter();">
                             <p:confirm header="Potwierdzenie" message="Czy jesteś pewny?" icon="ui-icon-alert" />
@@ -326,6 +341,12 @@
                         <p:message for="imgWy"/>
                         <p:commandButton id="imgAn" action="#{UrlopObceM.anuluj}" rendered="#{urlop.statusId.id==3}" update=":center:formTab, :infoForm:messages" 
                                          oncomplete="PF('tableV').filter();" process="@this" icon="ui-icon-circle-minus">
+                            <f:setPropertyActionListener target="#{UrlopObceM.urlop}" value="#{urlop}"/>
+                        </p:commandButton>
+                        <p:commandButton id="imgDr" action="#{UrlopObceM.drukujWs}" rendered="#{urlop.rodzajId.id==30 and urlop.statusId.id==3}" icon="ui-icon-print" process="@this">
+                            <f:setPropertyActionListener target="#{UrlopObceM.urlop}" value="#{urlop}"/>
+                        </p:commandButton>
+                        <p:commandButton id="imgDrDz" action="#{UrlopObceM.drukujDz}" rendered="#{(urlop.rodzajId.id==6 or urlop.rodzajId.id==50) and urlop.statusId.id==3}" icon="ui-icon-print" process="@this">
                             <f:setPropertyActionListener target="#{UrlopObceM.urlop}" value="#{urlop}"/>
                         </p:commandButton>
                     </p:column>
