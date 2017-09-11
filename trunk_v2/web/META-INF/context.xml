@@ -4,7 +4,8 @@
   <!--<Realm className="org.apache.catalina.realm.DataSourceRealm" debug="99" 
            dataSourceName="jdbc/eod" localDataSource="true" 
            userTable="dbo.userPass" userNameCol="username" userCredCol="password" 
-    -->
+    test -->
+    
   <!--<Realm className="org.apache.catalina.realm.DataSourceRealm" debug="99" 
            dataSourceName="jdbc/eod" localDataSource="true" 
            userTable="dbo.userPass" userNameCol="username" userCredCol="password" 
