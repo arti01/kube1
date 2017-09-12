@@ -43,6 +43,7 @@ public class Login implements Serializable {
     String licencjaDla;
     boolean urlop;
     boolean urlAll;
+    boolean urlSel;
     boolean struktura;
     boolean admin;
     boolean kierownik;
@@ -527,6 +528,12 @@ public class Login implements Serializable {
         return request.isUserInRole("eod_url_all");
     }
 
+    public boolean isUrlSel() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        return request.isUserInRole("eod_url_sel");
+    }
+
     public boolean isUmRezPrzeg() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -535,6 +542,10 @@ public class Login implements Serializable {
 
     public void setUrlAll(boolean urlAll) {
         this.urlAll = urlAll;
+    }
+
+    public void setUrlSel(boolean urlSel) {
+        this.urlSel = urlSel;
     }
 
     public boolean isKierownik() {

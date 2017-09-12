@@ -81,7 +81,7 @@
             <p:menuitem value="Wnioski do akceptacji" action="#{UrlopM.listPodwl}" rendered="#{login.zalogowany.stKier or fn:length(login.zalogowany.userId.strukturaSec)>0}" ajax="false"/>
             <p:menuitem value="Historia wniosków" action="#{UrlopM.listPodwlHist}" rendered="#{login.zalogowany.stKier}" ajax="false"/>
             <p:menuitem value="Obce wnioski" action="#{UrlopObceM.list}" rendered="#{login.zalogowany.przyjmowanieWnioskow}" ajax="false"/>
-            <p:menuitem value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin or login.urlAll}" ajax="false"/>
+            <p:menuitem value="Lista wszystkich wniosków" action="#{UrlopAll.list}" rendered="#{login.admin or login.urlAll or login.urlSel}" ajax="false"/>
         </p:submenu>
 
         <p:submenu label="Inne funkcje">
