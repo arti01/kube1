@@ -189,6 +189,19 @@ public class WnUrlopJpaController implements Serializable {
         return findWnUrlopEntities(true, -1, -1);
     }
 
+    @SuppressWarnings("unchecked")
+    public List<WnUrlop>findWybraneStatusy(List<WnStatusy> statusy){
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createNamedQuery("WnUrlop.findWybraneStatusy");
+            q.setParameter("statusy", statusy);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
     public List<WnUrlop> findWnUrlopEntities(int maxResults, int firstResult) {
         return findWnUrlopEntities(false, maxResults, firstResult);
     }

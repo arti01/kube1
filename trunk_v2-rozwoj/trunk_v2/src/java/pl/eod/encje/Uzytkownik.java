@@ -116,6 +116,8 @@ public class Uzytkownik implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "userid", orphanRemoval = false, fetch = FetchType.LAZY)
     @OrderBy(value = "id DESC")
     private List<DcDokDoWiadCel> dcDoWiadCelList;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<WnStatusy> wnStatusy;
     
     @Transient
     private List<DcDokDoWiadCel> dcDoWiadCelListFiltr;
@@ -439,6 +441,14 @@ public class Uzytkownik implements Serializable {
         this.kalendUczestnikList = kalendUczestnikList;
     }
 
+    public List<WnStatusy> getWnStatusy() {
+        return wnStatusy;
+    }
+
+    public void setWnStatusy(List<WnStatusy> wnStatusy) {
+        this.wnStatusy = wnStatusy;
+    }
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

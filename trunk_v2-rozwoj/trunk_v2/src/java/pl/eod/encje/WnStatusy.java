@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -25,12 +26,17 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "wn_statusy")
 @NamedQueries({
-    @NamedQuery(name = "WnStatusy.findAll", query = "SELECT w FROM WnStatusy w"),
-    @NamedQuery(name = "WnStatusy.findById", query = "SELECT w FROM WnStatusy w WHERE w.id = :id"),
-    @NamedQuery(name = "WnStatusy.findByOpis", query = "SELECT w FROM WnStatusy w WHERE w.opis = :opis"),
-    @NamedQuery(name = "WnStatusy.findBySkrot", query = "SELECT w FROM WnStatusy w WHERE w.skrot = :skrot"),
+    @NamedQuery(name = "WnStatusy.findAll", query = "SELECT w FROM WnStatusy w")
+    ,
+    @NamedQuery(name = "WnStatusy.findById", query = "SELECT w FROM WnStatusy w WHERE w.id = :id")
+    ,
+    @NamedQuery(name = "WnStatusy.findByOpis", query = "SELECT w FROM WnStatusy w WHERE w.opis = :opis")
+    ,
+    @NamedQuery(name = "WnStatusy.findBySkrot", query = "SELECT w FROM WnStatusy w WHERE w.skrot = :skrot")
+    ,
     @NamedQuery(name = "WnStatusy.findByKolor", query = "SELECT w FROM WnStatusy w WHERE w.kolor = :kolor")})
 public class WnStatusy implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -56,6 +62,8 @@ public class WnStatusy implements Serializable {
     private List<WnHistoria> wnHistoriaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
     private List<WnUrlop> wnUrlopList;
+    @ManyToMany(mappedBy = "wnStatusy")
+    private List<Uzytkownik>uzytkownikList;
 
     public WnStatusy() {
     }
@@ -119,6 +127,14 @@ public class WnStatusy implements Serializable {
         this.wnUrlopList = wnUrlopList;
     }
 
+    public List<Uzytkownik> getUzytkownikList() {
+        return uzytkownikList;
+    }
+
+    public void setUzytkownikList(List<Uzytkownik> uzytkownikList) {
+        this.uzytkownikList = uzytkownikList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -143,5 +159,5 @@ public class WnStatusy implements Serializable {
     public String toString() {
         return "pl.eod.encje.WnStatusy[ id=" + id + " ]";
     }
-    
+
 }

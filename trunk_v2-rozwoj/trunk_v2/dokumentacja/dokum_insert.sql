@@ -10,6 +10,7 @@ INSERT INTO user_roles (id, role_name, opis) VALUES (13, 'eod_kal_dec','podglad 
 INSERT INTO user_roles (id, role_name, opis) VALUES (14, 'eod_url_all', 'podgląd wszystkich wn. urlopowych');
 INSERT INTO user_roles (id, role_name, opis) VALUES (15, 'eod_um_doc','zasoby - dokumenty');
 INSERT INTO user_roles (id, role_name, opis) VALUES (16, 'eod_um_rez_przeg','rezerwacja zasobów - podgląd');
+INSERT INTO user_roles (id, role_name, opis) VALUES (17, 'eod_url_sel','podgląd wszystkich wn. o wybranym statusie');
 
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (5, 3);
 INSERT INTO uzytkownik_user_roles (role_id, uzytkownik_id ) VALUES (6, 3);

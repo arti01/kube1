@@ -81,6 +81,13 @@
                     <h:outputText value="role niedostępne - ustawiane z systemu zewnętrznego"
                                   rendered="#{!(UsersM.strukt.userId.extId=='' or fn:contains(UsersM.strukt.userId.extId, '@') or fn:contains(UsersM.strukt.userId.extId, 'FN'))}"/>
 
+                    <p:outputLabel for="wnstatus" value="wyświetlanie wniosków o określonych statusach - pamiętaj o ustawieniu odpowiedniej roli" escape="false"/>
+                    <p:selectManyCheckbox id="wnstatus" columns="4" layout="grid" value="#{UsersM.strukt.userId.wnStatusy}" converter="#{WnStatusyConv}"
+                                          rendered="#{(UsersM.strukt.userId.extId=='' or fn:contains(UsersM.strukt.userId.extId, '@') or fn:contains(UsersM.strukt.userId.extId, 'FN'))}"
+                                          style="font-size: smaller">
+                        <f:selectItems value="#{UsersM.wnStatusyAll}" var="status" itemValue="#{status}" itemLabel="#{status.opis}"/>
+                    </p:selectManyCheckbox>
+                    
                     <p:outputLabel for="repoz" value="ma dostęp do określonych repozytoriów dokumentów" escape="false"/>
                     <p:selectManyCheckbox id="repoz" columns="4" layout="grid" value="#{UsersM.strukt.repozytoriaList}" converter="#{repozytoriaConv}"
                                           style="font-size: smaller">

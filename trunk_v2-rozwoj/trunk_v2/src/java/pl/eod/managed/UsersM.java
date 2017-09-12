@@ -29,6 +29,8 @@ import pl.eod.encje.UserRoles;
 import pl.eod.encje.UserRolesJpaController;
 import pl.eod.encje.Uzytkownik;
 import pl.eod.encje.UzytkownikJpaController;
+import pl.eod.encje.WnStatusy;
+import pl.eod.encje.WnStatusyJpaController;
 import pl.eod.encje.exceptions.NonexistentEntityException;
 
 @ManagedBean(name = "UsersM")
@@ -40,6 +42,7 @@ public class UsersM implements Serializable {
     List<UserRoles> roleAll = new ArrayList<>();
     List<Dzial> dzialyAll = new ArrayList<>();
     List<Struktura> kierownicyAll = new ArrayList<>();
+    List<WnStatusy> wnStatusyAll = new ArrayList<>();
     //DataModel<Struktura> struktury = new ListDataModel<Struktura>();
     UzytkownikJpaController userC;
     Uzytkownik user;
@@ -49,6 +52,7 @@ public class UsersM implements Serializable {
     Dzial dzialFilter;
     StrukturaJpaController struktC;
     UserRolesJpaController urC;
+    WnStatusyJpaController wsC;
     Struktura strukt;
     Struktura newSzef;
     DzialJpaController dzialC;
@@ -68,6 +72,7 @@ public class UsersM implements Serializable {
         struktC = new StrukturaJpaController();
         dzialC = new DzialJpaController();
         urC = new UserRolesJpaController();
+        wsC=new WnStatusyJpaController();
         login.refresh();
         //dataModel = new StrukturaDataModel(login.zalogowany.getUserId().getSpolkaId());
         //dataModelPF = login.zalogowany.getUserId().getSpolkaId().getStrukturalist();
@@ -88,6 +93,7 @@ public class UsersM implements Serializable {
         //struktury = new ListDataModel<Struktura>();
         //struktury.setWrappedData(struktC.findStrukturaWidoczni(login.zalogowany.getUserId().getSpolkaId()));
         roleAll = urC.findDostepneDoEdycji();
+        wnStatusyAll=wsC.getFindWnStatusyEntities();
         dzialyAll = dzialC.findDzialEntities(login.zalogowany.getUserId().getSpolkaId());
         kierownicyAll = struktC.getFindKierownicy(login.zalogowany.getUserId().getSpolkaId());
         //users = userC.findUzytkownikEntities(login.zalogowany.getUserId().getSpolkaId(), true);
@@ -391,6 +397,14 @@ public class UsersM implements Serializable {
 
     public void setDataModelPF(List<Struktura> dataModelPF) {
         this.dataModelPF = dataModelPF;
+    }
+
+    public List<WnStatusy> getWnStatusyAll() {
+        return wnStatusyAll;
+    }
+
+    public void setWnStatusyAll(List<WnStatusy> wnStatusyAll) {
+        this.wnStatusyAll = wnStatusyAll;
     }
 
 }

@@ -64,6 +64,7 @@ public class UserRolesJpaController implements Serializable {
         String rola12 = "eod_url_all";
         String rola13 = "eod_um_doc";
         String rola14 = "eod_um_rez_przeg";
+        String rola15 = "eod_url_sel";
         
         EntityManager em = getEntityManager();
         try {
@@ -87,7 +88,8 @@ public class UserRolesJpaController implements Serializable {
                             cb.equal(cfg.get(UserRoles_.rolename), rola11),
                             cb.equal(cfg.get(UserRoles_.rolename), rola12),
                             cb.equal(cfg.get(UserRoles_.rolename), rola13),
-                            cb.equal(cfg.get(UserRoles_.rolename), rola14)
+                            cb.equal(cfg.get(UserRoles_.rolename), rola14),
+                            cb.equal(cfg.get(UserRoles_.rolename), rola15)
                     ));
             @SuppressWarnings("unchecked")
             Query q = em.createQuery(cq);
