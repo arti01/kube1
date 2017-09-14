@@ -190,11 +190,11 @@ public class WnUrlopJpaController implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public List<WnUrlop>findWybraneStatusy(List<WnStatusy> statusy){
+    public List<WnUrlop>findWybraneRodzaje(List<WnRodzaje> rodzaje){
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNamedQuery("WnUrlop.findWybraneStatusy");
-            q.setParameter("statusy", statusy);
+            Query q = em.createNamedQuery("WnUrlop.findWybraneRodzaje");
+            q.setParameter("rodzaje", rodzaje);
             return q.getResultList();
         } finally {
             em.close();

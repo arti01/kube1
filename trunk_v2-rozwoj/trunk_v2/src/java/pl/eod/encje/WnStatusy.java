@@ -62,8 +62,6 @@ public class WnStatusy implements Serializable {
     private List<WnHistoria> wnHistoriaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
     private List<WnUrlop> wnUrlopList;
-    @ManyToMany(mappedBy = "wnStatusy")
-    private List<Uzytkownik>uzytkownikList;
 
     public WnStatusy() {
     }
@@ -125,14 +123,6 @@ public class WnStatusy implements Serializable {
 
     public void setWnUrlopList(List<WnUrlop> wnUrlopList) {
         this.wnUrlopList = wnUrlopList;
-    }
-
-    public List<Uzytkownik> getUzytkownikList() {
-        return uzytkownikList;
-    }
-
-    public void setUzytkownikList(List<Uzytkownik> uzytkownikList) {
-        this.uzytkownikList = uzytkownikList;
     }
 
     @Override

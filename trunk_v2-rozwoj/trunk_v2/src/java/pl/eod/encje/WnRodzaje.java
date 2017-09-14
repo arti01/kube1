@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -49,6 +50,8 @@ public class WnRodzaje implements Serializable {
     private String symbol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rodzajId")
     private List<WnUrlop> wnUrlopList;
+    @ManyToMany(mappedBy = "wnRodzaje")
+    private List<Uzytkownik>uzytkownikList;
 
     public WnRodzaje() {
     }
@@ -92,6 +95,14 @@ public class WnRodzaje implements Serializable {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public List<Uzytkownik> getUzytkownikList() {
+        return uzytkownikList;
+    }
+
+    public void setUzytkownikList(List<Uzytkownik> uzytkownikList) {
+        this.uzytkownikList = uzytkownikList;
     }
 
     @Override

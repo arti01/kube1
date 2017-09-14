@@ -35,7 +35,7 @@ public class UrlopAll extends UrlopM {
     @Override
     public String list() {
         if (getLogin().isUrlSel() && !getLogin().isUrlAll()) {
-            urlopyAll = wnUrlopC.findWybraneStatusy(getLogin().getZalogowany().getUserId().getWnStatusy());
+            urlopyAll = wnUrlopC.findWybraneRodzaje(getLogin().getZalogowany().getUserId().getWnRodzaje());
         } else {
             urlopyAll = wnUrlopC.findWnUrlopEntities();
         }

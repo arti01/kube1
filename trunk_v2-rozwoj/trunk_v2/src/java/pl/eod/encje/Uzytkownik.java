@@ -117,7 +117,7 @@ public class Uzytkownik implements Serializable {
     @OrderBy(value = "id DESC")
     private List<DcDokDoWiadCel> dcDoWiadCelList;
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<WnStatusy> wnStatusy;
+    private List<WnRodzaje> wnRodzaje;
     
     @Transient
     private List<DcDokDoWiadCel> dcDoWiadCelListFiltr;
@@ -441,12 +441,12 @@ public class Uzytkownik implements Serializable {
         this.kalendUczestnikList = kalendUczestnikList;
     }
 
-    public List<WnStatusy> getWnStatusy() {
-        return wnStatusy;
+    public List<WnRodzaje> getWnRodzaje() {
+        return wnRodzaje;
     }
 
-    public void setWnStatusy(List<WnStatusy> wnStatusy) {
-        this.wnStatusy = wnStatusy;
+    public void setWnRodzaje(List<WnRodzaje> wnRodzaje) {
+        this.wnRodzaje = wnRodzaje;
     }
     
     @Override

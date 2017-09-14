@@ -90,11 +90,10 @@
                     </p:selectManyCheckbox>
                     <p:message for="role" styleClass="error" />
                     
-                    <p:outputLabel for="wnstatus" value="wyświetlanie wniosków o określonych statusach - pamiętaj o ustawieniu odpowiedniej roli" escape="false"/>
-                    <p:selectManyCheckbox id="wnstatus" columns="4" layout="grid" value="#{UsersM.strukt.userId.wnStatusy}" converter="#{WnStatusyConv}"
-                                          rendered="#{(UsersM.strukt.userId.extId=='' or fn:contains(UsersM.strukt.userId.extId, '@') or fn:contains(UsersM.strukt.userId.extId, 'FN'))}"
+                    <p:outputLabel for="wnstatus" value="wyświetlanie wniosków określonego rodzaju - pamiętaj o ustawieniu odpowiedniej roli" escape="false"/>
+                    <p:selectManyCheckbox id="wnstatus" columns="4" layout="grid" value="#{UsersM.strukt.userId.wnRodzaje}" converter="#{WnRodzajeConv}"
                                           style="font-size: smaller">
-                        <f:selectItems value="#{UsersM.wnStatusyAll}" var="status" itemValue="#{status}" itemLabel="#{status.opis}"/>
+                        <f:selectItems value="#{UsersM.wnRodzajeAll}" var="rodzaj" itemValue="#{rodzaj}" itemLabel="#{rodzaj.opis}"/>
                     </p:selectManyCheckbox>
                     <p:message for="wnstatus" styleClass="error" />
 

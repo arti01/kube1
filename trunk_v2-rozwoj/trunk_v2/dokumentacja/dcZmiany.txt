@@ -1,5 +1,5 @@
 2017-09-12
-INSERT INTO user_roles (id, role_name, opis) VALUES (17, 'eod_url_sel','podgląd wszystkich wn. o wybranym statusie');
+INSERT INTO user_roles (id, role_name, opis) VALUES (17, 'eod_url_sel','podgląd wszystkich wn. o wybranym rodzaju');
 
 2016-09-21
 INSERT INTO wn_rodzaje VALUES (50, 'Szkolenie zagraniczne', 'SZZ');
