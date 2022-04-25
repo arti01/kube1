@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>
+            <h2>wywolania</h2>
+            <h3> każde z poniższych wywołań może być wykonanych jednocześnie w różnych kartach przeglądarki czy w różnych przegladarkach. Zasymuluje to wtedy wielu userów</h3>
+            <ul>
+                <li>
+                    /api/wywal - usuwa wszystkie dane z używanych tabel. Uwaga: nie zeruje sekwencji, robi prosty delete
+                </li>
+                <li>
+                    /api/truncate - usuwane wszystkie dane z uzywanych tabel, ale robi truncate i zeruje identity
+                </li>
+                <li>
+                    /api/tylkoselect/x/y - wykonuje synchronicznie x selectow wymienionych poniżej w y petlach. Uwaga: dobrze wcześniej zapakować do tych tabel dane wtwolaniami poniżej :)
+                    <p>
+                        zwykly count<br>
+                        pgtRep.count();<br>
+                        <br>
+                        wyszukaj pierwszy z danej petli<br>
+                        pgtRep.findFirstByOrderByIdSesjiDesc();<br><!-- comment -->
+                        <br><!-- comment -->
+                        pobierz wszystkie<br><!-- comment -->
+                        pgtWatRep.findAll();<br><!-- comment -->
+                    </p>
+                </li>
+                <li>
+                    /api/tylkoselectasync/x/y - jak wyżej tylko asynchronicznie
+                </li>
+                <li>
+                    /api/wiele/x/y - synchronicznie wykonuje paczkę x insertow i update a na koniec liczy, czy wszystkie się wykonały. Różnica swiadczy o brudnym odczycie. Powtarza operacje y razy.
+                    <p>
+                        //stworzenie nowego rekordu<br>
+                        PgpoolTestEncja pgpT = new PgpoolTestEncja();<br>
+                        pgpT.setAkcja("nowy");<br>
+                        pgpT.setIdSesji(wE);<br>
+                        pgpT = pgtRep.save(pgpT);<br>
+                        <br>
+                        //pierwszy update<br>
+                        pgpT.setAkcja("pierwszy_przebieg");<br>
+                        pgtRep.save(pgpT);<br>
+                        <br>
+                        //wyszukanie tego rekordu<br>
+                        PgpoolTestEncja pgpTDruga;<br>
+                        pgpTDruga = pgtRep.findById(pgpT.getId()).get();<br>
+                        <br>
+                        //ustawienie statusu koncowego dla tego rekordu<br>
+                        pgpTDruga.setAkcja("koniec");<br>
+                        pgtRep.save(pgpTDruga);<br>
+                        <br>
+                        //wyszukanie liczby rekordow dla danej paczki i statusie koniec (służy do sprawdzania błędnych odczytów)<br>
+                        int znalTmp = pgtRep.findByAkcjaAndIdSesji("koniec", wE).size();<br>
+                    </p>
+                </li>
+                <li>
+                    /api/wieleasync/x/y - jak wyżej tylko asynchronicznie
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
